@@ -110,3 +110,104 @@ Three things need your decision:
 
 The footer carries a plain-language disclaimer that the site is not medical
 advice, plus an emergency note.
+
+## v4 — blue palette and card components
+
+The live files are `assets/css/site.css` and `assets/js/site.js` (the structure
+list above predates them).
+
+**Palette.** The sage and teal tokens are now blue. Token names changed with them.
+
+| Token | Value | Use |
+| --- | --- | --- |
+| `--blue` | `#2F6FCB` | buttons, links, accents |
+| `--blue-d` | `#1F4F9A` | deep blue for headings on tint, gradient ends |
+| `--tint` / `--tint2` | `#E9F1FB` / `#D3E3F6` | pale blue fills and the "Coming in" band |
+| `--ink` / `--mut` | `#13243A` / `#586B82` | text |
+| `--navy` | `#0E2340` | announcement bar and footer |
+
+**"Coming in" (`#pathway`)** is now a row of four expanding cards (`.stages`,
+`.stg`). Click, focus or hover opens one; on phones they stack. Step text is
+unchanged. Photos: `tile-office.webp` (Consultation) and `tile-garden.webp`
+(Continued care), both cropped from `_source/`.
+
+**"By the numbers"** is now a three-column tile mosaic (`.mos`, `.mt`): photo
+tile, years-in-practice dial, stacked areas of care, online/consulting rooms,
+countries globe, and the award tile. Every figure and name is taken from the
+previous bento tiles and the About section.
+
+**Fix.** A variable name clash in `site.js` made the scroll handler throw on
+every scroll, so the progress bar and the nav shadow never updated. The hero
+counter now uses its own variable. The nav "Journey" link now has a target
+(`#journey`).
+
+## v5 — UI fixes
+
+All fixes are in the last block of `assets/css/site.css` ("v4.1 fixes").
+
+- Nav switched to the menu button at 1000px (was 900px). Between 901 and about
+  930px the brand name and the Book Consultation button wrapped onto two lines.
+- Menu button now turns into a cross when open and reports `aria-expanded`.
+- Portrait: replaced the boxy side-and-bottom fade with an oval fade, so the
+  shoulders no longer end in hard vertical edges.
+- "Coming in" cards: collapsed titles ("Consultation") no longer clip between
+  901 and 1180px.
+- "By the numbers": explicit 3, 2 and 1 column layouts. Before, the third column
+  dropped below the others at tablet widths and left a large gap. Columns now end
+  level, and the tiles no longer collapse on phones.
+- Keyboard focus ring on links, buttons and FAQ rows; headings balance their
+  line breaks (no more "Before you come / in").
+
+
+## v6 — cinematic motion layer
+
+No copy, credentials, palette or layout was changed. This version adds motion and
+depth on top of v5. It is still dependency-free: no GSAP, no Lenis, no build step.
+
+**Files.** `assets/css/cinematic.css` (new, loads after `site.css`) and a rewritten,
+readable `assets/js/site.js`. `site.css` lost only two rules that clashed with the
+split lettering (`.giant span`, `@keyframes nameIn`). `tools/build.py` is a leftover
+from the legacy build. Do not run it: it regenerates an old `index.html` and would
+overwrite this one.
+
+**Set pieces**
+
+1. **Opening** — a breathing-orb loader, then a curtain that lifts with a curved
+   edge while the name rises letter by letter through a mask and the portrait
+   resolves from blur. About 2.5s. Waits for fonts and the portrait (3.5s cap),
+   click to skip, skipped entirely on deep links and restored scroll positions.
+2. **Hero depth** — pointer parallax on name, portrait and floating chips, with
+   eased follow and a soft light that tracks the cursor. On scroll the hero
+   recedes (scales, rounds, fades) as the page rises.
+3. **Pinned philosophy scene** — the sentence is lit word by word as you scroll,
+   over a slow-moving glow, inside a panel that scales in. The screen-reader text
+   is the full sentence.
+4. **Journey** — the timeline line draws itself and each chapter's dot lights as
+   you pass it.
+5. **"By the numbers"** — tiles are alive: radar sweep with pulses, a turning globe
+   with floating country labels, chips that stack in.
+6. **"Coming in"** — cards unfold with the content sliding in, and the photo settles.
+
+**Micro-interactions.** Headings rise word by word through a mask. Images open like
+a curtain and drift with scroll. Cards get a cursor spotlight and a slight tilt.
+Buttons are magnetic with a light sweep. The nav has a pill that glides between
+links. In-page links use an eased glide. The FAQ opens and closes smoothly. The
+press carousel can be dragged with a mouse. The footer carries a large wordmark. The
+breathing orb says "Breathe in / Breathe out" in step with its 10-second cycle.
+
+**Other fixes.** Revealed cards now switch to quick hover transitions (before, hover
+inherited the slow reveal delay). Collapsed stage titles no longer break mid-word.
+
+**Robustness**
+
+- **Reduced motion** — the head script never adds `html.js`, so visitors get the
+  complete, static page: no curtain, no pinned scroll, the whole quote visible.
+- **No JS** — the same static page. Before v6, a JS failure left every revealed
+  section invisible.
+- **JS present but broken** — a 5s failsafe in `<head>` removes the motion state.
+- Scroll is never hijacked: native scrolling throughout. Anchor glides cancel on
+  wheel, touch or key press. Pointer effects only run on devices with a fine pointer.
+
+**Tuning.** Intro length: the `1700` ms minimum in the last block of `site.js`.
+Pinned scene length: `height:310svh` on `.film`. Parallax strength: the
+`data-par` values near the top of the scroll engine in `site.js`.

@@ -1,0 +1,217 @@
+/* ==========================================================================
+   Cinematic layer — loaded after site.css.
+
+   Pattern used throughout:
+     (no .js)   final, static state. This is what no-JS and reduced-motion
+                visitors get: the head script only adds .js when motion is OK.
+     html.js    pre-animation state (things waiting to enter)
+     html.go    the opening is done, hero choreography runs
+     .in        a section has scrolled into view
+   ========================================================================== */
+
+:root{--io:cubic-bezier(.77,0,.18,1)}
+html.js{scroll-behavior:auto}
+html.lock{overflow:hidden}
+.sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ---------- 1. Opening: breathing orb, then the curtain lifts ---------- */
+.intro{display:none}
+html.js .intro{display:grid;place-items:center;position:fixed;inset:0;z-index:200;color:#fff;
+  background:radial-gradient(120% 90% at 50% 105%,#2a63b8,#0e2340 62%);
+  clip-path:inset(0 0 0 0 round 0);transition:clip-path 1.3s var(--io);will-change:clip-path}
+html.js.open .intro{clip-path:inset(0 0 100% 0 round 0 0 50% 50% / 0 0 16vh 16vh)}
+.intro__in{display:grid;justify-items:center;gap:1.5rem;transition:translate 1.3s var(--io),opacity 1s .1s}
+html.open .intro__in{translate:0 -16vh;opacity:0}
+.intro__orb{position:relative;width:92px;aspect-ratio:1}
+.intro__orb span{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 38% 32%,#c4e0ff,#2f6fcb 72%);box-shadow:0 0 90px 12px rgba(80,150,240,.45);animation:iBreathe 3.4s ease-in-out infinite}
+.intro__orb:before,.intro__orb:after{content:"";position:absolute;inset:0;border-radius:50%;border:1.5px solid rgba(160,205,255,.7);animation:iRing 3.4s ease-out infinite}
+.intro__orb:after{animation-delay:-1.7s}
+.intro__name{margin:0;font:500 .95rem Poppins,system-ui,sans-serif;letter-spacing:.1em;opacity:0;animation:iName 1.2s var(--e) .35s forwards}
+.intro__bar{display:block;position:relative;width:132px;height:2px;border-radius:2px;background:rgba(255,255,255,.16);overflow:hidden}
+.intro__bar:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#8dbdf2,#fff);transform-origin:0;animation:iBar 1.5s var(--io) .1s both}
+@keyframes iBreathe{50%{transform:scale(.78)}}
+@keyframes iRing{0%{transform:scale(.8);opacity:.8}100%{transform:scale(2.1);opacity:0}}
+@keyframes iName{from{opacity:0;translate:0 10px}to{opacity:.92;translate:0 0}}
+@keyframes iBar{from{transform:scaleX(0)}}
+
+/* ---------- 2. Ambient aurora behind the whole page ---------- */
+.aurora{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.aurora i{position:absolute;border-radius:50%;translate:0 calc(var(--sy,0)*var(--f,-.04)*1px);animation:drift 28s ease-in-out infinite alternate}
+.aurora i:nth-child(1){--f:-.05;width:58vw;height:58vw;left:-18vw;top:6vh;background:radial-gradient(circle,rgba(150,196,248,.55),transparent 66%)}
+.aurora i:nth-child(2){--f:-.09;width:50vw;height:50vw;right:-16vw;top:44vh;background:radial-gradient(circle,rgba(190,214,250,.7),transparent 66%);animation-duration:34s;animation-delay:-9s}
+.aurora i:nth-child(3){--f:-.03;width:40vw;height:40vw;left:30vw;bottom:-18vw;background:radial-gradient(circle,rgba(140,215,235,.34),transparent 66%);animation-duration:40s;animation-delay:-18s}
+@keyframes drift{to{transform:translate3d(6vw,-5vh,0) scale(1.12)}}
+
+/* ---------- 3. Hero: choreography, depth, scroll exit ---------- */
+.hero__in{transform:scale(calc(1 - var(--p,0)*.07));transform-origin:50% 100%;border-radius:calc(32px + var(--p,0)*30px);opacity:calc(1 - var(--p,0)*.4);will-change:transform}
+.hero__in:after{content:"";position:absolute;width:520px;height:520px;right:-120px;bottom:-160px;border-radius:50%;background:radial-gradient(circle,rgba(160,196,255,.55),transparent 68%);animation:fl 16s ease-in-out infinite alternate-reverse}
+.hero__glow{position:absolute;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;pointer-events:none;z-index:0;opacity:0;background:radial-gradient(circle,rgba(255,255,255,.75),rgba(255,255,255,0) 62%);transition:opacity 1s}
+html.go .hero__glow{opacity:1}
+
+.giant{transform:translate3d(calc(var(--mx,0)*-16px),calc(var(--p,0)*-90px + var(--my,0)*-8px),0)}
+.giant .ch{display:inline-block;transform-origin:0 100%;
+  background:linear-gradient(180deg,#153d78 5%,#5a8fd0 55%,rgba(160,195,235,.55) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+html:not(.js) .giant{background:linear-gradient(180deg,#153d78 5%,#5a8fd0 55%,rgba(160,195,235,.55) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.giant .wd{display:inline-block;overflow:hidden;vertical-align:top;padding:.04em .05em .2em;margin:-.04em -.05em -.2em}
+.cut{transition:none;transform:translate3d(calc(var(--mx,0)*12px),calc(var(--p,0)*64px + var(--my,0)*6px),0) scale(calc(1 + var(--p,0)*.08));transform-origin:50% 100%;will-change:transform}
+.fl1{transform:translate3d(calc(var(--mx,0)*-26px),calc(var(--my,0)*-14px + var(--p,0)*-46px),0)}
+.fl2{transform:translate3d(calc(var(--mx,0)*22px),calc(var(--my,0)*-10px + var(--p,0)*-30px),0)}
+.hero__l,.stats{transform:translate3d(0,calc(var(--p,0)*-34px),0)}
+.qual{transform:translate3d(0,calc(var(--p,0)*-22px),0)}
+
+html.js:not(.go) .giant .ch{transform:translateY(118%)}
+html.js:not(.go) :is(.cut,.qual,.hero__l,.stats,.fl,.nav,.ann){opacity:0}
+html.js.go .giant .ch{animation:chUp 1.5s var(--e) calc(.1s + var(--k)*55ms) both}
+html.js.go .cut{animation:cutIn 2.2s var(--e) .05s both}
+html.js.go .qual{animation:rise 1.3s var(--e) .95s both}
+html.js.go .hero__l{animation:rise 1.3s var(--e) 1.1s both}
+html.js.go .stats{animation:rise 1.3s var(--e) 1.25s both}
+html.js.go .fl1{animation:bob 6s ease-in-out infinite,pop 1.3s var(--e) 1.5s backwards}
+html.js.go .fl2{animation:bob 6s ease-in-out -3s infinite,pop 1.3s var(--e) 1.7s backwards}
+html.js.go .nav{animation:navIn 1.3s var(--e) .5s both}
+html.js.go .ann{animation:annIn 1s ease .3s both}
+@keyframes chUp{from{transform:translateY(118%) rotate(7deg);filter:blur(10px)}}
+@keyframes cutIn{from{opacity:0;scale:1.16;filter:blur(18px)}}
+@keyframes pop{from{opacity:0;scale:.82}}
+@keyframes navIn{from{opacity:0;translate:0 -26px}}
+@keyframes annIn{from{opacity:0}}
+
+/* ---------- 4. Headings: words rise through a mask ---------- */
+html.js .sp .wd{display:inline-block;overflow:hidden;vertical-align:top;padding:.02em .06em .16em;margin:-.02em -.06em -.16em}
+html.js h2 .wd>span{display:inline-block;transform:translateY(112%);transition:transform 1.15s var(--e) calc(var(--k)*60ms + 80ms)}
+html.js .in h2 .wd>span{transform:none}
+html.js .head.reveal{opacity:1;translate:none}
+html.js .head:not(.in) :is(.eyebrow,.lede2,.arrows){opacity:0;translate:0 12px}
+html.js .head :is(.eyebrow,.lede2,.arrows){transition:opacity .9s var(--e),translate .9s var(--e)}
+html.js .head :is(.lede2,.arrows){transition-delay:.3s}
+
+/* ---------- 5. Reveals: one system for cards, tiles, rows ---------- */
+html.js .reveal{transition:opacity 1.1s var(--e) calc(var(--i,0)*90ms),translate 1.1s var(--e) calc(var(--i,0)*90ms),scale 1.1s var(--e) calc(var(--i,0)*90ms),box-shadow .6s,border-color .4s}
+html.js :is(.svc,.mt,.rec,.press,.rooms>div,details,.calm,.book).reveal:not(.in){scale:.955}
+html:not(.js) .reveal{opacity:1;translate:none}
+/* once revealed, switch to quick transitions so hover and tilt feel immediate */
+.reveal.done{transition:translate .6s var(--e),scale .6s var(--e),transform .5s var(--e),box-shadow .6s,border-color .4s,opacity .3s}
+
+/* image reveals: curtain open, then a slow settle; parallax moves them on scroll */
+html.js .about figure.reveal{opacity:1;translate:none;scale:1;clip-path:inset(14% 10% 14% 10% round 22px);transition:clip-path 1.7s var(--e)}
+html.js .about figure.reveal.in{clip-path:inset(0 round 22px)}
+.about figure img{scale:1.14;translate:0 var(--py,0px);transition:scale 2.4s var(--e)}
+html.js .about figure:not(.in) img{scale:1.3}
+.about figure:hover img{scale:1.18}
+.m-photo>img,.m-award>img{scale:1.14;translate:0 var(--py,0px);transition:scale 2.2s var(--e)}
+html.js .mt:not(.in)>img{scale:1.3}
+
+/* ---------- 6. Micro-interactions ---------- */
+.svc,.rec,.press,.rooms>div{position:relative;isolation:isolate;overflow:hidden}
+.mt{transform-style:flat}
+.spot{position:absolute;inset:0;z-index:-1;pointer-events:none;border-radius:inherit;opacity:0;transition:opacity .5s;
+  background:radial-gradient(360px circle at var(--sx,50%) var(--sy,50%),rgba(47,111,203,.14),transparent 62%)}
+.mt>.spot{z-index:1;background:radial-gradient(320px circle at var(--sx,50%) var(--sy,50%),rgba(255,255,255,.2),transparent 62%)}
+.cta-card>.spot{background:radial-gradient(320px circle at var(--sx,50%) var(--sy,50%),rgba(255,255,255,.2),transparent 62%)}
+:hover>.spot{opacity:1}
+.btn{position:relative;overflow:hidden;transition:transform .5s var(--e),box-shadow .5s,background .3s,color .3s,translate .45s var(--e)}
+.btn:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.4) 50%,transparent 65%);translate:-130% 0;transition:translate .9s var(--e)}
+.btn:hover:after{translate:130% 0}
+.btn svg{transition:translate .4s var(--e)}.btn:hover svg{translate:3px -3px}
+.arrows button{transition:background .3s,color .3s,scale .4s var(--e),translate .45s var(--e)}
+.logo{transition:rotate .9s var(--e),background .3s}.brand:hover .logo{rotate:-12deg;background:var(--tint2)}
+
+/* nav: a pill that glides between links */
+.nav nav{isolation:isolate}.nav nav a{z-index:1}
+.nav-pill{position:absolute;z-index:0;left:0;top:0;border-radius:99px;background:var(--tint);opacity:0;pointer-events:none;transition:translate .6s var(--e),width .6s var(--e),height .6s var(--e),top .6s var(--e),opacity .4s}
+.nav-pill.on{opacity:1}
+@media(min-width:1001px){.nav nav a:after{display:none}.nav nav a.act,.nav nav a:hover{color:var(--blue-d)}}
+@media(max-width:1000px){.nav-pill{display:none}}
+
+/* ---------- 7. "By the numbers": the tiles are alive ---------- */
+.sweep{transform-origin:150px 150px;animation:radar 7.5s ease-in-out infinite alternate}
+@keyframes radar{from{transform:rotate(35deg)}to{transform:rotate(-105deg)}}
+.blip{transform-box:fill-box;transform-origin:center;animation:blip 4s ease-out infinite}
+.blip.b2{animation-delay:-1.4s}.blip.b3{animation-delay:-2.7s}
+@keyframes blip{0%{opacity:0;scale:.4}18%{opacity:1;scale:1}100%{opacity:0;scale:2.8}}
+.mer{transform-box:fill-box;transform-origin:center;vector-effect:non-scaling-stroke;animation:mer 12s linear infinite}
+.mer.m2{animation-delay:-4s}.mer.m3{animation-delay:-8s}
+@keyframes mer{0%,100%{transform:scaleX(1)}25%,75%{transform:scaleX(.71)}50%{transform:scaleX(.03)}}
+.mgc{display:flex;align-items:center;gap:.4rem;animation:chipBob 5.5s ease-in-out infinite;animation-delay:calc(var(--k,0)*-1.3s)}
+.mgc:before{content:"";width:6px;height:6px;border-radius:50%;background:#2f8fe0;box-shadow:0 0 0 3px rgba(47,143,224,.25)}
+@keyframes chipBob{50%{translate:0 -5px}}
+.mbub{animation:bob 7s ease-in-out infinite}
+.mchip{transition:opacity .9s var(--e) calc(.35s + var(--k,0)*.14s),translate 1s var(--e) calc(.35s + var(--k,0)*.14s)}
+.mk2{--k:1}.mk3{--k:2}
+html.js .mt:not(.in) .mchip{opacity:0;translate:0 26px}
+
+/* ---------- 8. "Coming in": cards that unfold ---------- */
+.stg{transition:flex .85s var(--e),opacity 1s var(--e) calc(var(--k,0)*110ms),translate 1s var(--e) calc(var(--k,0)*110ms)}
+.stg:nth-child(2){--k:1}.stg:nth-child(3){--k:2}.stg:nth-child(4){--k:3}
+html.js .stages.reveal{opacity:1;translate:none;scale:1}
+html.js .stages:not(.in) .stg{opacity:0;translate:0 44px}
+.stg>img{scale:1.14;transition:scale 1.6s var(--e)}.stg.open>img{scale:1.02}
+.stg-body{display:grid;grid-template-rows:1fr;visibility:visible;transition:grid-template-rows .8s var(--e),opacity .6s .12s,translate .8s var(--e) .1s,padding .8s var(--e)}
+.stg:not(.open) .stg-body{display:grid;grid-template-rows:0fr;opacity:0;translate:0 16px;padding-top:0;padding-bottom:0;visibility:hidden;transition:grid-template-rows .6s var(--e),opacity .25s,translate .5s,padding .6s var(--e),visibility 0s .6s}
+.stg-in{overflow:hidden;min-height:0;display:flex;flex-direction:column;gap:1rem}
+.stg .dot i{transition:scale .6s var(--e)}.stg.open .dot i{scale:1.35}
+@media(max-width:900px){html.js .stages:not(.in) .stg{translate:0 30px}}
+
+/* ---------- 9. Journey: the line draws itself ---------- */
+.tl:before{background:var(--tint2)}
+.tl:after{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--blue),#6fa5ea);transform-origin:top;transform:scaleY(var(--prog,1))}
+.tl i{transition:scale .5s var(--e),background .6s,box-shadow .6s}
+.tl li h4{transition:color .6s}
+html.js .tl li:not(.on) i{background:#fff;border-color:#9dbfeb;box-shadow:0 0 0 5px var(--tint)}
+html.js .tl li:not(.on) h4{color:var(--mut)}
+html.js .tl li.on i{background:var(--blue);border-color:var(--blue);box-shadow:0 0 0 5px var(--tint),0 0 0 12px rgba(47,111,203,.12)}
+html.js .tl li.on h4{color:var(--ink)}
+
+/* ---------- 10. Philosophy: a pinned scene, the sentence lights up as you scroll ---------- */
+.film{position:relative;margin:clamp(1.5rem,4vw,3rem) 12px}
+.film__pin{position:relative;display:grid;place-items:center;overflow:hidden;padding:clamp(4rem,10vw,7rem) clamp(1.2rem,6vw,6rem);border-radius:40px;color:#fff;
+  background:linear-gradient(150deg,#0a1b35,#12356a 58%,#1d51a0)}
+html.js .film{height:310svh}
+html.js .film__pin{position:sticky;top:0;height:100svh;padding-block:0;scale:calc(.9 + var(--enter,1)*.1);border-radius:calc(72px - var(--enter,1)*32px);transform-origin:50% 60%}
+.film__glow{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(38% 46% at calc(14% + var(--prog,.5)*72%) 38%,rgba(86,156,245,.4),transparent 70%),radial-gradient(30% 40% at calc(88% - var(--prog,.5)*62%) 72%,rgba(120,190,255,.22),transparent 70%)}
+.film blockquote{position:relative;max-width:1000px;text-align:center;font-size:clamp(1.65rem,4.1vw,3.4rem);line-height:1.26;letter-spacing:-.02em}
+.film cite{color:#bcd6f6;opacity:1;transition:opacity .8s,translate .8s var(--e)}
+html.js .film cite{opacity:calc((var(--prog,1) - .86)*9);translate:0 calc((1 - min(1,max(0,(var(--prog,1) - .86)*9)))*14px)}
+.fw{display:inline;opacity:var(--o,1)}
+.film__bar{position:absolute;left:50%;bottom:clamp(1.5rem,7vh,4rem);width:min(200px,40vw);height:2px;translate:-50% 0;background:rgba(255,255,255,.18);border-radius:2px;overflow:hidden}
+.film__bar:after{content:"";position:absolute;inset:0;background:#8dbdf2;transform-origin:0;transform:scaleX(var(--prog,1))}
+html:not(.js) .film__bar{display:none}
+
+/* ---------- 11. The breathing orb now says what to do ---------- */
+@keyframes breathe{0%,100%{transform:scale(.68)}50%{transform:scale(1)}}
+.orb em{position:absolute;inset:0;display:grid;place-items:center;font-style:normal;color:#fff;font:500 .92rem Inter,system-ui,sans-serif;letter-spacing:.03em;text-shadow:0 1px 14px rgba(10,40,90,.35)}
+.orb em b{grid-area:1/1;font-weight:500;opacity:0;animation:inout 10s ease-in-out infinite}
+.orb em b+b{animation-delay:-5s}
+@keyframes inout{0%{opacity:0}8%,42%{opacity:1}50%,100%{opacity:0}}
+
+/* ---------- 12. FAQ, press drag, footer mark ---------- */
+details summary{transition:color .3s}details:hover summary{color:var(--blue-d)}
+.presses{cursor:grab}.presses.drag{scroll-snap-type:none;cursor:grabbing;user-select:none}.presses a{-webkit-user-drag:none}
+.foot-mark{grid-column:1/-1;margin:.4rem 0 -1.2rem;text-align:center;white-space:nowrap;user-select:none;font:600 clamp(3rem,11.2vw,11rem)/.92 Poppins,system-ui,sans-serif;letter-spacing:-.05em;
+  background:linear-gradient(180deg,rgba(141,189,242,.5),rgba(141,189,242,0) 88%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;pointer-events:none}
+footer{overflow:hidden}
+
+/* ---------- small screens ---------- */
+@media(max-width:900px){
+  html.js .film{height:270svh}
+  .hero__in{transform:scale(calc(1 - var(--p,0)*.04));border-radius:calc(32px + var(--p,0)*16px)}
+  .film blockquote{font-size:clamp(1.5rem,6.4vw,2.2rem)}
+  html.js .film__pin{border-radius:calc(48px - var(--enter,1)*20px)}
+  .foot-mark{margin-bottom:-.6rem}
+}
+
+/* ---------- reduced motion: static, complete, calm ---------- */
+@media(prefers-reduced-motion:reduce){
+  .aurora i,.sweep,.blip,.mer,.mgc,.mbub,.orb em b{animation:none!important}
+  .orb em b:first-child{opacity:1}
+  .hero__in,.giant,.cut,.fl1,.fl2,.hero__l,.stats,.qual{transform:none!important;opacity:1!important}
+  .intro{display:none!important}
+}
+
+@media(max-width:900px){
+  .film__glow{background:radial-gradient(90% 30% at 50% calc(18% + var(--prog,.5)*60%),rgba(86,156,245,.38),transparent 72%),radial-gradient(80% 26% at 50% calc(90% - var(--prog,.5)*55%),rgba(120,190,255,.2),transparent 72%)}
+}
+
+/* collapsed stage titles: never break mid-word ("Understandin/g") */
+@media(min-width:901px){.stg:not(.open) .stg-t{font-size:1rem;overflow-wrap:normal;word-break:normal}.stg:not(.open) .stg-btn{padding-inline:1rem}}

@@ -1,0 +1,113 @@
+/* ============================================================
+   POLISH LAYER — calmer, softer, more alive. Loads after main.css.
+   Copy and structure untouched; this only adds surface and motion.
+   ============================================================ */
+:root{
+  --soft-shadow:0 1px 2px rgba(20,38,42,.05),0 12px 32px -12px rgba(20,38,42,.16);
+  --lift-shadow:0 2px 4px rgba(20,38,42,.05),0 28px 56px -18px rgba(47,122,115,.34);
+  --radius:22px;
+}
+::selection{ background:rgba(134,196,184,.5); color:var(--ink); }
+:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; border-radius:6px; }
+
+/* scroll progress */
+.pl-progress{
+  position:fixed; inset:0 0 auto 0; height:3px; z-index:9000; pointer-events:none;
+  background:linear-gradient(90deg,var(--accent-2),var(--accent),var(--sage));
+  transform-origin:0 50%; transform:scaleX(0); box-shadow:0 0 12px rgba(134,196,184,.7);
+}
+
+/* drifting, breathing light behind everything */
+.pl-ambient{ position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+.pl-ambient i{
+  position:absolute; border-radius:50%; filter:blur(80px); opacity:.55;
+  animation:pl-drift 26s ease-in-out infinite alternate; will-change:transform;
+}
+.pl-ambient i:nth-child(1){ width:46vw; height:46vw; left:-12vw; top:-8vw; background:#bfe0d6; }
+.pl-ambient i:nth-child(2){ width:38vw; height:38vw; right:-10vw; top:30vh; background:#d6e9e2; animation-duration:32s; animation-delay:-8s; }
+.pl-ambient i:nth-child(3){ width:30vw; height:30vw; left:30vw; bottom:-12vw; background:#a9d3c8; opacity:.4; animation-duration:38s; animation-delay:-15s; }
+@keyframes pl-drift{
+  0%{ transform:translate3d(0,0,0) scale(1); }
+  50%{ transform:translate3d(6vw,5vh,0) scale(1.12); }
+  100%{ transform:translate3d(-4vw,9vh,0) scale(.94); }
+}
+main,section,.footer{ position:relative; z-index:1; }
+
+/* soft cursor light */
+.pl-glow{
+  position:fixed; left:0; top:0; width:420px; height:420px; margin:-210px 0 0 -210px;
+  z-index:2; pointer-events:none; border-radius:50%; opacity:0; transition:opacity .8s var(--ease);
+  background:radial-gradient(circle,rgba(134,196,184,.28),rgba(134,196,184,0) 65%);
+  mix-blend-mode:multiply; will-change:transform;
+}
+.pl-glow.on{ opacity:1; }
+
+/* gentle surfaces: rounded, lifted, responsive */
+.who__frame,.impact__col,.path__step{
+  border-radius:var(--radius);
+}
+.who__frame{ overflow:hidden; box-shadow:var(--soft-shadow); }
+.who__frame img{ transition:transform 1.4s var(--ease-out); }
+.who__frame:hover img{ transform:scale(1.035); }
+.impact__col,.path__step{
+  background:rgba(255,255,255,.5);
+  box-shadow:var(--soft-shadow);
+  -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+  transition:translate .7s var(--ease-out), box-shadow .7s var(--ease), background-color .6s var(--ease);
+}
+.impact__col:hover,.path__step:hover{
+  translate:0 -6px; box-shadow:var(--lift-shadow); background:rgba(255,255,255,.78);
+}
+.impact__col{ padding:clamp(1.4rem,2.4vw,2.2rem); }
+.impact__col h3{ margin-top:0; }
+.impact__col li:last-child{ border-bottom:0; }
+.path__step{ padding:1.6rem clamp(1.2rem,1.8vw,1.7rem) 1.8rem; border-top:0; }
+/* list rows stay rows: just a soft wash on hover */
+.faq__item,.media__item{ transition:background-color .6s var(--ease), padding-inline .7s var(--ease-out); }
+.faq__item:hover{ background:rgba(255,255,255,.4); }
+.journey__item{ transition:translate .7s var(--ease-out); }
+.journey__item:hover{ translate:6px 0; }
+
+/* buttons & links feel soft and tactile */
+.nav__cta,.magnet__inner{
+  transition:box-shadow .6s var(--ease), translate .6s var(--ease-out), transform .8s var(--ease-out), background-color .6s var(--ease), color .5s var(--ease);
+}
+.nav__cta:hover,.magnet:hover .magnet__inner{ box-shadow:0 0 0 6px rgba(134,196,184,.28),0 18px 40px -14px rgba(47,122,115,.55); }
+.nav__cta:active,.magnet:active .magnet__inner{ scale:.97; }
+
+/* a living "available" pulse + a shimmering accent on highlighted words */
+.dot{ position:relative; }
+.dot::after{
+  content:""; position:absolute; inset:-5px; border-radius:50%;
+  border:1.5px solid var(--accent); animation:pl-pulse 2.6s var(--ease) infinite;
+}
+@keyframes pl-pulse{ 0%{ transform:scale(.6); opacity:.9 } 100%{ transform:scale(1.9); opacity:0 } }
+.hl{
+  background:linear-gradient(100deg,var(--accent) 20%,var(--accent-2) 50%,var(--accent) 80%);
+  background-size:220% 100%; -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; animation:pl-shimmer 7s ease-in-out infinite;
+}
+@keyframes pl-shimmer{ 0%,100%{ background-position:100% 0 } 50%{ background-position:0 0 } }
+
+/* heartbeat divider, drawn as it enters view */
+.pl-ecg{ display:block; width:min(560px,70%); height:36px; margin:0 0 clamp(1.2rem,3vw,2rem) var(--gutter); overflow:visible; }
+.pl-ecg path{
+  fill:none; stroke:var(--accent); stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round;
+  stroke-dasharray:1; stroke-dashoffset:1; opacity:.8; filter:drop-shadow(0 0 4px rgba(134,196,184,.8));
+}
+.pl-ecg.is-in path{ animation:pl-draw 2.6s var(--ease-out) forwards; }
+@keyframes pl-draw{ to{ stroke-dashoffset:0 } }
+
+/* the breathing band gets a halo and soft ripples */
+.calm{ background:linear-gradient(180deg,var(--canvas-2),#d5e7df); }
+.calm__orb{ box-shadow:0 0 80px 10px rgba(134,196,184,.55),inset 0 0 40px rgba(255,255,255,.35); }
+
+/* page-wide smoothness */
+a,button{ -webkit-tap-highlight-color:transparent; }
+img{ image-rendering:auto; }
+@media (hover:none){ .pl-glow{ display:none; } }
+@media (prefers-reduced-motion:reduce){
+  .pl-ambient i,.dot::after,.hl{ animation:none !important; }
+  .pl-ecg path{ stroke-dashoffset:0; }
+  .pl-glow{ display:none; }
+}
