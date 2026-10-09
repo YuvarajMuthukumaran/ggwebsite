@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ggsite",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "serve@14.2.3", "-l", "4173", "."],
+      "port": 4173
+    }
+  ]
+}
