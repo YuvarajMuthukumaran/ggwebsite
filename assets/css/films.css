@@ -37,3 +37,11 @@
 .reel li.act .ln b{transform:scaleX(var(--p,0))}
 @media(max-width:860px){.films__grid{grid-template-columns:1fr}.player{max-width:340px;max-height:none}.reel{grid-auto-flow:column;grid-auto-columns:78%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:.6rem;margin-inline:-24px;padding-inline:24px;scrollbar-width:none}.reel li{scroll-snap-align:center}.reel button:hover{translate:none}}
 @media(prefers-reduced-motion:reduce){.player video,.pl__ic,.films__glow{transition:none}}
+
+/* Short-window fit: hero never taller than the visible window */
+.hero__in{height:clamp(460px,min(56vw,calc(100svh - 150px)),700px)}
+@media(min-width:901px){
+  .giant{font-size:clamp(2.2rem,min(10.4vw,16svh),9.4rem)}
+  .qual{top:calc(7% + clamp(2.2rem,min(10.4vw,16svh),9.4rem) + .6rem)}
+}
+@media(min-width:901px) and (max-height:640px){.hero__l p{display:none}.hero__l strong{font-size:.95rem}}
