@@ -33,10 +33,10 @@
   function initLenis() {
     if (reduced || typeof window.Lenis === 'undefined') return;
     lenis = new Lenis({
-      duration: 1.1,
+      duration: 1.4,
       easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
       smoothWheel: true,
-      wheelMultiplier: 1,
+      wheelMultiplier: .9,
       touchMultiplier: 1.6
     });
     if (hasGSAP) {
@@ -135,7 +135,7 @@
       onComplete: function () { clearTimeout(guard); finish(true); }
     });
 
-    tl.to('.opening__name .word i', { yPercent: 0, duration: 1.1, stagger: .09, ease: 'expo.out' }, .15)
+    tl.to('.opening__name .word i', { yPercent: 0, duration: 1.4, stagger: .09, ease: 'expo.out' }, .15)
       .to(counter, {
         v: 100, duration: 1.7, ease: 'power2.inOut',
         onUpdate: function () { if (countEl) countEl.textContent = String(Math.round(counter.v)).padStart(2, '0'); }
@@ -210,7 +210,6 @@
         tl.to(crop, { x: 1, ease: 'power2.inOut', duration: 1, onUpdate: apply }, 0)
           .fromTo(frame.querySelectorAll('img'),
             { scale: 1.18 }, { scale: 1, ease: 'power2.inOut', duration: 1 }, 0)
-          .to(frame.querySelector('.layer-col'), { opacity: 1, ease: 'none', duration: .7 }, .25)
           .fromTo('.reveal__words .w-a',
             { xPercent: 0 }, { xPercent: -16, ease: 'none', duration: 1 }, 0)
           .fromTo('.reveal__words .w-b',
@@ -236,7 +235,7 @@
 
       qa('[data-reveal="lines"]').forEach(function (el) {
         gsap.from(el, {
-          y: 34, opacity: 0, duration: 1.1, ease: 'power3.out',
+          y: 34, opacity: 0, duration: 1.4, ease: 'power3.out',
           scrollTrigger: { trigger: el, start: 'top 85%' }
         });
       });
@@ -285,7 +284,7 @@
         scrollTrigger: { trigger: '.media__list', start: 'top 88%' }
       });
       gsap.from('.footer__statement .line > span', {
-        yPercent: 110, duration: 1.1, ease: 'expo.out', stagger: .1,
+        yPercent: 110, duration: 1.4, ease: 'expo.out', stagger: .1,
         scrollTrigger: { trigger: '.footer__statement', start: 'top 88%' }
       });
     }

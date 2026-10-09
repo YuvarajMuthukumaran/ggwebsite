@@ -393,7 +393,8 @@ body.menu-open .menu__foot{ opacity:1; }
 /* portrait as composition element */
 .hero__portrait{
   position:absolute; z-index:2;
-  right:var(--gutter); bottom:0;
+  /* nudged left of the page gutter so the portrait sits slightly inboard */
+  right:calc(var(--gutter) + clamp(1rem, 4.5vw, 5.5rem)); bottom:0;
   width:clamp(260px,30vw,460px);
   aspect-ratio:2/3;
   clip-path:inset(100% 0% 0% 0%);
@@ -405,7 +406,6 @@ body.menu-open .menu__foot{ opacity:1; }
   width:100%; height:100%; object-fit:cover; object-position:50% 22%;
 }
 .hero__portrait img{ will-change:transform; }
-.hero__portrait .layer-col{ opacity:0; }
 
 .hero__scroll{
   position:absolute; left:var(--gutter); bottom:clamp(1.2rem,3vh,2rem);
@@ -490,7 +490,6 @@ body.menu-open .menu__foot{ opacity:1; }
   will-change:transform,opacity;
   backface-visibility:hidden;
 }
-.reveal__frame .layer-col{ opacity:0; }
 
 .reveal__caption{
   position:absolute; z-index:3;
@@ -1034,7 +1033,6 @@ body.menu-open .menu__foot{ opacity:1; }
   .reveal__words{ position:static; margin-bottom:2rem; }
   .reveal__frame{ width:min(380px,80vw); aspect-ratio:2/3; transform:none !important; }
   .reveal__inner{ transform:none !important; }
-  .reveal__frame .layer-col{ opacity:1; }
   .philosophy__quote .word{ color:var(--canvas); }
   .philosophy__quote .word.is-accent{ color:var(--accent-2); font-style:italic; }
   .cursor{ display:none !important; }
