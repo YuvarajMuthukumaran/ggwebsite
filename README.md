@@ -295,3 +295,11 @@ New `assets/css/touchup.css` (loads last, after `polish.css`). No copy, colours 
 - **Journey**: space around the award chip. **Films**: the playing film has a blue edge and title. **Reviews**: calmer heading. **FAQ**: heading stays beside the questions on desktop.
 - **Small feedback**: nav link underline on hover, button press state, booking chips lift, tighter section spacing.
 - Reduced-motion visitors get none of the new transitions.
+
+## v22 — Tulasi logo and link to the Tulasi site
+
+New `assets/css/tulasi.css` (loads last), `assets/img/tulasi-logo*.webp`, `tulasi-favicon.png`.
+
+- **Logo.** Replaces the heart icon in the nav and the favicon; also in the footer and in a new "Visit the Tulasi Healthcare website" band above the footer.
+- **Redirect.** Links to `https://tulasihealthcare.com` (new tab) from the announcement bar, nav ("Tulasi Healthcare ↗"), the band, and the footer. To change the target, search `index.html` for `tulasihealthcare.com`.
+- **Mobile.** Checked at 1440, 820, 390 and 360px: no horizontal overflow, menu includes the new link, band stacks on phones.

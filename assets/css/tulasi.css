@@ -1,0 +1,21 @@
+/* tulasi.css — v22. Logo + link to the Tulasi Healthcare website. Loads last. */
+.brand .logo{width:auto;height:auto;background:none;border-radius:0;display:block}
+.brand .logo img{display:block;height:50px;width:auto;border-radius:10px;background:#fff}
+.brand:hover .logo{rotate:none;background:none}
+.nav nav .tl-out{color:var(--blue);font-weight:600;white-space:nowrap}
+.nav nav .tl-out i{font-style:normal;font-size:.8em}
+.ann .ann__t{opacity:.9}.ann i{font-style:normal}
+.tband{width:min(1132px,calc(100% - 2.4rem));margin:3rem auto 1rem}
+.tband__in{display:flex;align-items:center;gap:clamp(1.2rem,4vw,3rem);padding:clamp(1.2rem,3vw,2rem);background:var(--tint);border:1px solid var(--line);border-radius:var(--r,22px)}
+.tband__in img{flex:none;width:clamp(120px,18vw,200px);height:auto;border-radius:16px;background:#fff}
+.tband__in h2{margin:.3rem 0 .6rem;font-size:clamp(1.4rem,3vw,2rem);line-height:1.15}
+.tband__in p{margin:0 0 1.1rem;color:var(--mut);max-width:52ch;line-height:1.6}
+.f-logo{display:inline-block;margin-bottom:.9rem}
+.f-logo img{display:block;height:56px;width:auto;border-radius:10px;background:#fff}
+@media(max-width:700px){
+  .tband__in{flex-direction:column;align-items:flex-start;text-align:left}
+  .tband__in img{width:130px}
+  .tband__in .btn{width:100%;justify-content:center}
+  .brand .logo img{height:40px}
+}
+@media(max-width:640px){.ann .ann__t{display:none}}
