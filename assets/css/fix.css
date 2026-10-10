@@ -1,0 +1,131 @@
+/* v19 — UI fix layer. Loads last; nothing earlier was rewritten.
+   Sections: 1 hero · 2 WhatsApp + dock · 3 reviews · 4 films · 5 press · 6 booking · 7 footer · 8 form chips */
+
+/* ---------- 1. Hero ---------- */
+/* The name was sized for letters that carried a stray margin (fixed at the source: the form chip class is now .rchip).
+   With the margin gone the name is a little narrower, so it is scaled back up to fill the panel. */
+@media(min-width:1000px){
+  @supports (width:1cqw){
+    html body .hero__in:not(#s):not(#s){--hn:min(11.7cqw,16svh)}
+  }
+}
+@media(min-width:761px) and (max-width:999px){
+  html body .giant{font-size:clamp(3rem,9.4vw,5.6rem)}
+}
+@media(max-width:760px){
+  html body .giant{font-size:clamp(1.8rem,10.4vw,3.4rem)}
+}
+.giant .ch{margin:0}
+
+/* Portrait: the shoulders used to stop at the image edge in a hard vertical line.
+   A wider oval fade now dissolves them into the panel at every size. */
+html body .cut{
+  -webkit-mask-image:radial-gradient(ellipse 50% 74% at 50% 36%,#000 64%,transparent 100%),linear-gradient(#000 88%,transparent);
+          mask-image:radial-gradient(ellipse 50% 74% at 50% 36%,#000 64%,transparent 100%),linear-gradient(#000 88%,transparent);
+  -webkit-mask-composite:source-in;
+          mask-composite:intersect;
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  -webkit-mask-size:100% 100%;mask-size:100% 100%;
+  /* trims the 1px opaque column some browsers leave at the very edge of the image */
+  clip-path:inset(0 1.5% 0 1.5%);
+}
+
+/* Phone and tablet: the Book and WhatsApp buttons sat on the left under centred text */
+@media(max-width:999px){
+  .hero .hero__cta{justify-content:center}
+  .hero .hero__l{align-items:center}
+}
+
+/* ---------- 2. WhatsApp button and the phone dock ---------- */
+html body .wa-fab{
+  right:24px;bottom:24px;gap:.7rem;
+  padding:.5rem 1.25rem .5rem .5rem;
+  border-radius:999px!important;
+  border:1px solid rgba(255,255,255,.14);
+  background:linear-gradient(180deg,#1d7d4e,#16603c)!important;
+  color:#fff!important;
+  font:600 .9rem/1 Figtree,Inter,system-ui,sans-serif!important;
+  letter-spacing:.005em;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 14px 30px -12px rgba(10,70,42,.7)!important;
+}
+.wa-fab .wai{flex:none;width:34px;height:34px;padding:7px;box-sizing:border-box;border-radius:50%;background:rgba(255,255,255,.16)}
+.wa-fab:hover{background:linear-gradient(180deg,#22905a,#18703f)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 18px 34px -12px rgba(10,70,42,.8)!important}
+html.js .wa-fab.show:hover{translate:0 -2px}
+.wa-fab:focus-visible{outline:3px solid #fff;outline-offset:0;box-shadow:0 0 0 6px #16603c!important}
+.wa-fab::after{content:"";position:absolute;inset:-1px;border-radius:inherit;border:2px solid #25d366;opacity:0;pointer-events:none;animation:waRing 2.8s ease-out 1.2s 3}
+@keyframes waRing{0%{opacity:.7;transform:scale(1)}100%{opacity:0;transform:scale(1.22,1.45)}}
+
+@media(max-width:900px){
+  /* one clean full-width bar instead of two pills on a white strip with square corners */
+  html body .sticky{
+    left:0;right:0;bottom:0;gap:10px;border-radius:0;
+    padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px))!important;
+    background:rgba(255,255,255,.9)!important;
+    -webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);
+    border-top:1px solid var(--line);
+    box-shadow:0 -12px 30px -20px rgba(14,35,64,.4)!important;
+  }
+  html body .sticky a{min-height:48px;box-shadow:none}
+  .sticky__wa .wai{flex:none}
+  /* the bar used to be padded for with a strip of page background under the footer */
+  html body{padding-bottom:0}
+  footer{padding-bottom:calc(2.5rem + 72px + env(safe-area-inset-bottom,0px))}
+  .bg{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+}
+
+/* ---------- 3. Reviews ---------- */
+/* a blanket "pale blue" rule for the quote mark also hit the rating stars, so five-star reviews looked greyed out */
+html body .rv .stars svg{fill:#E9A93A!important;color:#E9A93A!important}
+.rv-cta{background:var(--tint);border:1px solid var(--line)}
+
+/* ---------- 4. Films: leftover cream and peach from an older palette ---------- */
+html body .films{background:linear-gradient(180deg,transparent,#fff 10%,#fff 90%,transparent)!important}
+html body .films__lede{color:var(--mut)}
+html body .player{background:#0e2340}
+.pl__seek b{background:#fff}
+.pl__snd,.pl__hint{background:rgba(255,255,255,.2)}
+html body .reel .ln{background:#d3e3f6}
+html body .reel .ln b{background:var(--blue)}
+.reel button:focus-visible{outline-color:var(--blue)}
+html body .reel li.act button:not(#s):not(#s){
+  translate:none;
+  background:#fff;
+  border-color:color-mix(in srgb,var(--blue) 40%,transparent);
+  box-shadow:0 18px 36px -22px color-mix(in srgb,var(--blue) 60%,transparent);
+}
+html body .reel li:not(.act) button:hover{translate:4px 0}
+
+/* ---------- 5. Press carousel: cards were chopped off by a hard edge ---------- */
+.presses{
+  padding-right:64px;scroll-padding-left:2px;
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 64px),transparent);
+          mask-image:linear-gradient(90deg,#000 calc(100% - 64px),transparent);
+}
+@media(max-width:760px){
+  .presses{margin-inline:-24px;padding-inline:24px 48px;scroll-padding-left:24px;-webkit-mask-image:none;mask-image:none}
+}
+
+/* ---------- 6. Booking card ---------- */
+.book h2{margin-bottom:.8rem}
+.book .rooms{align-content:center}
+.book .rooms>div{min-height:0}
+
+/* ---------- 7. Footer ---------- */
+/* text was #586B82 on navy (about 3:1) */
+footer p,footer .fb p{color:#b4c3d9}
+footer a:hover{color:#fff}
+/* line the footer up with the page column */
+footer{padding-inline:max(clamp(1.2rem,5vw,4rem),calc((100% - 1132px)/2))}
+
+/* ---------- 8. Request form chips: cream pill clashed with the blue palette ---------- */
+.rchip span{background:#fff}
+.rchip:hover span{border-color:var(--blue)}
+
+/* footer wordmark: the page column is narrower than the old full-bleed footer, so cap the size to keep the final letter inside it */
+footer .foot-mark{font-size:clamp(3rem,11.2vw,9.2rem)}
+
+/* credentials: on tablets the third card sat alone under two with an empty cell beside it */
+@media(min-width:561px) and (max-width:999px){
+  .recs{grid-template-columns:repeat(2,1fr)}
+  .recs>.rec:nth-child(3):last-child{grid-column:1/-1}
+}

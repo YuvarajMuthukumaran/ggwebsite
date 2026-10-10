@@ -260,3 +260,19 @@ Last block of `assets/css/spatial.css`, desktop (1000px and up) only. The name n
 ## v18 — hero fits at any screen size; WhatsApp back in the hero
 
 Last block of `assets/css/spatial.css`. The hero name was sized from the window width, so on large monitors it outgrew the 1180px panel and the final "a" was clipped, and its "p" ran into the qualification text. The name now scales with the panel (container units, `--hn`) and always fits. Its vertical position is tied to the portrait's top edge so the head overlaps the name by the same amount at every size, and the qualification block sits just below the name's descenders. The WhatsApp button is back in the hero, in one row beside Book Consultation; when the panel is narrower than 1130px it wraps under Book, as before.
+
+## v19 — UI fix pass
+
+New `assets/css/fix.css` (loads last). Small edits in `index.html`, `calm.css` and `site.js`.
+
+- **Hero name clipped on phones, too wide on desktop.** Root cause: the request form's chip class (`.ch`) had the same name as the hero name's per-letter class, so every letter picked up a `.45rem` right margin. The form chips are now `.rchip`. Name sizes were re-tuned for phone, tablet and desktop so it fits and fills the panel.
+- **Portrait.** The shoulders ended in a hard vertical line (and a 1px hairline on some screens). A wider oval mask now dissolves them at every size.
+- **WhatsApp.** The floating button is a pill with a badge icon, hover state, focus ring and a short attention pulse. The phone dock is one full-width bar instead of two pills on a square white strip.
+- **Phone hero.** Book and WhatsApp buttons are centred under the centred text.
+- **Review stars** were grey-blue (a rule meant for the quote mark hit them). They are gold again.
+- **Nav.** The highlighted link no longer stays on "Contact" after scrolling back to the top.
+- **Footer.** Text contrast raised (was about 3:1), aligned to the page column, "Films" link added, wordmark no longer clipped, and the pale strip under the footer on phones is gone.
+- **Films.** Cream, peach and brown leftovers replaced with the blue palette; the section blends into the page; the active card no longer sticks out past the list.
+- **Press carousel** fades out at the edge instead of cutting a card in half, and bleeds to the screen edge on phones.
+- **Booking card, "first step" band, tablet credentials grid** spacing fixed.
+- **Head.** One Google Fonts request instead of three, theme colour matches the navy, small heart favicon.

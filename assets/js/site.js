@@ -250,6 +250,10 @@
     });
   }, { rootMargin: '-45% 0px -50% 0px' });
   Object.keys(L).forEach(function (k) { var n = d.getElementById(k); if (n) so.observe(n); });
+  // back at the top of the page no section is current: clear the highlight instead of leaving the last one lit
+  addEventListener('scroll', function () {
+    if (window.scrollY < 200 && active) { active.classList.remove('act'); active = null; movePill(); }
+  }, { passive: true });
 
   var scrollAnim = 0;
   function stopScroll() { if (scrollAnim) { cancelAnimationFrame(scrollAnim); scrollAnim = 0; } }
