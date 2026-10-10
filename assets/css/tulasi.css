@@ -19,3 +19,9 @@
   .brand .logo img{height:40px}
 }
 @media(max-width:640px){.ann .ann__t{display:none}}
+
+/* v22.1 — SEO H1: keyword eyebrow above the name. The name keeps all .giant styling. */
+.h1w{margin:0;font:inherit;display:contents}
+.h1k{display:block;position:relative;z-index:2;text-align:center;font:600 .8rem Figtree,Inter,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-d);padding:1.1rem 1rem 0}
+@media(max-width:760px){.h1k{font-size:.7rem;letter-spacing:.1em;padding:1rem .5rem 0}}
+.h1w .giant{display:block}

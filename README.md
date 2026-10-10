@@ -303,3 +303,20 @@ New `assets/css/tulasi.css` (loads last), `assets/img/tulasi-logo*.webp`, `tulas
 - **Logo.** Replaces the heart icon in the nav and the favicon; also in the footer and in a new "Visit the Tulasi Healthcare website" band above the footer.
 - **Redirect.** Links to `https://tulasihealthcare.com` (new tab) from the announcement bar, nav ("Tulasi Healthcare ↗"), the band, and the footer. To change the target, search `index.html` for `tulasihealthcare.com`.
 - **Mobile.** Checked at 1440, 820, 390 and 360px: no horizontal overflow, menu includes the new link, band stacks on phones.
+
+## v23 — SEO pass
+
+- **H1** is now "Leading Psychiatrist in Delhi NCR" (small caps line) + "Dr. Gorav Gupta", one `<h1>`; the design is unchanged.
+- **Title / description** carry the same phrase plus de-addiction, dual diagnosis, depression, anxiety and OCD.
+- Added canonical, robots, Open Graph and Twitter tags; JSON-LD (`Physician` + `Tulasi Healthcare` with both addresses and the phone); `robots.txt`, `sitemap.xml`.
+- **Confirm before launch:** the domain `goravgupta.com` used in canonical, OG, JSON-LD and sitemap; and that the client is comfortable with the word "Leading" (a superlative claim).
+- No ratings or review counts in the structured data (the reviews are not yet verified numbers).
+
+## SEO (v24)
+
+- Title/description rewritten around "psychiatrist in Delhi NCR", de-addiction, depression, OCD, Deep TMS; OG/Twitter tags, `og:locale`, image alt, hreflang en-IN, extended robots directives.
+- JSON-LD graph: WebSite, WebPage (+speakable), BreadcrumbList, Physician/Person (credentials, memberships, knowsAbout, services), Tulasi Healthcare, one MedicalClinic per consulting room, FAQPage (generated from the on-page FAQ), VideoObject x3.
+- Descriptive alt text and intrinsic width/height on every image; LCP image `fetchpriority=high`; fonts load non-blocking; first film is `preload="metadata"`.
+- Keyword-bearing eyebrows/headings kept out of the big display H2s so the design is unchanged.
+- sitemap.xml with lastmod + image entries; robots.txt blocks /legacy/, /tools/, /docs/.
+- Deliberately NOT added: aggregateRating/Review markup, price range, opening hours, geo coordinates, because none of these are verified on the site. Add them once real values exist.

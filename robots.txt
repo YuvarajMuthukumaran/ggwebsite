@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /legacy/
+Disallow: /tools/
+Disallow: /docs/
+
+Sitemap: https://goravgupta.com/sitemap.xml
