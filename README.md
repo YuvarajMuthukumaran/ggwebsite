@@ -276,3 +276,11 @@ New `assets/css/fix.css` (loads last). Small edits in `index.html`, `calm.css` a
 - **Press carousel** fades out at the edge instead of cutting a card in half, and bleeds to the screen edge on phones.
 - **Booking card, "first step" band, tablet credentials grid** spacing fixed.
 - **Head.** One Google Fonts request instead of three, theme colour matches the navy, small heart favicon.
+
+
+## v20 notes
+
+- `index.html` is now edited by hand. `tools/build.py` regenerates an older layout from `legacy/` and **will overwrite the current page**; do not run it.
+- `assets/css/polish.css` is the last stylesheet layer (tokens, press cards, credential chips, booking panel, breathe bubble).
+- Removed: pinned quote band, "Coming in", Credentials section, Breathe orb band, Tele-MANAS band, separate "Request a time" and "Talk to us" sections. Treatment and aftercare now live in the FAQ; credentials sit inside each of the five chapters.
+- Breathe reminder: `assets/js/calm.js` (first at ~45s, then ~4 min, max 3 per visit, never while typing or with the guide open, off after two dismissals).

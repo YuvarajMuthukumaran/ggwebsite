@@ -20,7 +20,7 @@
 
   var nav = $('#nav'), bar = $('#bar'), sticky = $('.sticky'), fab = $('.wa-fab');
   var hero = $('.hero'), heroIn = $('.hero__in'), glow = $('.hero__glow');
-  var film = $('.film'), tl = $('.tl'), aurora = $('.aurora');
+  var tl = $('.tl'), aurora = $('.aurora');
 
   /* ------------------------------------------------------------------ *
    * 1. Split headings into words (and the name into letters).
@@ -46,26 +46,9 @@
     el.textContent = ''; el.appendChild(sr); el.appendChild(vis);
   }
 
-  var words = [];
-  if (motion) {
+    if (motion) {
     $$('.giant').forEach(function (h) { split(h, true); });
     $$('.head h2, .calm h2, .book h2').forEach(function (h) { split(h, false); });
-
-    // the pinned sentence: each word is lit by scroll position
-    var bq = $('.film blockquote');
-    if (bq) {
-      var cite = $('cite', bq), tn = bq.firstChild;
-      if (tn && tn.nodeType === 3) {
-        var text = tn.textContent.replace(/\s+/g, ' ').trim();
-        var sr = d.createElement('span'); sr.className = 'sr'; sr.textContent = text;
-        var vis = d.createElement('span'); vis.setAttribute('aria-hidden', 'true');
-        text.split(' ').forEach(function (w, i, all) {
-          var s = d.createElement('span'); s.className = 'fw'; s.textContent = w; vis.appendChild(s); words.push(s);
-          if (i < all.length - 1) vis.appendChild(d.createTextNode(' '));
-        });
-        bq.insertBefore(vis, cite); bq.insertBefore(sr, vis); bq.removeChild(tn);
-      }
-    }
   }
 
   /* stagger siblings that have no explicit order */
@@ -137,21 +120,6 @@
     if (hero) {
       if (y < heroEnd) { hero.style.setProperty('--p', clamp(y / (heroEnd - 120)).toFixed(4)); heroDone = false; }
       else if (!heroDone) { hero.style.setProperty('--p', 1); heroDone = true; }
-    }
-
-    // pinned philosophy scene
-    if (film) {
-      var r = film.getBoundingClientRect();
-      if (r.bottom > -vh * .2 && r.top < vh * 1.2) {
-        var prog = clamp(-r.top / (r.height - vh));
-        film.style.setProperty('--prog', prog.toFixed(4));
-        film.style.setProperty('--enter', clamp((vh - r.top) / (vh * .9)).toFixed(3));
-        var n = words.length, t = clamp((prog - .05) / .8) * (n + 2);
-        for (var i = 0; i < n; i++) {
-          var v = clamp(t - i);
-          words[i].style.setProperty('--o', (.14 + .86 * v * v * (3 - 2 * v)).toFixed(3));
-        }
-      }
     }
 
     // journey line + dots
@@ -285,24 +253,6 @@
   /* ------------------------------------------------------------------ *
    * 8. Components
    * ------------------------------------------------------------------ */
-  // Expanding stage cards
-  var sg = $('#stages');
-  if (sg) {
-    var cards = Array.prototype.slice.call(sg.children);
-    var openCard = function (i) {
-      cards.forEach(function (c, j) {
-        c.classList.toggle('open', j === i);
-        $('.stg-btn', c).setAttribute('aria-expanded', j === i ? 'true' : 'false');
-      });
-    };
-    cards.forEach(function (c, i) {
-      var b = $('.stg-btn', c);
-      b.addEventListener('click', function () { openCard(i); });
-      b.addEventListener('focus', function () { openCard(i); });
-      if (fine) c.addEventListener('pointerenter', function () { openCard(i); });
-    });
-  }
-
   // Press carousel: arrows, plus mouse drag with snap on release
   var car = $('#car');
   if (car) {

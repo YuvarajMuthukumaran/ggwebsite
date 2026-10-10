@@ -30,6 +30,36 @@ fab.addEventListener('click',function(){open(panel.hidden)});
 w.querySelector('.bg__x').addEventListener('click',function(){open(false)});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!panel.hidden)open(false)});
 
+/* ---- Gentle reminder: a small bubble beside the Breathe button.
+   First after ~45s, then about every 4 minutes, at most 3 times per visit.
+   Never while someone is typing or the guide is open; off for the visit after two dismissals. ---- */
+var nudge=document.createElement('div');nudge.className='bg__nudge';nudge.setAttribute('role','status');nudge.hidden=true;
+nudge.innerHTML='<p>Remember to breathe</p><div class="bg__nb"><button class="bg__yes" type="button">Breathe with me</button><button class="bg__no" type="button">Not now</button></div>';
+w.appendChild(nudge);
+var NK='gg-breathe-nudge',ns={shown:0,dismissed:0},lastKey=0,nTimer=null,hideT=null;
+try{var sv=JSON.parse(sessionStorage.getItem(NK)||'null');if(sv)ns=sv}catch(e){}
+function saveN(){try{sessionStorage.setItem(NK,JSON.stringify(ns))}catch(e){}}
+function nDone(){return ns.shown>=3||ns.dismissed>=2}
+function typing(){
+  var a=document.activeElement,tag=a&&a.tagName;
+  if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||(a&&a.isContentEditable))return true;
+  return Date.now()-lastKey<6000;
+}
+document.addEventListener('keydown',function(){lastKey=Date.now()},true);
+function hideN(){nudge.hidden=true;clearTimeout(hideT)}
+function sched(ms){clearTimeout(nTimer);if(nDone())return;nTimer=setTimeout(tryShow,ms)}
+function tryShow(){
+  if(nDone())return;
+  if(document.hidden||typing()||!panel.hidden||!nudge.hidden){sched(15000);return}
+  nudge.hidden=false;ns.shown++;saveN();
+  hideT=setTimeout(hideN,16000);
+  sched(240000);
+}
+nudge.querySelector('.bg__no').addEventListener('click',function(){hideN();ns.dismissed++;saveN();if(nDone())clearTimeout(nTimer)});
+nudge.querySelector('.bg__yes').addEventListener('click',function(){hideN();open(true);if(!running)go.click()});
+fab.addEventListener('click',hideN);
+sched(ns.shown?240000:45000);
+
 /* ---- Request form: composes a WhatsApp message; nothing is stored or sent by this site ---- */
 var f=document.getElementById('rq');if(!f)return;
 var sets=f.querySelectorAll('fieldset'),dots=f.querySelectorAll('.rq__p li'),
