@@ -18,7 +18,7 @@
   var $$ = function (s, c) { return Array.prototype.slice.call((c || d).querySelectorAll(s)); };
   var clamp = function (v, a, b) { return Math.min(b == null ? 1 : b, Math.max(a == null ? 0 : a, v)); };
 
-  var nav = $('#nav'), bar = $('#bar'), sticky = $('.sticky');
+  var nav = $('#nav'), bar = $('#bar'), sticky = $('.sticky'), fab = $('.wa-fab');
   var hero = $('.hero'), heroIn = $('.hero__in'), glow = $('.hero__glow');
   var film = $('.film'), tl = $('.tl'), aurora = $('.aurora');
 
@@ -130,6 +130,7 @@
     bar.style.transform = 'scaleX(' + (max > 0 ? y / max : 0) + ')';
     nav.classList.toggle('on', y > 20);
     if (sticky) sticky.classList.toggle('show', y > 520);
+    if (fab) fab.classList.toggle('show', y > 420);
     if (!motion) return;
 
     // hero exit
@@ -185,7 +186,7 @@
   if (motion && fine && hero) {
     var tx = 0, ty = 0, cx = 0, cy = 0, gx = 0, gy = 0, tgx = 0, tgy = 0, raf = 0;
     var follow = function () {
-      cx += (tx - cx) * .07; cy += (ty - cy) * .07; gx += (tgx - gx) * .1; gy += (tgy - gy) * .1;
+      cx += (tx - cx) * .045; cy += (ty - cy) * .045; gx += (tgx - gx) * .07; gy += (tgy - gy) * .07;
       hero.style.setProperty('--mx', cx.toFixed(4)); hero.style.setProperty('--my', cy.toFixed(4));
       if (glow) glow.style.transform = 'translate3d(' + gx.toFixed(1) + 'px,' + gy.toFixed(1) + 'px,0)';
       raf = (Math.abs(tx - cx) + Math.abs(ty - cy) + Math.abs(tgx - gx) + Math.abs(tgy - gy) > .01) ? requestAnimationFrame(follow) : 0;
@@ -202,24 +203,17 @@
    * 6. Micro-interactions: spotlight, tilt, magnetic buttons
    * ------------------------------------------------------------------ */
   if (motion && fine) {
-    $$('.svc, .rec, .press, .mt, .rooms > div').forEach(function (el) {
+    $$('.svc, .rec, .press, .rv, .mt, .rooms > div').forEach(function (el) {
       var s = d.createElement('span'); s.className = 'spot'; s.setAttribute('aria-hidden', 'true'); el.insertBefore(s, el.firstChild);
       el.addEventListener('pointermove', function (e) {
         var r = el.getBoundingClientRect();
         el.style.setProperty('--sx', (e.clientX - r.left) + 'px'); el.style.setProperty('--sy', (e.clientY - r.top) + 'px');
       });
     });
-    $$('.svc:not(.cta-card), .mt').forEach(function (el) {
-      el.addEventListener('pointermove', function (e) {
-        var r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-        el.style.transform = 'perspective(900px) rotateX(' + (-y * 5).toFixed(2) + 'deg) rotateY(' + (x * 6).toFixed(2) + 'deg)';
-      });
-      el.addEventListener('pointerleave', function () { el.style.transform = ''; });
-    });
     $$('.btn, .arrows button').forEach(function (b) {
       b.addEventListener('pointermove', function (e) {
         var r = b.getBoundingClientRect();
-        b.style.translate = ((e.clientX - r.left - r.width / 2) * .22).toFixed(1) + 'px ' + ((e.clientY - r.top - r.height / 2) * .3).toFixed(1) + 'px';
+        b.style.translate = ((e.clientX - r.left - r.width / 2) * .12).toFixed(1) + 'px ' + ((e.clientY - r.top - r.height / 2) * .16).toFixed(1) + 'px';
       });
       b.addEventListener('pointerleave', function () { b.style.translate = ''; });
     });
@@ -262,10 +256,10 @@
   ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { addEventListener(ev, stopScroll, { passive: true }); });
   function glideTo(y, done) {
     stopScroll();
-    var y0 = window.scrollY, dy = y - y0, dur = clamp(Math.abs(dy) * .55, 800, 1700), t0 = performance.now();
+    var y0 = window.scrollY, dy = y - y0, dur = clamp(Math.abs(dy) * .6, 1000, 2000), t0 = performance.now();
     if (!dy) return done && done();
     (function f(now) {
-      var p = clamp((now - t0) / dur), e = p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+      var p = clamp((now - t0) / dur), e = -(Math.cos(Math.PI * p) - 1) / 2;
       window.scrollTo(0, y0 + dy * e);
       if (p < 1) scrollAnim = requestAnimationFrame(f); else { scrollAnim = 0; if (done) done(); }
     })(t0);
@@ -336,7 +330,7 @@
         if (!det.open) { from = det.offsetHeight; det.open = true; to = det.scrollHeight + (det.offsetHeight - det.clientHeight); }
         else { from = det.offsetHeight; to = closed; }
         var opening = det.open && to > from;
-        det._a = det.animate({ height: [from + 'px', to + 'px'] }, { duration: 650, easing: 'cubic-bezier(.16,1,.3,1)' });
+        det._a = det.animate({ height: [from + 'px', to + 'px'] }, { duration: 800, easing: 'cubic-bezier(.25,.8,.25,1)' });
         det._a.onfinish = function () {
           if (!opening) det.open = false;
           det.style.overflow = ''; det._a = null;
@@ -365,16 +359,16 @@
     root.classList.add('lock');
     var skip, skipped = new Promise(function (r) { skip = r; });
     intro.addEventListener('pointerdown', function () { skip(); });
-    var minimum = Promise.race([new Promise(function (r) { setTimeout(r, 1700); }), skipped]);
+    var minimum = Promise.race([new Promise(function (r) { setTimeout(r, 900); }), skipped]);
     var img = $('.cut');
     var assets = Promise.race([
       Promise.all([d.fonts ? d.fonts.ready : 0, img && img.decode ? img.decode().catch(function () {}) : 0]),
       new Promise(function (r) { setTimeout(r, 3500); })
     ]);
     Promise.all([minimum, assets]).then(function () {
-      root.classList.add('open');               // curtain lifts
-      setTimeout(go, 450);                      // hero starts while it is still rising
-      setTimeout(function () { intro.remove(); root.classList.remove('lock'); }, 1500);
+      root.classList.add('open');               // intro cross-fades out
+      setTimeout(go, 160);                      // hero starts as it fades, so there is no empty beat
+      setTimeout(function () { intro.remove(); root.classList.remove('lock'); }, 800);
     });
   }
 })();

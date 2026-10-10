@@ -211,3 +211,52 @@ inherited the slow reveal delay). Collapsed stage titles no longer break mid-wor
 **Tuning.** Intro length: the `1700` ms minimum in the last block of `site.js`.
 Pinned scene length: `height:310svh` on `.film`. Parallax strength: the
 `data-par` values near the top of the scroll engine in `site.js`.
+
+
+## v7 — TL feedback round
+
+New file `assets/css/refine.css` (loads last). `index.html` and `site.js` also changed.
+
+- **Duplicate removed.** The "By the numbers / Four decades" mosaic is gone. "A steady hand" + "Five chapters" is the one place the experience story lives; "40+ years" still appears in the hero stats and the About fact list. The old `.mos`/`.mt` CSS is now unused and can be deleted.
+- **Hero loading.** The old hero ran its entrance animations twice (once from `site.css` behind the curtain, again from `cinematic.css` when it lifted) and animated blur filters. Now: a light intro that cross-fades out (about 0.9s minimum instead of 1.7s), then one entrance per element, with no blur or clip-path.
+- **"Not sure where to begin?" card.** Pale blue instead of the deep gradient. It is now a `div` with two real buttons (Book + WhatsApp), since a link cannot contain another link.
+- **WhatsApp.** Floating button on desktop, a Call + WhatsApp dock on phones, plus inline buttons in the hero, CTA card, FAQ, reviews, booking section and closing band. All use `https://wa.me/918800000255` with a prefilled message. Edit the message in the URL `text=` parameter.
+- **Films.** New titles, descriptions and a per-film meta line. Posters regenerated from frames without the large on-screen hook text. The footage itself is unchanged.
+- **Reviews (`#reviews`).** Two Google listing cards (New Delhi, Gurugram), a filter and review cards. **All ratings, counts and review text are placeholders**, marked with amber chips. Replace them with the real data and delete the three "placeholder markers" rules at the end of the reviews block in `refine.css`. Do not add `aggregateRating` structured data until the numbers are real.
+- **Closing band.** "You do not have to work it out on your own" is now the last section before the footer, with Call and WhatsApp buttons. The nav "Contact" link goes to it.
+
+
+## v8 — gentle, premium components (original blue palette kept)
+
+New file `assets/css/warm.css` (loads last), plus a Fraunces font link in `index.html`. It does not change colours: the blue palette is exactly as in v6/v7.
+
+- **Reviews.** Filter removed. Sticky heading with links to both Google listings, six real reviews in a two-column masonry, first card featured. Two reviews that Google cut off with "More" stop at their last complete sentence.
+- **Type.** Headlines, stats and FAQ questions use Fraunces, a soft serif (fallback Georgia). Body and UI stay Inter.
+- **Motion.** One shared gentle easing curve (`--e`), longer durations, headline words that fade up through their mask. The 3D card tilt is replaced by a soft lift. Magnetic buttons, hero parallax, anchor glide and the FAQ are calmer. No blur filters are animated.
+- **Reduced motion** still gives the full static page.
+
+## v9 — warm palette and calm components
+
+New: `assets/css/calm.css`, `assets/js/calm.js`, `docs/react-port.md`. The blue palette is re-mapped to cream, sage, forest, blush, clay and gold across every CSS file (tokens are in `:root` of `calm.css`).
+- **Hero**: slow 10s breathing light behind the portrait; the primary button pulses gently.
+- **Nav**: glass bar that narrows on scroll.
+- **Breathe & Ground**: floating widget (bottom left). 4s in, 2s hold, 6s out, six rounds. Without motion preference it still guides by label only.
+- **Request a time (`#request`)**: three-step form with progress bar. It stores nothing; it opens a prefilled WhatsApp message to +91 88000 00255.
+- **Support band** above the footer: Tele-MANAS 14416 / 1-800-891-4416 (checked against Government of India sources) and 112. Re-check numbers before each release.
+- Fonts: Figtree for UI, Fraunces for headlines. Placeholder review markers from v7 are unchanged and still need real data.
+
+## v10 — bolder hero and clay cards
+
+New `assets/css/bloom.css` (loads last): arched window of light behind the portrait, solid readable name (the old gradient faded out), glass intro and stats cards, clay-style cards with inner highlights, fine paper grain, calmer headline rhythm, rounded tinted sections. Also fixes the phone hero, where the name ran off the edge and the intro and stats were clipped.
+
+## v16 — spatial layer, film descriptions removed
+
+New `assets/css/spatial.css` (loads last) and `assets/js/spatial.js`. Frosted-glass cards and nav, layered shadows, a slow ambient light field behind the page, one section rhythm and eyebrow style, floating glass reel and player controls, and a soft pointer tilt with a lift on hover (fine pointers only). Reduced motion turns off the drift and the tilt. The three film descriptions are removed from the reel in `index.html`; titles and the film meta line stay.
+
+## v17 — hero matches the approved composition
+
+Last block of `assets/css/spatial.css`, desktop (1000px and up) only. The name now sits behind the portrait (the head overlaps the lower part of the name), the portrait is slightly larger, the hero keeps Book Consultation with the WhatsApp button beside it, and the intro text, stats and qualification block share the same inner edges. On desktop the floating Breathe widget tucks away while the hero is on screen so it never covers the hero buttons, and returns once you scroll past. Tablet and phone layouts are unchanged.
+
+## v18 — hero fits at any screen size; WhatsApp back in the hero
+
+Last block of `assets/css/spatial.css`. The hero name was sized from the window width, so on large monitors it outgrew the 1180px panel and the final "a" was clipped, and its "p" ran into the qualification text. The name now scales with the panel (container units, `--hn`) and always fits. Its vertical position is tied to the portrait's top edge so the head overlaps the name by the same amount at every size, and the qualification block sits just below the name's descenders. The WhatsApp button is back in the hero, in one row beside Book Consultation; when the panel is narrower than 1130px it wraps under Book, as before.

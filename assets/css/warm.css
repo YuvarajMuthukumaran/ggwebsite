@@ -1,0 +1,105 @@
+/* ==========================================================================
+   v8 — gentle, premium components. Loads last. Colours are the original blue
+   palette; this file only changes type, motion, hover behaviour and the
+   reviews layout.
+   1 Tokens   2 Type   3 (colours: none)   4 Motion   5 Reviews   6 Reduced motion
+   ========================================================================== */
+
+/* ---------- 1. Tokens: the original blue palette (v6/v7), unchanged ---------- */
+:root{
+  --e:cubic-bezier(.25,.8,.25,1);            /* one gentle curve for everything */
+  --serif:Fraunces,"Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --sh-up:0 2px 4px rgba(80,55,35,.05),0 30px 56px -30px rgba(80,55,35,.34);
+}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+
+/* ---------- 2. Type: soft serif headlines, quiet sans for UI ---------- */
+h1,h2,h3,h4,.giant,.hero__l strong,.stats b,summary,.rv-cta p,.foot-mark,.stg-t{font-family:var(--serif);font-optical-sizing:auto}
+h2{font-weight:500;letter-spacing:-.018em;line-height:1.12}
+h3,h4{font-weight:500;letter-spacing:-.01em}
+.giant{font-weight:500;letter-spacing:-.035em}
+.hero__l strong{font-weight:500;font-size:1.15rem}
+.stats b{font-weight:500}
+summary{font-weight:500;font-size:1.1rem}
+.foot-mark{font-weight:500;letter-spacing:-.04em}
+body{font-feature-settings:"kern","liga"}
+
+/* ---------- 3. Surfaces: colours come from the earlier blue stylesheets ---------- */
+
+/* ---------- 4. Motion: slower, softer, no jumps ---------- */
+/* reveals: a small rise and a hint of scale, over a longer time */
+.reveal{translate:0 22px}
+html.js .reveal{transition:opacity 1.4s var(--e) calc(var(--i,0)*110ms),translate 1.4s var(--e) calc(var(--i,0)*110ms),scale 1.4s var(--e) calc(var(--i,0)*110ms),box-shadow .8s var(--e),border-color .5s}
+html.js :is(.svc,.mt,.rec,.press,.rooms>div,details,.calm,.book,.rv).reveal:not(.in){scale:.985}
+.reveal.done{transition:translate .8s var(--e),scale .8s var(--e),box-shadow .8s var(--e),border-color .5s,opacity .3s}
+/* headline words fade up through their mask */
+html.js h2 .wd>span{opacity:0;transform:translateY(60%);transition:transform 1.3s var(--e) calc(var(--k)*50ms + 100ms),opacity 1s ease calc(var(--k)*50ms + 100ms)}
+html.js .in h2 .wd>span{opacity:1;transform:none}
+/* hero: entrance and exit */
+@keyframes v7rise{from{opacity:0;translate:0 14px}}
+html.js.go .giant .ch{animation:v7ch 1.25s var(--e) calc(var(--k)*30ms) both}
+html.js.go .cut{animation:v7cut 1.9s var(--e) .1s both}
+.hero__in{transform:scale(calc(1 - var(--p,0)*.04));opacity:calc(1 - var(--p,0)*.3)}
+.giant{transform:translate3d(calc(var(--mx,0)*-10px),calc(var(--p,0)*-70px + var(--my,0)*-5px),0)}
+.cut{transform:translate3d(calc(var(--mx,0)*8px),calc(var(--p,0)*48px + var(--my,0)*4px),0) scale(calc(1 + var(--p,0)*.05))}
+.fl1{transform:translate3d(calc(var(--mx,0)*-16px),calc(var(--my,0)*-9px + var(--p,0)*-34px),0)}
+.fl2{transform:translate3d(calc(var(--mx,0)*14px),calc(var(--my,0)*-7px + var(--p,0)*-22px),0)}
+@keyframes bob{50%{translate:0 -6px}}
+/* hover: a gentle lift instead of a 3D tilt */
+.svc,.rec,.press,.rv,.rooms>div{transition:translate .8s var(--e),box-shadow .8s var(--e),border-color .5s}
+.svc.reveal.in:hover,.rec.reveal.in:hover,.press.reveal.in:hover,.rv.reveal.in:hover{translate:0 -5px;box-shadow:var(--sh-up);border-color:#eee4d2}
+.cta-card.reveal.in:hover{translate:0 -5px}
+.btn{transition:transform .7s var(--e),box-shadow .7s var(--e),background .4s,color .4s,translate .7s var(--e)}
+.btn:hover{transform:translateY(-2px)}
+.btn:after{transition:translate 1.1s var(--e)}
+.stg{transition:flex 1.05s var(--e),opacity 1.2s var(--e) calc(var(--k,0)*120ms),translate 1.2s var(--e) calc(var(--k,0)*120ms)}
+.stg-body{transition:grid-template-rows .9s var(--e),opacity .7s .15s,translate .9s var(--e) .1s,padding .9s var(--e)}
+.tl:after{background:linear-gradient(var(--blue),#9abfac)}
+@keyframes drift{to{transform:translate3d(4vw,-3vh,0) scale(1.08)}}
+.aurora i{animation-duration:40s}
+.orb span{animation-duration:12s}
+/* image curtains: slower settle */
+html.js .about figure.reveal{transition:clip-path 2.2s var(--e)}
+.about figure img{transition:scale 3s var(--e)}
+/* small touches */
+a,button{-webkit-tap-highlight-color:rgba(63,107,87,.18)}
+html{scroll-padding-top:96px}
+
+/* ---------- 5. Reviews ---------- */
+.reviews{display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.7fr);gap:clamp(1.5rem,5vw,4.5rem);align-items:start}
+.rv-head{position:sticky;top:112px}
+.rv-head h2{margin-bottom:.2rem}
+.rv-head .lede2{color:var(--mut);margin:.9rem 0 0;max-width:34ch}
+.rv-pills{display:flex;flex-direction:column;align-items:flex-start;gap:.65rem;margin-top:1.7rem}
+.rv-pill{display:inline-flex;align-items:center;gap:.55rem;padding:.7rem 1.15rem;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--blue-d);font:500 .88rem Figtree,Inter,system-ui,sans-serif;box-shadow:var(--sh);transition:translate .7s var(--e),box-shadow .7s var(--e),border-color .4s}
+.rv-pill svg{color:var(--blue)}
+.rv-pill i{font-style:normal;display:inline-block;transition:translate .5s var(--e)}
+.rv-pill:hover{translate:0 -2px;border-color:#eee4d2;box-shadow:var(--sh-up)}.rv-pill:hover i{translate:2px -2px}
+
+.rv-cols{columns:2;column-gap:1.2rem}
+.rv{position:relative;isolation:isolate;overflow:hidden;break-inside:avoid;margin:0 0 1.2rem;padding:1.7rem 1.7rem 1.5rem;display:flex;flex-direction:column;gap:1rem;
+  background:#fff;border:1px solid var(--line);border-radius:26px;box-shadow:var(--sh)}
+.rv:before{content:"";position:absolute;z-index:-1;inset:0;background:radial-gradient(120% 70% at 0% 0%,rgba(186,212,199,.2),transparent 60%);pointer-events:none}
+.rv__q{width:30px;height:23px;fill:#e8dac3}
+.rv blockquote{margin:0;font:400 1rem/1.72 Figtree,Inter,system-ui,sans-serif;color:#2e3e36}
+.rv--lg{background:linear-gradient(160deg,#f7fbff,#f7f3eb);border-color:#efe5d5}
+.rv--lg blockquote{font-family:var(--serif);font-weight:400;font-size:1.16rem;line-height:1.58;color:var(--ink);letter-spacing:-.005em}
+.rv--lg .rv__q{width:38px;height:29px}
+.rv figcaption{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"av who" "av stars";column-gap:.85rem;row-gap:.15rem;align-items:center;margin-top:.2rem;padding-top:1.1rem;border-top:1px solid #f5efe5}
+.av{grid-area:av;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--c);color:#fff;font:600 1.02rem Figtree,Inter,system-ui,sans-serif;box-shadow:0 0 0 3px #fff,0 0 0 4px var(--tint2)}
+.rv__who{grid-area:who;display:flex;flex-direction:column;line-height:1.3}
+.rv__who b{font:600 .94rem Figtree,Inter,system-ui,sans-serif;color:var(--ink)}
+.rv__who small{font-size:.76rem;color:var(--mut)}
+.rv .stars{grid-area:stars}
+.stars{display:inline-flex;gap:2px}.stars svg{width:14px;height:14px;fill:#e9a93a}
+.rv-cta{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-top:.6rem;padding:1.5rem 2rem;border-radius:26px}
+.rv-cta p{margin:0;font-size:1.3rem}.rv-cta .cta{margin:0}
+@media(max-width:900px){.reviews{grid-template-columns:1fr}.rv-head{position:static}.rv-pills{flex-direction:row;flex-wrap:wrap}}
+@media(max-width:640px){.rv-cols{columns:1}.rv-cta{flex-direction:column;align-items:flex-start;padding:1.4rem}.rv--lg blockquote{font-size:1.15rem}}
+
+/* ---------- 6. Reduced motion: keep everything static and complete ---------- */
+@media(prefers-reduced-motion:reduce){
+  html.js h2 .wd>span{opacity:1;transform:none;transition:none}
+  .reveal{translate:0 0}
+  .svc.reveal.in:hover,.rv.reveal.in:hover{translate:0 0}
+}

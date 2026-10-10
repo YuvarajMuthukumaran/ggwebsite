@@ -1,0 +1,106 @@
+/* ==========================================================================
+   v7 — revisions from TL feedback. Loads last, so it overrides earlier rules.
+   1 Hero loading   2 CTA card   3 WhatsApp   4 Films copy   5 Reviews
+   6 Closing "Breathe out" band
+   ========================================================================== */
+
+/* ---------- 1. Hero loading: one calm entrance, nothing replays ----------
+   Why it looked odd before: site.css already ran entrance animations on the
+   hero as the page loaded (hidden behind the curtain), then cinematic.css
+   swapped them for new ones when the curtain lifted, so everything restarted.
+   Blur filters were animated too, which stutters on mid-range phones.
+   Now: the intro is light (matches the page), fades out, and the hero plays a
+   single opacity + small-rise entrance. No blur, no clip-path, no restarts. */
+html.js .intro{
+  clip-path:none;background:#f6efe4;color:var(--blue-d);
+  opacity:1;transition:opacity .7s ease;will-change:opacity}
+html.js.open .intro{clip-path:none;opacity:0;pointer-events:none}
+html.js .intro__in{transition:opacity .45s ease}
+html.open .intro__in{translate:none;opacity:0}
+.intro__orb span{background:radial-gradient(circle at 38% 32%,#f0e8da,#3f6b57 74%);box-shadow:0 0 60px 6px rgba(63,107,87,.28)}
+.intro__orb:before,.intro__orb:after{border-color:rgba(63,107,87,.45)}
+.intro__name{color:var(--blue-d);letter-spacing:.12em}
+.intro__bar{background:rgba(31,46,39,.1)}
+.intro__bar:after{background:linear-gradient(90deg,#9abfac,var(--blue))}
+
+/* before "go": hold everything still and invisible (and kill early animations) */
+html.js:not(.go) :is(.cut,.qual,.hero__l,.stats,.fl,.nav,.ann){animation:none!important;opacity:0}
+html.js:not(.go) .giant .ch{transform:translateY(105%)}
+
+@keyframes v7rise{from{opacity:0;translate:0 18px}}
+@keyframes v7fade{from{opacity:0}}
+@keyframes v7ch{from{transform:translateY(105%)}}
+@keyframes v7cut{from{opacity:0;scale:1.035}}
+@keyframes v7navIn{from{opacity:0;translate:0 -10px}}
+
+html.js.go .giant .ch{animation:v7ch 1s var(--e) calc(var(--k)*26ms) both}
+html.js.go .cut{animation:v7cut 1.5s var(--e) .1s both}
+html.js.go .qual{animation:v7rise 1s var(--e) .5s both}
+html.js.go .hero__l{animation:v7rise 1s var(--e) .65s both}
+html.js.go .stats{animation:v7rise 1s var(--e) .75s both}
+html.js.go .fl1{animation:bob 6s ease-in-out infinite,v7fade 1s ease 1s backwards}
+html.js.go .fl2{animation:bob 6s ease-in-out -3s infinite,v7fade 1s ease 1.15s backwards}
+html.js.go .nav{animation:v7navIn .9s var(--e) .2s both}
+html.js.go .ann{animation:v7fade .8s ease .1s both}
+
+/* ---------- 2. "Not sure where to begin?" card: light, not heavy ---------- */
+.cta-card{background:linear-gradient(150deg,#f6faff,#f4ede1);color:var(--ink);border:1px solid #ece1cd;gap:.5rem}
+.cta-card h3{color:var(--blue-d)}
+.cta-card p{color:var(--mut);margin:0}
+.cta-card .btn:not(.wa){background:var(--blue);color:#fff;border-color:var(--blue);margin-top:0}
+.cta-card>.spot{background:radial-gradient(320px circle at var(--sx,50%) var(--sy,50%),rgba(63,107,87,.12),transparent 62%)}
+.cta-card__act{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.9rem}
+
+/* ---------- 3. WhatsApp ---------- */
+.btn.wa{background:#fff;color:#0b6b36;border-color:#25d366;gap:.55rem}
+.btn.wa .wai{color:#1faa59;flex:none;transition:color .3s}
+.btn.wa:hover{background:#25d366;color:#06361a;border-color:#25d366;box-shadow:0 14px 28px -10px rgba(31,170,89,.55)}
+.btn.wa:hover .wai{color:#06361a}
+.btn.wa.sm{padding:.75rem 1.1rem;font-size:.85rem}
+.hero__cta{display:flex;flex-wrap:wrap;gap:.5rem}
+.hero__cta .btn{padding:.75rem 1.05rem}
+@media(min-width:901px){.hero__l{max-width:330px}}
+.wa-link{color:#0b6b36;font-weight:600;border-bottom:1.5px solid #25d366}
+.faq__more{margin:.4rem 0 0;color:var(--mut)}
+
+/* floating button (desktop); phones get the two-button dock instead */
+.wa-fab{position:fixed;right:22px;bottom:22px;z-index:60;display:flex;align-items:center;gap:.55rem;padding:.8rem 1.15rem .8rem 1rem;border-radius:999px;
+  background:#25d366;color:#06361a;font:600 .88rem Figtree,Inter,system-ui,sans-serif;box-shadow:0 14px 30px -10px rgba(18,140,70,.65);
+  transition:opacity .5s var(--e),translate .6s var(--e),box-shadow .4s,background .3s}
+.wa-fab:hover{background:#35e077;box-shadow:0 18px 34px -10px rgba(18,140,70,.75)}
+html.js .wa-fab:not(.show){opacity:0;translate:0 18px;pointer-events:none}
+@media(max-width:900px){.wa-fab{display:none}}
+@media(max-width:900px){
+  .sticky{display:grid;grid-template-columns:1fr 1fr;gap:8px;left:12px;right:12px;padding:0;background:none;box-shadow:none;border-radius:0}
+  .sticky a{display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.9rem .6rem;border-radius:999px;font-weight:600;font-size:.92rem;box-shadow:0 14px 26px -12px rgba(80,55,35,.55)}
+  .sticky__call{background:var(--blue);color:#fff}
+  .sticky__wa{background:#25d366;color:#06361a}
+}
+
+/* ---------- 4. Films: captions and descriptions ---------- */
+.reel .rm{display:block;margin-top:.55rem;font-size:.74rem;letter-spacing:.02em;color:#a8703a}
+.reel h3{line-height:1.25}
+.reel p{max-width:42ch}
+
+/* ---------- 5. Google reviews: see warm.css ---------- */
+
+/* ---------- 6. Closing band: "You do not have to work it out on your own" ---------- */
+.calm{position:relative;overflow:hidden;isolation:isolate;margin:clamp(2rem,5vw,4rem) auto 0;gap:clamp(2rem,5vw,4.5rem);grid-template-columns:auto 1fr;
+  padding:clamp(2.4rem,6vw,4.5rem);border:1px solid #ede3d1;border-radius:36px;
+  background:radial-gradient(90% 120% at 0% 0%,#fff 0,#f9f5ee 46%,#f2eadd 100%);box-shadow:0 30px 60px -36px rgba(70,115,93,.35)}
+.calm:before{content:"";position:absolute;z-index:-1;width:520px;height:520px;left:-140px;top:50%;margin-top:-260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(154,191,172,.28),transparent 68%)}
+.calm .orb{width:min(250px,52vw)}
+.calm h2{font-size:clamp(1.9rem,3.8vw,3rem);line-height:1.12;margin:.5rem 0 1rem;max-width:18ch;color:var(--ink)}
+.calm__t>p{max-width:52ch;color:var(--mut);font-size:1.02rem}
+.calm .cta{margin:1.6rem 0 1rem}
+.calm .btn:not(.wa){color:#fff;font-weight:500}
+.calm .btn.wa{font-weight:500}
+.calm__note{font-size:.82rem!important;color:#788980!important}
+@media(max-width:900px){.calm{grid-template-columns:1fr;justify-items:center;text-align:center}.calm h2,.calm__t>p{margin-inline:auto}.calm .cta{justify-content:center}.calm:before{left:50%;margin-left:-260px;top:-120px;margin-top:0}}
+footer{margin-top:clamp(2rem,5vw,4rem)}
+
+@media(prefers-reduced-motion:reduce){
+  .wa-fab{transition:none}
+  html.js .intro{display:none!important}
+}

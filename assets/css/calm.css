@@ -1,0 +1,64 @@
+/* calm.css — v9 warm layer. Loads last. Palette tokens live in :root; the older files were re-mapped to them. */
+:root{--blue:#3f6b57;--blue-d:#2a4d3e;--tint:#edf0e2;--tint2:#e0e6d0;--ink:#26332d;--mut:#5b675e;--line:#e6dbc9;--navy:#25352e;
+--cream:#f6efe4;--oat:#efe4d2;--blush:#efd2c3;--clay:#a85a40;--gold:#c9a24b;--calm:cubic-bezier(.45,0,.25,1);
+--sh:0 1px 2px rgba(80,55,35,.05),0 22px 50px -24px rgba(120,80,50,.30)}
+body{background:radial-gradient(900px 520px at 10% -4%,rgba(239,210,195,.6),transparent 62%),radial-gradient(760px 520px at 100% 18%,rgba(201,162,75,.15),transparent 62%),var(--cream);font-family:Figtree,Inter,system-ui,sans-serif}
+button,input,textarea{font-family:inherit}
+.aurora i{opacity:.5}.aurora i:nth-child(1){background:radial-gradient(closest-side,#efd2c3,transparent)}.aurora i:nth-child(2){background:radial-gradient(closest-side,#cfdcc4,transparent)}.aurora i:nth-child(3){background:radial-gradient(closest-side,#ecd9a8,transparent)}
+
+/* glass nav that shrinks on scroll */
+.nav{background:rgba(255,250,242,.66);backdrop-filter:blur(18px) saturate(1.25);-webkit-backdrop-filter:blur(18px) saturate(1.25);transition:box-shadow .6s,background .6s,width .7s var(--calm),padding .7s var(--calm),top .7s var(--calm)}
+.nav.on{width:min(1040px,calc(100% - 24px));padding:.38rem .5rem .38rem .9rem;background:rgba(255,250,242,.86)}
+
+/* buttons: warm gradient, gentle pulse on the primary hero action */
+.btn:not(.ghost):not(.wa):not(.light){background:linear-gradient(180deg,#4c7d66,#3a634f);border-color:#3a634f}
+.btn:hover{box-shadow:0 16px 30px -12px rgba(63,107,87,.55)}
+.hero__cta .btn:not(.wa){animation:calmRing 5s var(--calm) infinite}
+.hero__cta .btn:hover{animation:none}
+@keyframes calmRing{0%,70%,100%{box-shadow:0 0 0 0 rgba(63,107,87,0)}35%{box-shadow:0 0 0 13px rgba(63,107,87,.14)}}
+
+/* hero: slow breathing light behind the portrait */
+.hero__in{position:relative}
+.hero__orb{position:absolute;z-index:0;right:6%;top:6%;width:min(560px,60vw);aspect-ratio:1;border-radius:50%;pointer-events:none;
+background:radial-gradient(closest-side,rgba(239,210,195,.95),rgba(201,162,75,.22) 58%,transparent 74%);animation:calmBreath 10s var(--calm) infinite}
+@keyframes calmBreath{0%,100%{scale:.9;opacity:.7}50%{scale:1.08;opacity:1}}
+
+/* cards: warm shadow + gold edge light */
+.card,.rec,.press,.rv,.rooms>div,.faq details{border-color:var(--line);box-shadow:var(--sh)}
+.svc:hover,.rv:hover,.press:hover,.rec:hover{border-color:rgba(201,162,75,.65);box-shadow:var(--sh),0 0 0 1px rgba(201,162,75,.28)}
+.tint,.sec.tint{background:linear-gradient(180deg,var(--tint),var(--oat))}
+.eyebrow{color:var(--clay)}
+
+/* footer: ambient warm light + crisis band */
+footer{color:#d8cfbf;background:radial-gradient(620px 300px at 12% 0,rgba(201,162,75,.2),transparent 70%),radial-gradient(520px 280px at 92% 100%,rgba(239,210,195,.14),transparent 70%),var(--navy)}
+.crisis{margin:2rem auto 0;width:min(1180px,calc(100% - 24px));padding:1.1rem 1.5rem;border-radius:24px;background:linear-gradient(120deg,#f8e3d6,#f3ead7);border:1px solid #e8cdb9;color:#4a2f22;box-shadow:var(--sh);display:flex;gap:.9rem 1.6rem;flex-wrap:wrap;align-items:center}
+.crisis p{margin:0;max-width:62ch}.crisis a{font-weight:600;text-decoration:underline;text-underline-offset:3px;color:#7a3a25}
+
+/* request form */
+.rq{max-width:640px;margin:0 auto;padding:clamp(1.4rem,4vw,2.4rem);border-radius:28px;background:rgba(255,251,245,.85);border:1px solid var(--line);box-shadow:var(--sh);backdrop-filter:blur(10px)}
+.rq__p{display:flex;gap:.5rem;list-style:none;margin:0 0 .6rem;padding:0}.rq__p li{flex:1;height:5px;border-radius:9px;background:var(--oat);transition:background .6s var(--calm)}.rq__p li.on{background:var(--blue)}
+.rq__s{font-size:.82rem;color:var(--mut);margin:0 0 1rem}
+.rq fieldset{border:0;margin:0;padding:0;min-width:0}.rq fieldset[hidden]{display:none}.rq fieldset.in{animation:rqIn .6s var(--calm)}
+@keyframes rqIn{from{opacity:0;translate:18px 0}to{opacity:1;translate:0 0}}
+.rq legend{font:500 1.35rem Fraunces,Georgia,serif;margin-bottom:.9rem;padding:0}.rq h3{font:600 .85rem Figtree,sans-serif;color:var(--mut);margin:1rem 0 .5rem}
+.ch{display:inline-block;margin:0 .45rem .55rem 0}.ch input{position:absolute;opacity:0}
+.ch span{display:inline-block;padding:.65rem 1.1rem;border-radius:999px;border:1.5px solid var(--line);background:#fffaf2;cursor:pointer;transition:background .4s,border-color .4s,color .4s}
+.ch input:checked+span{background:var(--tint2);border-color:var(--blue);color:var(--blue-d)}.ch input:focus-visible+span{outline:3px solid var(--gold);outline-offset:2px}
+.rq label.tx{display:block;margin-bottom:.9rem;font-size:.9rem;color:var(--mut)}
+.rq .tx input,.rq .tx textarea{display:block;width:100%;margin-top:.35rem;padding:.8rem 1rem;border-radius:16px;border:1.5px solid var(--line);background:#fffaf2;color:var(--ink);font-size:1rem}
+.rq .tx input:focus,.rq .tx textarea:focus{outline:3px solid rgba(201,162,75,.45);border-color:var(--gold)}
+.rq__a{display:flex;justify-content:space-between;gap:1rem;margin-top:1.2rem}.rq__a [hidden]{display:none}
+.rq__done{text-align:center;padding:1rem 0}.rq__done h3{font:500 1.5rem Fraunces,Georgia,serif;color:var(--ink);margin:0 0 .5rem}.rq__done a{color:var(--blue);text-decoration:underline}
+
+/* Breathe & Ground widget */
+.bg{position:fixed;left:16px;bottom:16px;z-index:60}
+.bg__fab{display:flex;align-items:center;gap:.55rem;padding:.6rem 1rem .6rem .7rem;border-radius:999px;border:1px solid var(--line);background:rgba(255,250,242,.82);backdrop-filter:blur(14px);color:var(--ink);font:500 .9rem Figtree,sans-serif;cursor:pointer;box-shadow:var(--sh)}
+.bg__dot{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--blush) 55%,var(--gold));animation:calmBreath 8s var(--calm) infinite}
+.bg__panel{position:absolute;left:0;bottom:56px;width:min(300px,calc(100vw - 32px));padding:1.3rem;border-radius:26px;background:rgba(255,251,245,.94);backdrop-filter:blur(18px);border:1px solid var(--line);box-shadow:0 30px 60px -24px rgba(80,55,35,.4);text-align:center}
+.bg__panel[hidden]{display:none}.bg__x{position:absolute;right:10px;top:8px;border:0;background:none;font-size:1.5rem;line-height:1;color:var(--mut);cursor:pointer;padding:.2rem .5rem}
+.bg__ring{position:relative;width:170px;height:170px;margin:.5rem auto 1rem;display:grid;place-items:center}
+.bg__ring i{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fff,var(--blush) 50%,rgba(201,162,75,.55));scale:var(--s,.55);transition:scale var(--d,1s) var(--calm);box-shadow:0 0 50px rgba(201,162,75,.4)}
+.bg__lbl{position:relative;font:500 1.05rem Fraunces,Georgia,serif;color:var(--ink)}.bg__tip{font-size:.85rem;color:var(--mut);margin:0 0 .9rem}
+@media(max-width:900px){.bg{bottom:84px}}
+@media(prefers-reduced-motion:reduce){.hero__orb,.bg__dot,.hero__cta .btn{animation:none!important}.bg__ring i{transition:none}.rq fieldset.in{animation:none}.nav{transition:none}}
+.tags span{background:var(--tint);color:var(--blue-d)}

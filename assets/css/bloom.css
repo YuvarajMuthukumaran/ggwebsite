@@ -1,0 +1,37 @@
+/* bloom.css — v10: bolder hero, clay cards, grain, calmer type rhythm. Loads last. */
+::selection{background:var(--blush);color:#3a2418}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:8px}
+body:after{content:"";position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* hero: dawn backdrop, arched window of light behind the portrait, solid readable name */
+.hero__in{background:radial-gradient(60% 55% at 50% 100%,#fff3df,transparent 72%),linear-gradient(168deg,#f8e6d8,#f4ebd8 46%,#dde7d3)}
+.hero__in:before{opacity:.5}
+.hero__orb{left:50%;right:auto;top:auto;bottom:0;width:min(46%,500px);aspect-ratio:auto;height:84%;margin-left:calc(min(46%,500px)/-2);border-radius:999px 999px 0 0;transform-origin:50% 100%;
+background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(239,210,195,.85) 45%,rgba(201,162,75,.4));box-shadow:0 0 0 1px rgba(255,255,255,.7) inset,0 0 90px 10px rgba(201,162,75,.28)}
+.giant,.giant *{font-family:Fraunces,Georgia,serif;font-weight:480;letter-spacing:-.035em;background:none!important;-webkit-text-fill-color:#23332b!important;color:#23332b!important}
+.qual{color:var(--blue-d)}.qual small{color:#55625a}
+.hero__l{background:rgba(255,250,242,.72);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.85);border-radius:26px;padding:1.1rem 1.25rem;max-width:300px;box-shadow:var(--sh)}
+.hero__l strong{font:500 1.35rem Fraunces,Georgia,serif;color:var(--ink)}.hero__l p{color:#4c5a52}
+.stats{background:rgba(255,250,242,.72);backdrop-filter:blur(14px);padding:.9rem 1.5rem;border-radius:26px;border:1px solid rgba(255,255,255,.85);box-shadow:var(--sh)}
+.stats b{font-family:Fraunces,Georgia,serif;font-weight:500;color:var(--clay)}
+
+/* clay cards */
+.card,.rec,.rv,.press,.rooms>div,.faq details{border-radius:30px;background:linear-gradient(180deg,#fffdf8,#fbf2e4);border:1px solid rgba(255,255,255,.9);
+box-shadow:inset 0 2px 0 #fff,inset 0 -12px 24px -16px rgba(168,90,64,.16),0 28px 52px -28px rgba(120,80,50,.4)}
+.sec.tint{margin-inline:12px;border-radius:clamp(30px,6vw,72px)}
+
+/* type rhythm */
+.head h2,.sec h2,.rv-head h2{font-family:Fraunces,Georgia,serif;font-weight:450;font-size:clamp(2.1rem,4.6vw,3.5rem);letter-spacing:-.028em;color:var(--ink)}
+.eyebrow{background:var(--blush);color:#7a3a25;padding:.3rem .8rem;border-radius:999px}
+.lede2,.lead{font-size:1.08rem;color:#4c5a52}
+footer .foot-mark{color:rgba(239,210,195,.14)}
+
+@media(max-width:760px){.hero__orb{width:74%;height:46%;margin-left:-37%;bottom:30%}}
+.qual{translate:0 .5rem}
+@media(max-width:760px){
+.hero__in{height:auto!important;padding-bottom:1.4rem}
+.giant{font-size:clamp(1.8rem,8.6vw,3.2rem)}
+.qual{translate:none}
+.hero__orb{top:11.6rem;bottom:auto;height:min(110vw,430px);width:72%;margin-left:-36%}
+.hero__l,.stats{margin-inline:auto;width:calc(100% - 2.4rem)}.stats{justify-content:center}
+}

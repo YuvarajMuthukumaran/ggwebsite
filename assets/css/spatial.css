@@ -1,0 +1,45 @@
+/* v16 spatial layer: glass surfaces, depth, ambient light. Loads last. */
+:root{--gl:color-mix(in srgb,#fff 58%,transparent);--gl-b:color-mix(in srgb,#fff 74%,transparent);--bl:20px;--spe:cubic-bezier(.22,1,.36,1);
+--sp-in:inset 0 1px 0 rgba(255,255,255,.95),inset 0 -1px 0 rgba(255,255,255,.35);
+--sp-sh:0 1px 1px rgba(20,30,40,.04),0 3px 6px rgba(20,30,40,.04),0 14px 26px -10px rgba(20,30,40,.12),0 40px 70px -28px color-mix(in srgb,var(--navy,#14243a) 30%,transparent)}
+html::before{content:"";position:fixed;inset:-20vmax;z-index:-1;pointer-events:none;background:
+radial-gradient(38vmax 38vmax at 18% 12%,color-mix(in srgb,var(--blush,#e9d6c8) 75%,transparent),transparent 70%),
+radial-gradient(34vmax 34vmax at 86% 30%,color-mix(in srgb,var(--blue,#3f6b57) 16%,transparent),transparent 70%),
+radial-gradient(40vmax 40vmax at 50% 96%,color-mix(in srgb,var(--gold,#c9a24b) 20%,transparent),transparent 70%);animation:sp-drift 40s ease-in-out infinite alternate}
+@keyframes sp-drift{to{transform:translate3d(3vmax,-2vmax,0) scale(1.06)}}
+/* one consistent section rhythm and heading style */
+.sec:not(#s){padding-block:clamp(4.5rem,9vw,8rem)}
+:is(.head,.rv-head):not(#s) h2{letter-spacing:-.025em;line-height:1.08;text-wrap:balance}
+.eyebrow:not(#s){display:inline-flex;align-items:center;gap:.55rem;padding:.4rem .9rem .4rem .75rem;border-radius:99px;background:var(--gl);border:1px solid var(--gl-b);box-shadow:var(--sp-in),0 6px 16px -10px rgba(20,30,40,.3);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+.eyebrow:not(#s)::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 4px color-mix(in srgb,var(--blue) 18%,transparent)}
+/* glass material */
+.nav:not(#s){background:color-mix(in srgb,#fff 66%,transparent);-webkit-backdrop-filter:blur(22px) saturate(1.6);backdrop-filter:blur(22px) saturate(1.6);box-shadow:var(--sp-in),0 12px 30px -20px rgba(20,30,40,.4)}
+:is(.card,.svc,.rv,.press,.cta-card,.rec,.stats,.book,.faqs details):not(#s){background:linear-gradient(160deg,color-mix(in srgb,#fff 80%,transparent),var(--gl));border:1px solid var(--gl-b);border-radius:26px;box-shadow:var(--sp-in),var(--sp-sh);-webkit-backdrop-filter:blur(var(--bl)) saturate(1.5);backdrop-filter:blur(var(--bl)) saturate(1.5);transform-style:preserve-3d;transition:opacity .9s var(--spe),transform .9s var(--spe),translate .6s var(--spe),rotate .3s ease-out,box-shadow .6s var(--spe)}
+:is(.card,.svc,.rec):not(#s) .ico{translate:0 0 34px}
+.stg:not(#s){border-radius:28px;box-shadow:var(--sp-in),var(--sp-sh)}
+.btn:not(.ghost):not(#s){box-shadow:var(--sp-in),0 12px 26px -12px color-mix(in srgb,var(--blue) 75%,transparent)}
+/* films: floating glass reel and control ornament */
+.player:not(#s){border-radius:36px;box-shadow:0 2px 4px rgba(20,30,40,.1),0 30px 60px -20px rgba(20,30,40,.4),0 70px 110px -40px color-mix(in srgb,var(--blue) 45%,transparent)}
+.pl__bar:not(#s){border-radius:99px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);box-shadow:var(--sp-in);-webkit-backdrop-filter:blur(18px) saturate(1.4);backdrop-filter:blur(18px) saturate(1.4)}
+.reel button:not(#s){background:var(--gl);border:1px solid var(--gl-b);border-radius:28px;box-shadow:var(--sp-in),0 10px 24px -16px rgba(20,30,40,.25);-webkit-backdrop-filter:blur(var(--bl));backdrop-filter:blur(var(--bl))}
+.reel li.act button:not(#s){translate:10px 0;background:color-mix(in srgb,#fff 88%,transparent);box-shadow:var(--sp-in),0 4px 8px rgba(20,30,40,.05),0 30px 50px -22px color-mix(in srgb,var(--blue) 55%,transparent)}
+.reel img:not(#s){width:104px;border-radius:20px;box-shadow:0 10px 22px -10px rgba(20,30,40,.4)}
+@media(hover:hover) and (pointer:fine){
+.sec:not(#s){perspective:1200px}
+:is(.card,.svc,.rv,.press,.cta-card,.rec):not(#s):hover{translate:0 -8px;box-shadow:var(--sp-in),0 4px 8px rgba(20,30,40,.05),0 30px 50px -14px rgba(20,30,40,.2),0 64px 96px -34px color-mix(in srgb,var(--blue) 40%,transparent)}}
+@media(max-width:700px){:root{--bl:12px}.reel li.act button:not(#s){translate:none}}
+@media(prefers-reduced-motion:reduce){html::before{animation:none}:is(.card,.svc,.rv,.press,.cta-card,.rec):not(#s){rotate:none!important;transition:box-shadow .2s}}
+/* v18 hero: sizes follow the panel, not the window, so the name always fits; WhatsApp sits beside Book. */
+@media(min-width:1000px){
+.hero__in:not(#s){container-type:inline-size;--hp:clamp(640px,47vw,710px);--hn:min(10.4vw,16svh,8.2rem)}
+@supports (width:1cqw){.hero__in:not(#s){--hn:min(10.6cqw,16svh)}}
+.hero .giant:not(#s){font-size:var(--hn);top:calc(var(--hp)*.24 + 17px - 1.02em)}
+.hero .qual:not(#s){translate:none;top:calc(var(--hn)*1.58 + 6px);right:clamp(1.2rem,4.5vw,3.5rem)}
+.hero .cut:not(#s){height:76%}
+.hero .hero__l:not(#s){padding:0!important;max-width:270px;left:clamp(1.2rem,4.6vw,4rem)}
+.hero .hero__cta:not(#s){flex-wrap:nowrap;width:max-content}
+.hero .stats:not(#s){padding:0!important;right:clamp(1.2rem,4.5vw,3.5rem)}
+.bg{transition:opacity .4s,translate .4s}
+html.hero-in .bg{opacity:0;pointer-events:none;translate:-12px 0}
+}
+@container (max-width:1130px){.hero .hero__cta:not(#s){flex-wrap:wrap;width:auto}}

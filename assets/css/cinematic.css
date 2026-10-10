@@ -17,18 +17,18 @@ html.lock{overflow:hidden}
 /* ---------- 1. Opening: breathing orb, then the curtain lifts ---------- */
 .intro{display:none}
 html.js .intro{display:grid;place-items:center;position:fixed;inset:0;z-index:200;color:#fff;
-  background:radial-gradient(120% 90% at 50% 105%,#2a63b8,#0e2340 62%);
+  background:radial-gradient(120% 90% at 50% 105%,#568c71,#25352e 62%);
   clip-path:inset(0 0 0 0 round 0);transition:clip-path 1.3s var(--io);will-change:clip-path}
 html.js.open .intro{clip-path:inset(0 0 100% 0 round 0 0 50% 50% / 0 0 16vh 16vh)}
 .intro__in{display:grid;justify-items:center;gap:1.5rem;transition:translate 1.3s var(--io),opacity 1s .1s}
 html.open .intro__in{translate:0 -16vh;opacity:0}
 .intro__orb{position:relative;width:92px;aspect-ratio:1}
-.intro__orb span{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 38% 32%,#c4e0ff,#2f6fcb 72%);box-shadow:0 0 90px 12px rgba(80,150,240,.45);animation:iBreathe 3.4s ease-in-out infinite}
-.intro__orb:before,.intro__orb:after{content:"";position:absolute;inset:0;border-radius:50%;border:1.5px solid rgba(160,205,255,.7);animation:iRing 3.4s ease-out infinite}
+.intro__orb span{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 38% 32%,#eee5d5,#3f6b57 72%);box-shadow:0 0 90px 12px rgba(139,181,160,.45);animation:iBreathe 3.4s ease-in-out infinite}
+.intro__orb:before,.intro__orb:after{content:"";position:absolute;inset:0;border-radius:50%;border:1.5px solid rgba(197,218,208,.7);animation:iRing 3.4s ease-out infinite}
 .intro__orb:after{animation-delay:-1.7s}
 .intro__name{margin:0;font:500 .95rem Poppins,system-ui,sans-serif;letter-spacing:.1em;opacity:0;animation:iName 1.2s var(--e) .35s forwards}
 .intro__bar{display:block;position:relative;width:132px;height:2px;border-radius:2px;background:rgba(255,255,255,.16);overflow:hidden}
-.intro__bar:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#8dbdf2,#fff);transform-origin:0;animation:iBar 1.5s var(--io) .1s both}
+.intro__bar:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#a9c4a8,#fff);transform-origin:0;animation:iBar 1.5s var(--io) .1s both}
 @keyframes iBreathe{50%{transform:scale(.78)}}
 @keyframes iRing{0%{transform:scale(.8);opacity:.8}100%{transform:scale(2.1);opacity:0}}
 @keyframes iName{from{opacity:0;translate:0 10px}to{opacity:.92;translate:0 0}}
@@ -37,21 +37,21 @@ html.open .intro__in{translate:0 -16vh;opacity:0}
 /* ---------- 2. Ambient aurora behind the whole page ---------- */
 .aurora{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
 .aurora i{position:absolute;border-radius:50%;translate:0 calc(var(--sy,0)*var(--f,-.04)*1px);animation:drift 28s ease-in-out infinite alternate}
-.aurora i:nth-child(1){--f:-.05;width:58vw;height:58vw;left:-18vw;top:6vh;background:radial-gradient(circle,rgba(150,196,248,.55),transparent 66%)}
-.aurora i:nth-child(2){--f:-.09;width:50vw;height:50vw;right:-16vw;top:44vh;background:radial-gradient(circle,rgba(190,214,250,.7),transparent 66%);animation-duration:34s;animation-delay:-9s}
-.aurora i:nth-child(3){--f:-.03;width:40vw;height:40vw;left:30vw;bottom:-18vw;background:radial-gradient(circle,rgba(140,215,235,.34),transparent 66%);animation-duration:40s;animation-delay:-18s}
+.aurora i:nth-child(1){--f:-.05;width:58vw;height:58vw;left:-18vw;top:6vh;background:radial-gradient(circle,rgba(186,212,199,.55),transparent 66%)}
+.aurora i:nth-child(2){--f:-.09;width:50vw;height:50vw;right:-16vw;top:44vh;background:radial-gradient(circle,rgba(235,224,205,.7),transparent 66%);animation-duration:34s;animation-delay:-9s}
+.aurora i:nth-child(3){--f:-.03;width:40vw;height:40vw;left:30vw;bottom:-18vw;background:radial-gradient(circle,rgba(172,203,188,.34),transparent 66%);animation-duration:40s;animation-delay:-18s}
 @keyframes drift{to{transform:translate3d(6vw,-5vh,0) scale(1.12)}}
 
 /* ---------- 3. Hero: choreography, depth, scroll exit ---------- */
 .hero__in{transform:scale(calc(1 - var(--p,0)*.07));transform-origin:50% 100%;border-radius:calc(32px + var(--p,0)*30px);opacity:calc(1 - var(--p,0)*.4);will-change:transform}
-.hero__in:after{content:"";position:absolute;width:520px;height:520px;right:-120px;bottom:-160px;border-radius:50%;background:radial-gradient(circle,rgba(160,196,255,.55),transparent 68%);animation:fl 16s ease-in-out infinite alternate-reverse}
+.hero__in:after{content:"";position:absolute;width:520px;height:520px;right:-120px;bottom:-160px;border-radius:50%;background:radial-gradient(circle,rgba(197,218,208,.55),transparent 68%);animation:fl 16s ease-in-out infinite alternate-reverse}
 .hero__glow{position:absolute;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;pointer-events:none;z-index:0;opacity:0;background:radial-gradient(circle,rgba(255,255,255,.75),rgba(255,255,255,0) 62%);transition:opacity 1s}
 html.go .hero__glow{opacity:1}
 
 .giant{transform:translate3d(calc(var(--mx,0)*-16px),calc(var(--p,0)*-90px + var(--my,0)*-8px),0)}
 .giant .ch{display:inline-block;transform-origin:0 100%;
-  background:linear-gradient(180deg,#153d78 5%,#5a8fd0 55%,rgba(160,195,235,.55) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-html:not(.js) .giant{background:linear-gradient(180deg,#153d78 5%,#5a8fd0 55%,rgba(160,195,235,.55) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  background:linear-gradient(180deg,#365746 5%,#7dad95 55%,rgba(185,210,197,.55) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+html:not(.js) .giant{background:linear-gradient(180deg,#365746 5%,#7dad95 55%,rgba(185,210,197,.55) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .giant .wd{display:inline-block;overflow:hidden;vertical-align:top;padding:.04em .05em .2em;margin:-.04em -.05em -.2em}
 .cut{transition:none;transform:translate3d(calc(var(--mx,0)*12px),calc(var(--p,0)*64px + var(--my,0)*6px),0) scale(calc(1 + var(--p,0)*.08));transform-origin:50% 100%;will-change:transform}
 .fl1{transform:translate3d(calc(var(--mx,0)*-26px),calc(var(--my,0)*-14px + var(--p,0)*-46px),0)}
@@ -105,7 +105,7 @@ html.js .mt:not(.in)>img{scale:1.3}
 .svc,.rec,.press,.rooms>div{position:relative;isolation:isolate;overflow:hidden}
 .mt{transform-style:flat}
 .spot{position:absolute;inset:0;z-index:-1;pointer-events:none;border-radius:inherit;opacity:0;transition:opacity .5s;
-  background:radial-gradient(360px circle at var(--sx,50%) var(--sy,50%),rgba(47,111,203,.14),transparent 62%)}
+  background:radial-gradient(360px circle at var(--sx,50%) var(--sy,50%),rgba(63,107,87,.14),transparent 62%)}
 .mt>.spot{z-index:1;background:radial-gradient(320px circle at var(--sx,50%) var(--sy,50%),rgba(255,255,255,.2),transparent 62%)}
 .cta-card>.spot{background:radial-gradient(320px circle at var(--sx,50%) var(--sy,50%),rgba(255,255,255,.2),transparent 62%)}
 :hover>.spot{opacity:1}
@@ -133,7 +133,7 @@ html.js .mt:not(.in)>img{scale:1.3}
 .mer.m2{animation-delay:-4s}.mer.m3{animation-delay:-8s}
 @keyframes mer{0%,100%{transform:scaleX(1)}25%,75%{transform:scaleX(.71)}50%{transform:scaleX(.03)}}
 .mgc{display:flex;align-items:center;gap:.4rem;animation:chipBob 5.5s ease-in-out infinite;animation-delay:calc(var(--k,0)*-1.3s)}
-.mgc:before{content:"";width:6px;height:6px;border-radius:50%;background:#2f8fe0;box-shadow:0 0 0 3px rgba(47,143,224,.25)}
+.mgc:before{content:"";width:6px;height:6px;border-radius:50%;background:#6ba488;box-shadow:0 0 0 3px rgba(107,164,136,.25)}
 @keyframes chipBob{50%{translate:0 -5px}}
 .mbub{animation:bob 7s ease-in-out infinite}
 .mchip{transition:opacity .9s var(--e) calc(.35s + var(--k,0)*.14s),translate 1s var(--e) calc(.35s + var(--k,0)*.14s)}
@@ -154,33 +154,33 @@ html.js .stages:not(.in) .stg{opacity:0;translate:0 44px}
 
 /* ---------- 9. Journey: the line draws itself ---------- */
 .tl:before{background:var(--tint2)}
-.tl:after{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--blue),#6fa5ea);transform-origin:top;transform:scaleY(var(--prog,1))}
+.tl:after{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--blue),#9abfac);transform-origin:top;transform:scaleY(var(--prog,1))}
 .tl i{transition:scale .5s var(--e),background .6s,box-shadow .6s}
 .tl li h4{transition:color .6s}
-html.js .tl li:not(.on) i{background:#fff;border-color:#9dbfeb;box-shadow:0 0 0 5px var(--tint)}
+html.js .tl li:not(.on) i{background:#fff;border-color:#b7d1c4;box-shadow:0 0 0 5px var(--tint)}
 html.js .tl li:not(.on) h4{color:var(--mut)}
-html.js .tl li.on i{background:var(--blue);border-color:var(--blue);box-shadow:0 0 0 5px var(--tint),0 0 0 12px rgba(47,111,203,.12)}
+html.js .tl li.on i{background:var(--blue);border-color:var(--blue);box-shadow:0 0 0 5px var(--tint),0 0 0 12px rgba(63,107,87,.12)}
 html.js .tl li.on h4{color:var(--ink)}
 
 /* ---------- 10. Philosophy: a pinned scene, the sentence lights up as you scroll ---------- */
 .film{position:relative;margin:clamp(1.5rem,4vw,3rem) 12px}
 .film__pin{position:relative;display:grid;place-items:center;overflow:hidden;padding:clamp(4rem,10vw,7rem) clamp(1.2rem,6vw,6rem);border-radius:40px;color:#fff;
-  background:linear-gradient(150deg,#0a1b35,#12356a 58%,#1d51a0)}
+  background:linear-gradient(150deg,#182720,#2f4d3e 58%,#48755f)}
 html.js .film{height:310svh}
 html.js .film__pin{position:sticky;top:0;height:100svh;padding-block:0;scale:calc(.9 + var(--enter,1)*.1);border-radius:calc(72px - var(--enter,1)*32px);transform-origin:50% 60%}
 .film__glow{position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(38% 46% at calc(14% + var(--prog,.5)*72%) 38%,rgba(86,156,245,.4),transparent 70%),radial-gradient(30% 40% at calc(88% - var(--prog,.5)*62%) 72%,rgba(120,190,255,.22),transparent 70%)}
+  background:radial-gradient(38% 46% at calc(14% + var(--prog,.5)*72%) 38%,rgba(145,186,166,.4),transparent 70%),radial-gradient(30% 40% at calc(88% - var(--prog,.5)*62%) 72%,rgba(172,203,188,.22),transparent 70%)}
 .film blockquote{position:relative;max-width:1000px;text-align:center;font-size:clamp(1.65rem,4.1vw,3.4rem);line-height:1.26;letter-spacing:-.02em}
-.film cite{color:#bcd6f6;opacity:1;transition:opacity .8s,translate .8s var(--e)}
+.film cite{color:#eaddc8;opacity:1;transition:opacity .8s,translate .8s var(--e)}
 html.js .film cite{opacity:calc((var(--prog,1) - .86)*9);translate:0 calc((1 - min(1,max(0,(var(--prog,1) - .86)*9)))*14px)}
 .fw{display:inline;opacity:var(--o,1)}
 .film__bar{position:absolute;left:50%;bottom:clamp(1.5rem,7vh,4rem);width:min(200px,40vw);height:2px;translate:-50% 0;background:rgba(255,255,255,.18);border-radius:2px;overflow:hidden}
-.film__bar:after{content:"";position:absolute;inset:0;background:#8dbdf2;transform-origin:0;transform:scaleX(var(--prog,1))}
+.film__bar:after{content:"";position:absolute;inset:0;background:#a9c4a8;transform-origin:0;transform:scaleX(var(--prog,1))}
 html:not(.js) .film__bar{display:none}
 
 /* ---------- 11. The breathing orb now says what to do ---------- */
 @keyframes breathe{0%,100%{transform:scale(.68)}50%{transform:scale(1)}}
-.orb em{position:absolute;inset:0;display:grid;place-items:center;font-style:normal;color:#fff;font:500 .92rem Inter,system-ui,sans-serif;letter-spacing:.03em;text-shadow:0 1px 14px rgba(10,40,90,.35)}
+.orb em{position:absolute;inset:0;display:grid;place-items:center;font-style:normal;color:#fff;font:500 .92rem Figtree,Inter,system-ui,sans-serif;letter-spacing:.03em;text-shadow:0 1px 14px rgba(38,62,50,.35)}
 .orb em b{grid-area:1/1;font-weight:500;opacity:0;animation:inout 10s ease-in-out infinite}
 .orb em b+b{animation-delay:-5s}
 @keyframes inout{0%{opacity:0}8%,42%{opacity:1}50%,100%{opacity:0}}
@@ -189,7 +189,7 @@ html:not(.js) .film__bar{display:none}
 details summary{transition:color .3s}details:hover summary{color:var(--blue-d)}
 .presses{cursor:grab}.presses.drag{scroll-snap-type:none;cursor:grabbing;user-select:none}.presses a{-webkit-user-drag:none}
 .foot-mark{grid-column:1/-1;margin:.4rem 0 -1.2rem;text-align:center;white-space:nowrap;user-select:none;font:600 clamp(3rem,11.2vw,11rem)/.92 Poppins,system-ui,sans-serif;letter-spacing:-.05em;
-  background:linear-gradient(180deg,rgba(141,189,242,.5),rgba(141,189,242,0) 88%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;pointer-events:none}
+  background:linear-gradient(180deg,rgba(177,206,192,.5),rgba(177,206,192,0) 88%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;pointer-events:none}
 footer{overflow:hidden}
 
 /* ---------- small screens ---------- */
@@ -210,7 +210,7 @@ footer{overflow:hidden}
 }
 
 @media(max-width:900px){
-  .film__glow{background:radial-gradient(90% 30% at 50% calc(18% + var(--prog,.5)*60%),rgba(86,156,245,.38),transparent 72%),radial-gradient(80% 26% at 50% calc(90% - var(--prog,.5)*55%),rgba(120,190,255,.2),transparent 72%)}
+  .film__glow{background:radial-gradient(90% 30% at 50% calc(18% + var(--prog,.5)*60%),rgba(145,186,166,.38),transparent 72%),radial-gradient(80% 26% at 50% calc(90% - var(--prog,.5)*55%),rgba(172,203,188,.2),transparent 72%)}
 }
 
 /* collapsed stage titles: never break mid-word ("Understandin/g") */
