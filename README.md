@@ -284,3 +284,14 @@ New `assets/css/fix.css` (loads last). Small edits in `index.html`, `calm.css` a
 - `assets/css/polish.css` is the last stylesheet layer (tokens, press cards, credential chips, booking panel, breathe bubble).
 - Removed: pinned quote band, "Coming in", Credentials section, Breathe orb band, Tele-MANAS band, separate "Request a time" and "Talk to us" sections. Treatment and aftercare now live in the FAQ; credentials sit inside each of the five chapters.
 - Breathe reminder: `assets/js/calm.js` (first at ~45s, then ~4 min, max 3 per visit, never while typing or with the guide open, off after two dismissals).
+
+## v21 — light UI refinement
+
+New `assets/css/touchup.css` (loads last, after `polish.css`). No copy, colours or structure changed.
+
+- **Ambient glow** now cool blue. The old cream/amber wash from the earlier palette showed as a warm patch behind "What he treats".
+- **Phone announcement bar** is a single line (the "Consultations available online" text is hidden under 640px; the call link stays).
+- **Service cards** are equal height with tags pinned to the bottom, plus a blue accent line and icon fill on hover.
+- **Journey**: space around the award chip. **Films**: the playing film has a blue edge and title. **Reviews**: calmer heading. **FAQ**: heading stays beside the questions on desktop.
+- **Small feedback**: nav link underline on hover, button press state, booking chips lift, tighter section spacing.
+- Reduced-motion visitors get none of the new transitions.
