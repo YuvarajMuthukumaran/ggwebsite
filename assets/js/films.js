@@ -64,23 +64,23 @@
       if (a < bd) { bd = a; best = i; }
       if (reduce) continue;
 
-      var ang = small ? 22 : 30, depth = small ? 90 : 150;
-      var rotY = clamp(-d * ang, -60, 60);
-      var tz = -Math.min(a, 3) * depth - (1 - e) * 260;
+      // side cards keep the centre card's shape: no tilt, no depth stretch, only a little smaller and softer
+      var rotY = 0;
+      var tz = -(1 - e) * 260;
       var tx = -d * w * .66 * (1 - e);               // gathered toward the middle until the section arrives
-      var ty = (1 - e) * 70 + (1 - x) * -26 + Math.min(a, 2) * 10;
-      var rotX = (1 - e) * 16 + (1 - x) * 8;
-      var sc = (1 - Math.min(a, 2.4) * .06) * (.9 + .1 * e) * (.94 + .06 * x);
+      var ty = (1 - e) * 70 + (1 - x) * -26;
+      var rotX = (1 - e) * 8 + (1 - x) * 4;
+      var sc = (1 - Math.min(a, 2.4) * .08) * (.9 + .1 * e) * (.94 + .06 * x);
       var op = clamp((.25 + .75 * e) * (1 - Math.min(a, 2.6) * .2), .18, 1) * (.4 + .6 * x);
-      var blur = Math.min(a, 2) * 1.4;
+      var blur = Math.min(a, 2) * 1.1;
 
       var tiltX = 0, tiltY = 0;
-      if (i === cur && fine && pointerIn && a < .4) { tiltX = -py * 5; tiltY = px * 6; }
+      if (i === cur && fine && pointerIn && a < .4) { tiltX = -py * 3; tiltY = px * 3.5; }
 
       cards[i].style.transform = 'translate3d(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px,' + tz.toFixed(1) + 'px) rotateY(' + (rotY + tiltY).toFixed(2) + 'deg) rotateX(' + (rotX + tiltX).toFixed(2) + 'deg) scale(' + sc.toFixed(3) + ')';
       cards[i].style.opacity = op.toFixed(3);
       cards[i].style.filter = blur > .15 ? 'blur(' + blur.toFixed(2) + 'px)' : 'none';
-      cards[i].style.setProperty('--shift', (d * -9).toFixed(2) + '%');     // media parallax
+      cards[i].style.setProperty('--shift', clamp(d * -5, -5, 5).toFixed(2) + '%');     // media parallax
       caps[i].style.opacity = (clamp(1 - a * .85, .12, 1) * e).toFixed(3);
       caps[i].style.transform = 'translate3d(0,' + ((1 - e) * 24).toFixed(1) + 'px,0)';
     }

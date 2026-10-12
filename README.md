@@ -672,4 +672,10 @@ psychiatry", "issues,", "Delhi psychiatrist Society" to the name used elsewhere 
 - **Responsive check:** home, About, Services, Journey, Contact, Resources, Video Gallery, Blog and a condition page were measured at
   320, 375, 768, 1024, 1280, 1920 and 2560px: no horizontal overflow anywhere, the nav switches to the burger below 901px, and no
   readable text is set below 12.5px. The About page's facts panel was removed (the home page keeps its own).
+- **Home follows the rewrite document again where it had drifted:** the journey is the document's "How it all began" (four stages with their
+  recognition lists, same boxes as the About page), the hero carries "Pioneering the field of psychiatry / Renowned psychiatrist in Delhi NCR",
+  the About block uses the document's heading line, and the films label is "Voicing his own". "New Delhi and Gurugram" was taken off the hero.
+- **Scroll smoothness:** the stacked boxes now do all their work with transform and opacity (no blur, no custom-property writes), positions come
+  from one read per frame, the glass-blur nav is a near-solid white pill, and the two infinite full-page background animations are still.
+  In a software-rendered test the journey section went from about 66ms per frame to a 16.7ms median (60fps).
 

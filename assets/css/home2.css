@@ -294,9 +294,6 @@ html body,html body *:not(#_z),html body *:not(#_z)::before,html body *:not(#_z)
 /* home About: same scale as the About page */
 #who .about__txt p{ max-width:64ch; font-size:1.0625rem; line-height:1.75; color:#46586f; }
 #who .about__txt p.lead{ font-size:1.25rem; line-height:1.55; color:var(--ink); }
-#who .about__facts>div{ display:block !important; }
-#who .about__facts dt{ margin:0 0 .3rem !important; font-size:.875rem !important; font-weight:500; letter-spacing:0 !important; text-transform:none !important; color:var(--mut); }
-#who .about__facts dd{ margin:0; font-size:1.0625rem; font-weight:500; line-height:1.45; color:var(--ink); }
 
 /* hero: a touch more legible */
 .hero__l p{ font-size:1rem !important; line-height:1.65 !important; }
@@ -344,3 +341,23 @@ h1,h2,h3{ text-wrap:balance; }
 /* legibility floor: nothing the visitor has to read is set below 12.5px */
 .tags span,.svc .tags span{ font-size:.8125rem !important; }
 .strip>span{ font-size:.8rem !important; letter-spacing:.12em; }
+
+/* ---------- 17 · BOOKING BLOCK WITHOUT THE FORM -----------------
+   Message on the left, the ways to reach the team stacked on the right, the two rooms underneath. */
+#appoint .bk__act{ display:grid; gap:.7rem; width:100%; max-width:23rem; justify-self:end; align-self:end; }
+#appoint .bk__act .cta{ display:grid; gap:.7rem; }
+#appoint .bk__act .btn{ justify-content:center; width:100%; }
+#appoint .bk__act .bk__mail{ margin:.4rem 0 0; text-align:center; }
+@media (max-width:940px){ #appoint .bk__act{ justify-self:stretch; max-width:none; } }
+
+/* ---------- 18 · SCROLL PERFORMANCE ------------------------------
+   Three things repainted or recalculated on every scrolled frame: the glass-blur navigation (a backdrop
+   blur over moving content), two infinite full-page background animations, and the aurora's scroll-driven
+   offsets. The nav is now a near-solid white pill and the backgrounds are still, so scrolling is just
+   compositing. */
+.nav,.nav.on{
+  -webkit-backdrop-filter:none !important; backdrop-filter:none !important;
+  background:rgba(255,255,255,.95) !important;
+}
+.aurora i{ animation:none !important; translate:none !important; }
+html::before{ animation:none !important; }
