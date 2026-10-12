@@ -20,7 +20,7 @@
 White text on `#5B7C65` is about 4.6:1 (AA for body text). Use terracotta for accents and large text only.
 
 ## Type
-Fraunces (soft serif) for headlines, Inter for UI and body. For rounder UI, try Nunito or DM Sans for labels. Body 16-18px at 1.65 line height, headlines at -0.02em tracking.
+Geist for headlines and body (v10; it replaced Fraunces and Instrument Sans). For rounder UI, try Nunito or DM Sans for labels. Body 16-18px at 1.65 line height, headlines at -0.02em tracking.
 
 ## Tailwind recipes (for a React port)
 ```

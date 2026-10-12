@@ -2,3 +2,8 @@
 .agents/
 .claude/skills/
 skills-lock.json
+
+.wp-cache/
+
+# Local session data from a posting tool: cookies and tokens, never committed
+.openpost/

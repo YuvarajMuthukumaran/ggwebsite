@@ -7,8 +7,8 @@
    ============================================================ */
 
 :root{
-  --display: "Fraunces", "Hoefler Text", Georgia, serif;
-  --sans: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --display: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --accent: #8A6A3B;            /* single restrained accent — bronze */
   --paper:  #FBF7EF;            /* card surface, warmer than pure white */
@@ -30,7 +30,7 @@ h1,h2,h3,h4,
 .svc h3,.step h3,.press h4,.mt h3,.reel li h3,.intro__name,
 .tband__in h2,.bk__h,.foot-mark,footer b,.stats b,.step b{
   font-family:var(--display) !important;
-  font-variation-settings:"SOFT" 0,"WONK" 0,"opsz" 110;
+  font-variation-settings:normal;
   letter-spacing:-.022em;
   font-weight:400;
   text-wrap:balance;

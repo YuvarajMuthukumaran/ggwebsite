@@ -94,7 +94,7 @@ was carried over.
 
 Three things need your decision:
 
-1. **Years in practice — confirmed as 40+ by the client.** The site now says
+1. **Years in practice — confirmed as 40+ by the client (superseded in v11: now "since 1997").** The site then said
    "40+ years" / "four decades" throughout. Note this is higher than any figure
    on the old site, which stated 25+, 28 and 30 in three different places, and
    higher than directory listings implying an MD in 1997. Worth making sure the
@@ -392,3 +392,187 @@ mark, so it is worth a nod from whoever owns the brand. If they would rather not
 crop it, the better alternative is to drop the logo from the nav entirely and
 run a typographic lockup there: this is Dr. Gupta's personal site, the full logo
 already appears twice further down, and the top bar links to Tulasi by name.
+
+## v10: client review round
+
+Feedback came in over WhatsApp. Everything below is in `index.html` plus one new
+last layer, `assets/css/refresh.css`, and one new script, `assets/js/gallery.js`.
+
+| Feedback | What changed |
+| --- | --- |
+| "Logo is not complete" | The full Tulasi logo (hands, brain, lettering) now sits top-left of the doctor card (`.hero__logo`), from a new transparent asset `assets/img/tulasi-logo-nav.webp` (the white box is gone). The nav carries the name only; `tulasi-mark.png` is no longer used. |
+| "Heading font can be changed" and the clipped "H" | Headings and body are now **Geist** (loaded in the `<link>` in the head). The clipped first letter came from the word-mask reveal on `h2` (`overflow:hidden` with about 3px of padding); that split was removed in `site.js`, and `.wd` can no longer clip. |
+| "Leading psychiatrist in Delhi NCR, pls change" | The hero title, `<title>`, meta description, Open Graph and Twitter titles now say **Senior Psychiatrist in Delhi NCR**. It keeps the search keyword and drops the superlative "leading", which medical-advertising rules in India discourage. Say if you want different wording. |
+| "Write professional journey" | New `#journey` section, **Professional journey**: six entries (Training, Clinical practice, Tulasi Healthcare, Public service, Recognition, 2024). Only facts already on the site are used. **No dates were added**; the README note on MBBS/MD years still applies. |
+| "Add a picture section" | New `#gallery` section, **Seminars, conferences and OPD**: one real photograph (the consulting room) with a click-to-enlarge view, and three written items beside it (OPD and community camps, seminars and conferences, writing and public awareness). The text uses only facts already on the site. |
+| "Relevant icons for each disease" | Phosphor icons (regular weight, inlined): pill, overlapping circles, brain, mood wave, rain cloud, spiral, mask. |
+| Logo to the top-left of the doctor card | Done, see row one. |
+| More description above the videos | Longer intro under "Hear it from the doctor", plus a one-line description under each film. These were written from each film's on-screen captions. |
+| "Visit the Tulasi Healthcare website" band | Reworked as **Part of Tulasi Healthcare**: no pasted-in logo card, the two institutions listed, and a plain text link. |
+| Locations to the two GMB listings | The consulting-room cards, the footer addresses and the two "on Google" pills now point to the share.google listings, and `hasMap` was added to the JSON-LD. The link ending `T2NTrf...` is mapped to New Delhi and `ZI81WG...` to Gurugram (the second resolves to "Dr. Gorav Gupta Psychiatrist in Gurgaon"); swap them if that is wrong. |
+
+Also applied from the taste-skill checklist: no em-dashes in visible text, fewer
+section eyebrows, middle-dots replaced by commas in the hero and footer, a solid
+(not gradient) name, a nav that no longer shrinks to a width it cannot fill.
+
+### Adding more gallery photos
+
+The section is built around one photograph on purpose. To add another, copy the
+`<figure class="gal__fig">` block in `index.html` (inside `#gallery`), point
+`data-full` at the full photo and the `<img>` at a `-md` copy in
+`assets/img/gallery/` (about 1600px and 1000px wide, WebP), and give it a
+descriptive `alt` and a plain caption. Wrap two or more figures in their own grid
+if you want a row of photos; the lightbox in `assets/js/gallery.js` works on any
+`.gal__btn`.
+
+### Open items
+
+- **Seminars and conferences wording.** The text says he is a member of the
+  three psychiatric societies and "a participant at professional seminars and
+  conferences". That last part comes from the client asking for conference
+  photos, not from a source on the old site. Event names and dates, if the client
+  wants them, need to come from them.
+- **Phone number in film 2.** The end card of `film-2.mp4` shows
+  **7707070002**, not the site's +91 88000 00255. Confirm which is current.
+- **Dark mode** was not added; it would mean reworking all fifteen CSS layers.
+
+## v11: multi-page site
+
+The single page is now seven real pages that share one header and footer. The
+earlier sections of this README describe the single page (kept in
+`legacy/single-page-v10.html`); this section is current.
+
+### Pages and the journey
+
+| URL | File | Job |
+| --- | --- | --- |
+| `/` | `index.html` | Landing: hero, areas of care, short About, journey milestones, film teaser, reviews |
+| `/about-us/` | `about-us/index.html` | Trust: the doctor, Tulasi's centre, home and outreach, OPD, camps and seminars |
+| `/journey/` | `journey/index.html` | Credibility: the dated timeline (education, positions, public service, memberships) |
+| `/services/` | `services/index.html` | Need: all eight areas of care and how treatment works |
+| `/video-gallery/` | `video-gallery/index.html` | Proof: the three films, and why to watch them |
+| `/publication/` | `publication/index.html` | Proof: press and writing |
+| `/contactus/` | `contactus/index.html` | Primary action: call, WhatsApp, 3-step request, both Google listings, FAQ |
+| any other | `404.html` | Not found |
+
+Every page ends in **Book Consultation**, which goes to `/contactus/`. The slugs
+`about-us`, `services`, `publication`, `video-gallery` and `contactus` are the old
+WordPress URLs, kept so existing links and search ranking carry over. `/journey/`
+is new. The old site's condition, blog, "Ask the Doctor" and "Mental Health" pages
+were **not** rebuilt; they need the doctor's review first.
+
+### Editing and building
+
+Edit the **sources**, then rebuild. Never edit the generated `index.html` or the
+`*/index.html` files by hand; the next build overwrites them.
+
+```
+src/pages/*.html        one file per page: a <!--meta {...}--> block, then the body
+src/partials/*.html     head, header, footer, floating buttons, intro (shared)
+tools/build_site.py     the build
+```
+
+```bash
+python tools/build_site.py      # writes the pages, sitemap.xml and assets/css/bundle.css
+npx serve .                     # then open http://localhost:3000
+```
+
+The build also concatenates the sixteen CSS layers, in the old cascade order, into
+one `assets/css/bundle.css`, so each page makes one stylesheet request. **Edit the
+layers in `assets/css/`, not the bundle**, and rebuild. To add a page, copy a file in
+`src/pages/`, change its meta (`slug`, `nav`, `title`, `description`, `crumb`) and
+rebuild; add a `nav` key to `NAV` in the build and a link in `partials/header.html`
+if it belongs in the menu.
+
+Placeholders: `{{root}}` (path back to the site root), `{{wa}}`, `{{waicon}}`,
+`{{delhi}}`, `{{gurugram}}`.
+
+### What the build gives you
+
+- One header and footer; the current page is marked `aria-current="page"` and
+  highlighted in the menu (also in the phone menu).
+- Skip link, one `<h1>` per page, breadcrumbs, per-page title, description,
+  canonical and Open Graph tags, breadcrumb structured data (full practice graph on
+  the home page), `sitemap.xml`.
+- Page-to-page fade using cross-document view transitions (Chrome and Edge; other
+  browsers navigate normally). The header stays still. Off under reduced motion.
+- The opening curtain plays once per browser session, on the first visit only.
+- Scripts load per page: `gallery.js` on About, `films.js` on Video Gallery.
+
+### The journey page
+
+Built from the LinkedIn experience and education the client supplied: M.B.B.S.
+1987 to 1992 (Maulana Azad Medical College), M.D. 1994 to 1997 (Lady Hardinge
+Medical College), Founder and CEO of Tulasi Healthcare (Jan 1999 to Jan 2025),
+Head of Department, Psychiatry, Batra Hospital (2001 to 2009), Honorary Visiting
+Consultant, Sir Ganga Ram Hospital (2001 to 2010), Founder, Tulasi Healthcare
+(Apr 2002 to present), President, Mental Research Society (2005 to 2021), Member,
+Central Mental Health Authority (2018 to 2021), plus the existing 2024 NITI Aayog
+task force, free OPD, government work and the Economic Times award. LinkedIn shows
+two of four education entries; ask for the other two.
+
+### Open items for the client
+
+- **Years in practice: resolved, but confirm the year.** "40+ years" was removed
+  everywhere because the LinkedIn dates did not support it. The site now says "in
+  practice since 1997" (the year the M.D. was completed) and the hero stat shows the
+  years since then (29+ in 2026). The year lives in one place, `PRACTICE_SINCE` in
+  `tools/build_site.py`; change it there and rebuild. If the client counts from the
+  M.B.B.S. (1992) instead, set it to 1992 and the prose and the number follow.
+- **M.D. subject.** LinkedIn gives the field as "Physical Medicine and
+  Rehabilitation / Psychiatry Residency Program"; the site says "M.D. Psychiatry".
+  The Journey page shows the LinkedIn wording verbatim.
+- **Seminars and conferences** wording on About is general; real event names and
+  dates, and more photographs, would strengthen it.
+- **Film 2** ends on a card showing 7707070002, not +91 88000 00255.
+- **Eating disorders** was added to Services from the old site's own page.
+
+## v12: home restored, and the old site's content imported
+
+The home page is the single-page design again (all twelve sections, `src/pages/home.html`),
+keeping the "in practice since 1997" wording. It now links onward to the other pages.
+This supersedes the v11 note that the old condition, blog, "Ask the Doctor" and "Mental
+Health" pages were not rebuilt: **all of them are now on the site**, with the doctor's consent.
+
+| What | Where |
+| --- | --- |
+| 26 pages (conditions, FAQ, Ask the Doctor, mental health tests, local pages) | at their old URLs, e.g. `/schizophrenia-psychiatrist-delhi-gurgaon-ncr/` |
+| 98 blog posts | `/blog/<slug>/` (old URLs kept, including the Hindi ones) |
+| Blog index, 12 per page | `/blog/`, `/blog/page/2/` and so on |
+| Resources hub (tests, FAQ, videos, publications, testimonials, latest posts) | `/resources/` |
+| Condition guides grouped by area | `/services/` (below the cards) |
+| 6 client testimonials from the old home page | `/testimonials/` |
+| 11 YouTube videos from the old gallery, plus the 3 films | `/video-gallery/` |
+| Full publications list (10 links, Hindi ones included) | `/publication/` |
+
+Text was imported verbatim from the old site through its public content API
+(`tools/import_wp.py`, a one-off; its source files are now `src/content/pages|posts/`).
+An audit against the live pages found the schizophrenia page 100% present (61 of 61
+text blocks); across all 124 imported items 96% of blocks are identical and the rest are
+template furniture (a leftover San Francisco placeholder address, contact boxes, forms)
+and the doctor-bio blocks, which now appear as the author box. Images were localised
+(77 imported, resized to WebP; 11 more were already 404 on the old site and are dropped).
+
+What was changed rather than copied:
+
+- **Years of experience.** The old site gives 20, 25, 28 and 30 in different places. Claims
+  about the doctor were reworded to "since 1997"; every change is listed in
+  `docs/migration-adaptations.md`. A few unrelated claims (research "over the past 25
+  years", Tulasi "running for more than 28 years") were left alone.
+- Old forms and widgets were dropped; FAQ accordions became `<details>`; ALL-CAPS headings
+  were sentence-cased; five internal links that were already dead on the old site were
+  pointed at the closest live page; a junk `tel:` placeholder was removed.
+
+### For the doctor to review
+
+- **Superlatives.** The old copy says "best", "top", "No. 1" and "leading" throughout, and
+  it was carried over as written. That sits oddly with the earlier request to change the
+  hero line "Leading psychiatrist in Delhi NCR", and Indian medical advertising rules
+  discourage such claims. Decide whether to soften them in `src/content/`.
+- **Facts that disagree on the old site.** Tulasi Home capacity is 40 patients on About Us
+  and 45 on the home page (the newer 45 is used); camps are "bimonthly" on one page and
+  "fortnightly" on another (fortnightly is used); Publications says he is an "active
+  member of the Central Mental Health Authority" while LinkedIn shows 2018 to 2021.
+- The old home page's hero slogans ("Best Psychiatrist in Gurgaon &amp; NCR" and similar)
+  were not put on the new hero.
+- Tag and category archives were not rebuilt; links to them go to `/blog/`.

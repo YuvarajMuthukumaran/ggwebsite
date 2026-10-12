@@ -8,7 +8,7 @@
 /* ---------- 1. Tokens: the original blue palette (v6/v7), unchanged ---------- */
 :root{
   --e:cubic-bezier(.25,.8,.25,1);            /* one gentle curve for everything */
-  --serif:Fraunces,"Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --serif:Geist,system-ui,sans-serif;
   --sh-up:0 2px 4px rgba(80,55,35,.05),0 30px 56px -30px rgba(80,55,35,.34);
 }
 :focus-visible{outline:2px solid var(--blue);outline-offset:3px}

@@ -1,0 +1,234 @@
+/* ============================================================
+   refresh.css  v1. Loads LAST.
+   Client-review pass:
+   - headings in Geist (the earlier serif was clipping and read thin)
+   - complete Tulasi logo at the top-left of the doctor card, not in the nav
+   - Professional journey, Gallery and the Tulasi band as real sections
+   - per-condition icons, film descriptions, Google listings on the rooms
+   New components use their own class names (.jr, .gal, .tband, .room, .lb)
+   so they do not have to fight the older layers. Overrides of older rules
+   carry !important on purpose, matching taste.css.
+   ============================================================ */
+
+:root{ --r-card:16px; --r-pill:999px; }
+
+/* ---------- 1 · HEADING VOICE -------------------------------- */
+h2,.sec h2,.head h2,.rv-head h2,.faqs h2,.tband__in h2{
+  font-weight:500 !important; letter-spacing:-.034em !important; line-height:1.08 !important;
+}
+.svc h3,.step h3,.mt h3,.press h4,.reel li h3,.jr h3,.tband h3,.bk__h,.faqs summary,summary{
+  font-weight:500 !important; letter-spacing:-.018em !important;
+}
+.lead{ font-weight:450 !important; letter-spacing:-.022em !important; line-height:1.36 !important; }
+blockquote{ font-weight:400 !important; letter-spacing:-.012em !important; line-height:1.5 !important; }
+.stats b{ font-weight:500 !important; letter-spacing:-.04em !important; }
+.hero__l strong,.foot-mark,footer b{ font-weight:500 !important; }
+.foot-mark{ letter-spacing:-.05em !important; }
+
+/* the name: Geist at display size needs tighter tracking and a smaller cap */
+.giant,.giant *{ font-weight:500 !important; letter-spacing:-.048em !important; }
+.giant{ font-size:clamp(2.3rem,7.4vw,6.6rem) !important; line-height:1 !important; }
+
+/* solid colour: pro.css paints each letter with a fading gradient, which
+   washes the end of the name out against the portrait */
+.giant .ch{
+  background:none !important; -webkit-background-clip:border-box !important; background-clip:border-box !important;
+  -webkit-text-fill-color:var(--blue-d) !important; color:var(--blue-d) !important;
+}
+/* desktop: the name must clear the portrait's head so it reads in full */
+@media (min-width:1000px){
+  .hero{ --nm:clamp(3.4rem,5.9vw,5.5rem); }
+  .giant{ font-size:var(--nm) !important; top:0 !important; }
+  .qual{ top:calc(6% + var(--nm) * 1.3) !important; }
+}
+
+/* headings are no longer masked word-by-word, so nothing may clip them */
+.sp .wd,.wd{ overflow:visible !important; }
+
+/* ---------- 2 · HERO: title line + complete logo ------------- */
+.h1k{
+  font:500 clamp(.98rem,1.2vw,1.12rem)/1.3 var(--sans) !important;
+  letter-spacing:.004em !important; text-transform:none !important;
+  color:var(--blue-d) !important;
+  padding:clamp(1.3rem,2vw,1.9rem) 1rem 0 !important;
+}
+.hero__logo{
+  position:absolute; z-index:6; display:block; line-height:0;
+  top:clamp(14px,1.8vw,26px); left:clamp(16px,2.4vw,36px);
+  transition:transform .5s var(--e);
+}
+.hero__logo img{ display:block; width:auto; height:clamp(58px,6.6vw,92px); }
+.hero__logo:hover{ transform:translateY(-2px); }
+.hero__logo:focus-visible{ outline:2px solid var(--accent); outline-offset:6px; border-radius:8px; }
+.hero__l p{ max-width:34ch; }
+.qual{ line-height:1.45; }
+
+/* nav carries the name only. The scrolled state used to shrink to 1040px,
+   which cannot hold nine links plus the button, so it stays wide and the
+   link gaps flex with the viewport. */
+@media (min-width:1001px){
+  .nav.on{ width:min(1160px,calc(100% - 24px)) !important; }
+  .nav nav{ gap:clamp(.8rem,1.35vw,1.5rem) !important; }
+  .nav .btn{ white-space:nowrap; }
+}
+
+/* nav carries the name only */
+.brand{ gap:0 !important; }
+.brand span{ line-height:1.15 !important; font-weight:500; letter-spacing:-.012em; }
+.brand small{ display:block; font-weight:500; letter-spacing:.01em !important; color:var(--mut) !important; }
+
+/* ---------- 3 · AREAS OF CARE: icons ------------------------- */
+.ico{ width:46px !important; height:46px !important; }
+.ico svg{ width:24px !important; height:24px !important; fill:currentColor !important; stroke:none !important; }
+
+/* ---------- 4 · ABOUT ---------------------------------------- */
+.about{
+  display:grid !important; grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  gap:clamp(2rem,5vw,4.5rem); align-items:start;
+}
+.about__fig{ margin:0; }
+.about__fig img{
+  display:block; width:100%; height:auto; aspect-ratio:5/5.2; object-fit:cover; object-position:64% 30%;
+  border-radius:var(--r-card);
+}
+.about__facts{
+  grid-column:1/-1; margin:0; padding:0 !important;
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); overflow:hidden;
+}
+.about__facts>div{ padding:1.3rem 1.5rem; border:0 !important; border-left:1px solid var(--hair) !important; }
+.about__facts>div:nth-child(3n+1){ border-left:0 !important; }
+.about__facts>div:nth-child(n+4){ border-top:1px solid var(--hair) !important; }
+.about__facts dt{ margin:0 0 .35rem; font-size:.74rem; }
+.about__facts dd{ margin:0; }
+
+/* ---------- 5 · PROFESSIONAL JOURNEY ------------------------- */
+.jr{
+  display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr);
+  gap:clamp(2rem,6vw,5.5rem); align-items:start;
+}
+.jr__intro{ position:sticky; top:116px; }
+.jr__intro h2{ margin:0 0 1rem; }
+.jr__lede{ margin:0 0 1.7rem; max-width:34ch; font-size:1.1rem; line-height:1.6; color:var(--mut); }
+.jr__list{ list-style:none; margin:0; padding:0; position:relative; display:grid; gap:clamp(1.5rem,2.6vw,2.2rem); }
+.jr__list:before{ content:""; position:absolute; left:23px; top:26px; bottom:26px; width:1px; background:var(--hair); }
+.jr__list>li{ position:relative; display:grid; grid-template-columns:48px minmax(0,1fr); gap:1.25rem; }
+.jr__ic{
+  position:relative; z-index:1; width:48px; height:48px; display:grid; place-items:center;
+  border-radius:50%; background:var(--paper); border:1px solid var(--hair); color:var(--blue);
+}
+.jr__ic svg{ width:24px; height:24px; }
+.jr__k{ display:block; margin-bottom:.3rem; font-size:.84rem; font-weight:600; color:var(--accent); }
+.jr__b h3{ margin:0 0 .5rem; font-size:clamp(1.2rem,1.8vw,1.45rem); line-height:1.2; }
+.jr__b p{ margin:0 0 .85rem; max-width:62ch; color:var(--mut); line-height:1.65; }
+.jr__tags{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.4rem; }
+.jr__tags li{
+  display:block; padding:.26rem .7rem; border:1px solid var(--hair); border-radius:var(--r-pill);
+  font-size:.76rem; line-height:1.35; color:var(--mut); background:transparent;
+}
+
+/* ---------- 6 · SEMINARS, CONFERENCES AND OPD ----------------
+   One real photograph with written content beside it. */
+.gal .head{ margin-bottom:clamp(1.6rem,3vw,2.4rem) !important; }
+.gal__grid{ display:grid; grid-template-columns:minmax(0,7fr) minmax(0,5fr); gap:clamp(1.8rem,4.5vw,4rem); align-items:center; }
+.gal__fig{ margin:0; min-width:0; }
+.gal__btn{
+  position:relative; display:block; width:100%; padding:0; border:0; cursor:zoom-in; overflow:hidden;
+  border-radius:var(--r-card); aspect-ratio:3/2; background:var(--tint);
+}
+.gal__btn img{ display:block; width:100%; height:100%; object-fit:cover; transition:transform .9s var(--e); }
+.gal__btn:hover img{ transform:scale(1.03); }
+.gal__btn:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+.gal__fig figcaption{ margin-top:.7rem; font-size:.88rem; color:var(--mut); }
+.gal__txt{ display:grid; gap:clamp(1.4rem,2.4vw,2rem); }
+.gal__item{ display:grid; grid-template-columns:46px minmax(0,1fr); gap:1.1rem; align-items:start; }
+.gal__ic{ width:46px; height:46px; display:grid; place-items:center; border-radius:12px; border:1px solid var(--hair); color:var(--blue); background:var(--paper); }
+.gal__ic svg{ width:24px; height:24px; }
+.gal__item h3{ margin:0 0 .4rem; font-size:1.2rem; line-height:1.2; }
+.gal__item p{ margin:0; max-width:46ch; color:var(--mut); line-height:1.65; }
+
+/* lightbox */
+.lb{ border:0; padding:0; background:transparent; max-width:min(1100px,94vw); max-height:94vh; overflow:visible; }
+.lb::backdrop{ background:rgba(26,36,30,.84); }
+.lb__img{ display:block; max-width:100%; max-height:80vh; margin:0 auto; border-radius:var(--r-card); }
+.lb__cap{ margin:.8rem 0 0; text-align:center; color:#f3efe6; font-size:.95rem; }
+.lb__x{
+  position:absolute; top:-16px; right:-16px; width:38px; height:38px; display:grid; place-items:center;
+  border:0; border-radius:50%; background:#fbf7ef; color:var(--ink); font:400 1.5rem/1 var(--sans); cursor:pointer;
+}
+.lb__x:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
+
+/* ---------- 7 · FILMS: description ---------------------------- */
+.films__lede{ max-width:64ch !important; font-size:1.05rem !important; line-height:1.65 !important; color:var(--mut) !important; }
+.reel .rd{
+  display:block; margin-top:.5rem; max-width:54ch; font-size:.84rem !important; line-height:1.5; color:var(--mut) !important;
+  letter-spacing:0 !important; text-transform:none !important;
+}
+
+/* ---------- 8 · BOOKING: consulting rooms on Google ------------ */
+.rooms .room{ position:relative; }
+.room__go{
+  display:inline-flex; align-items:center; gap:.3rem; margin-top:.75rem;
+  font-size:.82rem; font-weight:600; color:#fff; text-decoration:none;
+}
+.room__go i{ font-style:normal; transition:transform .4s var(--e); }
+.room__go:after{ content:""; position:absolute; inset:0; border-radius:inherit; }
+.room:hover .room__go i{ transform:translate(2px,-2px); }
+.room__go:focus-visible{ outline:2px solid #fff; outline-offset:-4px; border-radius:var(--r-card); }
+footer a[href^="https://share.google"]{ text-decoration:underline; text-underline-offset:3px; text-decoration-color:rgba(255,255,255,.35); }
+
+/* ---------- 9 · TULASI BAND ----------------------------------- */
+.tband{ width:min(1132px,calc(100% - 48px)); margin:2.5rem auto 3.5rem; }
+.tband__in{
+  display:grid !important; grid-template-columns:minmax(0,5fr) minmax(0,7fr);
+  gap:clamp(1.5rem,5vw,4rem); align-items:center;
+  padding:clamp(2rem,3.6vw,3rem) 0 !important; background:none !important; border-radius:0 !important;
+  border:0 !important; border-top:1px solid var(--hair) !important; border-bottom:1px solid var(--hair) !important;
+}
+.tband__in h2{ margin:0 0 .7rem !important; font-size:clamp(1.6rem,2.8vw,2.2rem) !important; }
+.tband__txt p{ margin:0 0 1.2rem !important; max-width:38ch; color:var(--mut); line-height:1.65; }
+.tband__link{
+  display:inline-flex; align-items:center; gap:.4rem; font-weight:600; color:var(--blue-d); text-decoration:none;
+  border-bottom:1px solid currentColor; padding-bottom:2px; transition:gap .4s var(--e);
+}
+.tband__link:hover{ gap:.7rem; }
+.tband__list{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.tband__list li{
+  display:grid; grid-template-columns:44px minmax(0,1fr); gap:.9rem; align-items:start;
+  padding:1.2rem; background:var(--paper); border:1px solid var(--hair); border-radius:var(--r-card);
+}
+.tband__ic{ width:44px; height:44px; display:grid; place-items:center; border-radius:12px; border:1px solid var(--hair); color:var(--blue); }
+.tband__ic svg{ width:24px; height:24px; }
+.tband__list h3{ margin:0 0 .3rem; font-size:1.02rem; line-height:1.25; }
+.tband__list p{ margin:0; font-size:.88rem; line-height:1.55; color:var(--mut); }
+
+/* ---------- 10 · RESPONSIVE ----------------------------------- */
+@media (max-width:980px){
+  .jr{ grid-template-columns:1fr; }
+  .jr__intro{ position:static; }
+  .tband__in{ grid-template-columns:1fr; }
+}
+@media (max-width:860px){
+  .about{ grid-template-columns:1fr; }
+  .about__facts{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .about__facts>div:nth-child(3n+1){ border-left:1px solid var(--hair) !important; }
+  .about__facts>div:nth-child(2n+1){ border-left:0 !important; }
+  .about__facts>div:nth-child(n+3){ border-top:1px solid var(--hair) !important; }
+  .about__facts>div:nth-child(n+4){ border-top:1px solid var(--hair) !important; }
+  .gal__grid{ grid-template-columns:1fr; }
+}
+@media (max-width:640px){
+  .hero__logo img{ height:52px; }
+  .h1k{ padding-top:4.4rem !important; }
+  .about__facts{ grid-template-columns:1fr; }
+  .about__facts>div{ border-left:0 !important; }
+  .about__facts>div:nth-child(n+2){ border-top:1px solid var(--hair) !important; }
+  .tband__list{ grid-template-columns:1fr; }
+  .jr__list>li{ grid-template-columns:40px minmax(0,1fr); gap:.9rem; }
+  .jr__ic{ width:40px; height:40px; }
+  .jr__ic svg{ width:20px; height:20px; }
+  .jr__list:before{ left:19px; }
+}
+@media (prefers-reduced-motion:reduce){
+  .hero__logo,.gal__btn img,.room__go i,.tband__link{ transition:none !important; }
+  .gal__btn:hover img{ transform:none; }
+}
