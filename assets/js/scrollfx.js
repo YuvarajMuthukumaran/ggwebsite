@@ -155,6 +155,7 @@
      read per frame (the container, which never moves) plus measurements taken once, the boxes only get
      transform and opacity (compositor properties, no blur, no custom-property writes), and nothing is
      written when the rounded values have not changed. */
+  var sm = function (t) { return t * t * t * (t * (t * 6 - 15) + 10); };   // smootherstep: eases in and out, no sudden start
   var measures = [];
   $$('[data-fx~="stack"]').forEach(function (stack) {
     var kids = [].slice.call(stack.children), n = kids.length;
@@ -184,7 +185,11 @@
     }
     kids.forEach(function (k, i) { apply(i, 0, 0); });
 
+    var lastT = 0;
     jobs.push({ tick: function () {
+      // time-based damping: the same softness at 60, 90 or 144 fps
+      var now = performance.now(), dt = lastT ? Math.min(50, now - lastT) : 16; lastT = now;
+      var al = 1 - Math.exp(-dt / 190);
       var cTop = stack.getBoundingClientRect().top, bottom = cTop + H, busy = false, pinned = innerWidth >= 700;
       var tops = [];
       for (var i = 0; i < n; i++) {
@@ -192,13 +197,13 @@
         tops[i] = pinned ? Math.min(Math.max(unst, 96 + i * 60), bottom - hs[i]) : unst;
       }
       for (var i = 0; i < n; i++) {
-        var t = clamp((vh * .98 - (cTop + nat[i])) / (vh * .5), 0, 1);
-        arr[i] += (t - arr[i]) * K;
+        var t = clamp((vh * .98 - (cTop + nat[i])) / (vh * .8), 0, 1);
+        arr[i] += (t - arr[i]) * al;
         var ct = (pinned && i < n - 1) ? clamp((tops[i] + hs[i] - tops[i + 1]) / (hs[i] * .9), 0, 1) : 0;
-        cov[i] += (ct - cov[i]) * K;
+        cov[i] += (ct - cov[i]) * al;
         if (Math.abs(t - arr[i]) > .002 || Math.abs(ct - cov[i]) > .002) busy = true;
-        var e = out(arr[i]), key = Math.round(e * 400) + '|' + Math.round(cov[i] * 400);
-        if (key !== last[i]) { last[i] = key; apply(i, e, cov[i]); }
+        var e = sm(arr[i]), cv = sm(cov[i]), key = Math.round(e * 400) + '|' + Math.round(cv * 400);
+        if (key !== last[i]) { last[i] = key; apply(i, e, cv); }
       }
       return busy;
     } });

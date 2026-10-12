@@ -2652,7 +2652,8 @@ html.fx,html.fx body{ overflow-x:clip; }
 .ab2-jny__head{ display:grid; grid-template-columns:minmax(0,7fr) minmax(0,5fr); gap:1rem clamp(2rem,5vw,4.5rem); align-items:end; margin-bottom:clamp(1.4rem,3vw,2.2rem); }
 .ab2-jny__head h2{ margin:0 !important; }
 .ab2-jny__head p{ margin:0 0 .8rem; }
-.ab2-stack{ position:relative; display:grid; gap:clamp(1rem,2vw,1.4rem); padding-bottom:clamp(1rem,3vw,2rem); }
+.ab2-stack{ position:relative; display:grid; gap:clamp(4rem,16vh,9rem); padding-bottom:clamp(1rem,3vw,2rem); }
+@media (max-width:699px){ .ab2-stack{ gap:1rem; } }
 .st-box{
   position:sticky; top:calc(96px + var(--k,0) * 60px); isolation:isolate; overflow:hidden; transform-origin:50% 0;
   display:grid; grid-template-columns:minmax(0,4fr) minmax(0,8fr); gap:clamp(1.4rem,4vw,3.5rem); align-items:start;
