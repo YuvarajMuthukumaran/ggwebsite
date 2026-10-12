@@ -15,9 +15,10 @@
 
 /* heading block keeps the page measure */
 .vr__head{ width:min(1132px,calc(100% - 48px)); margin:0 auto clamp(1rem,2.4vw,2rem); }
-.vr__head h2{ margin:0 0 .9rem !important; max-width:20ch; }
-.vr__lede{ margin:0; max-width:62ch; font-size:1.0625rem; line-height:1.7; color:var(--mut); }
-.vr__more{ width:min(1132px,calc(100% - 48px)); margin:.5rem auto 0; }
+.vr__head{ text-align:center; }
+.vr__head h2{ margin:0 auto .9rem !important; max-width:22ch; }
+.vr__lede{ margin:0 auto; max-width:62ch; font-size:1.0625rem; line-height:1.7; color:var(--mut); }
+.vr__more{ width:min(1132px,calc(100% - 48px)); margin:.5rem auto 0; text-align:center; }
 
 /* soft backdrop taken from the film that is centred */
 .vr__stage{ position:relative; }

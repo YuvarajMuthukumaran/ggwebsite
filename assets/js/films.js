@@ -3,12 +3,30 @@
    scroll-driven 3D layer on top: each card is placed in depth from its distance to the centre,
    the whole deck gathers and fans out as the section scrolls into view, the playing card tilts
    toward the pointer, and the media inside each card moves slower than the card (parallax).
-   Only the centred film plays. */
+   Only the centred film plays. The rail loops: three copies of the films sit side by side and the view is
+   moved back to the middle copy, unseen, whenever it settles on an outer one, so after the last film the
+   first one comes round again (and the other way). */
 (function () {
   var root = document.querySelector('[data-vr]');
   if (!root) return;
 
   var sec = root.closest('.vr'), rail = root.querySelector('.vr__rail'), glow = root.querySelector('.vr__glow');
+  var originals = [].slice.call(rail.querySelectorAll('.vr__slide'));
+  var N = originals.length;
+  function copyOf(s) {
+    var c = s.cloneNode(true);
+    c.classList.add('is-clone'); c.setAttribute('aria-hidden', 'true');
+    ['role', 'aria-roledescription', 'aria-label'].forEach(function (a) { c.removeAttribute(a); });
+    [].slice.call(c.querySelectorAll('button')).forEach(function (b) { b.tabIndex = -1; });
+    return c;
+  }
+  if (N > 1) {
+    var before = d_frag(), after = d_frag();
+    originals.forEach(function (s) { before.appendChild(copyOf(s)); after.appendChild(copyOf(s)); });
+    rail.insertBefore(before, originals[0]);
+    rail.appendChild(after);
+  }
+  function d_frag() { return document.createDocumentFragment(); }
   var slides = [].slice.call(rail.querySelectorAll('.vr__slide'));
   var cards = slides.map(function (s) { return s.querySelector('.vr__card'); });
   var vids = slides.map(function (s) { return s.querySelector('video'); });
@@ -80,8 +98,8 @@
     cur = i;
     slides.forEach(function (s, k) { s.classList.toggle('is-near', Math.abs(k - i) === 1); });
     slides[i].classList.add('is-on');
-    dots.forEach(function (d, k) { d.classList.toggle('is-on', k === i); d.setAttribute('aria-current', k === i ? 'true' : 'false'); });
-    prev.disabled = i === 0; next.disabled = i === slides.length - 1;
+    var real = ((i % N) + N) % N;
+    dots.forEach(function (d, k) { d.classList.toggle('is-on', k === real); d.setAttribute('aria-current', k === real ? 'true' : 'false'); });
     [i - 1, i, i + 1].forEach(function (k) { if (vids[k] && vids[k].preload === 'none') vids[k].preload = 'metadata'; });
     vids[i].muted = !wantSound;
     syncSound();
@@ -123,7 +141,7 @@
     v.addEventListener('timeupdate', function () {
       if (v.duration) cards[i].style.setProperty('--p', (v.currentTime / v.duration).toFixed(4));
     });
-    v.addEventListener('ended', function () { if (i === cur) go(i + 1 < slides.length ? i + 1 : 0); });
+    v.addEventListener('ended', function () { if (i === cur) go(i + 1 < slides.length ? i + 1 : N); });
   });
 
   /* ---------------------------------------------------------------- controls */
@@ -142,15 +160,21 @@
       if (vids[i].paused) play();
     });
   });
-  dots.forEach(function (d, i) { d.addEventListener('click', function () { go(i); }); });
+  dots.forEach(function (d, k) {
+    d.addEventListener('click', function () {
+      var best = k + N, bd = 1e9;
+      [k, k + N, k + 2 * N].forEach(function (c) { var dd = Math.abs(c - cur); if (dd < bd) { bd = dd; best = c; } });
+      go(best);
+    });
+  });
   prev.addEventListener('click', function () { go(cur - 1); });
   next.addEventListener('click', function () { go(cur + 1); });
   rail.addEventListener('keydown', function (e) {
     var k = e.key;
     if (k === 'ArrowRight') { e.preventDefault(); go(cur + 1); }
     else if (k === 'ArrowLeft') { e.preventDefault(); go(cur - 1); }
-    else if (k === 'Home') { e.preventDefault(); go(0); }
-    else if (k === 'End') { e.preventDefault(); go(slides.length - 1); }
+    else if (k === 'Home') { e.preventDefault(); go(N); }
+    else if (k === 'End') { e.preventDefault(); go(2 * N - 1); }
   });
 
   /* mouse drag (touch and trackpads already scroll natively) */
@@ -201,13 +225,30 @@
     if (document.hidden) { if (cur > -1) vids[cur].pause(); } else if (inView && !reduce && cur > -1) { play(); }
   });
 
+  /* the loop: when the rail settles on an outer copy, jump to the same film in the middle copy */
+  var endT = 0;
+  function recentre() {
+    if (N < 2 || cur < 0 || down) return;
+    var t = cur < N ? cur + N : cur >= 2 * N ? cur - N : -1;
+    if (t < 0) return;
+    var from = vids[cur], to = vids[t], playing = !from.paused;
+    try { to.currentTime = from.currentTime; } catch (err) {}
+    from.pause();
+    var s = slides[t];
+    rail.style.scrollSnapType = 'none';
+    rail.scrollLeft = s.offsetLeft + s.offsetWidth / 2 - rail.clientWidth / 2;
+    rail.style.scrollSnapType = '';
+    activate(t, true);
+    if (playing && inView && !reduce) play();
+    queue();
+  }
+  rail.addEventListener('scroll', function () { clearTimeout(endT); endT = setTimeout(recentre, 170); }, { passive: true });
   rail.addEventListener('scroll', queue, { passive: true });
   addEventListener('scroll', queue, { passive: true });
-  addEventListener('resize', function () { go(cur < 0 ? 0 : cur, true); queue(); });
+  addEventListener('resize', function () { go(cur < 0 ? N : cur, true); queue(); });
 
-  /* start on the first film, centred */
-  rail.scrollLeft = 0;
-  go(0, true);
+  /* start on the first film (of the middle copy), centred */
+  go(N, true);
   frame();
-  requestAnimationFrame(function () { go(0, true); frame(); });
+  requestAnimationFrame(function () { go(N, true); frame(); });
 })();

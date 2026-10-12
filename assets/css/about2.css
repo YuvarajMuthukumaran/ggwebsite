@@ -196,3 +196,9 @@ html.fx .st-box.landed .st-tags li{ opacity:1; transform:none; transition:opacit
 /* the button next to the link in the journey heading (home) */
 .ab2-jny__act{ display:flex; flex-wrap:wrap; align-items:center; gap:.8rem 1.4rem; }
 .ab2-jny__act .more__a{ margin:0; }
+
+/* tags that link out: the whole pill is the target */
+.st-tags li:has(a){ padding:0; }
+.st-tags li a{ display:block; padding:.34rem .8rem; }
+.st-tags li:has(a):hover{ border-color:var(--blue); background:var(--tint); }
+.st-tags li a i{ font-style:normal; font-size:.85em; }

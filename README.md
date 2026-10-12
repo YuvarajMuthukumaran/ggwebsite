@@ -664,4 +664,12 @@ psychiatry", "issues,", "Delhi psychiatrist Society" to the name used elsewhere 
 - **Polish pass** (end of `home2.css`, section 15): services grid balanced (the long seventh card spans two columns, the link tile
   fills the last cell), home About text on the About page's type scale, quieter film backdrop, the Breathe pill hidden under 900px,
   smaller floating buttons on phones, and browser-drawn details (selection colour, caret, form accent, focus ring, text wrapping).
+- **Film rail loops.** `films.js` keeps three copies of the films side by side and, whenever the view settles on an outer copy,
+  moves back to the middle one unseen (carrying the playing position), so after film 5 comes film 1 and the other way round.
+  The heading above the rail is centred.
+- **Whole cards are links** (home service cards and the Services page): the "Read more" link stretches over its card; a second link in
+  a card (Anxiety and OCD) stays separately clickable. The Tulasi pills in the home journey link to tulasihealthcare.com.
+- **Responsive check:** home, About, Services, Journey, Contact, Resources, Video Gallery, Blog and a condition page were measured at
+  320, 375, 768, 1024, 1280, 1920 and 2560px: no horizontal overflow anywhere, the nav switches to the burger below 901px, and no
+  readable text is set below 12.5px. The About page's facts panel was removed (the home page keeps its own).
 
