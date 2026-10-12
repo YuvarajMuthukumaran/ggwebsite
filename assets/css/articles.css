@@ -37,7 +37,7 @@
 .prose__in ul,.prose__in ol{ margin:0 0 1.3rem; padding-left:1.35rem; }
 .prose__in li{ margin:0 0 .45rem; padding-left:.2rem; }
 .prose__in li::marker{ color:var(--blue); }
-.prose__in a{ color:var(--blue-d); text-decoration:underline; text-decoration-color:rgba(63,107,87,.4); text-underline-offset:3px; transition:text-decoration-color .3s ease; }
+.prose__in a{ color:var(--blue-d); text-decoration:underline; text-decoration-color:rgba(34,78,145,.4); text-underline-offset:3px; transition:text-decoration-color .3s ease; }
 .prose__in a:hover{ text-decoration-color:currentColor; }
 .prose__in strong{ font-weight:600; }
 .prose__in figure{ margin:1.8rem 0; }
@@ -48,7 +48,7 @@
 .prose__in th,.prose__in td{ padding:.7rem .9rem; text-align:left; vertical-align:top; border-bottom:1px solid var(--hair); }
 .prose__in th{ background:var(--tint); font-weight:600; }
 .prose__in tr:last-child td{ border-bottom:0; }
-.prose__in .video{ position:relative; margin:1.8rem 0; aspect-ratio:16/9; border-radius:var(--r-card,16px); overflow:hidden; background:#000; }
+.prose__in .video{ position:relative; margin:1.8rem 0; aspect-ratio:16/9; border-radius:var(--r-card,16px); overflow:hidden; background:#000000; }
 .prose__in .video iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
 .prose__in details.qa{ margin:0 0 .7rem; padding:0 1.2rem; }
 .prose__in details.qa>summary{ cursor:pointer; padding:1rem 1.6rem 1rem 0; font-weight:500; line-height:1.4; list-style:none; position:relative; }
@@ -106,7 +106,7 @@
 .pager__n{ display:flex; flex-wrap:wrap; gap:.4rem; }
 .pager a{ display:inline-grid; place-items:center; min-width:2.4rem; height:2.4rem; padding:0 .5rem; border:1px solid var(--hair); border-radius:999px; color:var(--ink); text-decoration:none; font-size:.92rem; transition:background .3s ease,color .3s ease; }
 .pager a:hover{ border-color:var(--blue); }
-.pager a[aria-current]{ background:var(--blue); border-color:var(--blue); color:#fff; }
+.pager a[aria-current]{ background:var(--blue); border-color:var(--blue); color:#ffffff; }
 .pager .pager__s{ padding:0 1rem; }
 
 /* ---------- 4 · ABOUT: biography ------------------------------ */
@@ -126,11 +126,11 @@
 
 /* ---------- 6 · VIDEOS: the YouTube grid ---------------------- */
 .ytl{ list-style:none; margin:0 0 1.6rem; padding:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.6rem 1.2rem; }
-.yt{ position:relative; aspect-ratio:16/9; border-radius:var(--r-card,16px); overflow:hidden; background:#10201a; }
+.yt{ position:relative; aspect-ratio:16/9; border-radius:var(--r-card,16px); overflow:hidden; background:#081223; }
 .yt__btn{ position:absolute; inset:0; width:100%; height:100%; padding:0; border:0; cursor:pointer; background:none; }
 .yt__btn img{ display:block; width:100%; height:100%; object-fit:cover; transition:transform .8s var(--e); }
 .yt__btn:hover img{ transform:scale(1.03); }
-.yt__play{ position:absolute; left:50%; top:50%; width:56px; height:56px; margin:-28px 0 0 -28px; display:grid; place-items:center; border-radius:50%; background:rgba(251,247,239,.94); color:var(--blue-d); box-shadow:0 10px 30px -10px rgba(0,0,0,.5); }
+.yt__play{ position:absolute; left:50%; top:50%; width:56px; height:56px; margin:-28px 0 0 -28px; display:grid; place-items:center; border-radius:50%; background:rgba(252,253,254,.94); color:var(--blue-d); box-shadow:0 10px 30px -10px rgba(0,0,0,.5); }
 .yt__play svg{ width:22px; height:22px; fill:currentColor; margin-left:3px; }
 .yt__btn:focus-visible{ outline:3px solid var(--accent); outline-offset:-3px; }
 .yt iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }

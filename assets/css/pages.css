@@ -27,9 +27,9 @@ html.inner main{ min-height:60vh; }
 /* ---------- 2 · SKIP LINK ------------------------------------- */
 .skip{
   position:fixed; left:12px; top:-64px; z-index:300; padding:.7rem 1.1rem; border-radius:10px;
-  background:var(--ink); color:#fff; font-weight:500; transition:top .2s ease;
+  background:var(--ink); color:#ffffff; font-weight:500; transition:top .2s ease;
 }
-.skip:focus{ top:12px; outline:2px solid #fff; outline-offset:2px; }
+.skip:focus{ top:12px; outline:2px solid #ffffff; outline-offset:2px; }
 
 /* ---------- 3 · PAGE HEADER ----------------------------------- */
 .ph{ max-width:1180px; margin:0 auto; padding:clamp(2.2rem,5vw,4.2rem) 24px clamp(.6rem,2vw,1.4rem); }
@@ -50,11 +50,11 @@ html.inner main{ min-height:60vh; }
 .ctab{ width:min(1132px,calc(100% - 48px)); margin:clamp(2rem,5vw,4rem) auto clamp(3rem,6vw,5rem); }
 .ctab__in{
   display:grid; grid-template-columns:minmax(0,1fr) auto; gap:clamp(1.5rem,4vw,3rem); align-items:center;
-  padding:clamp(1.8rem,4vw,3.2rem); border-radius:32px; color:#f3efe6;
-  background:linear-gradient(145deg,#1C2A23 0%,#254034 100%);
+  padding:clamp(1.8rem,4vw,3.2rem); border-radius:32px; color:#f9fbfd;
+  background:linear-gradient(145deg,#0b1b33 0%,#11264a 100%);
 }
-.ctab h2{ margin:0 0 .7rem; color:#fff !important; font-size:clamp(1.7rem,3.2vw,2.6rem) !important; }
-.ctab p{ margin:0; max-width:46ch; color:rgba(243,239,230,.8); line-height:1.65; }
+.ctab h2{ margin:0 0 .7rem; color:#ffffff !important; font-size:clamp(1.7rem,3.2vw,2.6rem) !important; }
+.ctab p{ margin:0; max-width:46ch; color:rgba(249,251,253,.8); line-height:1.65; }
 .ctab__act{ display:flex; flex-wrap:wrap; gap:.7rem; }
 .ctab .btn{ white-space:nowrap; }
 
@@ -83,7 +83,7 @@ html.inner main{ min-height:60vh; }
 .row__t span{ display:block; font-size:.93rem; line-height:1.55; color:var(--mut); }
 .row__go{ font-style:normal; color:var(--blue); transition:transform .4s var(--e); }
 .row:hover .row__go{ transform:translateX(4px); }
-.row:hover .ico,.row:focus-visible .ico{ background:var(--blue) !important; color:#fff !important; border-color:var(--blue); }
+.row:hover .ico,.row:focus-visible .ico{ background:var(--blue) !important; color:#ffffff !important; border-color:var(--blue); }
 .row:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; border-radius:8px; }
 
 /* ---------- 7 · HOME: about teaser ---------------------------- */
