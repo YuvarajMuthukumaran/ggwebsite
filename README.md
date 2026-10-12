@@ -576,3 +576,12 @@ What was changed rather than copied:
 - The old home page's hero slogans ("Best Psychiatrist in Gurgaon &amp; NCR" and similar)
   were not put on the new hero.
 - Tag and category archives were not rebuilt; links to them go to `/blog/`.
+
+### Booking block and the top line
+
+The "Book a consultation" block (`#appoint`, on the home and contact pages) is restyled in
+`assets/css/booking.css` as an open layout on the page background: a hairline rule instead of
+the dark rounded container, two address rows instead of nested boxes, and one form panel.
+The older layers style it with `!important`, so the overrides are scoped to `#appoint`.
+The line at the very top of the home hero, and the home page `<title>` and share preview,
+now read "Best doctor in Delhi NCR" (set in `src/pages/home.html`).
