@@ -2430,6 +2430,24 @@ h1,h2,h3{ text-wrap:balance; }
 }
 .aurora i{ animation:none !important; translate:none !important; }
 html::before{ animation:none !important; }
+
+
+.strip p{ display:none; }
+.strip a{ font-weight:500; color:var(--ink); }
+.strip a:hover{ color:var(--blue-d); }
+
+a.fl.fl1{ text-decoration:none; color:inherit; transition:translate .4s var(--e),box-shadow .4s ease; }
+a.fl.fl1:hover{ translate:0 -3px; box-shadow:0 18px 34px -18px rgba(29,83,154,.55); }
+
+.ab2-ri{ position:relative; }
+.ab2-ri__a{ color:inherit; text-decoration:none; }
+.ab2-ri__a::after{ content:""; position:absolute; inset:0; }
+.ab2-ri:has(.ab2-ri__a):hover h3{ color:var(--blue-d); }
+.ab2-ri__tel{ position:relative; z-index:1; font-weight:600; color:var(--blue-d); text-underline-offset:3px; }
+.ab2-ri__a i{ font-style:normal; font-size:.8em; }
+.ab2-bio__list li a{ color:inherit; text-decoration:none; }
+.ab2-bio__list li a:hover{ color:var(--blue-d); text-decoration:underline; text-underline-offset:4px; }
+.ab2-bio__list li a i{ font-style:normal; font-size:.8em; color:var(--blue-d); }
 #films.vr{
   --cw:clamp(232px,21vw,308px); --gap:28px;
   position:relative; isolation:isolate; overflow:clip;

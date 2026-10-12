@@ -678,4 +678,11 @@ psychiatry", "issues,", "Delhi psychiatrist Society" to the name used elsewhere 
 - **Scroll smoothness:** the stacked boxes now do all their work with transform and opacity (no blur, no custom-property writes), positions come
   from one read per frame, the glass-blur nav is a near-solid white pill, and the two infinite full-page background animations are still.
   In a software-rendered test the journey section went from about 66ms per frame to a 16.7ms median (60fps).
+- **Names open something.** The home memberships strip is one consistent pill style and every pill links. Where an official site was found and
+  checked it opens that: tulasihealthcare.com, niti.gov.in, socialwelfare.delhi.gov.in, indianpsychiatricsociety.org, mamc.delhi.gov.in,
+  lhmc-hosp.gov.in, ima-india.org, economictimes.indiatimes.com and the Mental Healthcare Act on indiacode.nic.in. No official site could be
+  found for the Delhi Psychiatric Society or the Indian Association of Private Psychiatry, so those pills go to the memberships list on the
+  About page rather than to a guessed address. Same links apply to the tags in the journey boxes (home and About), the About memberships list,
+  the About Tulasi cards (the whole card opens the Tulasi site; Clinics opens the Contact page) and the hero award badge.
+  If the client has the real addresses for those two societies, add them in `tools`-free fashion by editing the pill in `src/pages/home.html`.
 
