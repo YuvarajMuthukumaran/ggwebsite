@@ -44,7 +44,7 @@ html.js.go .nav{animation:v7navIn .9s var(--e) .2s both}
 html.js.go .ann{animation:v7fade .8s ease .1s both}
 
 /* ---------- 2. "Not sure where to begin?" card: light, not heavy ---------- */
-.cta-card{background:linear-gradient(150deg,#f6faff,#f4ede1);color:var(--ink);border:1px solid #ece1cd;gap:.5rem}
+.cta-card{background:linear-gradient(150deg,#F3F2E6,#f4ede1);color:var(--ink);border:1px solid #ece1cd;gap:.5rem}
 .cta-card h3{color:var(--blue-d)}
 .cta-card p{color:var(--mut);margin:0}
 .cta-card .btn:not(.wa){background:var(--blue);color:#fff;border-color:var(--blue);margin-top:0}

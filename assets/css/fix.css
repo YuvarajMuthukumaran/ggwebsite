@@ -63,7 +63,7 @@ html.js .wa-fab.show:hover{translate:0 -2px}
     background:rgba(255,255,255,.9)!important;
     -webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);
     border-top:1px solid var(--line);
-    box-shadow:0 -12px 30px -20px rgba(14,35,64,.4)!important;
+    box-shadow:0 -12px 30px -20px rgba(40,52,38,.4)!important;
   }
   html body .sticky a{min-height:48px;box-shadow:none}
   .sticky__wa .wai{flex:none}
@@ -81,10 +81,10 @@ html body .rv .stars svg{fill:#E9A93A!important;color:#E9A93A!important}
 /* ---------- 4. Films: leftover cream and peach from an older palette ---------- */
 html body .films{background:linear-gradient(180deg,transparent,#fff 10%,#fff 90%,transparent)!important}
 html body .films__lede{color:var(--mut)}
-html body .player{background:#0e2340}
+html body .player{background:#1C2A23}
 .pl__seek b{background:#fff}
 .pl__snd,.pl__hint{background:rgba(255,255,255,.2)}
-html body .reel .ln{background:#d3e3f6}
+html body .reel .ln{background:#E0E6D0}
 html body .reel .ln b{background:var(--blue)}
 .reel button:focus-visible{outline-color:var(--blue)}
 html body .reel li.act button:not(#s):not(#s){
@@ -111,8 +111,8 @@ html body .reel li:not(.act) button:hover{translate:4px 0}
 .book .rooms>div{min-height:0}
 
 /* ---------- 7. Footer ---------- */
-/* text was #586B82 on navy (about 3:1) */
-footer p,footer .fb p{color:#b4c3d9}
+/* text was #5B675E on navy (about 3:1) */
+footer p,footer .fb p{color:#A9C4AE}
 footer a:hover{color:#fff}
 /* line the footer up with the page column */
 footer{padding-inline:max(clamp(1.2rem,5vw,4rem),calc((100% - 1132px)/2))}

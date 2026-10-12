@@ -2,8 +2,8 @@
 
 /* ---------- 1. ambient light: cool blue only (the old cream/amber wash clashed with the blue system) ---------- */
 html::before{background:
-  radial-gradient(38vmax 38vmax at 16% 10%,rgba(160,196,240,.42),transparent 70%),
-  radial-gradient(34vmax 34vmax at 88% 34%,rgba(47,111,203,.10),transparent 70%),
+  radial-gradient(38vmax 38vmax at 16% 10%,rgba(168,195,174,.42),transparent 70%),
+  radial-gradient(34vmax 34vmax at 88% 34%,rgba(63,107,87,.10),transparent 70%),
   radial-gradient(40vmax 40vmax at 50% 98%,rgba(134,196,184,.16),transparent 70%)}
 
 /* ---------- 2. announcement bar: one tidy line on phones ---------- */
@@ -32,7 +32,7 @@ html::before{background:
 .tl li{padding-bottom:.4rem}
 
 /* ---------- 6. films: obvious "now playing" state ---------- */
-html body .reel li.act button:not(#s):not(#s){border-color:var(--blue)!important;box-shadow:inset 3px 0 0 var(--blue),0 18px 36px -22px rgba(31,79,154,.45)!important}
+html body .reel li.act button:not(#s):not(#s){border-color:var(--blue)!important;box-shadow:inset 3px 0 0 var(--blue),0 18px 36px -22px rgba(42,77,62,.45)!important}
 html body .reel li.act h3{color:var(--blue-d)!important}
 .reel li .ln{height:3px;border-radius:3px;overflow:hidden}
 
@@ -45,7 +45,7 @@ html body .reel li.act h3{color:var(--blue-d)!important}
 /* ---------- 8. FAQ: heading stays beside the questions while you read ---------- */
 @media(min-width:901px){.faqs .head{position:sticky;top:112px;align-self:start}}
 .faq summary{padding-block:1.05rem}
-.faq details:hover{border-color:#b9cde6!important}
+.faq details:hover{border-color:#B5CDB8!important}
 
 /* ---------- 9. nav + buttons: small, consistent feedback ---------- */
 .btn{transition:transform .25s cubic-bezier(.22,1,.36,1),box-shadow .25s ease,background .25s ease,color .25s ease}

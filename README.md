@@ -311,3 +311,84 @@ New `assets/css/tulasi.css` (loads last), `assets/img/tulasi-logo*.webp`, `tulas
 - Added canonical, robots, Open Graph and Twitter tags; JSON-LD (`Physician` + `Tulasi Healthcare` with both addresses and the phone); `robots.txt`, `sitemap.xml`.
 - **Confirm before launch:** the domain `goravgupta.com` used in canonical, OG, JSON-LD and sitemap; and that the client is comfortable with the word "Leading" (a superlative claim).
 - No ratings or review counts in the structured data (the reviews are not yet verified numbers).
+
+---
+
+## Taste pass (v23)
+
+Applied with the `Leonxlnx/taste-skill` pack (`.agents/skills/`), following its
+`redesign-existing-projects` audit sequence: scan → diagnose → targeted fixes,
+working with the existing stack rather than rewriting it.
+
+### What was wrong
+
+The design had drifted into three patterns the audit flags as generic:
+
+1. **Hospital blue.** `pro.css` redefined the whole palette (`--blue:#2F6FCB`,
+   `--ink:#13243A`) on top of the warm cream + sage system the base `site.css`
+   actually defined. Everything downstream inherited it. This also contradicted
+   the original brief, which ruled out healthcare blue explicitly.
+2. **Inter + Poppins.** Both are on the skill's banned list — the default
+   geometric-sans pairing that reads as a template.
+3. **A uniform grid of equal cards** (white + 1px border + shadow), which the
+   audit calls the single most recognisable AI layout.
+
+### What changed
+
+- **Palette restored and unified.** Reverted the blue hijack, then remapped
+  every remaining cool colour across all 14 stylesheets onto a warm sage ramp at
+  matched luminance, so contrast relationships were preserved rather than
+  eyeballed. 42 hexes plus the `rgba()` glows and shadow tints. Shadows now
+  carry the background hue instead of neutral black.
+- **Editorial type voice.** Fraunces (variable serif) for display, Instrument
+  Sans for UI and body. The hero name dropped from Poppins 700 to Fraunces 300
+  with tight tracking, and lost its gradient text fill — a flourish that reads
+  as template. Added `text-wrap: balance` on headings, `pretty` on body.
+- **Calmer surfaces.** Cards moved from white + border + shadow to warm paper
+  with a tinted hairline, elevation only on hover. Hover travel cut from -8px to
+  -3px with a custom cubic-bezier, plus a real `:active` press state. Icon
+  badges lost the 360° spin.
+- **Asymmetric bento** for areas of care: same markup, 12-column grid with
+  uneven spans (7/5, 4/4/4, 5/4/3) and a weighted lead tile. Collapses to two
+  columns at 860px and one below 600px.
+- **Texture and spacing.** Fixed, pointer-events-none grain overlay; section
+  padding roughly doubled; one accent (bronze `#8A6A3B`) used sparingly for
+  timeline markers, press labels and focus rings.
+
+All of this lives in `assets/css/taste.css`, loaded last, plus in-place colour
+edits to the earlier layers. Verified at 1440px and 375px: no horizontal
+overflow, no console errors.
+
+### Worth doing next
+
+The page now loads **14 stylesheets** applied in sequence, several of which fight
+each other with `!important` (`pro.css` alone has 133). The taste pass works
+within that, but the layers should be flattened into one stylesheet before much
+more is added — right now a change in the wrong file silently does nothing.
+
+### Brand mark at small sizes (v23.1)
+
+The Tulasi logo is a word-cloud brain inside cupped hands, under arched
+"tulasihealthcare" lettering. It is a detailed mark: below roughly 120px the
+lettering and the word cloud stop resolving and it reads as a blue smudge in a
+white box. No CSS fixes that — the detail is the problem.
+
+So the logo is now used at three sizes, each with an appropriate asset:
+
+| Place | Asset | Size |
+| --- | --- | --- |
+| Nav | `tulasi-mark.png` — hands only, transparent | 40px (34px mobile) |
+| Footer credit | `tulasi-logo.webp` — full lockup | 84px (68px mobile) |
+| Tulasi band | `tulasi-logo.webp` — full lockup | 220px |
+
+`tulasi-mark.png` is generated from the full logo: cropped below the arched
+lettering, then the hands isolated on their own by channel (they are a single
+flat indigo) with soft alpha so the edges stay smooth. It holds up down to
+about 24px.
+
+**This is a modification of the Tulasi brand mark** — a cropped detail used as a
+small-size variant. That is ordinary responsive-logo practice, but it is their
+mark, so it is worth a nod from whoever owns the brand. If they would rather not
+crop it, the better alternative is to drop the logo from the nav entirely and
+run a typographic lockup there: this is Dr. Gupta's personal site, the full logo
+already appears twice further down, and the top bar links to Tulasi by name.

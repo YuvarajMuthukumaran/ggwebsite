@@ -1,0 +1,219 @@
+/* ============================================================
+   taste.css — v23. Loads LAST.
+   Editorial-luxury pass over the existing warm/sage system:
+   serif display voice, calmer surfaces, heavier whitespace,
+   restrained motion. Earlier layers lean on !important, so
+   targeted !important here is deliberate, not sloppy.
+   ============================================================ */
+
+:root{
+  --display: "Fraunces", "Hoefler Text", Georgia, serif;
+  --sans: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --accent: #8A6A3B;            /* single restrained accent — bronze */
+  --paper:  #FBF7EF;            /* card surface, warmer than pure white */
+  --hair:   rgba(63,107,87,.16);/* hairline, tinted to the palette */
+
+  /* shadows carry the background hue instead of neutral black */
+  --sh:  0 1px 2px rgba(63,107,87,.05), 0 10px 26px -18px rgba(63,107,87,.22);
+  --sh2: 0 2px 6px rgba(63,107,87,.07), 0 26px 52px -28px rgba(63,107,87,.30);
+  --e:   cubic-bezier(.32,.72,0,1);
+}
+
+/* ---------- 1 · TYPE VOICE ---------------------------------- */
+body{ font-family:var(--sans) !important; }
+
+h1,h2,h3,h4,
+.giant,.giant *,.lead,blockquote,
+.head h2,.sec h2,.calm h2,.book h2,.reviews h2,.rv-head h2,.faqs h2,
+.faqs summary,summary,
+.svc h3,.step h3,.press h4,.mt h3,.reel li h3,.intro__name,
+.tband__in h2,.bk__h,.foot-mark,footer b,.stats b,.step b{
+  font-family:var(--display) !important;
+  font-variation-settings:"SOFT" 0,"WONK" 0,"opsz" 110;
+  letter-spacing:-.022em;
+  font-weight:400;
+  text-wrap:balance;
+}
+
+/* small caps / UI labels stay in the sans */
+.eyebrow,.chip,.btn,.tags span,.rec h3,.brand small,.qual,
+.nav nav,.strip,.press small,.press em,.tl b,.facts dt{
+  font-family:var(--sans) !important;
+}
+
+p,li,dd{ text-wrap:pretty; }
+
+/* the name — editorial weight, not geometric bold */
+.giant,.giant *{
+  font-weight:300 !important;
+  letter-spacing:-.035em !important;
+  /* gradient text on a name reads as a template flourish */
+  background:none !important;
+  -webkit-text-fill-color:currentColor !important;
+  color:var(--blue-d) !important;
+}
+.giant{ font-size:clamp(2.2rem,8.2vw,7.4rem) !important; }
+
+h1{ font-weight:300; }
+h2,.sec h2,.head h2{ font-weight:400; font-size:clamp(1.9rem,3.6vw,3rem); }
+.svc h3,.step h3,.mt h3{ font-weight:400; font-size:1.18rem; letter-spacing:-.018em; }
+.lead{ font-weight:400 !important; font-size:clamp(1.3rem,2.2vw,1.72rem); line-height:1.32; }
+blockquote{ font-weight:300 !important; line-height:1.22; letter-spacing:-.025em; }
+
+/* numerals: elegant but aligned */
+.stats b{ font-weight:300 !important; font-variant-numeric:tabular-nums; letter-spacing:-.03em; }
+
+/* label micro-type */
+.eyebrow,.rec h3{ letter-spacing:.16em !important; font-weight:500 !important; }
+
+/* body measure */
+.sec p,.about p,.svc p,.step p{ max-width:68ch; }
+
+/* ---------- 2 · SURFACES ------------------------------------ */
+/* the uniform white-card-with-border-and-shadow is the generic tell.
+   warm paper + hairline, elevation only on intent. */
+.card,.rec,.press,.step,.book,details,.rooms div,.facts{
+  background:var(--paper) !important;
+  border:1px solid var(--hair) !important;
+  box-shadow:none !important;
+  border-radius:16px !important;
+  transition:transform .6s var(--e), box-shadow .6s var(--e), border-color .5s var(--e), background .5s var(--e) !important;
+}
+.card:hover,.rec:hover,.press:hover,.step:hover{
+  transform:translateY(-3px) !important;
+  translate:none !important;
+  box-shadow:var(--sh2) !important;
+  border-color:rgba(63,107,87,.28) !important;
+}
+.card:active,.press:active,.step:active{ transform:translateY(-1px) scale(.995) !important; }
+
+/* icon badges: quieter, no 360° spin */
+.ico{
+  background:transparent !important;
+  border:1px solid var(--hair);
+  color:var(--blue) !important;
+  width:42px !important; height:42px !important;
+  border-radius:12px !important;
+  transition:background .5s var(--e), color .5s var(--e), border-color .5s var(--e) !important;
+}
+.svc:hover .ico,.card.svc:hover .ico{
+  rotate:none !important;
+  background:var(--blue) !important;
+  color:#fff !important;
+  border-color:var(--blue) !important;
+}
+
+/* tags read as metadata, not buttons */
+.tags span{
+  background:transparent !important;
+  border:1px solid var(--hair);
+  color:var(--mut) !important;
+  font-size:.7rem !important;
+  letter-spacing:.06em;
+  padding:.24rem .62rem !important;
+}
+
+/* ---------- 3 · SPATIAL RHYTHM ------------------------------ */
+.sec{ padding-block:clamp(4.5rem,8.5vw,7.5rem) !important; }
+.head{ margin-bottom:clamp(2rem,4vw,3.2rem) !important; }
+.grid4{ gap:1.25rem !important; }
+
+/* ---------- 3b · ASYMMETRIC BENTO (areas of care) -----------
+   A row of equal tiles is the most generic layout there is.
+   Same markup, 12-column grid, deliberately uneven spans. */
+@media (min-width:860px){
+  #work .grid4{
+    display:grid !important;
+    grid-template-columns:repeat(12,1fr) !important;
+    align-items:stretch;
+  }
+  #work .grid4 > *{ grid-column:span 4; }
+  #work .grid4 > *:nth-child(1){ grid-column:span 7; }
+  #work .grid4 > *:nth-child(2){ grid-column:span 5; }
+  #work .grid4 > *:nth-child(6){ grid-column:span 5; }
+  #work .grid4 > *:nth-child(8){ grid-column:span 3; }
+
+  /* the lead tile carries more weight */
+  #work .grid4 > *:nth-child(1){
+    background:linear-gradient(165deg,var(--tint),var(--paper)) !important;
+    padding:clamp(1.6rem,2.6vw,2.4rem) !important;
+  }
+  #work .grid4 > *:nth-child(1) h3{ font-size:1.65rem; }
+  #work .grid4 > *:nth-child(1) p{ font-size:.98rem; max-width:46ch; }
+}
+@media (min-width:600px) and (max-width:859px){
+  #work .grid4{ grid-template-columns:repeat(2,1fr) !important; }
+}
+
+/* ---------- 4 · CONTROLS ------------------------------------ */
+.btn{
+  font-family:var(--sans) !important;
+  letter-spacing:.01em;
+  border-radius:999px;
+  transition:transform .5s var(--e), box-shadow .5s var(--e), background .4s var(--e), color .4s var(--e) !important;
+}
+.btn:hover{ transform:translateY(-2px) !important; box-shadow:0 12px 26px -12px rgba(63,107,87,.55) !important; }
+.btn:active{ transform:translateY(0) scale(.98) !important; }
+
+:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
+
+/* nav underline in the accent, not the fill colour */
+.nav nav a:after{ background:var(--accent) !important; height:1px !important; }
+
+/* ---------- 5 · TEXTURE ------------------------------------- */
+/* fixed, pointer-events-none, viewport-sized: never attached to
+   scrolling content, so it costs one composite and nothing else. */
+body::after{
+  content:"";
+  position:fixed; inset:0;
+  z-index:200; pointer-events:none;
+  opacity:.4;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.38'/%3E%3C/svg%3E");
+}
+
+/* ---------- 5b · BRAND MARK ---------------------------------
+   The Tulasi logo is a word-cloud brain under arched lettering: at
+   nav size every bit of that detail collapses into a smudge inside a
+   white box. The nav therefore uses the hands mark alone, which stays
+   legible down to ~24px. The full lockup keeps its place in the
+   Tulasi band and the footer, where it has the room to be read. */
+.brand{ gap:.75rem !important; align-items:center; }
+.brand .logo{ display:grid !important; place-items:center; }
+.brand .logo img{
+  height:40px !important; width:40px !important;
+  background:none !important;
+  border-radius:0 !important;
+  object-fit:contain;
+}
+.brand span:not(.logo){ line-height:1.2; }
+.brand small{ color:var(--mut) !important; letter-spacing:.02em; }
+
+/* give the footer credit enough size to actually resolve */
+.f-logo img{ height:84px !important; width:auto !important; background:none !important; }
+
+@media (max-width:700px){
+  .brand .logo img{ height:34px !important; width:34px !important; }
+  .f-logo img{ height:68px !important; }
+}
+
+/* ---------- 6 · HERO ---------------------------------------- */
+.hero__in{ border-radius:24px !important; }
+.hero__l strong{ font-family:var(--display) !important; font-weight:400 !important; font-size:1.12rem; }
+.qual{ letter-spacing:.01em; }
+.h1k{ font-family:var(--sans) !important; letter-spacing:.18em !important; color:var(--mut) !important; }
+
+/* ---------- 7 · ACCENT DISCIPLINE --------------------------- */
+/* one accent, used sparingly: timeline markers, quote rule, links */
+.tl b{ color:var(--accent) !important; }
+.press small{ color:var(--accent) !important; }
+.facts dt{ color:var(--mut) !important; letter-spacing:.12em; }
+
+@media (prefers-reduced-motion:reduce){
+  .card:hover,.rec:hover,.press:hover,.step:hover,.btn:hover{ transform:none !important; }
+}
+
+@media (max-width:760px){
+  .sec{ padding-block:clamp(3rem,10vw,4.5rem) !important; }
+  .giant{ font-size:clamp(2rem,9vw,3.2rem) !important; }
+}

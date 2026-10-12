@@ -9,13 +9,13 @@
   --canvas:   #EDF1EC;   /* soft mist — the portrait's highlight point */
   --canvas-2: #E0E9E3;   /* pale sage */
   --canvas-3: #D0DDD5;
-  --ink:      #14262A;   /* deep teal slate */
-  --ink-2:    #24393D;
-  --muted:    #667C7E;
+  --ink:      #1E2E26;   /* deep teal slate */
+  --ink-2:    #254034;
+  --muted:    #4F7964;
   --accent:   #2F7A73;
   --accent-2: #86C4B8;
   --sage:     #5E8B7E;
-  --night:    #0D1B1E;
+  --night:    #1A2821;
 
   /* ---- type ------------------------------------------------- */
   --display: "Fraunces", "Hoefler Text", Georgia, serif;
@@ -102,7 +102,7 @@ ul,ol{ margin:0; padding:0; list-style:none; }
   font-size:var(--t-lg); line-height:1.45;
   font-weight:400; letter-spacing:-.012em; max-width:46ch;
 }
-.body-copy{ color:#3A4E50; max-width:60ch; }
+.body-copy{ color:#2E5343; max-width:60ch; }
 .body-copy + .body-copy{ margin-top:1.1em; }
 .body-copy em{ font-family:var(--display); font-style:italic; font-weight:400; color:var(--ink); }
 
@@ -574,7 +574,7 @@ body.menu-open .menu__foot{ opacity:1; }
   font-size:var(--t-xl); line-height:1.05;
   letter-spacing:-.028em; margin-bottom:.45em;
 }
-.journey__body p{ color:#3F5455; max-width:54ch; }
+.journey__body p{ color:#315746; max-width:54ch; }
 
 /* ============================================================
    05 — THE WORK (interactive expertise)
@@ -614,7 +614,7 @@ body.menu-open .menu__foot{ opacity:1; }
   font-family:var(--display); font-weight:300;
   font-size:clamp(1.5rem,.9rem + 2.3vw,2.9rem);
   line-height:1.08; letter-spacing:-.03em;
-  color:#5D7273;
+  color:#426E5A;
   transition:color .5s var(--ease);
   flex:1;
 }
@@ -656,7 +656,7 @@ body.menu-open .menu__foot{ opacity:1; }
   font-size:var(--t-xl); letter-spacing:-.03em;
   line-height:1.04; margin-bottom:.5em;
 }
-.work__pane p{ color:#3F5455; font-size:var(--t-base); max-width:46ch; }
+.work__pane p{ color:#315746; font-size:var(--t-base); max-width:46ch; }
 .work__tags{
   display:flex; flex-wrap:wrap; gap:.5rem;
   margin-top:auto; padding-top:1.6rem;
@@ -832,7 +832,7 @@ body.menu-open .menu__foot{ opacity:1; }
   font-size:var(--t-lg); letter-spacing:-.025em;
   line-height:1.1; margin-bottom:.6em;
 }
-.path__step p{ color:#3F5455; font-size:var(--t-sm); line-height:1.6; }
+.path__step p{ color:#315746; font-size:var(--t-sm); line-height:1.6; }
 
 /* ============================================================
    10 — APPOINTMENT
@@ -1110,7 +1110,7 @@ body.menu-open .menu__foot{ opacity:1; }
   transition:transform .5s var(--ease-out), background-color .4s var(--ease), color .4s var(--ease);
 }
 .faq__item[open] summary::after{ transform:rotate(45deg); background:var(--accent); color:var(--canvas); border-color:var(--accent); }
-.faq__item p{ color:#3F5455; max-width:62ch; padding-bottom:1.6rem; }
+.faq__item p{ color:#315746; max-width:62ch; padding-bottom:1.6rem; }
 
 @media (min-width:860px){
   .calm__grid{ grid-template-columns:.8fr 1.2fr; }
