@@ -380,3 +380,11 @@ a.fl.fl1:hover{ translate:0 -3px; box-shadow:0 18px 34px -18px rgba(29,83,154,.5
 .ab2-bio__list li a{ color:inherit; text-decoration:none; }
 .ab2-bio__list li a:hover{ color:var(--blue-d); text-decoration:underline; text-underline-offset:4px; }
 .ab2-bio__list li a i{ font-style:normal; font-size:.8em; color:var(--blue-d); }
+
+/* home About: facts panel on the About page type scale */
+#who .about__facts>div{ display:block !important; }
+#who .about__facts dt{ margin:0 0 .3rem !important; font-size:.875rem !important; font-weight:500; letter-spacing:0 !important; text-transform:none !important; color:var(--mut); }
+#who .about__facts dd{ margin:0; font-size:1.0625rem; font-weight:500; line-height:1.45; color:var(--ink); }
+#who .about__facts a{ color:inherit; text-decoration:none; }
+#who .about__facts a:hover{ color:var(--blue-d); text-decoration:underline; text-underline-offset:4px; }
+#who .about__facts a i{ font-style:normal; font-size:.8em; }
