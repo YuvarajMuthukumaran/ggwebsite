@@ -595,18 +595,20 @@ Source: "Gorav Sir Homepage Rewrite content.docx". Obvious typos were fixed ("wa
 psychiatry", "issues,", "Delhi psychiatrist Society" to the name used elsewhere on the site).
 
 - **Home copy** follows the document: hero, areas of treatment (7 cards, each with *Read more*
-  to its condition page), Know your psychiatrist, How it all began (four stage cards), Voicing his
+  to its condition page), Know your psychiatrist, How it all began (four stages on the original timeline layout), Voicing his
   own, Capturing insights, Real voices, Common questions. New layouts live in `assets/css/home2.css`
   (the last CSS layer); class names are `sv`, `hx-*` and `ab-*`.
-- **Years.** The document says "four decades" and "over 40 years". Dr. Gupta's M.D. is dated 1997, and
-  the client had asked for "40+ years" to go, so the site keeps "since 1997" / `{{years}}`.
+- **Years.** The client confirmed "40+ years of experience", so that is the figure used everywhere
+  (`EXPERIENCE` in `tools/build_site.py`, placeholder `{{exp}}`); the imported pages were reworded to
+  match. The M.D. is dated 1997 on the old site, so the training dates still read 1997. That is the
+  one place the two figures sit side by side.
 - **Links to tulasihealthcare.com:** the two Tulasi pills in the memberships strip, the two cards
   in "Part of Tulasi Healthcare", and the Tulasi tags in the journey cards.
 - **Press cards** show a short quote from Dr. Gupta taken from each article (OnlyMyHealth, Tribune,
   Firstpost, Day2Day, CrazyPundit). The Hindi Janta Serishta piece and the YouTube card have no
   quote, so they carry a one-line description marked "About the article". The OnlyMyHealth page
   is gone from the live site (HTTP 410); its quote was read from the web archive copy.
-- **Floating buttons** are two circles: call (`tel:+918800000255`) and the WhatsApp mark. The old
+- **Floating buttons** are two circles: call (`tel:+918800000255`) and the official WhatsApp logo (`assets/img/whatsapp-logo.webp`). The old
   green "Chat on WhatsApp" pill and the phone dock are gone (`src/partials/floating.html`).
 - **Films:** eight now. `src/partials/films-player.html` is the one list, included on the home and
   Video Gallery pages through `{{films_player}}`. Films 4 to 8 were compressed from the files
@@ -622,4 +624,44 @@ psychiatry", "issues,", "Delhi psychiatrist Society" to the name used elsewhere 
   holds back elements in the bottom 6% of the window. A section could stay blank after a fast jump
   or in a full-page screenshot.
 - The line under the doctor's name in the header ("Psychiatrist") was removed.
+- The hero top line reads "Best doctor in Delhi NCR" again. Cards on the home page lift and turn blue on hover.
+
+## v14: swipeable film rail, About page back on its original structure
+
+- **Films** are now a full-width swipeable rail (`src/partials/films-player.html`, `assets/js/films.js`,
+  `assets/css/films2.css`) instead of a player with a pick-list. Native scroll-snap, so swipe, trackpad,
+  mouse drag, arrow keys and the arrow buttons all work. `films.js` adds the depth layer: each card is placed
+  in 3D from its distance to the centre, the deck gathers and fans out as the section scrolls into view, the
+  playing card tilts toward the pointer, and the media inside each card moves slower than the card. Only the
+  centred film plays (muted until the speaker button is used). With reduced motion it is a plain snap row.
+  Five films: 1 to 4 as before, film 5 ("How Tulasi Healthcare began") is the video added on 12 Oct. Its
+  description was written from an automatic transcript, so please check it. In that film he says Tulasi started
+  "around 25 years ago", which does not match "40+ years".
+- **About page** returns to the original structure (title bar, text beside the photo, facts panel, biography,
+  Tulasi list, photo section) with the rewrite document's wording, no eyebrows or numerals, and one type scale
+  (see `assets/css/about2.css`).
+- **One typeface.** Older layers still named Poppins, Figtree and Inter on individual elements. The last rule in
+  `home2.css` forces Geist everywhere (Devanagari falls back to Noto Sans Devanagari).
+- **Impeccable** (`npx impeccable install`) is installed for this project: `PRODUCT.md` records the product
+  context, `.impeccable/config.json` has the design hook on, and the skill lives in `.claude/skills/impeccable/`.
+  `npx impeccable detect <files>` scans for design anti-patterns.
+- **Scroll motion** (`assets/js/scrollfx.js`, About page only; the home and Journey pages have none): everything is
+  a function of scroll position and reverses when you scroll back. Elements emerge from depth (scale, translateZ, a
+  little tilt, and a blur that clears as they land, with a touch more during fast scrolling), layers drift at
+  different rates (the plate behind the portrait moves against the photo), the facts panel and lists arrive one
+  after another, paragraphs darken word by word, a soft light follows the pointer over the facts panel, and the
+  timeline spine fills as you scroll. Small finishing touches play once when something lands. Reduced motion leaves
+  the page static; the horizontal overflow from the side-in motion is clipped on `html.fx`.
+  The About page layout was tightened too: text and photo share a height, the biography is two columns, and the
+  positions list is two ruled columns. The photo section and the "News and awards" item were removed, and every
+  inner page now ends with an open call-to-action instead of the dark band.
+- **About: "How it all began"** is now four stacked boxes (`data-fx="stack"` in `scrollfx.js`, `.st-box` in `about2.css`): each box
+  emerges from depth, pins under the one before it, and the earlier boxes recede (smaller, dimmer, lifted) as the next slides over.
+  The icon and text inside a box drift at different rates and its tags arrive one by one. Under 700px the boxes are plain, unpinned.
+  The home page's "Professional journey" uses the same stacked boxes (six of them, the original entries); it is the only animated block on the home page besides the film rail. `src/partials/journey-stages.html` and `{{journey_stages}}` were removed (no longer used).
+- **Stacked boxes, tidied:** a covered box now collapses into a one-line title strip (icon, stage, title) instead of showing cut-off
+  text, so the stack reads as a neat list of tabs. Step between pinned boxes is 60px (`--k` in CSS, `top` in `scrollfx.js`).
+- **Polish pass** (end of `home2.css`, section 15): services grid balanced (the long seventh card spans two columns, the link tile
+  fills the last cell), home About text on the About page's type scale, quieter film backdrop, the Breathe pill hidden under 900px,
+  smaller floating buttons on phones, and browser-drawn details (selection colour, caret, form accent, focus ring, text wrapping).
 

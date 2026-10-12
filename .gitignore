@@ -10,3 +10,9 @@ skills-lock.json
 
 # raw video downloads kept locally (web versions are film-N.mp4)
 assets/video/_originals/
+
+# impeccable design tool: machine-local files (shared config.json and PRODUCT.md are kept)
+.impeccable/config.local.json
+.impeccable/hook.cache.json
+.claude/settings.local.json
+.claude/agents/

@@ -46,12 +46,12 @@ DEAD_LINK_FIXES = {
 }
 
 # The doctor's own "N years of experience" claims across the old site disagree (20, 25, 28 and 30).
-# The new site anchors on one fact, "in practice since 1997" (the year the M.D. was completed), so
-# claims about the doctor are reworded to match. Claims about other things are left alone.
+# The new site uses the client's figure, "40+ years of experience" (EXPERIENCE in tools/build_site.py),
+# so claims about the doctor are reworded to match. Claims about other things are left alone.
 YEARS_RULES = [
-    (re.compile(r'\b(?:more than|over|around)\s+\d+\+?\s+years?\s+of\s+(?:experience|expertise)', re.I), 'experience since 1997'),
-    (re.compile(r'\bfor\s+(?:more than\s+)?(?:the\s+)?(?:last\s+)?25\s+years', re.I), 'since 1997'),
-    (re.compile(r'\bof\s+(?:more than|over|around)\s+\d+\+?\s+years?\s+of\s+practice', re.I), 'since 1997'),
+    (re.compile(r'\b(?:more than|over|around)\s+\d+\+?\s+years?\s+of\s+(?:experience|expertise)', re.I), '40+ years of experience'),
+    (re.compile(r'\bfor\s+(?:more than\s+)?(?:the\s+)?(?:last\s+)?25\s+years', re.I), 'for 40+ years'),
+    (re.compile(r'\bof\s+(?:more than|over|around)\s+\d+\+?\s+years?\s+of\s+practice', re.I), 'for 40+ years'),
 ]
 
 # A line the old site printed above the page that is not in the page content itself.
@@ -451,7 +451,7 @@ def main():
 
     notes = ['# Wording adapted during the WordPress import', '',
              "The old site gave the doctor's years of experience as 20, 25, 28 and 30 in different places. Claims about the doctor were reworded to",
-             '"since 1997" to match the rest of this site (`PRACTICE_SINCE` in `tools/build_site.py`). Nothing else was reworded.', '',
+             '"40+ years" to match the rest of this site (`EXPERIENCE` in `tools/build_site.py`). Nothing else was reworded.', '',
              '| Page or post | Original | Now |', '| --- | --- | --- |']
     for t, a, b in imp.adapted:
         notes.append('| %s | %s | %s |' % (t.replace('|', '/'), a.replace('|', '/'), b))

@@ -13,10 +13,11 @@ Placeholders available in partials and designed pages:
     {{root}}   relative path back to the site root ("" on the home page, "../" one level down, ...)
     {{wa}} {{waicon}}              WhatsApp link and glyph
     {{delhi}} {{gurugram}}         the two Google Business listings
-    {{since}} {{years}}            year in practice from, and years since (see PRACTICE_SINCE)
+    {{since}} {{years}}            year of the M.D., and years since (see PRACTICE_SINCE)
+    {{exp}}                        the experience figure, "40+" (see EXPERIENCE)
     {{bio_short}} {{bio_long}}     the doctor's biography blocks (one source for the whole site)
     {{index_conditions}} {{index_mental_health}} {{index_local}} {{latest_posts}}   generated link lists
-    {{films_player}} {{journey_stages}}   shared page fragments (see INCLUDES)
+    {{films_player}}   shared page fragment (see INCLUDES)
 The build needs no server. Nothing runs in the browser to assemble a page.
 """
 import datetime
@@ -34,7 +35,7 @@ SITE = 'https://goravgupta.com'
 
 # Same order the single page linked them, then the two newest layers.
 CSS = ['site', 'cinematic', 'films', 'refine', 'warm', 'calm', 'bloom', 'pro', 'spatial',
-       'fix', 'polish', 'touchup', 'tulasi', 'taste', 'refresh', 'pages', 'articles', 'booking', 'navy', 'home2']
+       'fix', 'polish', 'touchup', 'tulasi', 'taste', 'refresh', 'pages', 'articles', 'booking', 'navy', 'home2', 'films2', 'about2']
 
 WA = 'https://wa.me/918800000255?text=Hello%20Dr.%20Gupta%27s%20team%2C%20I%27d%20like%20to%20book%20a%20consultation.'
 WAICON = ('<svg class="wai" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">'
@@ -43,24 +44,26 @@ DELHI = 'https://share.google/T2NTrfaXPM0Pgc0wf'
 GURUGRAM = 'https://share.google/ZI81WGD0iUjLSohvh'
 
 DEFAULT_CTA = {
-    'h': 'Your mind deserves care.',
-    'p': ('Speak with the Tulasi Healthcare team about a consultation, for yourself or for someone close to you. '
-          'Available online and at both consulting rooms.'),
+    'h': 'Not sure how to seek help?',
+    'p': ('Connect with our psychiatrist in Delhi today, and understand how your concerns can affect you. '
+          'Drop a message and we will help you find the right guidance from the first step.'),
 }
 
 # The one source for "years in practice". Change the year here, then rebuild.
 # {{since}} is the year; {{years}} is how many years ago that was (it rolls forward each January).
-PRACTICE_SINCE = 1997
+PRACTICE_SINCE = 1997   # the year the M.D. was completed; used for the training dates
+# The experience figure shown to visitors ({{exp}}), as given by the client. Change it here, then rebuild.
+EXPERIENCE = '40+'
 
 # Page fragments shared by more than one designed page: {{placeholder}} -> src/partials/<file>.
-INCLUDES = {'films_player': 'films-player.html', 'journey_stages': 'journey-stages.html'}
+INCLUDES = {'films_player': 'films-player.html'}
 
 NAV = ['home', 'about', 'journey', 'services', 'resources', 'contact']
 POSTS_PER_PAGE = 12
 
 # The doctor's biography, from the old site. Short form closes service pages; long form closes blog posts.
 BIO_SHORT = ('Doctor Gorav Gupta is a reputed senior psychiatrist in Delhi. His educational qualification is M.B.B.S, M.D (Psychiatry). '
-             'He has been in practice since {since}, with a keen interest in de-addiction medicine and rehabilitation.')
+             'He has {exp} years of experience, with a keen interest in de-addiction medicine and rehabilitation.')
 BIO_LONG = ('<p>Dr. Gorav Gupta, Senior Consultant Psychiatrist of the Indian Sub Continent, practices in Delhi NCR. He completed his MBBS from the '
             'prestigious institute, Maulana Azad Medical College (Delhi University) and M.D. from Lady Hardinge Medical College (Delhi University) in 1997. '
             'He is renowned for pioneering super specialized work in psychosocial rehabilitation in psychiatry.</p>'
@@ -188,7 +191,7 @@ def main():
     home_ld = read(SRC / 'partials' / 'jsonld-home.json').strip()
     groups = json.loads(read(SRC / 'content' / 'groups.json')) if (SRC / 'content' / 'groups.json').exists() else {'condition_groups': []}
     years = datetime.date.today().year - PRACTICE_SINCE
-    bio_short = BIO_SHORT.format(since=PRACTICE_SINCE)
+    bio_short = BIO_SHORT.format(exp=EXPERIENCE)
 
     # ---------------------------------------------------------------- load sources
     designed = []
@@ -264,7 +267,7 @@ def main():
         kind = pg['kind']
 
         v = {'root': root, 'wa': WA, 'waicon': WAICON, 'delhi': DELHI, 'gurugram': GURUGRAM,
-             'since': PRACTICE_SINCE, 'years': years, 'bio_short': bio_short, 'bio_long': BIO_LONG,
+             'since': PRACTICE_SINCE, 'years': years, 'exp': EXPERIENCE, 'bio_short': bio_short, 'bio_long': BIO_LONG,
              'index_conditions': index_conditions(root), 'index_mental_health': index_group(root, 'mental-health'),
              'index_local': index_group(root, 'local'), 'latest_posts': latest_posts(root)}
         for key, name in INCLUDES.items():
@@ -375,6 +378,7 @@ def main():
             cta_html = ('<section class="ctab" aria-labelledby="ctab-h"><div class="ctab__in"><div>'
                         '<h2 id="ctab-h">%s</h2><p>%s</p></div>'
                         '<div class="ctab__act"><a class="btn" href="%scontactus/">Book Consultation</a>'
+                        '<a class="btn ghost ctab__call" href="tel:+918800000255">Call +91 88000 00255</a>'
                         '<a class="btn wa" href="%s" target="_blank" rel="noopener">%sChat on WhatsApp</a></div></div></section>'
                         % (cta['h'], cta['p'], root, WA, WAICON))
 

@@ -1,0 +1,128 @@
+/* ============================================================
+   films2.css  v1. Loads last (bundled after home2.css).
+   The film rail on the home page and the Video Gallery: a
+   full-width, swipeable scroll-snap row. films.js layers the
+   depth, parallax and tilt on top; this file is the structure
+   and the resting state, so the rail still scrolls and plays
+   without JavaScript or with reduced motion.
+   ============================================================ */
+
+#films.vr{
+  --cw:clamp(232px,21vw,308px); --gap:28px;
+  position:relative; isolation:isolate; overflow:clip;
+  width:100% !important; max-width:none !important; margin-inline:0 !important; padding-inline:0 !important;
+}
+
+/* heading block keeps the page measure */
+.vr__head{ width:min(1132px,calc(100% - 48px)); margin:0 auto clamp(1rem,2.4vw,2rem); }
+.vr__head h2{ margin:0 0 .9rem !important; max-width:20ch; }
+.vr__lede{ margin:0; max-width:62ch; font-size:1.0625rem; line-height:1.7; color:var(--mut); }
+.vr__more{ width:min(1132px,calc(100% - 48px)); margin:.5rem auto 0; }
+
+/* soft backdrop taken from the film that is centred */
+.vr__stage{ position:relative; }
+.vr__glow{
+  position:absolute; inset:-6% -10% 8%; z-index:-1; pointer-events:none; opacity:.22;
+  background:center 30%/cover no-repeat; filter:blur(90px) saturate(1.05);
+  transition:opacity .45s ease; will-change:transform;
+}
+.vr__glow.sw{ opacity:0; }
+
+/* the rail */
+.vr__rail{
+  --pad:calc(50% - var(--cw) / 2);
+  position:relative; display:flex; gap:var(--gap); align-items:flex-start;
+  padding:clamp(2rem,4vw,3.4rem) var(--pad) clamp(1.4rem,3vw,2.4rem);
+  overflow-x:auto; overflow-y:hidden; overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+  perspective:1500px; perspective-origin:50% 38%;
+  cursor:grab; outline-offset:-4px;
+}
+.vr__rail::-webkit-scrollbar{ display:none; }
+.vr__rail.is-drag{ scroll-snap-type:none; cursor:grabbing; user-select:none; }
+.vr__rail:focus-visible{ outline:2px solid var(--blue); border-radius:24px; }
+
+.vr__slide{ position:relative; flex:0 0 var(--cw); scroll-snap-align:center; scroll-snap-stop:always; display:flex; flex-direction:column; gap:1.1rem; }
+
+/* the card */
+.vr__card{
+  --p:0; --shift:0%; --mx:50%; --my:50%;
+  position:relative; aspect-ratio:9/16; border-radius:28px; overflow:hidden; background:#0e2340;
+  transform-origin:50% 60%; will-change:transform,opacity;
+  box-shadow:0 2px 6px rgba(14,35,64,.12),0 34px 60px -30px rgba(14,35,64,.55);
+}
+.vr__card video{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; background:#0e2340;
+  translate:var(--shift) 0; scale:1.14; transition:scale .9s var(--e);
+}
+.vr__slide.is-on .vr__card video{ scale:1.05; }
+/* a light that follows the pointer across the playing card */
+.vr__card::after{
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .4s ease;
+  background:radial-gradient(60% 45% at var(--mx) var(--my),rgba(255,255,255,.22),transparent 70%);
+}
+.vr__slide.is-on .vr__card::after{ opacity:1; }
+.vr__card::before{
+  content:""; position:absolute; inset:auto 0 0; height:38%; z-index:1; pointer-events:none;
+  background:linear-gradient(0deg,rgba(8,20,40,.62),transparent);
+}
+
+.vr__tap{
+  position:absolute; inset:0; z-index:2; display:grid; place-items:center; border:0; padding:0; background:none; cursor:inherit; color:#ffffff;
+}
+.vr__tap:focus-visible{ outline:3px solid #ffffff; outline-offset:-6px; border-radius:28px; }
+.vr__ic{ width:26px; height:26px; }
+.vr__tap .vr__ic{ position:absolute; width:64px; height:64px; padding:19px; box-sizing:border-box; border-radius:50%; background:rgba(14,35,64,.62); transition:opacity .3s ease,scale .4s var(--e); }
+.vr__ic--pause{ opacity:0; scale:.8; }
+.vr__slide.is-playing .vr__ic--play{ opacity:0; scale:.8; }
+.vr__slide.is-playing:hover .vr__ic--pause,.vr__slide.is-playing .vr__tap:focus-visible .vr__ic--pause{ opacity:1; scale:1; }
+
+.vr__snd{
+  position:absolute; z-index:3; top:14px; right:14px; display:grid; place-items:center; width:40px; height:40px; padding:0;
+  border:0; border-radius:50%; background:rgba(14,35,64,.6); color:#ffffff; cursor:pointer; transition:background .3s ease,scale .3s var(--e);
+}
+.vr__snd:hover{ background:rgba(14,35,64,.85); scale:1.06; }
+.vr__snd:focus-visible{ outline:2px solid #ffffff; outline-offset:2px; }
+.vr__snd .vr__ic{ width:20px; height:20px; }
+.vr__ic--on{ display:none; }
+.vr__slide.is-sound .vr__ic--on{ display:block; }
+.vr__slide.is-sound .vr__ic--off{ display:none; }
+
+.vr__bar{ position:absolute; z-index:3; left:16px; right:16px; bottom:16px; height:3px; border-radius:3px; background:rgba(255,255,255,.28); overflow:hidden; }
+.vr__bar i{ display:block; height:100%; width:100%; transform-origin:0 50%; transform:scaleX(var(--p)); background:#ffffff; }
+
+/* caption under the card */
+.vr__cap{ will-change:opacity,transform; }
+.vr__cap h3{ margin:.15rem 0 .5rem; font-size:1.1875rem; line-height:1.3; font-weight:600; letter-spacing:-.015em; color:var(--ink); }
+.vr__cap p{ margin:0; font-size:.9375rem; line-height:1.6; color:var(--mut); }
+.vr__cap .vr__meta{ margin:0; font-size:.8125rem; font-weight:500; color:var(--blue-d); }
+
+/* controls */
+.vr__ctl{ display:flex; align-items:center; justify-content:center; gap:1.1rem; padding:.4rem 24px 0; }
+.vr__nav{
+  display:grid; place-items:center; width:46px; height:46px; padding:0; border:1px solid var(--line); border-radius:50%; background:#ffffff; color:var(--ink); cursor:pointer;
+  transition:border-color .3s ease,background .3s ease,color .3s ease,translate .3s var(--e);
+}
+.vr__nav svg{ width:20px; height:20px; }
+.vr__nav:hover:not(:disabled){ border-color:var(--blue); background:var(--blue); color:#ffffff; }
+.vr__nav:focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
+.vr__nav:disabled{ opacity:.38; cursor:default; }
+.vr__dots{ display:flex; align-items:center; gap:.5rem; }
+.vr__dot{ width:9px; height:9px; padding:0; border:0; border-radius:99px; background:#b9d0ee; cursor:pointer; transition:width .45s var(--e),background .3s ease; }
+.vr__dot:hover{ background:#7ea6dd; }
+.vr__dot.is-on{ width:28px; background:var(--blue); }
+.vr__dot:focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
+
+@media (max-width:760px){
+  #films.vr{ --cw:min(66vw,280px); --gap:18px; }
+  .vr__rail{ perspective:1100px; }
+  .vr__nav{ display:none; }
+  .vr__cap h3{ font-size:1.0625rem; }
+}
+
+/* reduced motion and no-script: a plain, calm snap row */
+.vr--flat .vr__card,.vr--flat .vr__cap{ transform:none !important; opacity:1 !important; filter:none !important; }
+.vr--flat .vr__card video{ translate:none; scale:1; transition:none; }
+@media (prefers-reduced-motion:reduce){
+  .vr__glow,.vr__card::after,.vr__nav,.vr__dot,.vr__tap .vr__ic,.vr__snd{ transition:none; }
+}
