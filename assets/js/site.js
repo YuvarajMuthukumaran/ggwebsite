@@ -18,7 +18,7 @@
   var $$ = function (s, c) { return Array.prototype.slice.call((c || d).querySelectorAll(s)); };
   var clamp = function (v, a, b) { return Math.min(b == null ? 1 : b, Math.max(a == null ? 0 : a, v)); };
 
-  var nav = $('#nav'), bar = $('#bar'), sticky = $('.sticky'), fab = $('.wa-fab');
+  var nav = $('#nav'), bar = $('#bar'), sticky = $('.sticky'), fab = $('.fabs');
   var hero = $('.hero'), heroIn = $('.hero__in'), glow = $('.hero__glow');
   var tl = $('.tl'), aurora = $('.aurora');
 
@@ -63,11 +63,13 @@
    * ------------------------------------------------------------------ */
   var io = new IntersectionObserver(function (es) {
     es.forEach(function (e) {
-      if (!e.isIntersecting) return;
+      /* also reveal anything already scrolled past: a jump (anchor link, fast scroll,
+         page capture) can skip an element without it ever intersecting */
+      if (!e.isIntersecting && e.boundingClientRect.top > 0) return;
       var el = e.target; el.classList.add('in'); io.unobserve(el);
       setTimeout(function () { el.classList.add('done'); }, 2400);
     });
-  }, { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+  }, { threshold: .12 });
   $$('.reveal').forEach(function (n) { io.observe(n); });
 
   /* ------------------------------------------------------------------ *

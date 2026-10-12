@@ -16,6 +16,7 @@ Placeholders available in partials and designed pages:
     {{since}} {{years}}            year in practice from, and years since (see PRACTICE_SINCE)
     {{bio_short}} {{bio_long}}     the doctor's biography blocks (one source for the whole site)
     {{index_conditions}} {{index_mental_health}} {{index_local}} {{latest_posts}}   generated link lists
+    {{films_player}} {{journey_stages}}   shared page fragments (see INCLUDES)
 The build needs no server. Nothing runs in the browser to assemble a page.
 """
 import datetime
@@ -33,7 +34,7 @@ SITE = 'https://goravgupta.com'
 
 # Same order the single page linked them, then the two newest layers.
 CSS = ['site', 'cinematic', 'films', 'refine', 'warm', 'calm', 'bloom', 'pro', 'spatial',
-       'fix', 'polish', 'touchup', 'tulasi', 'taste', 'refresh', 'pages', 'articles', 'booking', 'navy']
+       'fix', 'polish', 'touchup', 'tulasi', 'taste', 'refresh', 'pages', 'articles', 'booking', 'navy', 'home2']
 
 WA = 'https://wa.me/918800000255?text=Hello%20Dr.%20Gupta%27s%20team%2C%20I%27d%20like%20to%20book%20a%20consultation.'
 WAICON = ('<svg class="wai" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">'
@@ -50,6 +51,9 @@ DEFAULT_CTA = {
 # The one source for "years in practice". Change the year here, then rebuild.
 # {{since}} is the year; {{years}} is how many years ago that was (it rolls forward each January).
 PRACTICE_SINCE = 1997
+
+# Page fragments shared by more than one designed page: {{placeholder}} -> src/partials/<file>.
+INCLUDES = {'films_player': 'films-player.html', 'journey_stages': 'journey-stages.html'}
 
 NAV = ['home', 'about', 'journey', 'services', 'resources', 'contact']
 POSTS_PER_PAGE = 12
@@ -263,6 +267,9 @@ def main():
              'since': PRACTICE_SINCE, 'years': years, 'bio_short': bio_short, 'bio_long': BIO_LONG,
              'index_conditions': index_conditions(root), 'index_mental_health': index_group(root, 'mental-health'),
              'index_local': index_group(root, 'local'), 'latest_posts': latest_posts(root)}
+        for key, name in INCLUDES.items():
+            if (SRC / 'partials' / name).exists():
+                v[key] = fill(read(SRC / 'partials' / name), v, name)
 
         title = pg.get('seo_title') or pg['title']
         if kind == 'designed':

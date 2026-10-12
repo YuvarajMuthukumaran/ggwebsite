@@ -7,3 +7,6 @@ skills-lock.json
 
 # Local session data from a posting tool: cookies and tokens, never committed
 .openpost/
+
+# raw video downloads kept locally (web versions are film-N.mp4)
+assets/video/_originals/

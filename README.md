@@ -579,9 +579,47 @@ What was changed rather than copied:
 
 ### Booking block and the top line
 
-The "Book a consultation" block (`#appoint`, on the home and contact pages) is restyled in
+(Superseded: `assets/css/navy.css` loads after `booking.css` and puts this block back on a navy
+panel, the design the client preferred. `booking.css` is kept but is overridden.)
+The "Book a consultation" block (`#appoint`, on the home and contact pages) was restyled in
 `assets/css/booking.css` as an open layout on the page background: a hairline rule instead of
 the dark rounded container, two address rows instead of nested boxes, and one form panel.
 The older layers style it with `!important`, so the overrides are scoped to `#appoint`.
 The line at the very top of the home hero, and the home page `<title>` and share preview,
-now read "Best doctor in Delhi NCR" (set in `src/pages/home.html`).
+read "Best doctor in Delhi NCR" (set in `src/pages/home.html`). The hero line itself now follows the
+rewrite document (see v13).
+
+## v13: homepage rewrite, tighter layouts, more films, About redesign
+
+Source: "Gorav Sir Homepage Rewrite content.docx". Obvious typos were fixed ("wall of clinical
+psychiatry", "issues,", "Delhi psychiatrist Society" to the name used elsewhere on the site).
+
+- **Home copy** follows the document: hero, areas of treatment (7 cards, each with *Read more*
+  to its condition page), Know your psychiatrist, How it all began (four stage cards), Voicing his
+  own, Capturing insights, Real voices, Common questions. New layouts live in `assets/css/home2.css`
+  (the last CSS layer); class names are `sv`, `hx-*` and `ab-*`.
+- **Years.** The document says "four decades" and "over 40 years". Dr. Gupta's M.D. is dated 1997, and
+  the client had asked for "40+ years" to go, so the site keeps "since 1997" / `{{years}}`.
+- **Links to tulasihealthcare.com:** the two Tulasi pills in the memberships strip, the two cards
+  in "Part of Tulasi Healthcare", and the Tulasi tags in the journey cards.
+- **Press cards** show a short quote from Dr. Gupta taken from each article (OnlyMyHealth, Tribune,
+  Firstpost, Day2Day, CrazyPundit). The Hindi Janta Serishta piece and the YouTube card have no
+  quote, so they carry a one-line description marked "About the article". The OnlyMyHealth page
+  is gone from the live site (HTTP 410); its quote was read from the web archive copy.
+- **Floating buttons** are two circles: call (`tel:+918800000255`) and the WhatsApp mark. The old
+  green "Chat on WhatsApp" pill and the phone dock are gone (`src/partials/floating.html`).
+- **Films:** eight now. `src/partials/films-player.html` is the one list, included on the home and
+  Video Gallery pages through `{{films_player}}`. Films 4 to 8 were compressed from the files
+  dropped into `assets/video/` (about 100 MB down to about 38 MB); the originals are kept
+  untracked in `assets/video/_originals/`. Titles and descriptions for them were written from an
+  automatic transcript, so the doctor should check them. Film 5 (schizophrenia) has a banner burned
+  into the video that reads "Saving lives & restoring families since 2002" and "Call +91 7707070001",
+  which disagrees with the rest of the site (since 1997, 88000 00255); it needs a re-export to change.
+- **About page** redesigned as a profile page: portrait hero with a stats row, profile text with an
+  at-a-glance card, training and memberships, the four-stage journey (shared with the home page via
+  `{{journey_stages}}` from `src/partials/journey-stages.html`), Tulasi Healthcare cards, gallery.
+- **Reveal-on-scroll** now also reveals elements the reader has already scrolled past, and no longer
+  holds back elements in the bottom 6% of the window. A section could stay blank after a fast jump
+  or in a full-page screenshot.
+- The line under the doctor's name in the header ("Psychiatrist") was removed.
+
