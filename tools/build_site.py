@@ -29,25 +29,22 @@ import re
 import sys
 import urllib.parse
 
+import hub_pages
+import tests_pages
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
 SITE = 'https://goravgupta.com'
 
 # Same order the single page linked them, then the two newest layers.
 CSS = ['site', 'cinematic', 'films', 'refine', 'warm', 'calm', 'bloom', 'pro', 'spatial',
-       'fix', 'polish', 'touchup', 'tulasi', 'taste', 'refresh', 'pages', 'articles', 'booking', 'navy', 'home2', 'films2', 'about2']
+       'fix', 'polish', 'touchup', 'tulasi', 'taste', 'refresh', 'pages', 'articles', 'booking', 'navy', 'home2', 'films2', 'about2', 'menu', 'tests', 'hub']
 
 WA = 'https://wa.me/918800000255?text=Hello%20Dr.%20Gupta%27s%20team%2C%20I%27d%20like%20to%20book%20a%20consultation.'
 WAICON = ('<svg class="wai" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">'
           '<path d="M20.5 3.5A11 11 0 0 0 3.2 17.3L2 22l4.8-1.2A11 11 0 1 0 20.5 3.5zM12 20.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-2.8.7.8-2.7-.2-.3a8.2 8.2 0 1 1 6.7 3.7zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3a.5.5 0 0 0 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.3z"/></svg>')
 DELHI = 'https://share.google/T2NTrfaXPM0Pgc0wf'
 GURUGRAM = 'https://share.google/ZI81WGD0iUjLSohvh'
-
-DEFAULT_CTA = {
-    'h': 'Not sure how to seek help?',
-    'p': ('Connect with our psychiatrist in Delhi today, and understand how your concerns can affect you. '
-          'Drop a message and we will help you find the right guidance from the first step.'),
-}
 
 # The one source for "years in practice". Change the year here, then rebuild.
 # {{since}} is the year; {{years}} is how many years ago that was (it rolls forward each January).
@@ -255,7 +252,8 @@ def main():
                            'description': 'Articles by Dr. Gorav Gupta on mental health, addiction, anxiety, depression, OCD and treatment.',
                            'modified': chunk[0]['modified'] if chunk else ''})
 
-    all_items = designed + content + blog_pages
+    tests = tests_pages.load()   # data/tests/*.json -> /tests/ and /tests/<slug>/
+    all_items = designed + content + blog_pages + tests_pages.items(tests)
 
     # ---------------------------------------------------------------- render
     sitemap = []
@@ -269,7 +267,11 @@ def main():
         v = {'root': root, 'wa': WA, 'waicon': WAICON, 'delhi': DELHI, 'gurugram': GURUGRAM,
              'since': PRACTICE_SINCE, 'years': years, 'exp': EXPERIENCE, 'bio_short': bio_short, 'bio_long': BIO_LONG,
              'index_conditions': index_conditions(root), 'index_mental_health': index_group(root, 'mental-health'),
-             'index_local': index_group(root, 'local'), 'latest_posts': latest_posts(root)}
+             'index_local': index_group(root, 'local'), 'latest_posts': latest_posts(root),
+             'resources_menu': tests_pages.menu(root, tests, path),
+             'services_menu': hub_pages.services_menu(root, groups, by_slug, path)}
+        if path == 'resources':
+            v['resources_hub'] = hub_pages.resources_hub(root, posts, tests, href, pretty_date)
         for key, name in INCLUDES.items():
             if (SRC / 'partials' / name).exists():
                 v[key] = fill(read(SRC / 'partials' / name), v, name)
@@ -320,11 +322,17 @@ def main():
         for n in NAV:
             header = header.replace('{{cur:%s}}' % n, ' aria-current="page" class="act"' if n == nav_key else '')
         header = fill(header, v, 'header')
+        header = re.sub(r'class="dd__t"( href="[^"]*")( aria-current="page")? class="act"', lambda m: 'class="dd__t act"' + m.group(1) + (m.group(2) or '') , header)   # one class attribute
+        if 'aria-current="page"' in v['resources_menu'] + v['services_menu']:   # the menu item is the current page, so the top link is only highlighted
+            header = re.sub(r'(class="dd__t act" href="[^"]*") aria-current="page"', lambda m: m.group(1), header, count=1)
 
         # body
-        cta = pg.get('cta', {})
         if kind == 'designed':
             body = fill(pg['_body'], v, 'page ' + (path or 'home'))
+        elif kind == 'tests-index':
+            body = tests_pages.index_body(pg, root, ph)
+        elif kind == 'test':
+            body = tests_pages.test_body(pg, root, ph, WA)
         elif kind == 'blog-index':
             cards = ''.join(
                 '<li class="reveal"><a href="%s"><time datetime="%s">%s</time><h2>%s</h2><p>%s</p><span class="plist__go">Read article <i>→</i></span></a></li>'
@@ -352,7 +360,7 @@ def main():
             lede = pg.get('subtitle') or ''     # a post's first paragraph is its own opening, so it is not repeated as a subtitle
             meta_line = ('<time datetime="%s">%s</time>' % (pg['date'], pretty_date(pg['date']))) if kind == 'post' else ''
             lang = ' lang="%s"' % pg['lang'] if pg.get('lang') else ''
-            inner = fill(pg['_body'], v, 'content ' + path)
+            inner = tests_pages.source_callout(root, tests, pg['slug']) + fill(pg['_body'], v, 'content ' + path)
             after = author_box(root, kind == 'post', bio_short)
             if group in ('services', 'local'):
                 after += ASSESS.format(root=root)
@@ -371,21 +379,10 @@ def main():
                     + '<article class="sec prose"><div class="prose__main"><div class="prose__in"%s>%s</div><div class="prose__after">%s</div></div>%s</article>'
                     % (lang, inner, after, side))
 
-        if cta is False:
-            cta_html = ''
-        else:
-            cta = {**DEFAULT_CTA, **cta}
-            cta_html = ('<section class="ctab" aria-labelledby="ctab-h"><div class="ctab__in"><div>'
-                        '<h2 id="ctab-h">%s</h2><p>%s</p></div>'
-                        '<div class="ctab__act"><a class="btn" href="%scontactus/">Book Consultation</a>'
-                        '<a class="btn ghost ctab__call" href="tel:+918800000255">Call +91 88000 00255</a>'
-                        '<a class="btn wa" href="%s" target="_blank" rel="noopener">%sChat on WhatsApp</a></div></div></section>'
-                        % (cta['h'], cta['p'], root, WA, WAICON))
-
         html = (head
                 + (fill(intro_t, v, 'intro') if path == '' else '')
                 + header
-                + '<main id="main">' + body + cta_html + '</main>'
+                + '<main id="main">' + body + '</main>'
                 + fill(footer_t, v, 'footer') + fill(float_t, v, 'floating')
                 + scripts + '</body></html>\n')
 

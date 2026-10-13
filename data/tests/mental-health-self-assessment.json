@@ -1,0 +1,66 @@
+{
+  "slug": "mental-health-self-assessment",
+  "order": 1,
+  "menu_title": "Mental health self-assessment",
+  "title": "Mental Health Self-Assessment Scale",
+  "short": "This tool can help an individual reflect on their mental health and behaviors.",
+  "source": {
+    "url": "https://www.goravgupta.com/mental-health-assessment-tests/",
+    "page": "mental-health-assessment-tests"
+  },
+  "minutes": 3,
+  "intro": {
+    "measures": "This tool can help an individual reflect on their mental health and behaviors. This mental health assessment questionnaire helps evaluate a person’s overall mental health.",
+    "instructions": "Each question can be answered on a scale from 0 to 4. This scale is for self-reflection or a general assessment and is not a substitute for professional diagnosis or evaluation."
+  },
+  "scale": [
+    { "value": 0, "label": "Not at all" },
+    { "value": 1, "label": "Rarely" },
+    { "value": 2, "label": "Sometimes" },
+    { "value": 3, "label": "Often" },
+    { "value": 4, "label": "Very Often" }
+  ],
+  "questions": [
+    {
+      "id": "q1", "title": "General Mental Health",
+      "text": "How would you rate your overall mental health?",
+      "options": [
+        { "value": 0, "label": "Excellent" },
+        { "value": 1, "label": "Good" },
+        { "value": 2, "label": "Fair" },
+        { "value": 3, "label": "Poor" },
+        { "value": 4, "label": "Very Poor" }
+      ]
+    },
+    { "id": "q2", "title": "Sleep, Appetite, and Libido", "text": "How often do you experience problems with your sleep, appetite, or libido?" },
+    { "id": "q3", "title": "Mood", "text": "How often do you experience mood swings or feel that your mood is not stable?" },
+    {
+      "id": "q4", "title": "Socialization and Social Interaction",
+      "text": "How satisfied are you with your level of socialization and social interactions?",
+      "options": [
+        { "value": 0, "label": "Very satisfied" },
+        { "value": 1, "label": "Somewhat satisfied" },
+        { "value": 2, "label": "Neutral" },
+        { "value": 3, "label": "Somewhat unsatisfied" },
+        { "value": 4, "label": "Very unsatisfied" }
+      ]
+    },
+    { "id": "q5", "title": "Feelings of Fear or Insecurity", "text": "How often do you feel fearful or insecure, as if someone might be talking about you?" },
+    { "id": "q6", "title": "Anxiety and Avoidance", "text": "How often do you feel anxious or avoid doing things that most people do normally?" },
+    { "id": "q7", "title": "Repetitive Behaviors", "text": "How often do you find yourself doing things repeatedly or checking things repeatedly against your wishes?" },
+    { "id": "q8", "title": "Feeling Misfit", "text": "How often do you feel like a misfit in society or in the current scenario?" },
+    { "id": "q9", "title": "Substance Use", "text": "How often do you consume any substance excessively, leading to conflict with family, hindrance in personal growth, health issues, or occupational problems?" },
+    { "id": "q10", "title": "Memory and Confusion", "text": "How often do you forget things more than previously, or get confused about time, place, and person?" }
+  ],
+  "scoring": {
+    "type": "sum",
+    "max": 40,
+    "bands": [
+      { "min": 0, "max": 10, "level": "low", "label": "Low level of concern", "text": "Your responses suggest you might not be experiencing significant issues in the areas assessed." },
+      { "min": 11, "max": 20, "level": "mild", "label": "Mild level of concern", "text": "You may be experiencing some difficulties in a few areas." },
+      { "min": 21, "max": 30, "level": "moderate", "label": "Moderate level of concern", "text": "Your responses suggest noticeable difficulties in several areas that may require attention." },
+      { "min": 31, "max": 40, "level": "high", "label": "High level of concern", "urgent": true, "text": "It appears you are experiencing significant issues in many areas assessed. Seeking professional advice might be beneficial." }
+    ]
+  },
+  "note": "Remember, this scale is a general tool for self-assessment and not a professional diagnosis. If you are experiencing distress or significant problems in your daily life, consider reaching out to a mental health professional for a comprehensive evaluation and support."
+}

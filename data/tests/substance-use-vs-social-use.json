@@ -1,0 +1,68 @@
+{
+  "slug": "substance-use-vs-social-use",
+  "order": 5,
+  "menu_title": "Substance use vs social use",
+  "title": "Substance Use Differentiation Questionnaire",
+  "short": "A screening questionnaire to help understand your substance use patterns and whether a professional assessment is advisable.",
+  "source": {
+    "url": "https://www.goravgupta.com/substance-use-disorder-vs-social-use/",
+    "page": "substance-use-disorder-vs-social-use"
+  },
+  "minutes": 2,
+  "intro": {
+    "measures": "This questionnaire is a tool to help understand your substance use patterns and may indicate if a professional assessment is advisable. It is not exhaustive or diagnostic but can help identify potential red flags that warrant a more thorough assessment.",
+    "instructions": "Please answer the following questions honestly."
+  },
+  "placeholder": {
+    "token": "[substance]",
+    "label": "Which substance are you answering about? (optional)",
+    "hint": "For example alcohol, cannabis or tobacco. This stays on your device and is only used to word the questions.",
+    "default": "the substance"
+  },
+  "scale": [
+    { "value": 1, "label": "Yes", "flag": true },
+    { "value": 0, "label": "No" }
+  ],
+  "questions": [
+    {
+      "id": "frequency", "title": "Frequency of Use", "text": "How often do you use [substance]?",
+      "options": [
+        { "value": 1, "label": "Daily or almost daily", "flag": true },
+        { "value": 0, "label": "Weekly" },
+        { "value": 0, "label": "Monthly" },
+        { "value": 0, "label": "Only in social settings" }
+      ]
+    },
+    {
+      "id": "amount", "title": "Amount of Use", "text": "When you use [substance], how much do you typically consume?",
+      "options": [
+        { "value": 1, "label": "More than I initially plan to", "flag": true },
+        { "value": 0, "label": "Exactly as much as I plan to" },
+        { "value": 0, "label": "Less than I plan to" }
+      ]
+    },
+    { "id": "control", "key": true, "title": "Control Over Use", "text": "Have you ever wanted to cut down or stop using [substance] but couldn’t?" },
+    { "id": "responsibilities", "key": true, "title": "Impact on Responsibilities", "text": "Has your use of [substance] ever led to problems at work, school, or home?" },
+    { "id": "continued", "key": true, "title": "Continued Use Despite Problems", "text": "Do you continue to use [substance] even when it causes social or relationship problems?" },
+    { "id": "cravings", "title": "Cravings", "text": "Do you experience strong desires or urges to use [substance]?" },
+    { "id": "activities", "title": "Impact on Activities", "text": "Have you given up or reduced participation in important activities because of your use of [substance]?" },
+    { "id": "tolerance", "key": true, "title": "Tolerance", "text": "Have you found that you need to use more of [substance] to achieve the same effect you once had with smaller amounts?" },
+    { "id": "withdrawal", "key": true, "title": "Withdrawal", "text": "When you stop using [substance], do you experience withdrawal symptoms?" },
+    { "id": "time", "title": "Time Spent", "text": "Do you spend a lot of time obtaining, using, or recovering from the effects of [substance]?" },
+    { "id": "roles", "title": "Neglect of Major Roles", "text": "Have you failed to fulfill major role obligations at work, school, or home due to substance use?" },
+    { "id": "legal", "title": "Legal Problems", "text": "Have you encountered legal problems due to your substance use?" }
+  ],
+  "scoring": {
+    "type": "count",
+    "max": 12,
+    "score_label": "red-flag answers",
+    "assumption": "ASSUMPTION, needs the doctor's review. The old site gives no numbers, only 'Primarily No' vs 'Several Yes'. Here every 'Yes' counts as one red flag; for the two multiple-choice questions only 'Daily or almost daily' and 'More than I initially plan to' count. 0 to 2 flags = 'Primarily No', 3 or more = 'Several Yes'. The 'key' questions (control, responsibilities, continued use, tolerance, withdrawal) are the ones the old site singles out; any 'Yes' to them adds the key_note line below.",
+    "bands": [
+      { "min": 0, "max": 2, "level": "low", "label": "Primarily “No” responses", "text": "May indicate social or non-problematic use, but this does not rule out the potential for substance use issues.", "assumption": true },
+      { "min": 3, "max": 12, "level": "high", "label": "Several “Yes” responses", "urgent": true, "text": "Several “Yes” responses may indicate a need for a comprehensive assessment by a professional.", "assumption": true }
+    ],
+    "key_note": "Particularly to questions about control, impact on responsibilities, continued use despite problems, tolerance, and withdrawal, “Yes” responses may indicate a need for a comprehensive assessment by a professional."
+  },
+  "note": "This questionnaire is a simplistic tool for initial screening purposes and should not be used as a standalone diagnostic instrument. Professional evaluation is essential for accurate diagnosis and treatment planning.",
+  "next_steps": "If there are concerns about one’s substance use or its impact on life, consulting a healthcare professional for a thorough assessment is advisable."
+}

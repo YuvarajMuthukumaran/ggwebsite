@@ -202,11 +202,13 @@
   var pill = d.createElement('span'); pill.className = 'nav-pill'; pill.setAttribute('aria-hidden', 'true'); links.insertBefore(pill, links.firstChild);
   /* Multi-page site: the current page is fixed in the markup (aria-current="page"),
      so the gliding pill rests on it and no scroll-spy is needed. */
-  var active = $('a[aria-current="page"]', links), navLinks = $$('a', links);
+  var active = $('a.act', links), navLinks = $$(':scope > a, :scope > .dd', links);   // top level only; a dropdown's pill covers link and chevron
+  if (active && active.closest('.dd')) active = active.closest('.dd');
   function place(a) {
-    if (!a) { pill.classList.remove('on'); return; }
+    if (!a || !pill.offsetParent) { pill.classList.remove('on'); return; }
+    var box = pill.offsetParent, br = box.getBoundingClientRect(), r = a.getBoundingClientRect();   // rects: the Resources link sits inside .dd
     pill.style.width = (a.offsetWidth + 26) + 'px'; pill.style.height = (a.offsetHeight + 12) + 'px';
-    pill.style.top = (a.offsetTop - 6) + 'px'; pill.style.translate = (a.offsetLeft - 13) + 'px 0';
+    pill.style.top = (r.top - br.top - box.clientTop - 6) + 'px'; pill.style.translate = (r.left - br.left - box.clientLeft - 13) + 'px 0';
     pill.classList.add('on');
   }
   function movePill() { place(active); }
@@ -216,6 +218,26 @@
   nav.addEventListener('transitionend', function (e) { if (e.target === nav) movePill(); });   // the bar changes width and padding on scroll
   movePill();
   addEventListener('load', movePill);
+
+  /* Resources dropdown: hover or click on desktop, an accordion in the mobile menu. Esc and outside clicks close it. */
+  $$('.dd', links).forEach(function (dd) {
+    var btn = $('.dd__b', dd), wide = matchMedia('(min-width:1001px) and (hover:hover)'), shut = 0;
+    function set(open) { clearTimeout(shut); dd.classList.toggle('open', open); btn.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+    btn.addEventListener('click', function () { set(!dd.classList.contains('open')); });
+    btn.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown') { e.preventDefault(); set(true); var f = $('.dd__m a', dd); if (f) f.focus(); }
+    });
+    dd.addEventListener('keydown', function (e) {
+      var items = $$('.dd__m a', dd), i = items.indexOf(d.activeElement);
+      if (e.key === 'Escape' && dd.classList.contains('open')) { e.stopPropagation(); set(false); btn.focus(); }
+      else if (i > -1 && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) { e.preventDefault(); items[(i + (e.key === 'ArrowDown' ? 1 : items.length - 1)) % items.length].focus(); }
+    });
+    dd.addEventListener('pointerenter', function (e) { if (wide.matches && e.pointerType === 'mouse') set(true); });
+    dd.addEventListener('pointerleave', function (e) { if (wide.matches && e.pointerType === 'mouse') shut = setTimeout(function () { set(false); }, 160); });
+    dd.addEventListener('focusout', function (e) { if (wide.matches && !dd.contains(e.relatedTarget)) set(false); });
+    d.addEventListener('click', function (e) { if (wide.matches && !dd.contains(e.target)) set(false); });
+    if (!wide.matches && $('.dd__m a[aria-current="page"]', dd)) set(true);   // mobile: open on the section you're in
+  });
   if (d.fonts && d.fonts.ready) d.fonts.ready.then(movePill);   // web fonts change link widths
 
   var scrollAnim = 0;
