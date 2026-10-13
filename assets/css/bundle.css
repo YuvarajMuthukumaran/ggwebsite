@@ -2876,6 +2876,13 @@ html.js .jt__i.in .jt__tags li{
 .nav nav .dd__m a[aria-current="page"] b{ font-weight:600; }
 .dd__k{ margin:.45rem .8rem .2rem; padding-top:.55rem; border-top:1px solid var(--line); font-size:.72rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--mut); }
 
+.nav nav .dd__m a:has(.dd__ic){ display:flex; align-items:center; gap:.7rem; }
+.dd__tx{ display:grid; gap:.1rem; min-width:0; }
+.dd__ic{ flex:none; display:grid; place-items:center; width:32px; height:32px; border-radius:10px; background:var(--tint); color:var(--blue-d); transition:background .2s,color .2s; }
+.nav nav .dd__m a:hover .dd__ic,.nav nav .dd__m a[aria-current="page"] .dd__ic{ background:var(--blue); color:#ffffff; }
+.dd__k:has(.dd__kic){ display:flex; align-items:center; gap:.4rem; }
+.dd__kic{ flex:none; display:grid; color:var(--blue); }
+.dd__kic svg{ width:15px; height:15px; }
 .dd__cols{ display:grid; gap:.2rem; }
 .dd__g .dd__k{ border-top:0; padding-top:0; }
 @media (min-width:1001px){

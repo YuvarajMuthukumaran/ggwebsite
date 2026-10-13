@@ -7,6 +7,11 @@ in the browser from the JSON embedded in the page. Answers never leave the devic
 import json
 import pathlib
 
+from hub_pages import icon
+
+TEST_ICON = {'mental-health-self-assessment': 'pulse', 'bipolar-early-warning-signs': 'wave', 'schizophrenia-relapse-signs': 'eye',
+             'relapse-risk-assessment': 'shield', 'substance-use-vs-social-use': 'glass'}
+
 DATA = pathlib.Path(__file__).resolve().parent.parent / 'data' / 'tests'
 
 ICON_CLOCK = ('<svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"/></svg>')
@@ -45,14 +50,15 @@ def esc(s):
 
 def menu(root, tests, path):
     """The Resources dropdown in the header. The current page gets aria-current."""
-    def a(href, label, sub=''):
+    def a(href, label, sub='', ic='clipboard'):
         cur = ' aria-current="page"' if href == path else ''
-        return '<a href="%s%s/"%s><b>%s</b>%s</a>' % (root, href, cur, label, ('<small>%s</small>' % sub) if sub else '')
+        return '<a href="%s%s/"%s>%s<span class="dd__tx"><b>%s</b>%s</span></a>' % (
+            root, href, cur, icon(ic), label, ('<small>%s</small>' % sub) if sub else '')
     return ('<div class="dd__in">'
-            + a('resources', 'Articles &amp; resources', 'Guides, conditions and the blog')
-            + a('tests', 'Interactive tests', 'Private self-assessment tools')
+            + a('resources', 'Articles &amp; resources', 'Guides, conditions and the blog', 'book')
+            + a('tests', 'Interactive tests', 'Private self-assessment tools', 'clipboard')
             + '<p class="dd__k">Self-assessment tests</p>'
-            + ''.join(a('tests/' + t['slug'], esc(t['menu_title'])) for t in tests)
+            + ''.join(a('tests/' + t['slug'], esc(t['menu_title']), '', TEST_ICON.get(t['slug'], 'clipboard')) for t in tests)
             + '</div>')
 
 

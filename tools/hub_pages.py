@@ -1,6 +1,35 @@
 """Services dropdown and the Resources hub page, used by tools/build_site.py."""
 import re
 
+# Small line icons for the nav dropdowns (24px grid, drawn with currentColor)
+ICONS = {
+    'book': '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/><path d="M9 7.5h6"/>',
+    'clipboard': '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2.8h6V4"/><path d="m9 13 2 2 4-4"/>',
+    'pulse': '<path d="M20.8 8.6a5 5 0 0 0-8.8-3 5 5 0 0 0-8.8 3c0 5.4 8.8 11 8.8 11s8.8-5.6 8.8-11z"/><path d="M3.6 12h4l2-3 3 6 2-3h5.8"/>',
+    'wave': '<path d="M2 12c2.5-6 5-6 7.5 0s5 6 7.5 0c1.2-2.8 2.6-3.6 5-2"/>',
+    'eye': '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+    'shield': '<path d="M12 3 4.5 6v6c0 4.8 3.2 8.2 7.5 9 4.3-.8 7.5-4.2 7.5-9V6z"/><path d="m9 12 2 2 4-4"/>',
+    'glass': '<path d="M7.5 3h9l-1 8.5a3.5 3.5 0 0 1-7 0z"/><path d="M12 15v6M8.5 21h7"/>',
+    'grid': '<rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/>',
+    'pill': '<path d="M10.5 20.5a5 5 0 0 1-7-7l6-6a5 5 0 0 1 7 7z"/><path d="m7 10 7 7"/>',
+    'wind': '<path d="M3 8h10a3 3 0 1 0-3-3"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h6"/>',
+    'user': '<circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/>',
+    'leaf': '<path d="M5 19c0-8 5-13 15-14-1 10-6 15-14 15"/><path d="M5 19 13 11"/>',
+}
+
+
+def icon(name, cls='dd__ic'):
+    return ('<span class="%s" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" '
+            'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">%s</svg></span>' % (cls, ICONS[name]))
+
+
+GROUP_ICON = [(r'addiction|substance', 'pill'), (r'schizo', 'eye'), (r'mood|depress', 'wave'), (r'anxiety|ocd|stress', 'wind'),
+              (r'personality', 'user'), (r'eating', 'leaf')]
+
+
+def group_icon(title):
+    return next((n for pat, n in GROUP_ICON if re.search(pat, title.lower())), 'grid')
+
 TOPICS = [   # (key, label, pattern matched against a post's slug and title)
     ('addiction', 'Addiction', r'alcohol|addict|drink|drug|substance|smok|cannabis|marijuana|relapse|buprenorphine|withdrawal|delirium|sobri'),
     ('anxiety', 'Anxiety &amp; OCD', r'anxiety|ocd|panic|stress|obsess|phobia'),
@@ -61,13 +90,14 @@ def topic(p):
 
 
 def services_menu(root, groups, by_slug, path):
-    def a(href, label, sub=''):
+    def a(href, label, sub='', ic=''):
         cur = ' aria-current="page"' if href == path else ''
-        return '<a href="%s%s/"%s><b>%s</b>%s</a>' % (root, href, cur, label, ('<small>%s</small>' % sub) if sub else '')
-    cols = ''.join('<div class="dd__g"><p class="dd__k">%s</p>%s</div>'
-                   % (esc(title), ''.join(a(by_slug[s]['path'], esc(by_slug[s]['title'])) for s in slugs if s in by_slug))
+        body = '<b>%s</b>%s' % (label, ('<small>%s</small>' % sub) if sub else '')
+        return '<a href="%s%s/"%s>%s</a>' % (root, href, cur, (icon(ic) + '<span class="dd__tx">%s</span>' % body) if ic else body)
+    cols = ''.join('<div class="dd__g"><p class="dd__k">%s%s</p>%s</div>'
+                   % (icon(group_icon(title), 'dd__kic'), esc(title), ''.join(a(by_slug[s]['path'], esc(by_slug[s]['title'])) for s in slugs if s in by_slug))
                    for title, slugs in groups['condition_groups'])
-    return ('<div class="dd__in dd__in--wide">' + a('services', 'All services', 'Every condition Dr. Gupta treats')
+    return ('<div class="dd__in dd__in--wide">' + a('services', 'All services', 'Every condition Dr. Gupta treats', 'grid')
             + '<div class="dd__cols">%s</div></div>' % cols)
 
 
