@@ -725,3 +725,7 @@ psychiatry", "issues,", "Delhi psychiatrist Society" to the name used elsewhere 
   License), in `assets/img/pages/<name>-4k.webp` (up to 3840 px wide) and `-1600.webp`; pages serve the 1600 px file and the 4K one only to very high-density screens (`srcset`).
   Photographers and photo links are in `data/image-credits.json`. The doctor's own photos and the award picture were kept. The six "stress busters" tips and the bipolar I/II
   definition pictures were graphics with text and are now photos only. Blog posts and other pages still use their old images.
+- **/faq/ is an answer finder:** a hero with search and suggestion chips, an "at a glance" card (fee, rooms, online, and a Visit Tulasi button), a topic sidebar with counts, and all
+  22 questions in one list (first paragraph of each answer, with a link to the full answer on its topic page). Search matches whole words as you type and highlights them, topics
+  filter, and both are kept in the address (`?q=&topic=`). Without JavaScript the page is the full list and the topics link to their pages. Logic: `assets/js/faq-index.js`;
+  markup: `index_body` in `tools/faq_pages.py`; styles: the "/faq/" section of `assets/css/faq.css`. The index no longer carries FAQPage data (the topic pages do, with full answers).

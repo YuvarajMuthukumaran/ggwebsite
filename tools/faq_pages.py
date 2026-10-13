@@ -17,9 +17,7 @@ SOURCE_PATH = 'frequently-asked-questions-psychiatrist-near-me-consultation'
 TITLE = 'Frequently Asked Questions (FAQ)'
 LEDE = ('Answers to the questions people ask most before they see a psychiatrist: when to seek help, how treatment works, '
         'what a consultation involves and who Dr. Gorav Gupta is.')
-# questions shown on /faq/ (topic slug, question number within the topic)
-POPULAR = [('when-to-see-a-psychiatrist', 1), ('psychiatrist-vs-psychologist', 2), ('consultation-and-fees', 0),
-           ('treatment-and-therapy', 0), ('treatment-and-therapy', 4), ('about-dr-gorav-gupta', 0)]
+
 
 def esc(s):
     return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
@@ -53,12 +51,11 @@ def faq_ld(qas):
 
 def items(topics):
     """Page records for build_site.py's render loop."""
-    popular = [topics_by(topics, s)['qas'][i] for s, i in POPULAR if topics_by(topics, s)]
     out = [{'kind': 'faq-index', 'path': 'faq', 'nav': 'resources', 'crumb': 'Frequently asked questions',
             'title': '%s | Dr. Gorav Gupta' % TITLE,
             'description': 'Frequently asked questions about seeing a psychiatrist in Delhi NCR: when to seek help, treatment and therapy, '
                            'consultation and fees, and about Dr. Gorav Gupta.',
-            'scripts': ['faq'], 'faq': topics, 'ld_extra': faq_ld(popular)}]
+            'scripts': ['faq-index'], 'faq': topics, 'ld_extra': ''}]
     for t in topics:
         out.append({'kind': 'faq', 'path': 'faq/' + t['slug'], 'nav': 'resources', 'crumb': t['menu_title'],
                     'title': '%s | FAQ | Dr. Gorav Gupta' % t['title'], 'description': t['description'],
@@ -97,24 +94,62 @@ def help_band(root, wa, full_guide=True):
             % (wa, ('<a class="more__a" href="%s%s/">Read the full guide <i>&rarr;</i></a>' % (root, SOURCE_PATH)) if full_guide else ''))
 
 
+SUGGEST = ['fee', 'online', 'OCD', 'alcohol', 'therapy', 'psychologist']
+SEARCH_ICON = ('<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+               '<circle cx="11" cy="11" r="6.500"/><path d="m16 16 4.500 4.500"/></svg>')
+FACT_ICON = {
+    'fee': '<path d="M6 4h12"/><path d="M6 9h12"/><path d="M9 4c5 0 7 2 7 5s-2 5-7 5h-1l8 6"/>',
+    'pin': '<path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.400-7 11-7 11z"/><circle cx="12" cy="10" r="2.500"/>',
+    'video': '<rect x="3" y="6" width="13" height="12" rx="2.500"/><path d="m16 10.500 5-3v9l-5-3z"/>',
+}
+
+
+def fact(ic, k, v):
+    return ('<li><span class="fh-glance__ic"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">%s</svg></span>'
+            '<span><b>%s</b><small>%s</small></span></li>' % (FACT_ICON[ic], k, v))
+
+
 def index_body(pg, root, ph, wa):
     topics = pg['faq']
-    cards = ''.join(
-        '<li class="reveal" style="--i:%d"><a class="tq-card fq-card" href="%sfaq/%s/"><span class="tq-card__n" aria-hidden="true">%02d</span>'
-        '<h2>%s</h2><p>%s</p><ul class="tq-chips"><li>%d questions</li></ul><span class="tq-card__go">View answers <i aria-hidden="true">&rarr;</i></span></a></li>'
-        % (i, root, t['slug'], i + 1, esc(t['title']), esc(t['short']), t['n']) for i, t in enumerate(topics))
-    pop = ''
-    for s, i in POPULAR:
-        t = topics_by(topics, s)
-        if not t:
-            continue
-        q = t['qas'][i]
-        pop += ('<details class="fq-q"><summary><span>%s</span></summary><div class="fq-a">%s<p class="fq-a__more"><a href="%sfaq/%s/#%s">More in &ldquo;%s&rdquo; <i>&rarr;</i></a></p></div></details>'
-                % (q['q'], r(first_part(q['a']), root), root, s, q['id'], esc(t['menu_title'])))
-    head = ph([('Home', root), ('Resources', root + 'resources/'), ('Frequently asked questions', None)], TITLE, LEDE)
-    return (head
-            + '<section class="sec tq-idx" aria-label="FAQ topics"><ul class="tq-grid">%s</ul></section>' % cards
-            + '<section class="sec fq-pop" aria-labelledby="fq-pop-h"><div class="head"><h2 id="fq-pop-h">Popular questions</h2></div><div class="fq-list">%s</div></section>' % pop
+    total = sum(t['n'] for t in topics)
+    head = ph([('Home', root), ('Resources', root + 'resources/'), ('Frequently asked questions', None)], TITLE, '')
+    # the standard header is replaced by the hero below (keeps the h1 and breadcrumb markup)
+    crumbs = head[head.index('<nav class="crumb"'):head.index('</nav>') + 6]
+    hero = ('<header class="fh-hero"><div class="fh-hero__txt">%s<p class="fh-eyebrow">%s<span>Answers from Dr. Gorav Gupta</span></p>'
+            '<h1>%s</h1><p class="fh-lede">%s</p>'
+            '<div class="fh-search"><label class="fh-sr" for="fh-q">Search the questions</label>%s'
+            '<input id="fh-q" type="search" placeholder="Search %d questions" autocomplete="off" spellcheck="false">'
+            '<button type="button" class="fh-search__x" aria-label="Clear the search" hidden>&times;</button></div>'
+            '<p class="fh-suggest"><span>Try</span>%s</p></div>'
+            '<aside class="fh-glance" aria-label="At a glance"><p class="fh-glance__t">At a glance</p><ul>%s%s%s</ul>'
+            '<a class="fh-glance__go" href="https://tulasihealthcare.com" target="_blank" rel="noopener">Visit Tulasi to book a consultation <i aria-hidden="true">&nearr;</i></a></aside></header>'
+            % (crumbs, icon('help', 'fh-eyebrow__ic'), esc(TITLE), LEDE, SEARCH_ICON, total,
+               ''.join('<button type="button" data-try="%s">%s</button>' % (esc(w), esc(w)) for w in SUGGEST),
+               fact('fee', 'Consultation fee', 'Rs. 2700 for 20 minutes'), fact('pin', 'Consulting rooms', 'New Delhi and Gurugram'),
+               fact('video', 'Online', 'Consultations available online')))
+    side = ('<aside class="fh__side" aria-label="Topics"><p class="fh__k">Topics</p><ul class="fh-topics">'
+            '<li><a href="%sfaq/" class="is-on" data-topic="all" aria-pressed="true">All questions <span>%d</span></a></li>%s</ul>'
+            '<div class="fh__more"><a href="%s%s/">Read the full guide <i>&rarr;</i></a><a href="%stests/">Take a private self-assessment <i>&rarr;</i></a></div></aside>'
+            % (root, total, ''.join('<li><a href="%sfaq/%s/" data-topic="%s" aria-pressed="false">%s <span>%d</span></a></li>' % (root, t['slug'], t['slug'], esc(t['menu_title']), t['n']) for t in topics),
+               root, SOURCE_PATH, root))
+    groups = ''
+    for t in topics:
+        items = ''
+        for q in t['qas']:
+            text = (q['q'] + ' ' + plain(q['a'])).lower()
+            items += ('<details class="fq-q fh-q" id="fh-%s" data-q="%s"><summary><span class="fh-q__t">%s</span></summary><div class="fq-a">%s'
+                      '<p class="fq-a__more"><a href="%sfaq/%s/#%s">Read the full answer <i>&rarr;</i></a></p></div></details>'
+                      % (q['id'], esc(text), q['q'], r(first_part(q['a']), root), root, t['slug'], q['id']))
+        groups += ('<section class="fh-g" data-topic="%s" aria-labelledby="fh-g-%s"><header class="fh-g__h"><div><h2 id="fh-g-%s">%s</h2><p>%s</p></div>'
+                   '<a class="fh-g__all" href="%sfaq/%s/">Open this topic <i>&rarr;</i></a></header><div class="fq-list">%s</div></section>'
+                   % (t['slug'], t['slug'], t['slug'], esc(t['title']), esc(t['short']), root, t['slug'], items))
+    main = ('<div class="fh__main"><div class="fh-bar"><p class="fh-count" id="fh-count" aria-live="polite" tabindex="-1">%d questions</p>'
+            '<button type="button" class="fq-tog" id="fh-tog" aria-pressed="false">Expand all</button></div>'
+            '<div class="fh-active" id="fh-active" hidden></div>%s'
+            '<div class="fh-empty" id="fh-empty" hidden><b>No question matches that.</b><p>Try another word, or browse a topic. You can also ask the team directly.</p>'
+            '<div><button type="button" class="btn ghost" id="fh-clear">Clear the search</button> <a class="btn" href="%s" target="_blank" rel="noopener">Ask on WhatsApp</a></div></div></div>'
+            % (total, groups, wa))
+    return (hero + '<section class="sec fh"><div class="fh__grid">' + side + main + '</div></section>'
             + '<section class="sec fq-end">%s</section>' % help_band(root, wa))
 
 
