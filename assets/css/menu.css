@@ -30,6 +30,7 @@
 .dd__g .dd__k{ border-top:0; padding-top:0; }
 @media (min-width:1001px){
   .dd__m.dd__m--wide{ width:min(600px,calc(100vw - 48px)); }
+  #dd-res-m{ width:365px; }
   .dd__in--wide > a{ margin-bottom:.35rem; }
   .dd__cols{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:.6rem .2rem; padding-top:.5rem; border-top:1px solid var(--line); }
   .dd__g .dd__k{ margin-top:.2rem; }
@@ -53,3 +54,24 @@
 @media (prefers-reduced-motion:reduce){
   .dd__m,.dd__b svg{ transition:none !important; }
 }
+
+/* FAQ entry with its topics folded under it (Resources menu). The topics open under the row on hover or focus (desktop),
+   or with the small chevron (any size); on FAQ pages the list starts open. */
+.dd__sub{ display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; }
+.dd__sub>.dd__subt{ grid-column:1; }
+.dd__sb{ grid-column:2; display:grid; place-items:center; width:30px; height:30px; margin:0 .3rem 0 0; padding:0; border:0; border-radius:50%; background:none; color:var(--mut); cursor:pointer; transition:background .25s,color .25s; }
+.dd__sb:hover{ background:var(--tint); color:var(--blue-d); }
+.dd__sb:focus-visible{ outline:2px solid var(--blue); outline-offset:1px; }
+.dd__sb svg{ transition:rotate .35s var(--e); }
+.dd__sub.open .dd__sb svg{ rotate:180deg; }
+.dd__sl{ grid-column:1/-1; display:grid; grid-template-rows:0fr; visibility:hidden; transition:grid-template-rows .35s var(--e),visibility 0s linear .35s; }
+.dd__sl>div{ display:grid; gap:.05rem; min-height:0; overflow:hidden; margin:0 0 0 1.45rem; padding-left:.5rem; border-left:2px solid var(--tint2); }
+.dd__sub.open .dd__sl{ grid-template-rows:1fr; visibility:visible; transition-delay:0s; }
+.dd__sub.open>.dd__sl>div{ padding-block:.1rem .3rem; }
+.nav nav .dd__m .dd__sl a{ padding:.42rem .7rem; font-size:.875rem; color:var(--mut); }
+.nav nav .dd__m .dd__sl a:hover,.nav nav .dd__m .dd__sl a[aria-current="page"]{ color:var(--blue-d); }
+@media (hover:hover) and (min-width:1001px){
+  .dd__sub:hover .dd__sl,.dd__sub:focus-within .dd__sl{ grid-template-rows:1fr; visibility:visible; transition-delay:0s; }
+  .dd__sub:hover .dd__sb svg,.dd__sub:focus-within .dd__sb svg{ rotate:180deg; }
+}
+@media (prefers-reduced-motion:reduce){ .dd__sl,.dd__sb svg{ transition:none !important; } }

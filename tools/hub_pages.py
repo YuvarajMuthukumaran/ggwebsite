@@ -15,6 +15,7 @@ ICONS = {
     'wind': '<path d="M3 8h10a3 3 0 1 0-3-3"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h6"/>',
     'user': '<circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/>',
     'leaf': '<path d="M5 19c0-8 5-13 15-14-1 10-6 15-14 15"/><path d="M5 19 13 11"/>',
+    'help': '<circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1.1.9-1.1 1.7"/><path d="M12 17h.01"/>',
 }
 
 
@@ -123,7 +124,7 @@ def resources_hub(root, posts, tests, href, pretty_date):
         '<button type="button" class="hb-chip" aria-pressed="false" data-topic="%s">%s</button>' % (k, l)
         for k, l, _ in TOPICS + [OTHER + ('',)] if k in used)
     quick = ''.join('<li><a href="%stests/%s/">%s <i aria-hidden="true">→</i></a></li>' % (root, t['slug'], esc(t['menu_title'])) for t in tests)
-    more = [('frequently-asked-questions-psychiatrist-near-me-consultation', 'Frequently asked questions', 'About psychiatrists, consultation and treatment.'),
+    more = [('faq', 'Frequently asked questions (FAQ)', 'Answers on consulting, treatment, fees and Dr. Gupta.'),
             ('ask-the-doctor', 'Ask the Doctor', 'Questions often asked about mental illness and addiction.'),
             ('video-gallery', 'Video Gallery', 'Films and YouTube videos from Dr. Gupta.'),
             ('publication', 'Publications', 'Articles and press coverage.'),

@@ -1,0 +1,37 @@
+{
+ "slug": "consultation-and-fees",
+ "order": 3,
+ "icon": "clipboard",
+ "title": "Consultation and fees",
+ "menu_title": "Consultation and fees",
+ "short": "Finding the right psychiatrist, what to share, how often to visit, and what a consultation costs.",
+ "description": "How to find and choose a psychiatrist in Delhi, what to tell them, how often to visit, and the consultation fee of Dr. Gorav Gupta.",
+ "intro": "",
+ "qas": [
+  {
+   "q": "What is the consultation fee of a psychiatrist?",
+   "a": "<p>Consultation fees for psychiatrists can vary widely based on factors such as location, the psychiatrist&rsquo;s experience, and the type of services offered. The consultation fee for Dr. Gorav Gupta is Rs. 2700 for 20 minutes.</p>"
+  },
+  {
+   "q": "How do I find a psychiatrist near me?",
+   "a": "<p>Finding a psychiatrist near you can be done through several methods. Here are some steps you can take:</p><ul><li>Ask friends and family for a referral</li><li>Read online reviews</li><li>Ask your general practitioner</li></ul>"
+  },
+  {
+   "q": "How do I choose the right psychiatrist in Delhi for me?",
+   "a": "<p>It is important to think about a psychiatrist&rsquo;s training, skills, qualifications, experience, area of expertise, location of practice, treatment philosophy and patient satisfaction when choosing one. You can ask your primary care physician, your family or your friends for advice. Online reviews and testimonials can also provide useful information.</p>"
+  },
+  {
+   "q": "What does my psychiatrist need to know?",
+   "a": "<p>Your psychiatrist needs to know your mental health history, including any previous diagnoses, treatments and medications. This information is taken in the first stages by a clinical psychologist and therapist. It is important to share your current symptoms, emotional struggles and any major life changes. Remember to be open and present while answering these questions.</p>"
+  },
+  {
+   "q": "How many times should you see your psychiatrist?",
+   "a": "<p>The frequency of visits depends on your specific needs and treatment plan. If you are visiting for issues related to children, relationships or other concerns, and physiological issues do not persist, the clients are referred to a child therapist or a relationship therapist to take treatment forward.</p>"
+  },
+  {
+   "q": "Can I see a psychiatrist for relationship issues?",
+   "a": "<p>Yes. There are times when relationship issues arise from physical factors that present as mental issues. Seeing a psychiatrist can relieve your doubts, and you can be directed to a relationship therapist if further issues exist.</p>"
+  }
+ ],
+ "source": "frequently-asked-questions-psychiatrist-near-me-consultation"
+}

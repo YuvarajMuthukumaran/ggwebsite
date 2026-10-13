@@ -156,16 +156,15 @@ a.tq-card:hover .tq-card__go i{ translate:3px 0; }
 .tq-ans li b{ font-weight:600; color:var(--ink); }
 .tq-disc{ margin:1.2rem 0 0 !important; font-size:.85rem; color:var(--mut) !important; }
 
-/* the doctor's photo: landing header and result CTA */
-.tq-hdr{ display:flex; align-items:flex-end; justify-content:space-between; gap:2rem; }
-.tq-doc{ flex:none; margin:0; display:grid; justify-items:center; gap:.6rem; }
-.tq-doc img{ width:150px; height:175px; object-fit:cover; object-position:top; border-radius:24px; border:4px solid #ffffff; box-shadow:var(--sh); }
-.tq-doc figcaption{ display:grid; text-align:center; font-size:.8125rem; color:var(--mut); }
-.tq-doc b{ font:600 .95rem Poppins,Inter,sans-serif; color:var(--ink); }
+/* the landing page header is centred */
+.ph--c .ph__in{ max-width:56rem; margin-inline:auto; text-align:center; }
+.ph--c .crumb{ justify-content:center; }
+.ph--c .ph__lede{ margin-inline:auto; }
+
+/* the doctor's photo in the result CTA */
 .tq-cta{ grid-template-columns:auto minmax(0,1fr); align-items:start; }
 .tq-cta__doc{ width:64px; height:75px; object-fit:cover; object-position:top; border-radius:16px; border:3px solid #ffffff; box-shadow:var(--sh); }
 .tq-cta__a{ grid-column:1/-1; }
-@media (max-width:640px){ .tq-doc{ display:none; } }
 
 /* link from the old-site articles */
 .tq-call{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem 1.5rem; margin:0 0 2rem; padding:1.1rem 1.3rem; border:1px solid var(--tint2); border-radius:18px; background:linear-gradient(150deg,#f3f8ff,#e7f0fb); }

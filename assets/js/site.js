@@ -231,8 +231,12 @@
     btn.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowDown') { e.preventDefault(); set(true); var f = $('.dd__m a', dd); if (f) f.focus(); }
     });
+    $$('.dd__sub', dd).forEach(function (sub) {            // a folded group inside the menu (FAQ topics)
+      var sb = $('.dd__sb', sub);
+      sb.addEventListener('click', function () { var o = sub.classList.toggle('open'); sb.setAttribute('aria-expanded', o ? 'true' : 'false'); });
+    });
     dd.addEventListener('keydown', function (e) {
-      var items = $$('.dd__m a', dd), i = items.indexOf(d.activeElement);
+      var items = $$('.dd__m a', dd).filter(function (a) { return getComputedStyle(a).visibility !== 'hidden'; }), i = items.indexOf(d.activeElement);
       if (e.key === 'Escape' && dd.classList.contains('open')) { e.stopPropagation(); set(false); btn.focus(); }
       else if (i > -1 && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) { e.preventDefault(); items[(i + (e.key === 'ArrowDown' ? 1 : items.length - 1)) % items.length].focus(); }
     });

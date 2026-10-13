@@ -48,7 +48,7 @@ def esc(s):
     return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
 
 
-def menu(root, tests, path):
+def menu(root, tests, path, extra=''):
     """The Resources dropdown in the header. The current page gets aria-current."""
     def a(href, label, sub='', ic='clipboard'):
         cur = ' aria-current="page"' if href == path else ''
@@ -57,8 +57,7 @@ def menu(root, tests, path):
     return ('<div class="dd__in">'
             + a('resources', 'Articles &amp; resources', 'Guides, conditions and the blog', 'book')
             + a('tests', 'Interactive tests', 'Private self-assessment tools', 'clipboard')
-            + '<p class="dd__k">Self-assessment tests</p>'
-            + ''.join(a('tests/' + t['slug'], esc(t['menu_title']), '', TEST_ICON.get(t['slug'], 'clipboard')) for t in tests)
+            + extra
             + '</div>')
 
 
@@ -76,9 +75,8 @@ def index_body(pg, root, ph):
     lede = ('Online screening is one of the fastest &amp; easiest ways to determine whether you are experiencing symptoms of a mental health condition. '
             'After mental health testing, you can consult with Dr. Gorav Gupta.')
     head = ph([('Home', root), ('Resources', root + 'resources/'), ('Interactive tests', None)], 'Interactive tests', lede)
-    head = head.replace('</div></header>', '</div><figure class="tq-doc"><img src="%sassets/img/portrait-close-col.webp" alt="Dr. Gorav Gupta" width="240" height="280">'
-                        '<figcaption><b>Dr. Gorav Gupta</b>M.B.B.S., M.D. Psychiatry</figcaption></figure></header>' % root, 1)
-    return (head.replace('<header class="ph">', '<header class="ph tq-hdr">', 1)
+    head = head.replace('<header class="ph">', '<header class="ph ph--c">', 1)      # centred header
+    return (head
             + '<section class="sec tq-idx" aria-label="Tests"><ul class="tq-grid">%s</ul>'
               '<div class="tq-fine reveal"><p>%s<span>%s</span></p><p>%s</p></div></section>'
             % (cards, ICON_LOCK, PRIVACY, DISCLAIMER))

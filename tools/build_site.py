@@ -31,6 +31,7 @@ import urllib.parse
 
 import hub_pages
 import tests_pages
+import faq_pages
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
@@ -38,7 +39,7 @@ SITE = 'https://goravgupta.com'
 
 # Same order the single page linked them, then the two newest layers.
 CSS = ['site', 'cinematic', 'films', 'refine', 'warm', 'calm', 'bloom', 'pro', 'spatial',
-       'fix', 'polish', 'touchup', 'tulasi', 'taste', 'refresh', 'pages', 'articles', 'booking', 'navy', 'home2', 'films2', 'about2', 'menu', 'tests', 'hub', 'final']
+       'fix', 'polish', 'touchup', 'tulasi', 'taste', 'refresh', 'pages', 'articles', 'booking', 'navy', 'home2', 'films2', 'about2', 'menu', 'tests', 'hub', 'faq', 'final']
 
 WA = 'https://wa.me/918800000255?text=Hello%20Dr.%20Gupta%27s%20team%2C%20I%27d%20like%20to%20book%20a%20consultation.'
 WAICON = ('<svg class="wai" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">'
@@ -253,7 +254,8 @@ def main():
                            'modified': chunk[0]['modified'] if chunk else ''})
 
     tests = tests_pages.load()   # data/tests/*.json -> /tests/ and /tests/<slug>/
-    all_items = designed + content + blog_pages + tests_pages.items(tests)
+    faq = faq_pages.load()       # data/faq/*.json -> /faq/ and /faq/<topic>/
+    all_items = designed + content + blog_pages + tests_pages.items(tests) + faq_pages.items(faq)
 
     # ---------------------------------------------------------------- render
     sitemap = []
@@ -268,7 +270,7 @@ def main():
              'since': PRACTICE_SINCE, 'years': years, 'exp': EXPERIENCE, 'bio_short': bio_short, 'bio_long': BIO_LONG,
              'index_conditions': index_conditions(root), 'index_mental_health': index_group(root, 'mental-health'),
              'index_local': index_group(root, 'local'), 'latest_posts': latest_posts(root),
-             'resources_menu': tests_pages.menu(root, tests, path),
+             'resources_menu': tests_pages.menu(root, tests, path, faq_pages.menu_item(root, faq, path)),
              'services_menu': hub_pages.services_menu(root, groups, by_slug, path)}
         if path == 'resources':
             v['resources_hub'] = hub_pages.resources_hub(root, posts, tests, href, pretty_date)
@@ -301,6 +303,7 @@ def main():
                        'dateModified': pg.get('modified') or pg['date'], 'mainEntityOfPage': canonical,
                        'author': {'@type': 'Person', 'name': 'Dr. Gorav Gupta', 'url': SITE + '/about-us/'}}
                 ld += '<script type="application/ld+json">%s</script>' % json.dumps(art, ensure_ascii=False)
+            ld += pg.get('ld_extra', '')
 
         scripts_list = pg.get('scripts', [])
         preload = ''.join('<link rel="preload" as="image" href="%s%s" fetchpriority="high">' % (root, p) for p in pg.get('preload', []))
@@ -333,6 +336,10 @@ def main():
             body = tests_pages.index_body(pg, root, ph)
         elif kind == 'test':
             body = tests_pages.test_body(pg, root, ph, WA)
+        elif kind == 'faq-index':
+            body = faq_pages.index_body(pg, root, ph, WA)
+        elif kind == 'faq':
+            body = faq_pages.topic_body(pg, root, ph, WA)
         elif kind == 'blog-index':
             cards = ''.join(
                 '<li class="reveal"><a href="%s"><time datetime="%s">%s</time><h2>%s</h2><p>%s</p><span class="plist__go">Read article <i>→</i></span></a></li>'

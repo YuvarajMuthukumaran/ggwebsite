@@ -694,3 +694,10 @@ psychiatry", "issues,", "Delhi psychiatrist Society" to the name used elsewhere 
   WhatsApp buttons, the header button and the Contact page remain); "Book Consultation" on home now opens the Contact page. The two
   addresses are a framed "Consulting rooms across Delhi NCR" section (`#rooms`, `.rm*` in `home2.css`). Treatment-areas heading is now
   "Specialised psychiatric care for mental health and addiction".
+- **FAQ section:** Resources menu > "Frequently asked questions (FAQ)" with five topics folded under it. Pages `/faq/` and `/faq/<topic>/` are built
+  by `tools/faq_pages.py` from `data/faq/*.json` (one file per topic: title, short, optional intro, questions with HTML answers; adding a file adds
+  the page, the card and the menu entry). Content is regrouped from the FAQ page at goravgupta.com (kept at
+  `/frequently-asked-questions-psychiatrist-near-me-consultation/`). The live page no longer carries the "More frequently asked questions"
+  Q&As (why choose Dr. Gupta, alcoholism, OCD, therapy, ...); they come from the earlier import of the same page, so delete them from
+  `data/faq/*.json` if the team does not want them. The consultation fee (Rs. 2700 for 20 minutes) is quoted from that page. Topic pages carry
+  FAQPage structured data. Menu behaviour: `assets/js/site.js` section 7 and `assets/css/menu.css`; page styles `assets/css/faq.css`, `assets/js/faq.js`.
