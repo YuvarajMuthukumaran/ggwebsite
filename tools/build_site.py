@@ -344,7 +344,7 @@ def main():
         elif kind == 'tax':
             body = taxonomy_pages.body(pg, root, ph, post_by_slug, href, pretty_date)
         elif kind == 'faq-index':
-            body = faq_pages.index_body(pg, root, ph, WA)
+            body = faq_pages.index_body(pg, root, ph, WA, EXPERIENCE)
         elif kind == 'faq':
             body = faq_pages.topic_body(pg, root, ph, WA)
         elif kind == 'blog-index':

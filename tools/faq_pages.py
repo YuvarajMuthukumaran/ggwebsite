@@ -98,7 +98,7 @@ SUGGEST = ['fee', 'online', 'OCD', 'alcohol', 'therapy', 'psychologist']
 SEARCH_ICON = ('<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
                '<circle cx="11" cy="11" r="6.500"/><path d="m16 16 4.500 4.500"/></svg>')
 FACT_ICON = {
-    'fee': '<path d="M6 4h12"/><path d="M6 9h12"/><path d="M9 4c5 0 7 2 7 5s-2 5-7 5h-1l8 6"/>',
+    'exp': '<circle cx="12" cy="9" r="5.500"/><path d="m9.200 13.600-1.700 7 4.500-2.500 4.500 2.500-1.700-7"/>',
     'pin': '<path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.400-7 11-7 11z"/><circle cx="12" cy="10" r="2.500"/>',
     'video': '<rect x="3" y="6" width="13" height="12" rx="2.500"/><path d="m16 10.500 5-3v9l-5-3z"/>',
 }
@@ -109,7 +109,7 @@ def fact(ic, k, v):
             '<span><b>%s</b><small>%s</small></span></li>' % (FACT_ICON[ic], k, v))
 
 
-def index_body(pg, root, ph, wa):
+def index_body(pg, root, ph, wa, exp='40+'):
     topics = pg['faq']
     total = sum(t['n'] for t in topics)
     head = ph([('Home', root), ('Resources', root + 'resources/'), ('Frequently asked questions', None)], TITLE, '')
@@ -125,7 +125,7 @@ def index_body(pg, root, ph, wa):
             '<a class="fh-glance__go" href="https://tulasihealthcare.com" target="_blank" rel="noopener">Visit Tulasi to book a consultation <i aria-hidden="true">&nearr;</i></a></aside></header>'
             % (crumbs, icon('help', 'fh-eyebrow__ic'), esc(TITLE), LEDE, SEARCH_ICON, total,
                ''.join('<button type="button" data-try="%s">%s</button>' % (esc(w), esc(w)) for w in SUGGEST),
-               fact('fee', 'Consultation fee', 'Rs. 2700 for 20 minutes'), fact('pin', 'Consulting rooms', 'New Delhi and Gurugram'),
+               fact('exp', 'Experience', '%s years in psychiatry' % exp), fact('pin', 'Consulting rooms', 'New Delhi and Gurugram'),
                fact('video', 'Online', 'Consultations available online')))
     side = ('<aside class="fh__side" aria-label="Topics"><p class="fh__k">Topics</p><ul class="fh-topics">'
             '<li><a href="%sfaq/" class="is-on" data-topic="all" aria-pressed="true">All questions <span>%d</span></a></li>%s</ul>'
