@@ -369,6 +369,8 @@ def main():
                 crumbs = [('Home', root), ('Services', root + 'services/'), (pg['title'], None)]
             elif group == 'blog':
                 crumbs = [('Home', root), ('Blog', root + 'blog/'), (esc(pg['title']), None)]
+            elif pg['slug'] == faq_pages.SOURCE_PATH:
+                crumbs = [('Home', root), ('Resources', root + 'resources/'), ('Frequently asked questions', root + 'faq/'), ('Full guide', None)]
             else:
                 crumbs = [('Home', root), ('Resources', root + 'resources/'), (pg['title'], None)]
             lede = pg.get('subtitle') or ''     # a post's first paragraph is its own opening, so it is not repeated as a subtitle

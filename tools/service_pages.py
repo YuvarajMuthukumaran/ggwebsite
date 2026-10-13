@@ -157,6 +157,8 @@ def prepare(html, pg):
 # ---------------------------------------------------------------------------------------------------- the page
 def label_for(pg, group_of):
     slug, g = pg['slug'], pg.get('group')
+    if slug == 'frequently-asked-questions-psychiatrist-near-me-consultation':
+        return 'Frequently asked questions', 'help'
     if slug in group_of:
         return group_of[slug], group_icon(group_of[slug])
     if g == 'local':
@@ -167,6 +169,10 @@ def label_for(pg, group_of):
 
 
 def related(pg, root, groups, by_slug, href):
+    if pg['slug'] == 'frequently-asked-questions-psychiatrist-near-me-consultation':
+        import faq_pages
+        lis = '<li><a href="%sfaq/"><b>All questions, searchable</b>%s</a></li>' % (root, ARROW) + ''.join('<li><a href="%sfaq/%s/"><b>%s</b>%s</a></li>' % (root, t['slug'], esc(t['menu_title']), ARROW) for t in faq_pages.load())
+        return '<section class="sp-rel" aria-labelledby="sp-rel-h"><h2 id="sp-rel-h">More from the FAQ</h2><ul>%s</ul></section>' % lis
     flat = [(t, s) for t, ss in groups['condition_groups'] for s in ss if s in by_slug]
     mine = next((t for t, s in flat if s == pg['slug']), None)
     if mine:

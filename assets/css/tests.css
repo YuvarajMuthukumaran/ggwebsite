@@ -29,7 +29,7 @@ a.tq-card p{ margin:0; color:var(--mut); font-size:.975rem; line-height:1.6; fle
 .tq-card__go i{ font-style:normal; transition:translate .4s var(--e); }
 a.tq-card:hover .tq-card__go i{ translate:3px 0; }
 .tq-fine{ display:grid; gap:.5rem; margin-top:clamp(1.6rem,3vw,2.4rem); padding:1rem 1.2rem; border-radius:16px; background:var(--tint); color:var(--mut); font-size:.9rem; line-height:1.55; }
-.tq-fine p{ margin:0; display:flex; gap:.5rem; align-items:flex-start; }
+.tq-fine p{ max-width:none !important; margin:0; display:flex; gap:.5rem; align-items:flex-start; }
 .tq-fine svg{ width:16px; height:16px; flex:none; margin-top:.2rem; color:var(--blue-d); }
 
 /* ---------------------------------------------------------------- test page shell */
@@ -55,8 +55,9 @@ a.tq-card:hover .tq-card__go i{ translate:3px 0; }
 .tq-field input:focus-visible{ outline:2px solid var(--blue); outline-offset:2px; border-color:var(--blue); }
 .tq-field p{ margin:.4rem 0 0 !important; font-size:.85rem; color:var(--mut) !important; }
 .tq-notes{ display:grid; gap:.45rem; margin-top:1.6rem; padding:1rem 1.1rem; border-radius:16px; background:var(--tint); }
-.tq-notes p{ display:flex; gap:.55rem; align-items:flex-start; margin:0 !important; font-size:.9rem; line-height:1.55; color:var(--ink) !important; }
+.tq-notes p{ max-width:none !important; display:flex; gap:.55rem; align-items:flex-start; margin:0 !important; font-size:.9rem; line-height:1.55; color:var(--ink) !important; }
 .tq-notes svg{ width:16px; height:16px; flex:none; margin-top:.2rem; color:var(--blue-d); }
+.tq-notes span{ max-width:none; }
 .tq-notes__d{ padding-left:calc(16px + .55rem); color:var(--mut) !important; }
 .tq-start{ display:flex; flex-wrap:wrap; align-items:center; gap:.6rem 1.4rem; margin-top:1.6rem; }
 .tq-go{ min-height:52px; padding-inline:1.7rem !important; gap:.5rem; font-size:1rem !important; }
