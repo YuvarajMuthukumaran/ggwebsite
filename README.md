@@ -694,13 +694,13 @@ psychiatry", "issues,", "Delhi psychiatrist Society" to the name used elsewhere 
   WhatsApp buttons, the header button and the Contact page remain); "Book Consultation" on home now opens the Contact page. The two
   addresses are a framed "Consulting rooms across Delhi NCR" section (`#rooms`, `.rm*` in `home2.css`). Treatment-areas heading is now
   "Specialised psychiatric care for mental health and addiction".
-- **FAQ section:** Resources menu > "Frequently asked questions (FAQ)" with five topics folded under it. Pages `/faq/` and `/faq/<topic>/` are built
+- **FAQ section:** Resources menu > "Frequently asked questions (FAQ)" (a plain link; the five topics are listed on the FAQ pages). Pages `/faq/` and `/faq/<topic>/` are built
   by `tools/faq_pages.py` from `data/faq/*.json` (one file per topic: title, short, optional intro, questions with HTML answers; adding a file adds
-  the page, the card and the menu entry). Content is regrouped from the FAQ page at goravgupta.com (kept at
+  the page and the card). Content is regrouped from the FAQ page at goravgupta.com (kept at
   `/frequently-asked-questions-psychiatrist-near-me-consultation/`). The live page no longer carries the "More frequently asked questions"
   Q&As (why choose Dr. Gupta, alcoholism, OCD, therapy, ...); they come from the earlier import of the same page, so delete them from
   `data/faq/*.json` if the team does not want them. The consultation fee (Rs. 2700 for 20 minutes) is quoted from that page. Topic pages carry
-  FAQPage structured data. Menu behaviour: `assets/js/site.js` section 7 and `assets/css/menu.css`; page styles `assets/css/faq.css`, `assets/js/faq.js`.
+  FAQPage structured data. Page styles `assets/css/faq.css`, `assets/js/faq.js`.
 - **Parity with goravgupta.com:** every URL in the old site's sitemaps (pages, posts, categories, tags, authors) now exists here, checked against its
   five sub-sitemaps. The WordPress archives are rebuilt from `data/taxonomy.json` (copied from the old archive pages: which post is under which tag,
   category and author) by `tools/taxonomy_pages.py`: `/tag/<slug>/` (88), `/category/blog/`, `/author/admin/`, `/author/goravgupta/`; posts show their tags at
@@ -708,7 +708,16 @@ psychiatry", "issues,", "Delhi psychiatrist Society" to the name used elsewhere 
   Tulasi Healthcare centre and recovery films (8 new thumbnails in `assets/img/yt/`) and all the gallery's YouTube talks, 20 videos in total. Seven links on the old home page (`/bipolar-disorder/`, `/schizophrenia/`, `/stress-management/`, `/depression-treatment-delhi-india/`,
   `/de-addiction-treatment-delhi-india/`, `/eating-disorder-treatment-delhi-india/`, `/mental-health-assessment/`) are 404 on the old site itself.
 - **Resources page redesign** (modelled on the layout of myndstories.com/stories, in our own palette): a blue banner, a sticky sidebar (search, categories with counts,
-  tags, authors, quick tests) and a grid of article cards with numbered paging. Filtering by category, tag (all 88 are reachable via "Show all tags") and search, plus
+  tags, quick tests) and a grid of article cards with numbered paging. Filtering by category, tag (all 88 are reachable via "Show all tags") and search, plus
   sorting, runs in `assets/js/hub.js` and is kept in the address (`?topic=&tag=&q=&sort=&page=`). All 98 articles are in the HTML; without JavaScript it is a plain grid
   and the tags link to their `/tag/<slug>/` pages. Markup in `tools/hub_pages.py` (`resources_hub`, `GENERIC_TAGS` keeps the SEO-style tags out of the first row of
   tag chips), styles in `assets/css/hub.css`. Categories are the five condition topics plus Wellbeing; tags come from `data/taxonomy.json`.
+- **Journey and About copy** now follow "Journey page Gorav Sir.docx" and "About Us Gorav Sir.docx" (text only, layout unchanged; sections the documents mark "same" are untouched).
+  Style fixes made to the document text: "Dr Gupta" to "Dr. Gupta", "Deaddiction" to "de-addiction", obvious typos ("established away", "Tulasi home"), and "The Anju" to "The NGO" in Community initiatives. The Journey page keeps the five dated positions the document does not mention.
+  The closing "Seeking help?" blocks in the documents are not on the pages because the inner-page closing band was removed earlier.
+  The About intro says "senior consultant psychologist" as written in the document (confirmed by the client team); the rest of the site calls Dr. Gupta a psychiatrist (M.D. Psychiatry).
+- **Condition, local and guide pages** (the 26 imported pages: services, Psychiatrist in Delhi/Gurgaon/India, guides, FAQ guide) use a designed template, `tools/service_pages.py`
+  with `assets/css/service.css` and `assets/js/service.js`: a hero (topic label, title, summary, three facts, a profile and booking card), the text regrouped (runs of small
+  headings become a two-column list, questions use the FAQ accordion, long short-item lists run in two columns), a scroll-following "On this page" list, and three related
+  pages. No words are removed (checked per page); a short first paragraph becomes the hero summary, otherwise a standard line is used. Needs `pip install beautifulsoup4 lxml`
+  to build. Blog posts keep their own article layout.

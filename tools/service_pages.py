@@ -1,0 +1,213 @@
+"""Condition, local and guide pages (the imported 'page' content): a designed template instead of a plain article.
+
+  hero      breadcrumb, a short label with the topic icon, the title, a one-line summary, three facts, and a profile card with
+            the way to book (build() below)
+  content   the imported text, regrouped so it reads as a designed page: runs of small headings with a paragraph become a
+            two-column list, the questions become the same accordion as the FAQ pages, long short-item lists become two columns
+  sidebar   an "On this page" list that follows the scroll (assets/js/service.js) and a booking card
+  end       three related pages, then the author box
+
+Needs beautifulsoup4 and lxml (pip install beautifulsoup4 lxml). Styles: assets/css/service.css.
+"""
+import re
+
+from bs4 import BeautifulSoup
+
+from hub_pages import icon, group_icon
+
+LEDE = ('Assessment, treatment and long-term support from Dr. Gorav Gupta, a senior psychiatrist with {exp} years of experience, '
+        'in New Delhi, Gurugram and online.')
+CHECK = ('<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+         '<path d="m5 12.500 4.500 4.500L19 7.500"/></svg>')
+ARROW = '<i aria-hidden="true">&rarr;</i>'
+
+
+def esc(s):
+    return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
+
+
+def text_of(tag):
+    return re.sub(r'\s+', ' ', tag.get_text(' ')).strip()
+
+
+# ---------------------------------------------------------------------------------------------------- the content
+def prepare(html, pg):
+    """-> (content html, table of contents [(id, text)], lede html or '')"""
+    soup = BeautifulSoup('<div id="r">%s</div>' % html, 'lxml')
+    r = soup.find(id='r')
+    items = [c for c in r.children if getattr(c, 'name', None)]
+
+    # a short opening paragraph becomes the summary under the title
+    lede = ''
+    for t in items[:3]:
+        if t.name == 'p' and text_of(t):
+            if len(text_of(t)) <= 300:
+                lede = ''.join(str(c) for c in t.children).strip()
+                t.extract()
+                items.remove(t)
+            break
+
+    # runs of "small heading + text" (three or more) become a two-column list
+    nodes, i = [], 0
+    while i < len(items):
+        if items[i].name != 'h4':
+            nodes.append(items[i]); i += 1; continue
+        groups, j = [], i
+        while j < len(items) and items[j].name == 'h4':
+            h, body, k = items[j], [], j + 1
+            while k < len(items) and items[k].name not in ('h2', 'h3', 'h4', 'details'):
+                body.append(items[k]); k += 1
+            groups.append((h, body)); j = k
+        if len(groups) >= 3:
+            dl = soup.new_tag('div', attrs={'class': 'sp-dl'})
+            hoist = []
+            for h, body in groups:
+                row = soup.new_tag('section', attrs={'class': 'sp-dl__r'})
+                for br in h.find_all('br'):
+                    br.decompose()
+                row.append(h.extract())
+                d = soup.new_tag('div')
+                for b in body:
+                    if b.name == 'figure':
+                        hoist.append(b)
+                    else:
+                        d.append(b.extract())
+                row.append(d)
+                dl.append(row)
+            nodes.append(dl)
+            nodes.extend(hoist)
+        else:
+            nodes.extend(items[i:j])
+        i = j
+    items = nodes
+
+    # questions: the accordion used on the FAQ pages
+    out, run = [], None
+    for t in items:
+        if t.name == 'details':
+            if run is None:
+                run = soup.new_tag('div', attrs={'class': 'fq-list sp-faq'})
+                out.append(run)
+            t['class'] = ['fq-q']
+            summ = t.find('summary')
+            rest = [c for c in list(t.children) if c is not summ]
+            wrap = soup.new_tag('div', attrs={'class': 'fq-a'})
+            if any(getattr(c, 'name', None) in ('p', 'ul', 'ol') for c in rest):
+                for c in rest:
+                    wrap.append(c.extract())
+            else:
+                p = soup.new_tag('p')
+                for c in rest:
+                    p.append(c.extract())
+                wrap.append(p)
+            if wrap.get_text(strip=True):
+                t.append(wrap)
+            run.append(t.extract())
+        else:
+            run = None
+            out.append(t)
+    items = out
+
+    # pictures: wide ones fill the column, small ones (badges, portraits) keep their size
+    for fig in r.find_all('figure'):
+        img = fig.find('img')
+        try:
+            wide = int(img.get('width', 0)) >= 900
+        except (TypeError, ValueError):
+            wide = False
+        fig['class'] = fig.get('class', []) + ['sp-fig' if wide else 'sp-fig sp-fig--small']
+
+    # long lists of short items run in two columns
+    for ul in r.find_all('ul'):
+        lis = ul.find_all('li', recursive=False)
+        if len(lis) >= 6 and sum(len(text_of(x)) for x in lis) / len(lis) < 60:
+            ul['class'] = ul.get('class', []) + ['sp-ul2']
+
+    # headings: ids, the questions heading, and a table of contents of the sections
+    toc, used = [], set()
+    prev = None
+    for t in items:
+        if t.name in ('h2', 'h3'):
+            txt = text_of(t)
+            sub = prev is not None and prev.name in ('h2', 'h3')    # a heading straight after a heading is a label, not a section
+            if sub:
+                t['class'] = t.get('class', []) + ['sp-sub']
+            elif txt:
+                base = re.sub(r'[^a-z0-9]+', '-', txt.lower()).strip('-')[:40] or 'section'
+                sid, n = base, 2
+                while sid in used:
+                    sid = '%s-%d' % (base, n); n += 1
+                used.add(sid)
+                t['id'] = sid
+                toc.append((sid, txt))
+                if re.search(r'frequently asked', txt, re.I):
+                    t['class'] = t.get('class', []) + ['sp-faq-h']
+        prev = t
+    h2 = next((t for t in items if t.name == 'h2'), None)
+    if h2 is not None:
+        h2['class'] = h2.get('class', []) + ['sp-opener']
+
+    for c in list(r.children):
+        c.extract()
+    for t in items:
+        r.append(t)
+    return r.decode_contents(), toc, lede
+
+
+# ---------------------------------------------------------------------------------------------------- the page
+def label_for(pg, group_of):
+    slug, g = pg['slug'], pg.get('group')
+    if slug in group_of:
+        return group_of[slug], group_icon(group_of[slug])
+    if g == 'local':
+        return 'Psychiatrist in Delhi NCR', 'pin'
+    if g == 'mental-health':
+        return 'Self-assessment guide', 'clipboard'
+    return 'Resources', 'book'
+
+
+def related(pg, root, groups, by_slug, href):
+    flat = [(t, s) for t, ss in groups['condition_groups'] for s in ss if s in by_slug]
+    mine = next((t for t, s in flat if s == pg['slug']), None)
+    if mine:
+        pool = [s for t, s in flat if t == mine and s != pg['slug']] + [s for t, s in flat if t != mine and s != pg['slug']]
+        head = 'More conditions we treat'
+    elif pg.get('group') == 'local':
+        pool = [c['slug'] for c in by_slug.values() if c.get('group') == 'local' and c['slug'] != pg['slug']]
+        head = 'Dr. Gupta in other cities'
+    else:
+        pool = [c['slug'] for c in by_slug.values() if c.get('group') == pg.get('group') and c['slug'] != pg['slug']]
+        head = 'Related guides'
+    pool = pool[:3]
+    if not pool:
+        return ''
+    lis = ''.join('<li><a href="%s"><b>%s</b>%s</a></li>' % (href(by_slug[s], root), esc(by_slug[s]['title']), ARROW) for s in pool)
+    return ('<section class="sp-rel" aria-labelledby="sp-rel-h"><h2 id="sp-rel-h">%s</h2><ul>%s</ul>'
+            '<a class="more__a" href="%sservices/">All services <i>&rarr;</i></a></section>' % (head, lis, root))
+
+
+def build(pg, root, content, callout, after, crumbs, groups, by_slug, href, wa, exp):
+    group_of = {s: t for t, ss in groups['condition_groups'] for s in ss}
+    label, ic = label_for(pg, group_of)
+    body, toc, lede_html = prepare(content, pg)
+    lede = pg.get('subtitle') or lede_html or LEDE.format(exp=exp)
+    chips = ''.join('<li>%s%s</li>' % (CHECK, c) for c in ('%s years of experience' % exp, 'New Delhi and Gurugram', 'Online consultations'))
+    hero = ('<header class="sp-hero"><div class="sp-hero__txt">%s<p class="sp-eyebrow">%s<span>%s</span></p><h1>%s</h1><p class="sp-lede">%s</p>'
+            '<ul class="sp-chips">%s</ul></div>'
+            '<aside class="sp-card" aria-label="Consult Dr. Gorav Gupta"><div class="sp-card__who"><img src="%sassets/img/portrait-close-col.webp" alt="" width="96" height="112">'
+            '<div><p class="sp-card__n">Dr. Gorav Gupta</p><p class="sp-card__r">M.B.B.S., M.D. Psychiatry</p><p class="sp-card__r">Senior consultant psychiatrist</p></div></div>'
+            '<div class="sp-card__a"><a class="btn" href="%scontactus/">Book Consultation</a>'
+            '<a class="btn ghost" href="tel:+918800000255">Call +91 88000 00255</a></div>'
+            '<p class="sp-card__f">Consulting rooms in New Delhi and Gurugram, and online.</p></aside></header>'
+            % (crumbs, icon(ic, 'sp-eyebrow__ic'), esc(label), esc(pg['title']), lede, chips, root, root))
+    toc_html = ''
+    if len(toc) >= 3:
+        toc_html = ('<nav class="sp-toc" aria-label="On this page"><p class="sp-side__t">On this page</p><ol>%s</ol></nav>'
+                    % ''.join('<li><a href="#%s">%s</a></li>' % (i, esc(t)) for i, t in toc))
+    side = ('<aside class="sp__side">%s<div class="sp-book"><p class="sp-side__t">Book a consultation</p>'
+            '<p>Call +91 88000 00255 or message the team on WhatsApp.</p>'
+            '<a class="btn" href="%scontactus/">Book Consultation</a><a class="btn ghost" href="%s" target="_blank" rel="noopener">WhatsApp</a></div></aside>'
+            % (toc_html, root, wa))
+    return (hero + '<article class="sec sp"><div class="sp__grid"><div class="sp__main">%s<div class="prose__in sp__in">%s</div>%s'
+            '<div class="prose__after sp__after">%s</div></div>%s</div></article>'
+            % (callout, body, related(pg, root, groups, by_slug, href), after, side))

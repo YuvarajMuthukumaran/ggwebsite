@@ -226,20 +226,13 @@
   /* Resources dropdown: hover or click on desktop, an accordion in the mobile menu. Esc and outside clicks close it. */
   $$('.dd', links).forEach(function (dd) {
     var btn = $('.dd__b', dd), wide = matchMedia('(min-width:1001px) and (hover:hover)'), shut = 0;
-    function set(open) { clearTimeout(shut); dd.classList.toggle('open', open); btn.setAttribute('aria-expanded', open ? 'true' : 'false'); if (!open && matchMedia('(min-width:1001px)').matches) foldSubs(); }
+    function set(open) { clearTimeout(shut); dd.classList.toggle('open', open); btn.setAttribute('aria-expanded', open ? 'true' : 'false'); }
     btn.addEventListener('click', function () { set(!dd.classList.contains('open')); });
     btn.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowDown') { e.preventDefault(); set(true); var f = $('.dd__m a', dd); if (f) f.focus(); }
     });
-    var subs = $$('.dd__sub', dd);                          // a group inside the menu (FAQ topics): unfolds in the phone menu, flies out beside the row on desktop
-    function foldSubs() { subs.forEach(function (s) { s.classList.remove('open'); $('.dd__sb', s).setAttribute('aria-expanded', 'false'); }); }
-    subs.forEach(function (sub) {
-      var sb = $('.dd__sb', sub);
-      sb.addEventListener('click', function () { var o = sub.classList.toggle('open'); sb.setAttribute('aria-expanded', o ? 'true' : 'false'); });
-    });
-    if (matchMedia('(min-width:1001px)').matches) foldSubs();   // the page's own topic is only pre-opened in the phone menu
     dd.addEventListener('keydown', function (e) {
-      var items = $$('.dd__m a', dd).filter(function (a) { return getComputedStyle(a).visibility !== 'hidden'; }), i = items.indexOf(d.activeElement);
+      var items = $$('.dd__m a', dd), i = items.indexOf(d.activeElement);
       if (e.key === 'Escape' && dd.classList.contains('open')) { e.stopPropagation(); set(false); btn.focus(); }
       else if (i > -1 && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) { e.preventDefault(); items[(i + (e.key === 'ArrowDown' ? 1 : items.length - 1)) % items.length].focus(); }
     });

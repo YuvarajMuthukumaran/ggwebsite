@@ -15,6 +15,7 @@ ICONS = {
     'wind': '<path d="M3 8h10a3 3 0 1 0-3-3"/><path d="M3 12h15a3 3 0 1 1-3 3"/><path d="M3 16h6"/>',
     'user': '<circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/>',
     'leaf': '<path d="M5 19c0-8 5-13 15-14-1 10-6 15-14 15"/><path d="M5 19 13 11"/>',
+    'pin': '<path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
     'help': '<circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1.1.9-1.1 1.7"/><path d="M12 17h.01"/>',
 }
 
@@ -186,10 +187,8 @@ def resources_hub(root, posts, tests, href, pretty_date, tag_map=None):
             '<div class="hb2-box"><h2 class="hb2-k">Tags</h2><ul class="hb2-tags">%s</ul>'
             '<ul class="hb2-tags hb2-tags--more" id="hb2-tags-more" hidden>%s</ul>'
             '<button type="button" class="hb2-link" id="hb2-tagtog" aria-expanded="false" aria-controls="hb2-tags-more">Show all tags (%d)</button></div>'
-            '<div class="hb2-box"><h2 class="hb2-k">Authors</h2><ul class="hb2-auth"><li><a href="%sauthor/goravgupta/">Dr. Gorav Gupta</a></li>'
-            '<li><a href="%sauthor/admin/">admin</a></li></ul></div>'
             '<div class="hb2-box hb2-quick"><h2 class="hb2-k">Take a quick test</h2><ul>%s</ul><a class="hb2-link" href="%stests/">All tests &rarr;</a></div></aside>'
-            % (SEARCH_ICON, cats, ''.join(tag(s) for s in first), ''.join(tag(s) for s in rest), len(ranked), root, root, quick, root))
+            % (SEARCH_ICON, cats, ''.join(tag(s) for s in first), ''.join(tag(s) for s in rest), len(ranked), quick, root))
     bar = ('<div class="hb2-bar"><button type="button" class="hb2-ftog" id="hb2-ftog" aria-expanded="false" aria-controls="hb2-side">%s Filters <b class="hb2-badge" hidden></b></button>'
            '<p class="hb2-count" id="hb2-count" aria-live="polite" tabindex="-1">%d articles</p>'
            '<label class="hb2-sort"><span class="hb2-sr">Sort articles</span><select id="hb2-sort"><option value="new">Newest first</option><option value="old">Oldest first</option>'

@@ -33,6 +33,7 @@ import hub_pages
 import tests_pages
 import faq_pages
 import taxonomy_pages
+import service_pages
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
@@ -40,7 +41,7 @@ SITE = 'https://goravgupta.com'
 
 # Same order the single page linked them, then the two newest layers.
 CSS = ['site', 'cinematic', 'films', 'refine', 'warm', 'calm', 'bloom', 'pro', 'spatial',
-       'fix', 'polish', 'touchup', 'tulasi', 'taste', 'refresh', 'pages', 'articles', 'booking', 'navy', 'home2', 'films2', 'about2', 'menu', 'tests', 'hub', 'faq', 'final']
+       'fix', 'polish', 'touchup', 'tulasi', 'taste', 'refresh', 'pages', 'articles', 'booking', 'navy', 'home2', 'films2', 'about2', 'menu', 'tests', 'hub', 'faq', 'service', 'final']
 
 WA = 'https://wa.me/918800000255?text=Hello%20Dr.%20Gupta%27s%20team%2C%20I%27d%20like%20to%20book%20a%20consultation.'
 WAICON = ('<svg class="wai" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">'
@@ -309,7 +310,7 @@ def main():
                 ld += '<script type="application/ld+json">%s</script>' % json.dumps(art, ensure_ascii=False)
             ld += pg.get('ld_extra', '')
 
-        scripts_list = pg.get('scripts', [])
+        scripts_list = pg.get('scripts', []) + (['service'] if kind == 'page' else [])
         preload = ''.join('<link rel="preload" as="image" href="%s%s" fetchpriority="high">' % (root, p) for p in pg.get('preload', []))
         scripts = ''.join(
             '<script src="%sassets/js/%s.js?v=%s"%s></script>' % (root, s, js_v[s], '' if s == 'site' else ' defer')
@@ -384,13 +385,17 @@ def main():
                     after += ('<section class="related" aria-labelledby="rel-h"><h2 id="rel-h">More from the blog</h2><ul class="idx idx--posts">%s</ul>'
                               '<p class="more"><a class="more__a" href="%sblog/">All articles <i>→</i></a></p></section>'
                               % (''.join('<li><a href="%s"><time datetime="%s">%s</time><b>%s</b></a></li>' % (href(p, root), p['date'], pretty_date(p['date']), p['title']) for p in near), root))
-            inner, toc = add_toc(inner)
-            side = ('<aside class="prose__side"><div class="side__box">%s<p class="side__t">Book a consultation</p>'
-                    '<p>Call +91 88000 00255 or message the team on WhatsApp.</p>'
-                    '<a class="btn" href="%scontactus/">Book Consultation</a></div></aside>' % (toc, root))
-            body = (ph(crumbs, esc(pg['title']) if kind == 'post' else pg['title'], lede, meta_line)
-                    + '<article class="sec prose"><div class="prose__main"><div class="prose__in"%s>%s</div><div class="prose__after">%s</div></div>%s</article>'
-                    % (lang, inner, after, side))
+            if kind == 'page':        # condition, local and guide pages: the designed service template
+                body = service_pages.build(pg, root, fill(pg['_body'], v, 'content ' + path), tests_pages.source_callout(root, tests, pg['slug']), after,
+                                           crumb_html(crumbs), groups, by_slug, href, WA, EXPERIENCE)
+            else:
+                inner, toc = add_toc(inner)
+                side = ('<aside class="prose__side"><div class="side__box">%s<p class="side__t">Book a consultation</p>'
+                        '<p>Call +91 88000 00255 or message the team on WhatsApp.</p>'
+                        '<a class="btn" href="%scontactus/">Book Consultation</a></div></aside>' % (toc, root))
+                body = (ph(crumbs, esc(pg['title']) if kind == 'post' else pg['title'], lede, meta_line)
+                        + '<article class="sec prose"><div class="prose__main"><div class="prose__in"%s>%s</div><div class="prose__after">%s</div></div>%s</article>'
+                        % (lang, inner, after, side))
 
         html = (head
                 + (fill(intro_t, v, 'intro') if path == '' else '')

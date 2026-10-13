@@ -41,7 +41,7 @@
 /* biography: two columns of text, then the positions in two ruled columns */
 .ab2-bio{ display:block !important; }
 .ab2-bio>h2{ margin-bottom:1.4rem !important; }
-.ab2-bio__cols{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 clamp(2rem,5vw,4.5rem); margin-bottom:clamp(1.6rem,3.5vw,2.6rem); }
+.ab2-bio__cols{ columns:2; column-gap:clamp(2rem,5vw,4.5rem); margin-bottom:clamp(1.6rem,3.5vw,2.6rem); }
 .ab2-bio__cols p{ max-width:none; }
 .ab2-bio__list h3{ margin-bottom:.9rem; }
 .ab2-bio__list ul{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 clamp(2rem,5vw,4.5rem); margin:0; padding:0; list-style:none; }
@@ -70,7 +70,8 @@
 .gal__item p{ font-size:1rem; line-height:1.7; color:#46586f; }
 
 @media (max-width:900px){
-  .ab2-intro,.ab2-bio__cols,.ab2-tul__head,.ab2-tul__grid{ grid-template-columns:1fr; }
+  .ab2-intro,.ab2-tul__head,.ab2-tul__grid{ grid-template-columns:1fr; }
+  .ab2-bio__cols{ columns:1; }
   .ab2-intro__fig{ min-height:0; aspect-ratio:4/3.4; max-height:460px; }
 }
 

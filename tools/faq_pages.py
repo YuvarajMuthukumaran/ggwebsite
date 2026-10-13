@@ -1,7 +1,7 @@
 """Frequently asked questions: /faq/ and /faq/<topic>/, built from data/faq/*.json by tools/build_site.py.
 
 One JSON file per topic (title, short, optional intro, and a list of questions with HTML answers). Adding a file adds a
-page at /faq/<slug>/, a card on /faq/ and a link in the Resources menu under "Frequently asked questions". The answers
+page at /faq/<slug>/, a card on /faq/ and a link on the FAQ pages' topic lists. The answers
 come from the FAQ page on goravgupta.com (the page kept at SOURCE_PATH), grouped by topic. Every topic page also carries
 FAQPage structured data.
 """
@@ -20,9 +20,6 @@ LEDE = ('Answers to the questions people ask most before they see a psychiatrist
 # questions shown on /faq/ (topic slug, question number within the topic)
 POPULAR = [('when-to-see-a-psychiatrist', 1), ('psychiatrist-vs-psychologist', 2), ('consultation-and-fees', 0),
            ('treatment-and-therapy', 0), ('treatment-and-therapy', 4), ('about-dr-gorav-gupta', 0)]
-
-CHEVRON = ('<svg viewBox="0 0 256 256" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"/></svg>')
-
 
 def esc(s):
     return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
@@ -74,17 +71,12 @@ def topics_by(topics, slug):
 
 
 def menu_item(root, topics, path):
-    """The FAQ entry inside the Resources dropdown, with its topics folded under it."""
+    """The FAQ entry in the Resources dropdown: one plain link to /faq/ (the topics are listed on the FAQ pages themselves)."""
     if not topics:
         return ''
-    here = path == 'faq' or path.startswith('faq/')
     cur = ' aria-current="page"' if path == 'faq' else ''
-    subs = ''.join('<a href="%sfaq/%s/"%s>%s</a>' % (root, t['slug'], ' aria-current="page"' if path == 'faq/' + t['slug'] else '', esc(t['menu_title'])) for t in topics)
-    return ('<div class="dd__sub%s"><a class="dd__subt" href="%sfaq/"%s>%s<span class="dd__tx"><b>Frequently asked questions (FAQ)</b>'
-            '<small>Answers on consulting, treatment and fees</small></span></a>'
-            '<button class="dd__sb" type="button" aria-expanded="%s" aria-controls="dd-faq-l" aria-label="FAQ topics">%s</button>'
-            '<div class="dd__sl" id="dd-faq-l"><div>%s</div></div></div>'
-            % (' open' if here else '', root, cur, icon('help'), 'true' if here else 'false', CHEVRON, subs))
+    return ('<a href="%sfaq/"%s>%s<span class="dd__tx"><b>Frequently asked questions (FAQ)</b><small>Answers on consulting, treatment and fees</small></span></a>'
+            % (root, cur, icon('help')))
 
 
 def r(html, root):
