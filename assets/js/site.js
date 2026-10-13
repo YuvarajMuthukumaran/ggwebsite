@@ -226,15 +226,18 @@
   /* Resources dropdown: hover or click on desktop, an accordion in the mobile menu. Esc and outside clicks close it. */
   $$('.dd', links).forEach(function (dd) {
     var btn = $('.dd__b', dd), wide = matchMedia('(min-width:1001px) and (hover:hover)'), shut = 0;
-    function set(open) { clearTimeout(shut); dd.classList.toggle('open', open); btn.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+    function set(open) { clearTimeout(shut); dd.classList.toggle('open', open); btn.setAttribute('aria-expanded', open ? 'true' : 'false'); if (!open && matchMedia('(min-width:1001px)').matches) foldSubs(); }
     btn.addEventListener('click', function () { set(!dd.classList.contains('open')); });
     btn.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowDown') { e.preventDefault(); set(true); var f = $('.dd__m a', dd); if (f) f.focus(); }
     });
-    $$('.dd__sub', dd).forEach(function (sub) {            // a folded group inside the menu (FAQ topics)
+    var subs = $$('.dd__sub', dd);                          // a group inside the menu (FAQ topics): unfolds in the phone menu, flies out beside the row on desktop
+    function foldSubs() { subs.forEach(function (s) { s.classList.remove('open'); $('.dd__sb', s).setAttribute('aria-expanded', 'false'); }); }
+    subs.forEach(function (sub) {
       var sb = $('.dd__sb', sub);
       sb.addEventListener('click', function () { var o = sub.classList.toggle('open'); sb.setAttribute('aria-expanded', o ? 'true' : 'false'); });
     });
+    if (matchMedia('(min-width:1001px)').matches) foldSubs();   // the page's own topic is only pre-opened in the phone menu
     dd.addEventListener('keydown', function (e) {
       var items = $$('.dd__m a', dd).filter(function (a) { return getComputedStyle(a).visibility !== 'hidden'; }), i = items.indexOf(d.activeElement);
       if (e.key === 'Escape' && dd.classList.contains('open')) { e.stopPropagation(); set(false); btn.focus(); }

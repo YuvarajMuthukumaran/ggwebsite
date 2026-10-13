@@ -70,8 +70,21 @@
 .dd__sub.open>.dd__sl>div{ padding-block:.1rem .3rem; }
 .nav nav .dd__m .dd__sl a{ padding:.42rem .7rem; font-size:.875rem; color:var(--mut); }
 .nav nav .dd__m .dd__sl a:hover,.nav nav .dd__m .dd__sl a[aria-current="page"]{ color:var(--blue-d); }
+/* desktop: the topics fly out to the right of the row instead of unfolding under it */
+@media (min-width:1001px){
+  .dd__sub{ position:relative; }
+  .dd__sb svg,.dd__sub.open .dd__sb svg{ rotate:-90deg; }
+  .dd__sl{
+    position:absolute; z-index:2; top:-.2rem; left:calc(100% + 1.05rem); display:block; width:250px; padding:.45rem; background:#ffffff;
+    border:1px solid var(--line); border-radius:18px; box-shadow:0 1px 2px rgba(15,34,66,.06),0 24px 48px -20px rgba(15,34,66,.28);
+    grid-template-rows:none; opacity:0; visibility:hidden; translate:-6px 0; transition:opacity .2s ease,translate .3s var(--e),visibility 0s linear .3s;
+  }
+  .dd__sl::before{ content:""; position:absolute; top:0; bottom:0; left:-1.3rem; width:1.3rem; }   /* keeps hover alive across the gap */
+  .dd__sl>div{ display:grid; gap:.05rem; margin:0; padding:0; overflow:visible; border-left:0; }
+  .dd__sub.open>.dd__sl>div{ padding-block:0; }
+  .dd__sub.open .dd__sl,.dd__sub:focus-within .dd__sl{ opacity:1; visibility:visible; translate:0 0; transition-delay:0s; }
+}
 @media (hover:hover) and (min-width:1001px){
-  .dd__sub:hover .dd__sl,.dd__sub:focus-within .dd__sl{ grid-template-rows:1fr; visibility:visible; transition-delay:0s; }
-  .dd__sub:hover .dd__sb svg,.dd__sub:focus-within .dd__sb svg{ rotate:180deg; }
+  .dd__sub:hover .dd__sl{ opacity:1; visibility:visible; translate:0 0; transition-delay:0s; }
 }
 @media (prefers-reduced-motion:reduce){ .dd__sl,.dd__sb svg{ transition:none !important; } }

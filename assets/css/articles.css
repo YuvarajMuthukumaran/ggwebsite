@@ -158,3 +158,12 @@
 @media (prefers-reduced-motion:reduce){
   .idx a,.yt__btn img,.pager a,.prose__in details.qa>summary::after{ transition:none !important; }
 }
+
+/* ---------- tags at the foot of a post, and the tag / category / author archives ---------- */
+.ptags{ display:flex; flex-wrap:wrap; align-items:baseline; gap:.5rem .8rem; margin:0 0 1.6rem; }
+.ptags__k{ font-size:.8125rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--mut); }
+.ptags ul{ display:flex; flex-wrap:wrap; gap:.4rem; margin:0; padding:0; list-style:none; }
+.ptags li{ margin:0; padding:0; }
+.ptags a{ display:inline-block; padding:.28rem .75rem; border:1px solid var(--tint2); border-radius:999px; background:#ffffff; color:var(--blue-d); font-size:.8125rem; font-weight:500; line-height:1.35; text-decoration:none; transition:border-color .25s ease,background .25s ease; }
+.ptags a:hover{ border-color:var(--blue); background:var(--tint); }
+.tax{ padding-top:.4rem !important; }

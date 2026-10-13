@@ -32,6 +32,7 @@ import urllib.parse
 import hub_pages
 import tests_pages
 import faq_pages
+import taxonomy_pages
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
@@ -255,7 +256,10 @@ def main():
 
     tests = tests_pages.load()   # data/tests/*.json -> /tests/ and /tests/<slug>/
     faq = faq_pages.load()       # data/faq/*.json -> /faq/ and /faq/<topic>/
-    all_items = designed + content + blog_pages + tests_pages.items(tests) + faq_pages.items(faq)
+    tax = taxonomy_pages.load()  # data/taxonomy.json -> /tag/<slug>/, /category/blog/, /author/<slug>/ (kept from the old WordPress site)
+    tag_map = taxonomy_pages.tags_of(tax)
+    post_by_slug = {p['slug']: p for p in posts}
+    all_items = designed + content + blog_pages + tests_pages.items(tests) + faq_pages.items(faq) + taxonomy_pages.items(tax)
 
     # ---------------------------------------------------------------- render
     sitemap = []
@@ -273,7 +277,7 @@ def main():
              'resources_menu': tests_pages.menu(root, tests, path, faq_pages.menu_item(root, faq, path)),
              'services_menu': hub_pages.services_menu(root, groups, by_slug, path)}
         if path == 'resources':
-            v['resources_hub'] = hub_pages.resources_hub(root, posts, tests, href, pretty_date)
+            v['resources_hub'] = hub_pages.resources_hub(root, posts, tests, href, pretty_date, tag_map)
         for key, name in INCLUDES.items():
             if (SRC / 'partials' / name).exists():
                 v[key] = fill(read(SRC / 'partials' / name), v, name)
@@ -336,6 +340,8 @@ def main():
             body = tests_pages.index_body(pg, root, ph)
         elif kind == 'test':
             body = tests_pages.test_body(pg, root, ph, WA)
+        elif kind == 'tax':
+            body = taxonomy_pages.body(pg, root, ph, post_by_slug, href, pretty_date)
         elif kind == 'faq-index':
             body = faq_pages.index_body(pg, root, ph, WA)
         elif kind == 'faq':
@@ -368,7 +374,7 @@ def main():
             meta_line = ('<time datetime="%s">%s</time>' % (pg['date'], pretty_date(pg['date']))) if kind == 'post' else ''
             lang = ' lang="%s"' % pg['lang'] if pg.get('lang') else ''
             inner = tests_pages.source_callout(root, tests, pg['slug']) + fill(pg['_body'], v, 'content ' + path)
-            after = author_box(root, kind == 'post', bio_short)
+            after = (taxonomy_pages.tag_row(root, pg['slug'], tag_map) if kind == 'post' else '') + author_box(root, kind == 'post', bio_short)
             if group in ('services', 'local'):
                 after += ASSESS.format(root=root)
             if kind == 'post':

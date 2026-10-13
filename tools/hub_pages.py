@@ -101,49 +101,105 @@ def services_menu(root, groups, by_slug, path):
     return ('<div class="dd__in dd__in--wide">' + a('services', 'All services', 'Every condition Dr. Gupta treats', 'grid')
             + '<div class="dd__cols">%s</div></div>' % cols)
 
+# Tags that describe the clinic or the search rather than a subject. They stay filterable, but are not offered first.
+GENERIC_TAGS = {'psychiatrist', 'best-psychiatrist-in-delhi', 'top-psychiatrist-in-delhi', 'psychiatrist-in-delhi', 'psychiatrist-in-gurgaon',
+                'psychiatrist-near-me', 'dr-gorav-gupta', 'drug-psychiatrist', 'addiction-psychiatrist', 'ocd-psychiatrist', 'psychiatric-clinic-in-delhi'}
+FIRST_TAGS = 14
 
-def resources_hub(root, posts, tests, href, pretty_date):
-    """The body of /resources/: quick-test band, topic filter, featured article, article grid, more resources."""
+HERO_ART = (
+    '<svg class="hb2-hero__art" viewBox="0 0 440 220" fill="none" aria-hidden="true" focusable="false">'
+    '<circle cx="318" cy="112" r="132" fill="#ffffff" fill-opacity=".09"/><circle cx="318" cy="112" r="88" fill="#ffffff" fill-opacity=".08"/>'
+    '<rect x="250" y="46" width="112" height="146" rx="14" transform="rotate(-9 306 119)" fill="#ffffff" fill-opacity=".32"/>'
+    '<rect x="262" y="40" width="112" height="146" rx="14" transform="rotate(-3 318 113)" fill="#dbe9fb"/>'
+    '<rect x="276" y="34" width="112" height="148" rx="14" fill="#ffffff"/>'
+    '<rect x="296" y="62" width="58" height="9" rx="4.5" fill="#2f6fcb"/><circle cx="372" cy="66.500" r="5" fill="#2f6fcb"/>'
+    '<rect x="296" y="86" width="76" height="6" rx="3" fill="#cfe0f5"/><rect x="296" y="102" width="76" height="6" rx="3" fill="#cfe0f5"/>'
+    '<rect x="296" y="118" width="60" height="6" rx="3" fill="#cfe0f5"/><rect x="296" y="142" width="40" height="14" rx="7" fill="#e9f1fb"/>'
+    '<path d="M408 40l4.500 11 11 4.500-11 4.500-4.500 11-4.500-11-11-4.500 11-4.500z" fill="#ffffff"/>'
+    '<path d="M236 150l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#ffffff" fill-opacity=".8"/>'
+    '<circle cx="238" cy="78" r="5" fill="#ffffff" fill-opacity=".7"/><circle cx="410" cy="150" r="4" fill="#ffffff" fill-opacity=".5"/></svg>')
+SEARCH_ICON = ('<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+               '<circle cx="11" cy="11" r="6.500"/><path d="m16 16 4.500 4.500"/></svg>')
+FILTER_ICON = ('<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+               '<path d="M4 6h16M7 12h10M10 18h4"/></svg>')
+
+
+def resources_hub(root, posts, tests, href, pretty_date, tag_map=None):
+    """The body of /resources/: a banner, a sidebar of categories, tags and quick links, a filterable and searchable article grid
+    (assets/js/hub.js), and more resources. Every article is in the HTML; hub.js filters, sorts and pages them in the browser."""
+    tag_map = tag_map or {}
+
     def img(p):
         m = re.search(r'<img[^>]*src="\{\{root\}\}([^"]+)"', p['_body'])
         return root + (m.group(1) if m else stand_in(p, posts.index(p)))
 
-    def card(p, big=False):
+    counts, names = {}, {}
+    for p in posts:
+        for s, n in tag_map.get(p['slug'], []):
+            counts[s] = counts.get(s, 0) + 1
+            names[s] = n
+
+    def card(p, first=False):
         key, label = topic(p)
-        src = img(p)
-        pic = ('<img src="%s" alt="" loading="%s" decoding="async">' % (src, 'eager' if big else 'lazy')) if src \
-            else '<span class="hb-ph" aria-hidden="true">%s</span>' % label.split(' ')[0].replace('&amp;', '')
-        return ('<li class="hb-a%s" data-topic="%s"><a href="%s"><span class="hb-a__img">%s</span><span class="hb-a__b">'
-                '<span class="hb-a__m"><span class="hb-tag">%s</span><time datetime="%s">%s</time></span>'
-                '<b>%s</b>%s<span class="hb-a__go">Read article <i aria-hidden="true">→</i></span></span></a></li>'
-                % (' hb-a--big' if big else '', key, href(p, root), pic, label, p['date'], pretty_date(p['date']), esc(p['title']),
-                   ('<span class="hb-a__x">%s</span>' % esc(p.get('excerpt', ''))) if big else ''))
+        tags = tag_map.get(p['slug'], [])
+        minutes = max(1, round(p.get('words', 0) / 200))
+        shown = [n for s, n in tags if s not in GENERIC_TAGS][:2]
+        extra = ('<em>%s</em>' % ', '.join(esc(n) for n in shown)) if shown else ''
+        text = ' '.join([p['title'], p.get('excerpt', ''), label.replace('&amp;', '&')] + [n for s, n in tags]).lower()
+        return ('<li class="hb2-c" data-topic="%s" data-tags="%s" data-date="%s" data-title="%s" data-q="%s"><a href="%s"><span class="hb2-c__img">'
+                '<img src="%s" alt="" loading="%s" decoding="async" width="640" height="360"></span><span class="hb2-c__b">'
+                '<span class="hb2-c__k">%s%s</span><b class="hb2-c__t">%s</b><span class="hb2-c__x">%s</span>'
+                '<span class="hb2-c__f"><span class="hb2-c__by">Dr. Gorav Gupta</span><span><time datetime="%s">%s</time> &middot; %d min read</span></span></span></a></li>'
+                % (key, ' '.join(s for s, n in tags), p['date'], esc(p['title'].lower()), esc(text), href(p, root), img(p), 'eager' if first else 'lazy',
+                   label, extra, esc(p['title']), esc(p.get('excerpt', '')), p['date'], pretty_date(p['date']), minutes))
 
     used = {topic(p)[0] for p in posts}
-    chips = '<button type="button" class="hb-chip" aria-pressed="true" data-topic="all">All topics</button>' + ''.join(
-        '<button type="button" class="hb-chip" aria-pressed="false" data-topic="%s">%s</button>' % (k, l)
-        for k, l, _ in TOPICS + [OTHER + ('',)] if k in used)
-    quick = ''.join('<li><a href="%stests/%s/">%s <i aria-hidden="true">→</i></a></li>' % (root, t['slug'], esc(t['menu_title'])) for t in tests)
+    tcount = {}
+    for p in posts:
+        tcount[topic(p)[0]] = tcount.get(topic(p)[0], 0) + 1
+    cats = ('<li><button type="button" class="hb2-cat" data-topic="all" aria-pressed="true">All articles <span>%d</span></button></li>' % len(posts)
+            + ''.join('<li><button type="button" class="hb2-cat" data-topic="%s" aria-pressed="false">%s <span>%d</span></button></li>' % (k, l, tcount[k])
+                      for k, l, _ in TOPICS + [OTHER + ('',)] if k in used))
+
+    ranked = sorted(counts, key=lambda s: (-counts[s], names[s].lower()))
+    first = [s for s in ranked if s not in GENERIC_TAGS][:FIRST_TAGS]
+    rest = sorted((s for s in ranked if s not in first), key=lambda s: names[s].lower())
+
+    def tag(s):
+        return '<li><a class="hb2-tag" href="%stag/%s/" data-tag="%s">%s <span>%d</span></a></li>' % (root, s, s, esc(names[s]), counts[s])
+
+    quick = ''.join('<li><a href="%stests/%s/">%s <i aria-hidden="true">&rarr;</i></a></li>' % (root, t['slug'], esc(t['menu_title'])) for t in tests)
     more = [('faq', 'Frequently asked questions (FAQ)', 'Answers on consulting, treatment, fees and Dr. Gupta.'),
             ('ask-the-doctor', 'Ask the Doctor', 'Questions often asked about mental illness and addiction.'),
             ('video-gallery', 'Video Gallery', 'Films and YouTube videos from Dr. Gupta.'),
+            ('video-gallery-draft', 'Video Library', 'Every video in one place: films, centre tours and talks.'),
             ('publication', 'Publications', 'Articles and press coverage.'),
             ('testimonials', 'Testimonials', 'What clients and families say.'),
             ('services', 'Conditions we treat', 'Guides to every condition and its treatment.')]
-    return (
-        '<header class="ph hb-hdr"><div class="ph__in hb-head"><nav class="crumb" aria-label="Breadcrumb"><a href="%s">Home</a>'
-        '<span aria-hidden="true">/</span><span aria-current="page">Resources</span></nav><h1>Resources</h1>'
-        '<p class="ph__lede">Articles, guides, answers and films from Dr. Gorav Gupta, to help you make sense of mental health and addiction.</p></div>'
-        '</div><nav class="hb-quick" aria-label="Take a quick test"><img class="hb-quick__doc" src="%sassets/img/portrait-close-col.webp" alt="" width="40" height="40">'
-        '<span class="hb-quick__k"><b>Take a quick test</b><small>Private, 2 to 4 minutes</small></span><ul>%s</ul>'
-        '<a class="btn hb-quick__all" href="%stests/">All tests <i aria-hidden="true">→</i></a></nav></header>'
-        % (root, root, quick, root)
-        + '<section class="sec hb" aria-labelledby="hb-h"><div class="hb-bar"><h2 id="hb-h">Articles</h2>'
-          '<div class="hb-chips" role="group" aria-label="Filter articles by topic">%s</div></div>'
-          '<ul class="hb-grid" id="hb-grid">%s%s</ul>'
-          '<p class="hb-empty" hidden>No articles on this topic yet.</p>'
-          '<div class="hb-moreb"><button type="button" class="btn ghost" id="hb-more">Show more articles</button>'
-          '<a class="more__a" href="%sblog/">Browse the blog <i>→</i></a></div></section>'
-        % (chips, card(posts[0], True), ''.join(card(p) for p in posts[1:]), root)
-        + '<section class="sec hb-x" aria-labelledby="hb-x-h"><h2 id="hb-x-h">More resources</h2><ul class="hb-tiles">%s</ul></section>'
-        % ''.join('<li><a href="%s%s/"><b>%s</b><span>%s</span><i aria-hidden="true">→</i></a></li>' % (root, s, t, d) for s, t, d in more))
+
+    hero = ('<header class="hb2-hero"><div class="hb2-hero__in"><nav class="crumb" aria-label="Breadcrumb"><a href="%s">Home</a><span aria-hidden="true">/</span>'
+            '<span aria-current="page">Resources</span></nav><h1>Resources</h1>'
+            '<p>Articles, guides, answers and films from Dr. Gorav Gupta, to help you make sense of mental health and addiction.</p></div>%s</header>' % (root, HERO_ART))
+    side = ('<aside class="hb2-side" id="hb2-side" aria-label="Filter articles">'
+            '<div class="hb2-box hb2-search"><label class="hb2-sr" for="hb2-q">Search articles</label><input id="hb2-q" type="search" placeholder="Search articles" autocomplete="off" spellcheck="false">%s</div>'
+            '<div class="hb2-box hb2-catbox"><h2 class="hb2-k">Categories</h2><ul class="hb2-cats">%s</ul></div>'
+            '<div class="hb2-box"><h2 class="hb2-k">Tags</h2><ul class="hb2-tags">%s</ul>'
+            '<ul class="hb2-tags hb2-tags--more" id="hb2-tags-more" hidden>%s</ul>'
+            '<button type="button" class="hb2-link" id="hb2-tagtog" aria-expanded="false" aria-controls="hb2-tags-more">Show all tags (%d)</button></div>'
+            '<div class="hb2-box"><h2 class="hb2-k">Authors</h2><ul class="hb2-auth"><li><a href="%sauthor/goravgupta/">Dr. Gorav Gupta</a></li>'
+            '<li><a href="%sauthor/admin/">admin</a></li></ul></div>'
+            '<div class="hb2-box hb2-quick"><h2 class="hb2-k">Take a quick test</h2><ul>%s</ul><a class="hb2-link" href="%stests/">All tests &rarr;</a></div></aside>'
+            % (SEARCH_ICON, cats, ''.join(tag(s) for s in first), ''.join(tag(s) for s in rest), len(ranked), root, root, quick, root))
+    bar = ('<div class="hb2-bar"><button type="button" class="hb2-ftog" id="hb2-ftog" aria-expanded="false" aria-controls="hb2-side">%s Filters <b class="hb2-badge" hidden></b></button>'
+           '<p class="hb2-count" id="hb2-count" aria-live="polite" tabindex="-1">%d articles</p>'
+           '<label class="hb2-sort"><span class="hb2-sr">Sort articles</span><select id="hb2-sort"><option value="new">Newest first</option><option value="old">Oldest first</option>'
+           '<option value="az">A to Z</option></select></label></div>' % (FILTER_ICON, len(posts)))
+    main = ('<div class="hb2-main">'
+            '<div class="hb2-active" id="hb2-active" hidden></div>'
+            '<ul class="hb2-grid" id="hb2-grid">%s</ul>'
+            '<div class="hb2-empty" id="hb2-empty" hidden><b>No articles match.</b><p>Try a different word, or clear the filters.</p><button type="button" class="btn ghost" id="hb2-clear">Clear filters</button></div>'
+            '<nav class="hb2-pager" id="hb2-pager" aria-label="Article pages" hidden></nav></div>'
+            % ''.join(card(p, i < 3) for i, p in enumerate(posts)))
+    tiles = ''.join('<li><a href="%s%s/"><b>%s</b><span>%s</span><i aria-hidden="true">&rarr;</i></a></li>' % (root, s, t, d) for s, t, d in more)
+    return (hero + '<section class="sec hb2" aria-label="Articles"><div class="hb2-layout">' + side + bar + main + '</div></section>'
+            + '<section class="sec hb-x" aria-labelledby="hb-x-h"><h2 id="hb-x-h">More resources</h2><ul class="hb-tiles">%s</ul></section>' % tiles)
