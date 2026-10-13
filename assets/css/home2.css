@@ -7,7 +7,6 @@
      1  institution pills that link out
      2  areas of treatment (.sv): one even grid, "Read more" on each
      3  journey: back on the original timeline layout (.jr), new content
-     4  press (.hx-pr): source, headline, the doctor's quote
      5  reviews (.hx-rvh, .hx-rvs): three columns under the heading
      6  questions (.hx-qa, .hx-q): two columns
      7  Tulasi band cards that link out
@@ -67,29 +66,6 @@
 /* ---------- 3 · JOURNEY --------------------------------------
    The timeline itself is .jr in refresh.css; only the recognition label is new. */
 .jr__b .jr__rk{ margin:.1rem 0 .55rem; font-size:.72rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--mut); }
-
-/* ---------- 4 · PRESS ----------------------------------------- */
-.hx-pr{
-  flex:0 0 min(340px,84vw); display:flex; flex-direction:column; gap:.75rem; padding:1.2rem 1.25rem 1.1rem;
-  background:#ffffff; border:1px solid var(--line); border-radius:18px; color:var(--ink); text-decoration:none;
-  scroll-snap-align:start; box-shadow:0 1px 2px rgba(29,83,154,.04),0 14px 30px -22px rgba(29,83,154,.3);
-  transition:translate .45s var(--e),border-color .3s ease,box-shadow .45s ease;
-}
-.hx-pr.reveal.in:hover,.hx-pr:hover{ translate:0 -6px; border-color:var(--blue); box-shadow:0 26px 44px -20px rgba(29,83,154,.5); }
-.hx-pr:focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
-.hx-pr__top{ display:flex; align-items:center; justify-content:space-between; gap:.6rem; font-size:.76rem; }
-.hx-pr__top b{ padding:.28rem .65rem; border-radius:999px; background:var(--tint); color:var(--blue-d); font-weight:600; }
-.hx-pr__top em{ font-style:normal; color:var(--mut); text-align:right; }
-.hx-pr__t{ margin:0; font-size:1.04rem; line-height:1.38; font-weight:600; letter-spacing:-.01em; color:var(--ink); }
-.hx-pr[lang="hi"] .hx-pr__t{ font-size:.98rem; font-weight:500; }
-.hx-pr__q{ margin:0; padding:.9rem 1rem .95rem; border-radius:14px; background:var(--tint); }
-.hx-pr__q p{ margin:0 0 .45rem; font-size:.9rem; line-height:1.55; color:var(--ink); }
-.hx-pr__by{ display:block; font-size:.76rem; font-style:normal; font-weight:600; color:var(--blue-d); }
-.hx-pr__i{ margin:0; padding:.8rem .95rem; border:1px dashed #b9d0ee; border-radius:12px; font-size:.9rem; line-height:1.55; color:var(--mut); }
-.hx-pr__i span{ display:block; margin-bottom:.25rem; font-size:.75rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--blue-d); }
-.hx-pr__go{ margin-top:auto; padding-top:.1rem; font-size:.86rem; font-weight:600; color:var(--blue-d); }
-.hx-pr__go i{ font-style:normal; display:inline-block; transition:transform .3s ease; }
-.hx-pr:hover .hx-pr__go i{ transform:translate(2px,-2px); }
 
 /* ---------- 5 · REVIEWS --------------------------------------- */
 .reviews{ display:block !important; }
@@ -181,11 +157,10 @@ html.js .fabs:not(.show){ opacity:0; translate:0 14px; pointer-events:none; }
 @media (max-width:640px){
   .sv{ grid-template-columns:1fr; }
   .sv__all{ grid-column:auto; }
-  .hx-pr{ flex-basis:82vw; }
 }
 @media (prefers-reduced-motion:reduce){
-  .sv__c,.hx-pr,.tband__card,.sv__more i,.hx-pr__go i{ transition:none; }
-  .hx-pr:hover,.tband__card:hover,.sv__c:hover{ translate:none !important; }
+  .sv__c,.tband__card,.sv__more i{ transition:none; }
+  .tband__card:hover,.sv__c:hover{ translate:none !important; }
 }
 
 /* ---------- 12 · BOOKING BLOCK (home and contact) -------------
@@ -419,22 +394,3 @@ a.fl.fl1:hover{ translate:0 -3px; box-shadow:0 18px 34px -18px rgba(29,83,154,.5
   .rm__ic svg{ width:22px; height:22px; }
 }
 @media (prefers-reduced-motion:reduce){ .rm__c,.rm__go,.rm__go i{ transition:none; } .rm__c:hover{ translate:none; } }
-
-/* ---------- 21 · PRESS COVERAGE: no empty bands ---------------------
-   Cards used to stretch to the tallest one, which left a blank band inside the shorter ones (between the
-   quote and its attribution, or above "Read the article"). Each card is now exactly as tall as its own
-   content; cards sit on a common top edge. The padding and gaps around the cards and heading are tighter. */
-#insights{ padding-block:clamp(1.5rem,3vw,2.5rem); }
-#insights .head{ margin-bottom:.6rem !important; }
-#insights .head .lede2{ margin-top:.4rem; }
-#insights .head .eyebrow + h2{ margin-top:.35rem !important; margin-bottom:0 !important; }
-#car.presses{ align-items:flex-start; padding-block:.15rem .5rem; }
-.hx-pr{ flex-basis:min(372px,84vw); gap:.55rem; padding:.95rem 1.1rem .85rem; }
-.hx-pr__q{ padding:.75rem .9rem .8rem; }
-.hx-pr__q p{ margin:0 0 .35rem; }
-.hx-pr__go{ margin-top:.1rem; padding-top:0; }
-@media (max-width:640px){ .hx-pr{ flex-basis:84vw; } }
-
-/* Services heading: centred over the card grid */
-#work>.head{ display:flex; flex-direction:column; align-items:center; text-align:center; margin-inline:auto; }
-#work>.head h2{ max-width:22ch; margin-inline:auto; }
