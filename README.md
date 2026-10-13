@@ -686,3 +686,11 @@ psychiatry", "issues,", "Delhi psychiatrist Society" to the name used elsewhere 
   the About Tulasi cards (the whole card opens the Tulasi site; Clinics opens the Contact page) and the hero award badge.
   If the client has the real addresses for those two societies, add them in `tools`-free fashion by editing the pill in `src/pages/home.html`.
 
+- **Team feedback round (journey, booking, rooms):** the scroll-stacked journey boxes are replaced on home and About by a non-interactive animated timeline (`assets/js/journey.js`, styles in `about2.css`): each milestone is a soft card hanging off a marker; the
+  line fills with the scroll, a small glowing dot travels down it, each marker lights up as it arrives and the current card is lifted and
+  blue-edged; each card also eases in once (card, label, heading, rule, text, tags in turn). Phones drop the card frame to keep the text wide.
+  No clicking; reduced motion (or no script) shows the finished timeline. Press coverage cards are now exactly as tall as their own content (no blank
+  band inside the shorter ones) and the section is tighter. The home "Not sure how to seek help?" block is removed (the floating call and
+  WhatsApp buttons, the header button and the Contact page remain); "Book Consultation" on home now opens the Contact page. The two
+  addresses are a framed "Consulting rooms across Delhi NCR" section (`#rooms`, `.rm*` in `home2.css`). Treatment-areas heading is now
+  "Specialised psychiatric care for mental health and addiction".

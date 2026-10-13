@@ -314,9 +314,6 @@ html body,html body *:not(#_z),html body *:not(#_z)::before,html body *:not(#_z)
   .fab{ width:46px; height:46px; }
   .fab svg{ width:23px; height:23px; }
   .fab--wa{ width:50px; height:50px; }
-  .st-box{ padding:1.25rem; gap:1rem; }
-  .ab2 .st-box h3{ font-size:1.3rem; }
-  .st-box__ic{ width:48px; height:48px; margin-bottom:.8rem; }
 }
 
 /* browser-drawn details */
@@ -388,3 +385,52 @@ a.fl.fl1:hover{ translate:0 -3px; box-shadow:0 18px 34px -18px rgba(29,83,154,.5
 #who .about__facts a{ color:inherit; text-decoration:none; }
 #who .about__facts a:hover{ color:var(--blue-d); text-decoration:underline; text-underline-offset:4px; }
 #who .about__facts a i{ font-style:normal; font-size:.8em; }
+
+/* ---------- 20 · CONSULTING ROOMS (home) ---------------------------
+   The two addresses used to sit as plain ruled rows under the booking block. They are the way a patient
+   actually finds the clinic, so each is now a framed card: a pin, the city, the full address and one clear
+   "Open on Google" button. The whole card opens the map. */
+.rm__g{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:clamp(.9rem,2vw,1.4rem); }
+.rm__c{
+  position:relative; display:grid; grid-template-columns:auto minmax(0,1fr); grid-template-rows:1fr auto; gap:.2rem 1.2rem; align-items:start;
+  padding:clamp(1.3rem,2.6vw,1.9rem); border:1px solid var(--line); border-radius:22px;
+  background:linear-gradient(180deg,#ffffff,#f6f9fe); box-shadow:0 1px 2px rgba(29,83,154,.06),0 14px 26px -20px rgba(14,35,64,.32);
+  transition:translate .5s var(--e),box-shadow .5s var(--e),border-color .4s ease;
+}
+.rm__c:hover{ translate:0 -3px; border-color:var(--tint2); box-shadow:0 1px 2px rgba(29,83,154,.08),0 22px 38px -22px rgba(29,83,154,.45); }
+.rm__ic{ grid-row:1/3; display:grid; place-items:center; width:52px; height:52px; border-radius:16px; background:var(--tint); color:var(--blue-d); }
+.rm__ic svg{ width:26px; height:26px; }
+.rm__b h3{ margin:0 0 .4rem; font-size:clamp(1.25rem,2vw,1.5rem); line-height:1.2; letter-spacing:-.02em; color:var(--ink); }
+.rm__b p{ margin:0; max-width:40ch; font-size:1rem; line-height:1.6; color:var(--mut); }
+.rm__go{
+  grid-column:2; justify-self:start; display:inline-flex; align-items:center; gap:.45rem; margin-top:.9rem; padding:.6rem 1.1rem;
+  border:1px solid var(--blue); border-radius:999px; background:var(--tint); color:var(--blue-d); font-size:.9375rem; font-weight:600; text-decoration:none;
+  transition:background .35s ease,color .35s ease,border-color .35s ease;
+}
+.rm__go::after{ content:""; position:absolute; inset:0; border-radius:22px; }
+.rm__go i{ font-style:normal; transition:transform .4s var(--e); }
+.rm__c:hover .rm__go{ background:var(--blue); color:#ffffff; }
+.rm__c:hover .rm__go i{ transform:translate(2px,-2px); }
+.rm__go:focus-visible{ outline:none; }
+.rm__c:has(.rm__go:focus-visible){ outline:2px solid var(--blue); outline-offset:3px; }
+@media (max-width:760px){
+  .rm__g{ grid-template-columns:1fr; }
+  .rm__ic{ width:44px; height:44px; border-radius:14px; }
+  .rm__ic svg{ width:22px; height:22px; }
+}
+@media (prefers-reduced-motion:reduce){ .rm__c,.rm__go,.rm__go i{ transition:none; } .rm__c:hover{ translate:none; } }
+
+/* ---------- 21 · PRESS COVERAGE: no empty bands ---------------------
+   Cards used to stretch to the tallest one, which left a blank band inside the shorter ones (between the
+   quote and its attribution, or above "Read the article"). Each card is now exactly as tall as its own
+   content; cards sit on a common top edge. The padding and gaps around the cards and heading are tighter. */
+#insights{ padding-block:clamp(1.5rem,3vw,2.5rem); }
+#insights .head{ margin-bottom:.6rem !important; }
+#insights .head .lede2{ margin-top:.4rem; }
+#insights .head .eyebrow + h2{ margin-top:.35rem !important; margin-bottom:0 !important; }
+#car.presses{ align-items:flex-start; padding-block:.15rem .5rem; }
+.hx-pr{ flex-basis:min(372px,84vw); gap:.55rem; padding:.95rem 1.1rem .85rem; }
+.hx-pr__q{ padding:.75rem .9rem .8rem; }
+.hx-pr__q p{ margin:0 0 .35rem; }
+.hx-pr__go{ margin-top:.1rem; padding-top:0; }
+@media (max-width:640px){ .hx-pr{ flex-basis:84vw; } }

@@ -10,7 +10,6 @@
      data-fx="words"     a paragraph darkens word by word as it crosses the screen
      data-fx="fig"       a photograph in layers: plate, image and frame move at different rates
      data-fx="glow"      a soft light follows the pointer across the element
-     data-fx="stack"     boxes that pin one under another; earlier boxes collapse to title strips as the next slides over
 
    Elements get .landed once, the first time they settle, for the small finishing touch in CSS.
    Content is fully visible until this script runs; reduced motion leaves the page as it is. */
@@ -149,66 +148,6 @@
     });
   }
 
-  /* ---------------------------------------------------------------- stacked boxes
-     Each box emerges from depth, pins just under the one before it, and the earlier boxes recede into a
-     title strip as the next slides over them. Built to be cheap while scrolling: positions come from one
-     read per frame (the container, which never moves) plus measurements taken once, the boxes only get
-     transform and opacity (compositor properties, no blur, no custom-property writes), and nothing is
-     written when the rounded values have not changed. */
-  var sm = function (t) { return t * t * t * (t * (t * 6 - 15) + 10); };   // smootherstep: eases in and out, no sudden start
-  var measures = [];
-  $$('[data-fx~="stack"]').forEach(function (stack) {
-    var kids = [].slice.call(stack.children), n = kids.length;
-    var shade = kids.map(function (k) { return k.querySelector('.st-box__shade'); });
-    var body = kids.map(function (k) { return [k.querySelector('.st-box__l'), k.querySelector('.st-box__r')]; });
-    var tab = kids.map(function (k) { return k.querySelector('.st-box__tab'); });
-    var nat = [], hs = [], H = 0;
-    var arr = kids.map(function () { return 0; }), cov = kids.map(function () { return 0; }), last = kids.map(function () { return ''; });
-
-    function measure() {
-      var gap = parseFloat(getComputedStyle(stack).rowGap) || 0, y = 0;
-      kids.forEach(function (k, i) { hs[i] = k.offsetHeight; nat[i] = y; y += hs[i] + gap; });
-      H = y - gap;
-    }
-    measure(); measures.push(measure);
-
-    function apply(i, e, cv) {
-      var k = kids[i];
-      k.style.opacity = clamp(e * 1.2, 0, 1).toFixed(3);
-      k.style.transform = 'translate3d(0,' + ((1 - e) * 56).toFixed(1) + 'px,0) scale(' + ((.95 + .05 * e) * (1 - cv * .03)).toFixed(4) + ')';
-      if (shade[i]) shade[i].style.opacity = (cv * .8).toFixed(3);
-      var bo = clamp(1 - (cv - .1) * 2.6, 0, 1).toFixed(3);
-      if (body[i][0]) body[i][0].style.opacity = bo;
-      if (body[i][1]) body[i][1].style.opacity = bo;
-      if (tab[i]) tab[i].style.opacity = clamp((cv - .35) * 3, 0, 1).toFixed(3);
-      if (e > .985 && !k.__landed) { k.__landed = 1; k.classList.add('landed'); }
-    }
-    kids.forEach(function (k, i) { apply(i, 0, 0); });
-
-    var lastT = 0;
-    jobs.push({ tick: function () {
-      // time-based damping: the same softness at 60, 90 or 144 fps
-      var now = performance.now(), dt = lastT ? Math.min(50, now - lastT) : 16; lastT = now;
-      var al = 1 - Math.exp(-dt / 190);
-      var cTop = stack.getBoundingClientRect().top, bottom = cTop + H, busy = false, pinned = innerWidth >= 700;
-      var tops = [];
-      for (var i = 0; i < n; i++) {
-        var unst = cTop + nat[i];
-        tops[i] = pinned ? Math.min(Math.max(unst, 96 + i * 60), bottom - hs[i]) : unst;
-      }
-      for (var i = 0; i < n; i++) {
-        var t = clamp((vh * .98 - (cTop + nat[i])) / (vh * .8), 0, 1);
-        arr[i] += (t - arr[i]) * al;
-        var ct = (pinned && i < n - 1) ? clamp((tops[i] + hs[i] - tops[i + 1]) / (hs[i] * .9), 0, 1) : 0;
-        cov[i] += (ct - cov[i]) * al;
-        if (Math.abs(t - arr[i]) > .002 || Math.abs(ct - cov[i]) > .002) busy = true;
-        var e = sm(arr[i]), cv = sm(cov[i]), key = Math.round(e * 400) + '|' + Math.round(cv * 400);
-        if (key !== last[i]) { last[i] = key; apply(i, e, cv); }
-      }
-      return busy;
-    } });
-  });
-
   /* ---------------------------------------------------------------- loop */
   function frame() {
     var y = scrollY;
@@ -222,10 +161,7 @@
   function wake() { if (!running) { running = true; requestAnimationFrame(frame); } }
 
   addEventListener('scroll', wake, { passive: true });
-  function remeasure() { measures.forEach(function (m) { m(); }); wake(); }
-  addEventListener('resize', function () { vh = innerHeight; small = innerWidth < 700; remeasure(); });
-  addEventListener('load', remeasure);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
+  addEventListener('resize', function () { vh = innerHeight; small = innerWidth < 700; wake(); });
   root.classList.add('fx');
   wake();
 })();
