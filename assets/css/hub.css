@@ -2,17 +2,25 @@
    Resources hub (/resources/): markup from tools/hub_pages.py, filtering in assets/js/hub.js
    ========================================================================== */
 .hb-hdr .ph__in{ max-width:none; }
-.hb-head{ display:grid; grid-template-columns:minmax(0,1fr) minmax(300px,400px); gap:clamp(1.5rem,4vw,3.5rem); align-items:end; }
-.hb-quick{ position:relative; padding:1.3rem 1.4rem 1.4rem; border-radius:22px; background:linear-gradient(150deg,#f3f8ff,#e4eefb); border:1px solid var(--tint2); box-shadow:var(--sh); }
-.hb-quick__doc{ position:absolute; top:-26px; right:18px; width:72px; height:84px; object-fit:cover; object-position:top; border-radius:18px; border:3px solid #ffffff; box-shadow:0 8px 20px -10px rgba(15,34,66,.4); }
-.hb-quick__k{ margin:0 0 .25rem; font-size:.8125rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; color:var(--blue); }
-.hb-quick h2{ margin:0 0 .35rem; padding-right:84px; font-size:1.3rem !important; line-height:1.25; }
-.hb-quick > p:not(.hb-quick__k){ margin:0 0 .8rem; font-size:.9rem; line-height:1.55; color:var(--mut); }
-.hb-quick ul{ display:flex; flex-wrap:wrap; gap:.35rem; margin:0 0 1rem; padding:0; list-style:none; }
-.hb-quick li a{ display:inline-flex; gap:.3rem; padding:.32rem .7rem; border-radius:999px; background:#ffffff; border:1px solid var(--tint2); color:var(--blue-d); font-size:.8125rem; font-weight:500; text-decoration:none; transition:background .2s,border-color .2s; }
-.hb-quick li a:hover{ background:var(--tint); border-color:var(--blue); }
-.hb-quick li i{ font-style:normal; }
-.hb-quick .btn{ width:100%; }
+.hb-quick{ display:flex; align-items:center; gap:.9rem; margin-top:clamp(1.4rem,3vw,2rem); padding:.45rem .5rem .45rem .5rem; border:1px solid var(--line); border-radius:999px; background:#ffffff; box-shadow:var(--sh); }
+.hb-quick__doc{ flex:none; width:40px; height:40px; border-radius:50%; object-fit:cover; object-position:top; }
+.hb-quick__k{ flex:none; display:grid; line-height:1.2; padding-right:.9rem; border-right:1px solid var(--line); }
+.hb-quick__k b{ font:600 .9375rem Poppins,Inter,sans-serif; color:var(--ink); }
+.hb-quick__k small{ font-size:.75rem; color:var(--mut); }
+.hb-quick ul{ display:flex; gap:.25rem; flex:1; min-width:0; margin:0; padding:0; list-style:none; overflow-x:auto; scrollbar-width:none; }
+.hb-quick ul::-webkit-scrollbar{ display:none; }
+.hb-quick li{ flex:none; margin:0; }
+.hb-quick li a{ display:inline-flex; gap:.3rem; padding:.5rem .8rem; border-radius:999px; color:var(--ink); font-size:.875rem; font-weight:500; text-decoration:none; white-space:nowrap; transition:background .2s,color .2s; }
+.hb-quick li a:hover{ background:var(--tint); color:var(--blue-d); }
+.hb-quick li i{ font-style:normal; color:var(--blue); }
+.hb-quick__all{ flex:none; gap:.4rem; white-space:nowrap; }
+.hb-quick__all i{ font-style:normal; }
+@media (max-width:760px){
+  .hb-quick{ flex-wrap:wrap; border-radius:22px; padding:.7rem; }
+  .hb-quick__k{ border-right:0; flex:1; }
+  .hb-quick ul{ order:3; flex-basis:100%; }
+  .hb-quick__all{ order:2; }
+}
 
 .hb{ padding-top:clamp(1.2rem,3vw,2rem) !important; }
 .hb-bar{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.4rem; }
@@ -58,8 +66,6 @@
 .hb-tiles i{ position:absolute; right:1.1rem; top:50%; translate:0 -50%; font-style:normal; color:var(--blue-d); }
 
 @media (max-width:960px){
-  .hb-head{ grid-template-columns:1fr; align-items:start; }
-  .hb-quick{ margin-top:1.4rem; }
   .hb-grid,.hb-tiles{ grid-template-columns:repeat(2,minmax(0,1fr)); }
   .hb-a--big a{ grid-template-columns:1fr; }
   .hb-a--big .hb-a__img{ min-height:0; aspect-ratio:16/9; }

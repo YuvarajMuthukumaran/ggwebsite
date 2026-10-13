@@ -63,13 +63,12 @@ def resources_hub(root, posts, tests, href, pretty_date):
             ('testimonials', 'Testimonials', 'What clients and families say.'),
             ('services', 'Conditions we treat', 'Guides to every condition and its treatment.')]
     return (
-        '<header class="ph hb-hdr"><div class="ph__in hb-head"><div><nav class="crumb" aria-label="Breadcrumb"><a href="%s">Home</a>'
+        '<header class="ph hb-hdr"><div class="ph__in hb-head"><nav class="crumb" aria-label="Breadcrumb"><a href="%s">Home</a>'
         '<span aria-hidden="true">/</span><span aria-current="page">Resources</span></nav><h1>Resources</h1>'
         '<p class="ph__lede">Articles, guides, answers and films from Dr. Gorav Gupta, to help you make sense of mental health and addiction.</p></div>'
-        '<aside class="hb-quick" aria-labelledby="hb-q-h"><img class="hb-quick__doc" src="%sassets/img/portrait-close-col.webp" alt="Dr. Gorav Gupta" width="96" height="112">'
-        '<p class="hb-quick__k">Take a quick test</p><h2 id="hb-q-h">Not sure where to start?</h2>'
-        '<p>A private 2 to 4 minute self-check. Your answers never leave your device.</p><ul>%s</ul>'
-        '<a class="btn" href="%stests/">See all tests</a></aside></div></header>'
+        '</div><nav class="hb-quick" aria-label="Take a quick test"><img class="hb-quick__doc" src="%sassets/img/portrait-close-col.webp" alt="" width="40" height="40">'
+        '<span class="hb-quick__k"><b>Take a quick test</b><small>Private, 2 to 4 minutes</small></span><ul>%s</ul>'
+        '<a class="btn hb-quick__all" href="%stests/">All tests <i aria-hidden="true">→</i></a></nav></header>'
         % (root, root, quick, root)
         + '<section class="sec hb" aria-labelledby="hb-h"><div class="hb-bar"><h2 id="hb-h">Articles</h2>'
           '<div class="hb-chips" role="group" aria-label="Filter articles by topic">%s</div></div>'
