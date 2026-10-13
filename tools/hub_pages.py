@@ -10,6 +10,43 @@ TOPICS = [   # (key, label, pattern matched against a post's slug and title)
 ]
 OTHER = ('wellbeing', 'Wellbeing')
 
+# Stand-in pictures for posts that have none: a close keyword match first, then the topic's pool (rotated).
+IMG = 'assets/img/blog/'
+KEYWORD_IMG = [
+    (r'sleep', 'healthy-sleep.webp'), (r'panic', 'panic-disorder-treatment-psychiatrist.webp'),
+    (r'health anxiety|anxiety', 'anxiety-disorder_11zon.webp'), (r'ocd|obsess', 'ocd-psychiatrist.webp'),
+    (r'stress|remote|work', 'work-related-stress-700x525.webp'), (r'postpartum', 'postpartum-depression.webp'),
+    (r'seasonal', 'seasonal-affective-disorder.webp'), (r'bipolar|bi-polar', 'bipolar-i-symptoms.webp'),
+    (r'depress', 'depression-depression-causes-in-delhi.webp'), (r'self-harm|suicid', 'self-harm_11zon.webp'),
+    (r'hallucinat', 'hallucination-700x525.webp'), (r'relapse', 'relapse-prevention.webp'),
+    (r'schizo', 'intricacies-of-schizophrenia.webp'), (r'narciss', 'narcissistic-personality-disorder.webp'),
+    (r'borderline|bpd', 'bpd-treatment_11zon.webp'), (r'personality', 'personality-disorders.webp'),
+    (r'eating|anorexia|nutrition', 'rise-of-eating-disorders_11zon.webp'), (r'smok', 'smoking-cessation-treatment-by-psychiatrist-in-delhi_11zon.webp'),
+    (r'teen|child', 'behavioral-problems2.webp'), (r'cannabis|marijuana|drug', 'drug-addiction-how-to-help-your-loved-one-fight-marijuana-addiction.webp'),
+    (r'binge|drink', 'how-to-overcome-binge-drinkinggg.webp'), (r'alcohol', 'alcohol-addiction.webp'),
+    (r'rehab', 'rehabitation-centre.webp'), (r'substance|addict', 'substance-use-disorder.webp'),
+    (r'anger', 'anger-management-a-guide-to-a-healthier-life_11zon.webp'), (r'elderly|age', 'early-mental-health-issues.webp'),
+    (r'stigma|misconception|myth', 'mental-health-moving-past-the-stigma_11zon.webp'),
+    (r'psychiatrist|psychologist|counsel|therap|medication|prescribe', 'psychiatrist-near-me_11zon.webp'),
+]
+TOPIC_IMG = {
+    'addiction': ['de-adiction-treatment.webp', 'manage-addiction-disorder-with-expert-intervention_11zon.webp', 'psychiatrist-for-alcohol-addiction-700x371.webp'],
+    'anxiety': ['stress-_-anxiety.webp', 'anxiety.webp', 'anxiety-to-ocd.webp'],
+    'mood': ['bipolar-ii-symptoms.webp', 'depression-depression-causes-in-delhi.webp'],
+    'schizophrenia': ['schizophrenia-1-700x700.webp', 'signs-of-relapse-in-schizophrenia.webp'],
+    'personality': ['personality-disorder.webp', 'personality-disordergg-700x467.webp'],
+    'wellbeing': ['mental-health.webp', 'mental-health-2.webp', 'pink-self-care-mental-health-graph-1_11zon.webp', 'early-mental-health-issues.webp', 'stress-management_11zon.webp'],
+}
+
+
+def stand_in(p, n):
+    text = (p['slug'] + ' ' + p['title']).lower().replace('-', ' ')
+    for pat, f in KEYWORD_IMG:
+        if re.search(pat, text):
+            return IMG + f
+    pool = TOPIC_IMG[topic(p)[0]]
+    return IMG + pool[n % len(pool)]
+
 
 def esc(s):
     return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
@@ -38,7 +75,7 @@ def resources_hub(root, posts, tests, href, pretty_date):
     """The body of /resources/: quick-test band, topic filter, featured article, article grid, more resources."""
     def img(p):
         m = re.search(r'<img[^>]*src="\{\{root\}\}([^"]+)"', p['_body'])
-        return (root + m.group(1)) if m else ''
+        return root + (m.group(1) if m else stand_in(p, posts.index(p)))
 
     def card(p, big=False):
         key, label = topic(p)
