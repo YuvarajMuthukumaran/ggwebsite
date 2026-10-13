@@ -71,6 +71,10 @@
     });
   }, { threshold: .12 });
   $$('.reveal').forEach(function (n) { io.observe(n); });
+  /* safety net: anything on screen or above that the observer (or another script) never revealed */
+  function sweep() { $$('.reveal:not(.in)').forEach(function (n) { if (n.getBoundingClientRect().top < innerHeight) n.classList.add('in'); }); }
+  addEventListener('load', function () { setTimeout(sweep, 1200); });
+  addEventListener('scroll', function () { clearTimeout(sweep.t); sweep.t = setTimeout(sweep, 400); }, { passive: true });
 
   /* ------------------------------------------------------------------ *
    * 3. Counters

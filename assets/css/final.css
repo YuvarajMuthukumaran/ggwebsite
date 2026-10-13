@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Final polish layer (loaded last)
+   ========================================================================== */
+/* The "All services" card on home was never revealed by the scroll script and stayed invisible */
+.sv__all.reveal{ opacity:1; translate:none; }
+.sv__all{ border:1.5px solid var(--tint2) !important; background:linear-gradient(150deg,#f3f8ff,#e4eefb) !important; box-shadow:var(--sh); }
+.sv__all b{ color:var(--ink); }
+.sv__all i{ background:var(--blue) !important; color:#ffffff !important; }
+.sv__all:hover{ border-color:var(--blue) !important; }
+
+/* Consistent, visible keyboard focus everywhere */
+:where(a,button,summary,input,select,textarea,[tabindex]):focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
+::selection{ background:#cfe0f5; color:var(--ink); }
+
+/* Calmer type rendering and balanced headings */
+body{ text-rendering:optimizeLegibility; }
+h1,h2,h3{ text-wrap:balance; }
+p{ text-wrap:pretty; }
+
+/* Images never overflow their boxes */
+img{ max-width:100%; height:auto; }
+
+/* Buttons: one comfortable hit size */
+.btn{ min-height:44px; }

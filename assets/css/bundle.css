@@ -3163,3 +3163,23 @@ a.tq-card:hover .tq-card__go i{ translate:3px 0; }
   .hb-grid,.hb-tiles{ grid-template-columns:1fr; }
 }
 @media (prefers-reduced-motion:reduce){ .hb-a a,.hb-a__img img{ transition:none; } .hb-a a:hover{ translate:none; } .hb-a a:hover .hb-a__img img{ scale:none; } }
+.sv__all.reveal{ opacity:1; translate:none; }
+.sv__all{ border:1.5px solid var(--tint2) !important; background:linear-gradient(150deg,#f3f8ff,#e4eefb) !important; box-shadow:var(--sh); }
+.sv__all b{ color:var(--ink); }
+.sv__all i{ background:var(--blue) !important; color:#ffffff !important; }
+.sv__all:hover{ border-color:var(--blue) !important; }
+
+
+:where(a,button,summary,input,select,textarea,[tabindex]):focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
+::selection{ background:#cfe0f5; color:var(--ink); }
+
+
+body{ text-rendering:optimizeLegibility; }
+h1,h2,h3{ text-wrap:balance; }
+p{ text-wrap:pretty; }
+
+
+img{ max-width:100%; height:auto; }
+
+
+.btn{ min-height:44px; }
