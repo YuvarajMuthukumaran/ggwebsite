@@ -24,15 +24,21 @@
 .sp-chips li{ display:inline-flex; align-items:center; gap:.4rem; margin:0; padding:.38rem .8rem .38rem .65rem; border:1px solid var(--tint2); border-radius:999px; background:#ffffff; color:var(--ink); font-size:.875rem; font-weight:500; line-height:1.3; }
 .sp-chips svg{ flex:none; color:var(--blue); }
 
-.sp-card{ position:relative; display:grid; gap:1rem; padding:1.3rem; border:1px solid var(--line); border-radius:22px; background:#ffffff; box-shadow:0 1px 2px rgba(29,83,154,.06),0 26px 46px -30px rgba(29,83,154,.5); }
-.sp-card__who{ display:flex; align-items:center; gap:1rem; }
-.sp-card__who img{ flex:none; width:84px; height:98px; object-fit:cover; object-position:top; border-radius:16px; }
-.sp-card p{ margin:0; }
-.sp-card__n{ font-size:1.2rem; font-weight:600; letter-spacing:-.02em; color:var(--ink); }
-.sp-card__r{ margin-top:.15rem !important; color:var(--mut); font-size:.875rem; line-height:1.45; }
-.sp-card__a{ display:grid; gap:.55rem; }
-.sp-card__a .btn{ width:100%; justify-content:center; }
-.sp-card__f{ padding-top:.9rem; border-top:1px solid var(--line); color:var(--mut); font-size:.8125rem; line-height:1.5; text-align:center; }
+.sp-tul{
+  position:relative; display:grid; gap:.35rem; justify-items:start; padding:1.4rem 1.4rem 1.3rem; border:1px solid var(--line); border-radius:22px; background:#ffffff; color:var(--ink); text-decoration:none;
+  box-shadow:0 1px 2px rgba(29,83,154,.06),0 26px 46px -30px rgba(29,83,154,.5); transition:translate .45s var(--e),box-shadow .45s var(--e),border-color .3s;
+}
+.sp-tul:hover{ translate:0 -4px; border-color:var(--tint2); box-shadow:0 1px 2px rgba(29,83,154,.08),0 30px 50px -28px rgba(29,83,154,.6); }
+.sp-tul:focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
+.sp-tul__logo{ display:grid; place-items:center; width:64px; height:64px; margin-bottom:.4rem; border-radius:18px; background:var(--tint); }
+.sp-tul__logo img{ width:44px; height:44px; object-fit:contain; }
+.sp-tul__k{ color:var(--blue-d); font-size:.875rem; font-weight:600; }
+.sp-tul__t{ font-size:1.35rem; font-weight:600; line-height:1.2; letter-spacing:-.025em; }
+.sp-tul__p{ margin:.15rem 0 .8rem; color:var(--mut); font-size:.9375rem; line-height:1.55; }
+.sp-tul__go{ display:inline-flex; align-items:center; gap:.5rem; width:100%; justify-content:center; min-height:46px; padding:.7rem 1.2rem; border-radius:999px; background:linear-gradient(180deg,#2f6fcb,#1f4f9a); color:#ffffff; font-size:.9375rem; font-weight:600; transition:background .3s ease; }
+.sp-tul__go i{ font-style:normal; transition:translate .35s var(--e); }
+.sp-tul:hover .sp-tul__go{ background:#16386b; }
+.sp-tul:hover .sp-tul__go i{ translate:2px -2px; }
 
 /* ---------------------------------------------------------------- layout */
 .sp{ padding-top:clamp(1.6rem,3.6vw,2.8rem) !important; }
@@ -59,7 +65,7 @@
 .sp__in h2[id],.sp__in h3[id]{ scroll-margin-top:104px; }
 .sp__in figure{ margin:1.8rem 0; }
 .sp__in figure img{ display:block; max-width:100%; height:auto; border-radius:20px; box-shadow:0 1px 2px rgba(29,83,154,.08),0 24px 42px -30px rgba(29,83,154,.55); }
-.sp__in .sp-fig img{ width:100%; }
+.sp__in .sp-fig img{ width:100%; aspect-ratio:3/2; object-fit:cover; background:var(--tint); }
 .sp__in .sp-fig--small img{ width:auto; border-radius:16px; }
 .sp__in ul:not(.sp-chips),.sp__in ol{ display:grid; gap:.5rem; margin:0 0 1.4rem; padding:0; list-style:none; }
 .sp__in ul:not(.sp-chips) > li{ position:relative; margin:0; padding:0 0 0 1.5rem; }
@@ -96,16 +102,14 @@
 
 @media (max-width:1040px){
   .sp-hero{ grid-template-columns:1fr; }
-  .sp-card{ grid-template-columns:auto minmax(0,1fr); align-items:center; max-width:34rem; }
-  .sp-card__who{ grid-column:1/-1; }
+  .sp-tul{ max-width:34rem; }
   .sp__grid{ grid-template-columns:minmax(0,1fr); }
   .sp__side{ position:static; order:2; }
   .sp-toc{ display:none; }
 }
 @media (max-width:640px){
   .sp-hero{ width:calc(100% - 32px); border-radius:22px; }
-  .sp-card{ grid-template-columns:1fr; }
   .sp-dl__r{ grid-template-columns:1fr; gap:.3rem; }
   .sp__in .sp-ul2{ grid-template-columns:1fr; }
 }
-@media (prefers-reduced-motion:reduce){ .sp-rel li a,.sp-rel li a i,.sp-toc a{ transition:none; } }
+@media (prefers-reduced-motion:reduce){ .sp-rel li a,.sp-rel li a i,.sp-toc a,.sp-tul,.sp-tul__go i{ transition:none; } .sp-tul:hover{ translate:none; } }

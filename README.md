@@ -717,7 +717,11 @@ psychiatry", "issues,", "Delhi psychiatrist Society" to the name used elsewhere 
   The closing "Seeking help?" blocks in the documents are not on the pages because the inner-page closing band was removed earlier.
   The About intro says "senior consultant psychologist" as written in the document (confirmed by the client team); the rest of the site calls Dr. Gupta a psychiatrist (M.D. Psychiatry).
 - **Condition, local and guide pages** (the 26 imported pages: services, Psychiatrist in Delhi/Gurgaon/India, guides, FAQ guide) use a designed template, `tools/service_pages.py`
-  with `assets/css/service.css` and `assets/js/service.js`: a hero (topic label, title, summary, three facts, a profile and booking card), the text regrouped (runs of small
+  with `assets/css/service.css` and `assets/js/service.js`: a hero (topic label, title, summary, three facts, and a "Visit Tulasi to book a consultation" card that opens tulasihealthcare.com in a new tab), the text regrouped (runs of small
   headings become a two-column list, questions use the FAQ accordion, long short-item lists run in two columns), a scroll-following "On this page" list, and three related
   pages. No words are removed (checked per page); a short first paragraph becomes the hero summary, otherwise a standard line is used. Needs `pip install beautifulsoup4 lxml`
   to build. Blog posts keep their own article layout.
+- **Photos on the condition and guide pages:** the stock illustrations and infographics were replaced by 16 relevant photographs from Unsplash (free to use under the Unsplash
+  License), in `assets/img/pages/<name>-4k.webp` (up to 3840 px wide) and `-1600.webp`; pages serve the 1600 px file and the 4K one only to very high-density screens (`srcset`).
+  Photographers and photo links are in `data/image-credits.json`. The doctor's own photos and the award picture were kept. The six "stress busters" tips and the bipolar I/II
+  definition pictures were graphics with text and are now photos only. Blog posts and other pages still use their old images.

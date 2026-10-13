@@ -194,12 +194,12 @@ def build(pg, root, content, callout, after, crumbs, groups, by_slug, href, wa, 
     chips = ''.join('<li>%s%s</li>' % (CHECK, c) for c in ('%s years of experience' % exp, 'New Delhi and Gurugram', 'Online consultations'))
     hero = ('<header class="sp-hero"><div class="sp-hero__txt">%s<p class="sp-eyebrow">%s<span>%s</span></p><h1>%s</h1><p class="sp-lede">%s</p>'
             '<ul class="sp-chips">%s</ul></div>'
-            '<aside class="sp-card" aria-label="Consult Dr. Gorav Gupta"><div class="sp-card__who"><img src="%sassets/img/portrait-close-col.webp" alt="" width="96" height="112">'
-            '<div><p class="sp-card__n">Dr. Gorav Gupta</p><p class="sp-card__r">M.B.B.S., M.D. Psychiatry</p><p class="sp-card__r">Senior consultant psychiatrist</p></div></div>'
-            '<div class="sp-card__a"><a class="btn" href="%scontactus/">Book Consultation</a>'
-            '<a class="btn ghost" href="tel:+918800000255">Call +91 88000 00255</a></div>'
-            '<p class="sp-card__f">Consulting rooms in New Delhi and Gurugram, and online.</p></aside></header>'
-            % (crumbs, icon(ic, 'sp-eyebrow__ic'), esc(label), esc(pg['title']), lede, chips, root, root))
+            '<a class="sp-tul" href="https://tulasihealthcare.com" target="_blank" rel="noopener" aria-label="Visit Tulasi Healthcare to book a consultation (opens the Tulasi website)">'
+            '<span class="sp-tul__logo"><img src="%sassets/img/tulasi-logo.webp" alt="" width="64" height="64"></span>'
+            '<span class="sp-tul__k">Tulasi Healthcare</span><span class="sp-tul__t">Visit Tulasi to book a consultation</span>'
+            '<span class="sp-tul__p">Book with Dr. Gorav Gupta&rsquo;s team on the Tulasi website. Consultations in New Delhi, Gurugram and online.</span>'
+            '<span class="sp-tul__go">Visit Tulasi Healthcare <i aria-hidden="true">&nearr;</i></span></a></header>'
+            % (crumbs, icon(ic, 'sp-eyebrow__ic'), esc(label), esc(pg['title']), lede, chips, root))
     toc_html = ''
     if len(toc) >= 3:
         toc_html = ('<nav class="sp-toc" aria-label="On this page"><p class="sp-side__t">On this page</p><ol>%s</ol></nav>'
