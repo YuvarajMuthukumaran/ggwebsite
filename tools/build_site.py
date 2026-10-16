@@ -43,8 +43,8 @@ SRC = ROOT / 'src'
 SITE = 'https://www.goravgupta.com'
 
 # Same order the single page linked them, then the two newest layers.
-CSS = ['site', 'cinematic', 'refine', 'warm', 'calm', 'bloom', 'pro', 'spatial',
-       'fix', 'polish', 'touchup', 'tulasi', 'taste', 'refresh', 'pages', 'articles', 'navy', 'home2', 'films2', 'about2', 'menu', 'tests', 'hub', 'faq', 'service', 'form', 'final']
+CSS = ['site', 'cinematic', 'films', 'refine', 'warm', 'calm', 'bloom', 'pro', 'spatial',
+       'fix', 'polish', 'touchup', 'tulasi', 'taste', 'refresh', 'pages', 'articles', 'booking', 'navy', 'home2', 'films2', 'about2', 'menu', 'tests', 'hub', 'faq', 'service', 'form', 'final']
 
 WA_NUMBER = '918800000255'
 # Where a page has a subject, the WhatsApp message says so, so the call centre opens with context.
@@ -699,7 +699,8 @@ def main():
         for m in re.finditer(r"class='([^']*)'", src):
             site_tokens.update(m.group(1).split())
         site_tokens.update(re.findall(r"className\s*=\s*'([^']*)'", src))
-    css_v = bundle_css(site_tokens)
+    # Pruning by class name is switched off: it dropped rules the scripts and the cascade rely on and broke the hero.
+    css_v = bundle_css()
     for out, html in pages_out:
         out.write_text(html.replace(CSSV, css_v), encoding='utf-8', newline='\n')
 

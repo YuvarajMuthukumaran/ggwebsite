@@ -22,3 +22,70 @@ img{ max-width:100%; height:auto; }
 
 /* Buttons: one comfortable hit size */
 .btn{ min-height:44px; }
+
+/* Home hero: the left column now carries the sub-line, the family path and the OPD line,
+   so the hero is taller on desktop and the column stays clear of the logo. */
+@media (min-width:1000px){
+  .hero__in:not(#s){ min-height:clamp(760px,57vw,820px) !important; }
+  .hero .hero__l:not(#s){ top:auto; }
+}
+@media (max-width:999px){
+  .hero__logo:not(#s){ position:relative !important; inset:auto !important; order:-1; align-self:center; margin:0 0 .2rem; }
+}
+
+/* Services menu: the groups are <details>, and the site-wide FAQ-card rules (border, shadow, padding, "+" mark)
+   must not reach them. A group is a heading with its links; on a phone the heading opens and closes it. */
+.nav .dd__g{ padding:0 !important; border:0 !important; border-radius:0 !important; background:none !important; box-shadow:none !important; transition:none; }
+.nav .dd__g:hover>summary{ color:var(--blue-d); }
+.nav .dd__g>summary{
+  display:flex; align-items:center; gap:.5rem; position:static; min-height:0; margin:0 0 .25rem; padding:.2rem .8rem !important;
+  font:600 .875rem/1.3 Geist,system-ui,sans-serif !important; letter-spacing:0; text-transform:none; color:var(--blue-d);
+}
+.nav .dd__g>summary::after{ position:static; translate:none; rotate:none; font-size:0; }
+.nav .dd__g .dd__gl a{ padding:.4rem .8rem; }
+@media (min-width:1001px){
+  .nav .dd__g>summary::after{ content:none !important; }
+  .dd__m.dd__m--wide{ width:min(660px,calc(100vw - 48px)); }
+  .dd__cols{ gap:.9rem .5rem; }
+}
+@media (max-width:1000px){
+  .nav .dd__g>summary{ min-height:44px; margin:0; padding:.4rem .7rem !important; }
+  .nav .dd__g>summary::after{ content:"" !important; margin-left:auto; width:.5rem; height:.5rem; border-right:2px solid currentColor; border-bottom:2px solid currentColor; transform:rotate(45deg); opacity:.5; }
+  .nav .dd__g[open]>summary::after{ transform:rotate(-135deg); rotate:none; }
+}
+
+/* The booking panel inside an article column (service and location pages) stacks: text above, form below. */
+.sp__after .bp,.prose__after .bp{ width:100%; margin-inline:0; }
+.sp__after .bp__in,.prose__after .bp__in{ grid-template-columns:minmax(0,1fr); gap:1.6rem; }
+.sp__after .bp-lede,.prose__after .bp-lede{ max-width:none; }
+.sp__after .bp-facts,.prose__after .bp-facts{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem 1.4rem; }
+@media (max-width:560px){ .sp__after .bp-facts,.prose__after .bp-facts{ grid-template-columns:1fr; } }
+
+/* Home hero: the one-line description sits directly under the name. */
+.hero__in > .hero__sub{ margin:0; color:var(--navy); font-weight:600; font-size:clamp(1rem,1.5vw,1.15rem); line-height:1.35; text-align:center; text-wrap:balance; }
+@media (min-width:1000px){
+  .hero__in > .hero__sub:not(#s){
+    position:absolute; z-index:3; left:50%; top:var(--sub-top,6.5rem); width:min(32rem,60%);
+    translate:-50% 0; transform:translate3d(0,calc(var(--p,0)*-70px),0);
+  }
+}
+@media (max-width:999px){ .hero__in > .hero__sub{ order:0; max-width:24rem; margin:.5rem auto 0; } }
+
+/* About: section headers read the same way (title left, summary and link right, both starting at the top),
+   the Journey band is one compact strip, and the Tulasi entries sit in even cards. */
+.ab2-jny__head,.ab2-tul__head{ align-items:start !important; }
+.ab2-jny__head h2,.ab2-tul__head h2{ padding-top:.15rem; }
+.ab2-jny__head p,.ab2-tul__head p{ max-width:60ch; font-size:1.0625rem; line-height:1.7; }
+.ab2-jny__head{ grid-template-columns:minmax(0,5fr) minmax(0,7fr) !important; margin-bottom:0 !important; }
+.ab2-jny.sec:not(#s){ padding-block:clamp(1.8rem,3.4vw,2.6rem) !important; }
+.ab2-tul__grid{ gap:1rem clamp(1rem,2.4vw,1.6rem) !important; align-items:stretch; }
+.ab2-ri{ padding:1.3rem 1.4rem 1.5rem !important; border:1px solid var(--line) !important; border-radius:20px; background:#ffffff; box-shadow:0 1px 2px rgba(29,83,154,.05); }
+@media (max-width:980px){ .ab2-jny__head{ grid-template-columns:1fr !important; } }
+
+/* Services menu links: a small icon tile before each condition */
+.nav .dd__gl a:has(.dd__ic){ display:flex; align-items:center; gap:.65rem; padding:.35rem .6rem !important; }
+.nav .dd__gl .dd__ic{ width:28px; height:28px; border-radius:9px; }
+.nav .dd__gl .dd__ic svg{ width:16px; height:16px; }
+.nav .dd__g>summary{ padding-inline:.6rem !important; }
+
+@media (min-width:1001px){ .nav .dd__m--wide .dd__gl a.dd__x{ display:none !important; } }

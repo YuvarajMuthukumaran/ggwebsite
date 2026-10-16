@@ -12,6 +12,7 @@
 
 /* ---------- 1 · THE BOOKING PANEL ----------------------------- */
 .bp{
+  width:min(1180px,calc(100% - 48px)); margin-inline:auto;
   margin-block:clamp(3rem,7vw,5.5rem) 0;
   padding-block:clamp(2.4rem,5vw,3.6rem);
   border-top:1px solid var(--line);
@@ -219,42 +220,32 @@
 }
 .hero__when strong{ color:var(--ink); }
 
-/* the trust strip: four facts that can be checked, not a loop that repeats */
-.strip--facts{ display:block; }
-.strip--facts > span{
-  display:block; margin-bottom:.9rem; font-size:.76rem; letter-spacing:.14em;
-  text-transform:uppercase; color:var(--mut); font-weight:600;
+/* the trust strip: four facts that can be checked, each one a link */
+.strip.strip--facts{ display:block; width:min(1180px,calc(100% - 48px)); margin:clamp(1.2rem,3vw,2rem) auto 0; padding:0; overflow:visible; }
+.tf-k{ margin:0 0 .8rem; color:var(--blue-d); font-size:.9375rem; font-weight:600; }
+.strip--facts .mq{ width:100%; overflow:hidden; padding:.5rem 0 1rem; -webkit-mask:linear-gradient(90deg,transparent,#000000 6%,#000000 94%,transparent); mask:linear-gradient(90deg,transparent,#000000 6%,#000000 94%,transparent); }
+.tfacts{ --tg:.9rem; list-style:none; margin:0; padding:0 var(--tg) 0 0; display:flex; gap:var(--tg); width:max-content; animation:mq 48s linear infinite; }
+.strip--facts .mq:hover .tfacts,.strip--facts .mq:focus-within .tfacts{ animation-play-state:paused; }
+.tfacts li{ flex:0 0 18.5rem; margin:0; padding:0; border:0; text-align:left; }
+.tfacts a{
+  position:relative; display:grid; align-content:start; gap:.2rem; height:100%; padding:1.05rem 2.6rem 1.1rem 1.2rem;
+  border:1px solid var(--line); border-radius:18px; background:#ffffff; color:var(--ink); text-decoration:none;
+  box-shadow:0 1px 2px rgba(29,83,154,.05); transition:translate .45s var(--e),border-color .25s,box-shadow .45s var(--e);
 }
-.tfacts{
-  list-style:none; margin:0; padding:0; display:grid; gap:1rem;
-  grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));
-}
-.tfacts li{ border-top:2px solid var(--line); padding-top:.7rem; }
-
-/* The facts scroll, the way the institutions list used to. .mq and .mqt carry the track,
-   the mask and the 42s loop from site.css; the second copy of the four facts is what makes
-   the loop seamless, and it is aria-hidden so it is not read out twice. */
-.strip--facts .mq{ margin-top:.2rem; }
-.tfacts.mqt{
-  display:flex; width:max-content; align-items:stretch;
-  gap:clamp(1.6rem,4vw,3.4rem); padding:.2rem 0;
-}
-.tfacts.mqt li{ flex:0 0 auto; }
-.tfacts.mqt b, .tfacts.mqt span{ white-space:nowrap; }
-.mq:hover .mqt, .mq:focus-within .mqt{ animation-play-state:paused; }
-
-/* Nothing moves for anyone who asked for that: the four facts lay out as a row instead. */
+.tfacts a:hover{ translate:0 -3px; border-color:var(--tint2); box-shadow:0 1px 2px rgba(29,83,154,.08),0 22px 38px -26px rgba(29,83,154,.55); }
+.tfacts a:focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
+.tfacts b,.tfacts span{ white-space:normal; overflow-wrap:anywhere; text-align:left; }
+.tfacts b{ display:block; font-size:1.0625rem; font-weight:600; letter-spacing:-.012em; line-height:1.3; color:var(--navy); }
+.tfacts span{ display:block; margin:0; font-size:.9rem; line-height:1.45; letter-spacing:0; text-transform:none; color:var(--mut); }
+.tfacts i{ position:absolute; right:1rem; top:1rem; display:grid; place-items:center; width:26px; height:26px; border-radius:50%; background:var(--tint); color:var(--blue-d); font-style:normal; font-size:.85rem; transition:background .25s,color .25s; }
+.tfacts a:hover i{ background:var(--blue); color:#ffffff; }
+@media (max-width:560px){ .strip.strip--facts{ width:calc(100% - 32px); } .tfacts li{ flex-basis:16.5rem; } }
 @media (prefers-reduced-motion:reduce){
+  .tfacts a,.tfacts i{ transition:none; } .tfacts a:hover{ translate:none; }
   .strip--facts .mq{ -webkit-mask:none; mask:none; overflow:visible; }
-  .tfacts.mqt{
-    display:grid; width:auto; gap:1rem;
-    grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));
-  }
-  .tfacts.mqt li[aria-hidden="true"]{ display:none; }
-  .tfacts.mqt b, .tfacts.mqt span{ white-space:normal; }
+  .tfacts{ animation:none; display:grid; width:auto; padding:0; grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr)); }
+  .tfacts li{ flex:none; } .tfacts li[aria-hidden="true"]{ display:none; }
 }
-.tfacts b{ display:block; font-size:1rem; color:var(--navy); }
-.tfacts span{ display:block; font-size:.9rem; color:var(--mut); margin-top:.15rem; }
 
 /* four milestones instead of the whole timeline; the dated one lives on Journey */
 .jchips{
@@ -459,3 +450,4 @@ textarea:focus-visible,
 .adm__c ul{ margin:0 0 .8rem; padding-left:1.1rem; display:grid; gap:.3rem; color:var(--ink); font-size:.95rem; }
 .adm__w{ margin:0 !important; font-size:.9rem; }
 .adm__note{ margin:clamp(1.2rem,3vw,1.8rem) 0 0; font-size:.9rem; color:var(--mut); max-width:62ch; }
+@media (max-width:640px){ .bp{ width:calc(100% - 32px); } }

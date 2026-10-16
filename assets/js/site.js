@@ -349,3 +349,25 @@
   /* any page counts: once a visitor has seen the site, the home page skips the curtain */
   try { sessionStorage.setItem('ggi', '1'); } catch (e) {}
 })();
+
+/* Services menu groups: always open on desktop (they are headings there), closed accordions on a phone. */
+(function () {
+  var mq = window.matchMedia('(max-width:1000px)');
+  function sync() {
+    document.querySelectorAll('.dd__g').forEach(function (g) { g.open = !mq.matches; });
+  }
+  sync();
+  if (mq.addEventListener) mq.addEventListener('change', sync);
+})();
+
+/* Home hero: the description line follows the bottom of the name, whatever size the name is at. */
+(function () {
+  var g = document.querySelector('.hero__in .giant'), s = document.querySelector('.hero__in > .hero__sub');
+  if (!g || !s) return;
+  function place() { s.parentNode.style.setProperty('--sub-top', (g.offsetTop + g.offsetHeight + 8) + 'px'); }
+  place();
+  window.addEventListener('resize', place);
+  window.addEventListener('load', place);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+})();
+

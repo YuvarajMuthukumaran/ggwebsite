@@ -22,6 +22,17 @@ ICONS = {
     'user': '<circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/>',
     'leaf': '<path d="M5 19c0-8 5-13 15-14-1 10-6 15-14 15"/><path d="M5 19 13 11"/>',
     'pin': '<path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+    'smoke': '<path d="M3 16h13v3.5H3z"/><path d="M16 16h4.5v3.5H16"/><path d="M13.5 4.5c0 2 2.5 2 2.5 4.5"/><path d="M17.5 3.5c0 2 2.5 2 2.5 4.5"/>',
+    'brain': '<path d="M9 4a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5 3 3 0 0 0 3 3 2 2 0 0 0 3-1.5V5.5A2 2 0 0 0 9 4z"/><path d="M15 4a3 3 0 0 1 3 3 3 3 0 0 1 2 5 3 3 0 0 1-2 5 3 3 0 0 1-3 3 2 2 0 0 1-3-1.5"/>',
+    'cloud': '<path d="M6.5 14.5a4 4 0 1 1 1-7.9A5.5 5.5 0 0 1 18 9a3 3 0 0 1-.5 5.5z"/><path d="M8 17.5V20M12 17.5V20M16 17.5V20"/>',
+    'swing': '<path d="M7 20V6"/><path d="m3.5 9.5 3.5-3.5 3.5 3.5"/><path d="M17 4v14"/><path d="m13.5 14.5 3.5 3.5 3.5-3.5"/>',
+    'repeat': '<path d="m17 3 3 3-3 3"/><path d="M4 11V9a3 3 0 0 1 3-3h13"/><path d="m7 21-3-3 3-3"/><path d="M20 13v2a3 3 0 0 1-3 3H4"/>',
+    'gauge': '<path d="M4 17a8 8 0 1 1 16 0"/><path d="m12 17 4-5"/><path d="M12 9V8M7.5 11l-.7-.7M16.5 11l.7-.7"/>',
+    'layers': '<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/>',
+    'split': '<circle cx="9" cy="12" r="5.5"/><circle cx="15" cy="12" r="5.5"/>',
+    'mirror': '<ellipse cx="12" cy="10" rx="6" ry="7"/><path d="M12 17v4M8.5 21h7"/><path d="M9 7.5c.8-1 1.8-1.5 3-1.5"/>',
+    'spark': '<path d="M12 3v4M12 17v4M3 12h4M17 12h4"/><path d="m6 6 2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18"/>',
+    'fork': '<path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3"/><path d="M7 11v10"/><path d="M17 3c-2 2-2 6 0 8v10"/>',
     'help': '<circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1.1.9-1.1 1.7"/><path d="M12 17h.01"/>',
 }
 
@@ -33,6 +44,16 @@ def icon(name, cls='dd__ic'):
 
 GROUP_ICON = [(r'addiction|substance', 'pill'), (r'schizo', 'eye'), (r'mood|depress', 'wave'), (r'anxiety|ocd|stress', 'wind'),
               (r'personality', 'user'), (r'eating', 'leaf')]
+
+
+# one icon per condition link, chosen from the page's address (the specific words first)
+LINK_ICON = [(r'borderline', 'split'), (r'narcissis', 'mirror'), (r'schizotypal', 'spark'), (r'personality', 'layers'),
+             (r'eating|anorexia|bulimia', 'fork'), (r'smok', 'smoke'), (r'alcohol', 'glass'), (r'de-?addiction', 'shield'),
+             (r'schizo', 'brain'), (r'depress', 'cloud'), (r'bipolar', 'swing'), (r'anxiety', 'pulse'), (r'ocd', 'repeat'), (r'stress', 'gauge')]
+
+
+def link_icon(slug):
+    return next((n for pat, n in LINK_ICON if re.search(pat, slug.lower())), 'grid')
 
 
 def group_icon(title):
@@ -114,7 +135,7 @@ def services_menu(root, groups, by_slug, path):
         out = []
         for i, x in enumerate(links):
             label = esc(by_slug[x].get('menu_title') or by_slug[x]['title'])
-            out.append(a(by_slug[x]['path'], label, cls='dd__x' if i >= 2 else ''))
+            out.append(a(by_slug[x]['path'], label, ic=link_icon(x), cls='dd__x' if i >= 2 else ''))
         return ('<details class="dd__g" open><summary class="dd__k">%s%s</summary><div class="dd__gl">%s</div></details>'
                 % (icon(group_icon(title), 'dd__kic'), esc(title), ''.join(out)))
 
