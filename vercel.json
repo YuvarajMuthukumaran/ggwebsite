@@ -26,9 +26,9 @@
     { "source": "/alcohol-addiction-treatment-india/", "destination": "/psychiatrist-alcohol-deaddiction-treatment-delhi-gurgaon/", "statusCode": 301 },
 
     { "source": "/author/admin/", "destination": "/about-us/", "statusCode": 301 },
-    { "source": "/author/admin/page/:n*", "destination": "/about-us/", "statusCode": 301 },
+    { "source": "/author/admin/(.*)", "destination": "/about-us/", "statusCode": 301 },
     { "source": "/category/blog/", "destination": "/resources/", "statusCode": 301 },
-    { "source": "/category/blog/:path*", "destination": "/resources/", "statusCode": 301 },
+    { "source": "/category/blog/(.*)", "destination": "/resources/", "statusCode": 301 },
 
     { "source": "/psychrist-in-delhi/", "destination": "/psychiatrist-in-delhi/", "statusCode": 301 },
     { "source": "/psychistrist-in-india/", "destination": "/psychiatrist-in-india/", "statusCode": 301 },
