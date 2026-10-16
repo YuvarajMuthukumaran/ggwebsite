@@ -130,6 +130,91 @@ def digest(path):
     return hashlib.md5(pathlib.Path(path).read_bytes()).hexdigest()[:8]
 
 
+def css_blocks(css):
+    """Split CSS into top-level blocks: (prelude, body)."""
+    out, i, depth, start, pre, body_start = [], 0, 0, 0, '', 0
+    while i < len(css):
+        c = css[i]
+        if c == '{':
+            if depth == 0:
+                pre = css[start:i]
+                body_start = i + 1
+            depth += 1
+        elif c == '}':
+            depth -= 1
+            if depth == 0:
+                out.append((pre.strip(), css[body_start:i]))
+                start = i + 1
+        i += 1
+    return out
+
+
+# Classes the scripts add at runtime, which no page's markup contains.
+RUNTIME_CLASSES = {'js', 'open', 'ready', 'seen', 'go', 'fx', 'lock', 'hero-in', 'is-on', 'is-playing',
+                   'is-clone', 'in', 'out', 'act', 'show', 'hide', 'on', 'off', 'sticky', 'stuck',
+                   'reveal', 'vis', 'done', 'active', 'current', 'light', 'dark', 'scrolled'}
+KEEP_AT = ('@keyframes', '@font-face', '@property', '@page', '@counter-style', '@import', '@charset')
+
+
+def required_names(selector):
+    """The classes and ids an element must actually have for this selector to match.
+
+    Anything inside a functional pseudo-class is ignored. ":not(#s)" is a specificity
+    hack whose id deliberately exists nowhere, and treating it as required would drop a
+    rule that in fact matches everything. The same caution covers :is(), :where() and
+    :has(), where a name is one alternative rather than a requirement.
+    """
+    stripped, prev = selector, None
+    while stripped != prev:
+        prev = stripped
+        stripped = re.sub(r':[A-Za-z-]+\([^()]*\)', ' ', stripped)
+    return set(re.findall(r'[.#]([A-Za-z0-9_-]+)', stripped))
+
+
+def prune_css(css, tokens):
+    """Drop selectors naming a class or id that exists nowhere in the built site.
+
+    Conservative on purpose. A selector part goes only when every class and id it names is
+    absent from every page, from the scripts and from RUNTIME_CLASSES. A part naming none
+    of them (a tag, a pseudo-element, an attribute) is always kept, and so is anything
+    inside @keyframes or @font-face. Selector lists are split on commas so a dead part
+    never takes a live one with it; a list with a comma inside brackets (:is(), :not()) is
+    left alone rather than parsed.
+    """
+    known = tokens | RUNTIME_CLASSES
+    stats = [0, 0]
+
+    def walk(body):
+        out = []
+        for pre, inner in css_blocks(body):
+            low = pre.lower()
+            if low.startswith(KEEP_AT):
+                out.append('%s{%s}' % (pre, inner))
+                continue
+            if low.startswith('@'):
+                nested = walk(inner)
+                if nested.strip():
+                    out.append('%s{%s}' % (pre, nested))
+                continue
+            if '(' in pre and ',' in pre[pre.find('('):]:
+                out.append('%s{%s}' % (pre, inner))
+                stats[0] += 1
+                continue
+            live = []
+            for part in pre.split(','):
+                names = required_names(part)
+                if not names or names <= known:
+                    live.append(part); stats[0] += 1
+                else:
+                    stats[1] += 1
+            if live:
+                out.append('%s{%s}' % (','.join(live), inner))
+        return ''.join(out)
+
+    pruned = walk(css)
+    return pruned, stats[0], stats[1]
+
+
 def minify_css(css):
     """Whitespace only: nothing here can change which rules match.
 
@@ -148,14 +233,20 @@ def minify_css(css):
     return css.strip()
 
 
-def bundle_css():
+def bundle_css(tokens=None):
     """Concatenate the layers in order and drop comments: one request instead of sixteen."""
     parts = []
     for name in CSS:
         css = read(ROOT / 'assets' / 'css' / (name + '.css'))
         css = re.sub(r'/\*.*?\*/', '', css, flags=re.S)
         parts.append(css.strip())
-    out = minify_css('\n'.join(parts)) + '\n'
+    joined = minify_css('\n'.join(parts))
+    if tokens:
+        before = len(joined)
+        joined, kept, dropped = prune_css(joined, tokens)
+        print('css: dropped %d dead selectors of %d; %.1f KB -> %.1f KB'
+              % (dropped, kept + dropped, before / 1024, len(joined) / 1024))
+    out = joined + '\n'
     (ROOT / 'assets' / 'css' / 'bundle.css').write_text(out, encoding='utf-8', newline='\n')
     return hashlib.md5(out.encode('utf-8')).hexdigest()[:8]
 
@@ -280,7 +371,10 @@ LOCATION_CENTRE = {'psychiatrist-in-delhi': 'delhi', 'psychiatrist-in-gurgaon': 
 
 
 def main():
-    css_v = bundle_css()
+    CSSV = '__CSSV__'          # stands in until the pruned bundle has been hashed
+    css_v = CSSV
+    pages_out = []             # (path, html), written once the hash is known
+    site_tokens = set()        # every class and id the built site uses
     js_v = {p.stem: digest(p) for p in (ROOT / 'assets' / 'js').glob('*.js')}
     head_t, header_t, footer_t, float_t, intro_t = (
         read(SRC / 'partials' / (n + '.html')) for n in ('head', 'header', 'footer', 'floating', 'intro'))
@@ -586,9 +680,28 @@ def main():
         else:
             out = ROOT / pathlib.PurePosixPath(path) / 'index.html'
             out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(html, encoding='utf-8', newline='\n')
+        for m in re.finditer(r'class="([^"]*)"', html):
+            site_tokens.update(m.group(1).split())
+        site_tokens.update(re.findall(r'id="([^"]+)"', html))
+        site_tokens.update(re.findall(r"classList\.(?:add|remove|toggle)\('([^']+)'", html))
+        pages_out.append((out, html))
         if not is404 and not pg.get('noindex') and not (kind == 'blog-index' and pg['page'] > 1):
             sitemap.append((canonical, pg.get('modified') or pg.get('date') or ''))
+
+    for js in sorted((ROOT / 'assets' / 'js').glob('*.js')):
+        src = read(js)
+        site_tokens.update(re.findall(r"classList\.(?:add|remove|toggle)\('([^']+)'", src))
+        site_tokens.update(re.findall(r"querySelector(?:All)?\('[.#]([A-Za-z0-9_-]+)", src))
+        site_tokens.update(re.findall(r"\.(?:closest|matches)\('[.#]([A-Za-z0-9_-]+)", src))
+        # markup the scripts build as strings: class="wd", class="sr" and the rest
+        for m in re.finditer(r'class="([^"]*)"', src):
+            site_tokens.update(m.group(1).split())
+        for m in re.finditer(r"class='([^']*)'", src):
+            site_tokens.update(m.group(1).split())
+        site_tokens.update(re.findall(r"className\s*=\s*'([^']*)'", src))
+    css_v = bundle_css(site_tokens)
+    for out, html in pages_out:
+        out.write_text(html.replace(CSSV, css_v), encoding='utf-8', newline='\n')
 
     urls = ''.join('<url><loc>%s</loc>%s</url>' % (u, ('<lastmod>%s</lastmod>' % m) if m else '') for u, m in sitemap)
     (ROOT / 'sitemap.xml').write_text(
