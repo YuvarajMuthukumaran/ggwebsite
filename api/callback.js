@@ -5,7 +5,12 @@
  * configured wins, so the form can be tested end to end today and switched to
  * TeleCRM later without touching the form or this handler:
  *
- *   TELECRM_WEBHOOK_URL   TeleCRM's lead endpoint (with TELECRM_TOKEN)   <- once Zubair confirms it
+ *   SYNC_BASE_URL         the CRM Sync API the HMS pushes to (with HMS_KEY_ID and
+ *                         HMS_SECRET). This is the real route to TeleCRM: the Sync API
+ *                         validates, de-duplicates, retries and writes the lead, so the
+ *                         website never holds TeleCRM credentials. See api/_sync.js.
+ *   TELECRM_WEBHOOK_URL   a direct TeleCRM endpoint (with TELECRM_TOKEN), if one is ever
+ *                         preferred over the Sync API
  *   CALLBACK_WEBHOOK_URL  a Google Apps Script web app writing to a Sheet
  *                         (with CALLBACK_WEBHOOK_SECRET; see integrations/google-sheet/)
  *
@@ -13,6 +18,8 @@
  * the reply says delivered:false. The thank-you screen always shows the phone
  * number, so a caller is never left without a way through.
  */
+
+const { pushLead } = require('./_sync');
 
 const CLINICS = ['delhi', 'gurugram', 'online'];
 const WHO = ['self', 'family'];
@@ -76,6 +83,12 @@ async function post(url, payload, headers) {
 
 async function deliver(lead) {
   const { TELECRM_WEBHOOK_URL, TELECRM_TOKEN, CALLBACK_WEBHOOK_URL } = process.env;
+
+  // The Sync API first: it is the route the HMS uses, so a website lead lands in TeleCRM
+  // the same way, with the same signing, de-duplication and retries.
+  const viaSync = await pushLead(lead);
+  if (viaSync) return viaSync;
+
   if (TELECRM_WEBHOOK_URL) {
     return post(TELECRM_WEBHOOK_URL, lead, TELECRM_TOKEN ? { Authorization: 'Bearer ' + TELECRM_TOKEN } : {});
   }
@@ -116,7 +129,10 @@ module.exports = async (req, res) => {
   const result = await deliver(lead);
   if (!result.delivered) {
     // Not lost: it is in the function log, and every thank-you gives the phone number.
-    console.error('CALLBACK NOT DELIVERED (%s): %j', result.why, lead);
+    // retriable:false means the Sync API refused the event itself (bad field, bad key),
+    // which is a thing to fix rather than wait out, so it is logged differently.
+    const tag = result.retriable === false ? 'CALLBACK REJECTED' : 'CALLBACK NOT DELIVERED';
+    console.error('%s (%s): %j', tag, result.why, lead);
   }
   if (asForm) return res.redirect(303, '/thank-you/');
   return res.status(200).json({ ok: true, delivered: result.delivered });
