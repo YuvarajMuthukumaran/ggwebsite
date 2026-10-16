@@ -81,6 +81,32 @@ async function post(url, payload, headers) {
   }
 }
 
+const CLINIC_LABEL = { delhi: 'New Delhi', gurugram: 'Gurugram', online: 'Online' };
+const WHO_LABEL = { self: 'Themselves', family: 'A family member' };
+
+/**
+ * TeleCRM's website integration endpoint takes a flat "fields" object. Names are the ones
+ * a telecaller reads in the lead, so they are written the way they should appear on screen.
+ */
+function telecrmPayload(lead) {
+  return {
+    fields: {
+      Name: lead.name,
+      Phone: lead.phone,
+      Source: 'goravgupta.com',
+      'Enquiry For': WHO_LABEL[lead.who] || lead.who,
+      'Preferred Centre': CLINIC_LABEL[lead.clinic] || lead.clinic,
+      Concern: lead.concern,
+      'Page Submitted From': lead.page,
+      'Received At': lead.received_at,
+      'UTM Source': lead.utm_source,
+      'UTM Medium': lead.utm_medium,
+      'UTM Campaign': lead.utm_campaign,
+    },
+  };
+}
+
+
 async function deliver(lead) {
   const { TELECRM_WEBHOOK_URL, TELECRM_TOKEN, CALLBACK_WEBHOOK_URL } = process.env;
 
@@ -90,7 +116,8 @@ async function deliver(lead) {
   if (viaSync) return viaSync;
 
   if (TELECRM_WEBHOOK_URL) {
-    return post(TELECRM_WEBHOOK_URL, lead, TELECRM_TOKEN ? { Authorization: 'Bearer ' + TELECRM_TOKEN } : {});
+    return post(TELECRM_WEBHOOK_URL, telecrmPayload(lead),
+                TELECRM_TOKEN ? { Authorization: 'Bearer ' + TELECRM_TOKEN } : {});
   }
   if (CALLBACK_WEBHOOK_URL) {
     // An Apps Script web app has to be readable by anyone, so the shared secret is what

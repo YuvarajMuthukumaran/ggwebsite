@@ -1,8 +1,11 @@
 # Website leads into TeleCRM
 
 The booking form does not talk to TeleCRM. It pushes one event to the **CRM Sync API** —
-the same service the HMS pushes to, described in [`docs/HMS-TeleCRM-Event-API.pdf`](../../docs/HMS-TeleCRM-Event-API.pdf) —
-and the Sync API owns validation, de-duplication, retries and the TeleCRM write.
+the same service the HMS pushes to — and the Sync API owns validation, de-duplication,
+retries and the TeleCRM write.
+
+> The contract below follows **HMS → TeleCRM Event API, draft v1.0, 13 Oct 2026**. That
+> document is internal and is deliberately not committed: this repository is public.
 
 ```
 booking form  ->  /api/callback/  ->  CRM Sync API  ->  TeleCRM  ->  WhatsApp / telecaller task
@@ -109,3 +112,29 @@ can stay in place for a week or two as a comparison.
 
 **Before cutover:** the form must not go live with no destination set. It would accept
 enquiries and show a thank-you while writing them only to the function log.
+
+
+## Direct TeleCRM route (in use)
+
+Until the Sync API exists, leads go straight to TeleCRM's lead endpoint.
+
+| Name | Value |
+| --- | --- |
+| `TELECRM_WEBHOOK_URL` | `https://api.telecrm.in/enterprise/<orgId>/autoupdatelead` |
+| `TELECRM_TOKEN` | the API key, sent as `Authorization: Bearer <key>` |
+
+The key is a secret: it lives only in Vercel's environment variables and is never
+committed. The `integrations/website` URL shown in the TeleCRM UI is the settings page,
+not an ingest endpoint; it answers 405 to POST. `autoupdatelead` is the one that accepts
+leads, and it matches an existing lead on phone rather than creating a duplicate.
+
+Body:
+
+```json
+{ "fields": { "Name": "...", "Phone": "+91...", "Source": "goravgupta.com",
+              "Enquiry For": "A family member", "Preferred Centre": "Gurugram",
+              "Concern": "...", "Page Submitted From": "/...",
+              "Received At": "...", "UTM Source": "", "UTM Medium": "", "UTM Campaign": "" } }
+```
+
+Set the two variables, redeploy, and the form's `delivered` turns `true`.
