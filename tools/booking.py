@@ -73,7 +73,7 @@ def choice(name, legend, options, default=None):
 
 
 def form(root, page_path):
-    return ('<form class="bp-form" id="bp-form" method="post" action="/api/callback" novalidate>'
+    return ('<form class="bp-form" id="bp-form" method="post" action="/api/callback/" novalidate>'
             '<input type="hidden" name="page" value="/%s">'
             '<p class="bp-pot" aria-hidden="true"><label for="bp-website">Leave this empty</label>'
             '<input id="bp-website" name="website" type="text" tabindex="-1" autocomplete="off"></p>'
