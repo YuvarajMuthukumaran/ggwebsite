@@ -371,7 +371,9 @@ def main():
                 item[key] = fill_facts(item[key])
     faq_pages.VARS = shared          # FAQ answers pull facts too
     tests_pages.VARS = dict(shared, wa_number=WA_NUMBER)
-    service_pages.VARS = dict(shared, centres=FACTS['centres'], online_opd=fact('consultation.online_opd'))
+    service_pages.VARS = dict(shared, centres=FACTS['centres'], online_opd=fact('consultation.online_opd'),
+                              seen_at='New Delhi, Gurugram, or online')
+    service_pages.GLANCE = json.loads(read(ROOT / 'data' / 'glance.json'))['pages']
     tests = tests_pages.load()   # data/tests/*.json -> /tests/ and /tests/<slug>/
     faq = faq_pages.load()       # data/faq/*.json -> /faq/ and /faq/<topic>/
     tax = taxonomy_pages.load()  # data/taxonomy.json -> /tag/<slug>/, /category/blog/, /author/<slug>/ (kept from the old WordPress site)

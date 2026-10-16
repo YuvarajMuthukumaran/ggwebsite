@@ -211,7 +211,29 @@ def related(pg, root, groups, by_slug, href):
 
 # The shared facts (data/site.json), set by build_site.py.
 VARS = {}
+GLANCE = {}
 PAGE_CENTRE = {'psychiatrist-in-delhi': 'delhi', 'psychiatrist-in-gurgaon': 'gurugram'}
+
+
+def glance(pg, root, tests_link=''):
+    """A short "At a glance" box under the H1: who the page is for, where, and the first step.
+
+    Clinical rows (treatments, how long it takes) come from data/glance.json and are empty
+    until Dr. Gupta confirms them, so nothing is claimed on his behalf.
+    """
+    if pg.get('group') != 'services':
+        return ''
+    g = GLANCE.get(pg.get('slug'), {})
+    rows = [('Who it is for', g.get('who')),
+            ('Treatments', g.get('treatments')),
+            ('How long it takes', g.get('duration')),
+            ('Seen at', VARS.get('seen_at')),
+            ('First step', 'An assessment, then a treatment plan matched to severity')]
+    items = ''.join('<div><dt>%s</dt><dd>%s</dd></div>' % (k, esc(v)) for k, v in rows if v)
+    if not items:
+        return ''
+    return ('<aside class="sp-glance" aria-label="At a glance"><p class="sp-glance__t">At a glance</p>'
+            '<dl>%s</dl>%s</aside>' % (items, tests_link))
 
 
 def practical(pg, root, wa):
@@ -310,6 +332,7 @@ def build(pg, root, content, callout, after, crumbs, groups, by_slug, href, wa, 
             % (toc_html, wa))
     part_of = ('<p class="sp-partof">Dr. Gupta&rsquo;s practice is part of <a href="https://tulasihealthcare.com" '
                'target="_blank" rel="noopener">Tulasi Healthcare</a>, with centres in Gurugram and Mehrauli.</p>')
-    return (hero + practical(pg, root, wa) + conditions_here(pg, root, groups, by_slug, href) + '<article class="sec sp"><div class="sp__grid"><div class="sp__main">%s<div class="prose__in sp__in">%s</div>%s%s'
+    return (hero + practical(pg, root, wa) + conditions_here(pg, root, groups, by_slug, href)
+            + glance(pg, root) + '<article class="sec sp"><div class="sp__grid"><div class="sp__main">%s<div class="prose__in sp__in">%s</div>%s%s'
             '<div class="prose__after sp__after">%s</div></div>%s</div></article>'
             % (callout, body, related(pg, root, groups, by_slug, href), part_of, after, side))

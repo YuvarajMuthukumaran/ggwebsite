@@ -101,13 +101,24 @@ def topic(p):
 
 
 def services_menu(root, groups, by_slug, path):
-    def a(href, label, sub='', ic=''):
+    def a(href, label, sub='', ic='', cls=''):
         cur = ' aria-current="page"' if href == path else ''
         body = '<b>%s</b>%s' % (label, ('<small>%s</small>' % sub) if sub else '')
-        return '<a href="%s%s/"%s>%s</a>' % (root, href, cur, (icon(ic) + '<span class="dd__tx">%s</span>' % body) if ic else body)
-    cols = ''.join('<div class="dd__g"><p class="dd__k">%s%s</p>%s</div>'
-                   % (icon(group_icon(title), 'dd__kic'), esc(title), ''.join(a(by_slug[s]['path'], esc(by_slug[s].get('menu_title') or by_slug[s]['title'])) for s in slugs if s in by_slug))
-                   for title, slugs in groups['condition_groups'])
+        return '<a%s href="%s%s/"%s>%s</a>' % ((' class="%s"' % cls) if cls else '', root, href, cur,
+                                              (icon(ic) + '<span class="dd__tx">%s</span>' % body) if ic else body)
+    # Seventeen links in one menu is a lot to scan. On desktop each group shows its first two
+    # and "All services" carries the rest; on a phone the group is an accordion holding all of
+    # them. Same markup, so there is one menu rather than two.
+    def group_html(title, slugs):
+        links = [x for x in slugs if x in by_slug]
+        out = []
+        for i, x in enumerate(links):
+            label = esc(by_slug[x].get('menu_title') or by_slug[x]['title'])
+            out.append(a(by_slug[x]['path'], label, cls='dd__x' if i >= 2 else ''))
+        return ('<details class="dd__g" open><summary class="dd__k">%s%s</summary><div class="dd__gl">%s</div></details>'
+                % (icon(group_icon(title), 'dd__kic'), esc(title), ''.join(out)))
+
+    cols = ''.join(group_html(title, slugs) for title, slugs in groups['condition_groups'])
     return ('<div class="dd__in dd__in--wide">' + a('services', 'All services', 'Every condition Dr. Gupta treats', 'grid')
             + '<div class="dd__cols">%s</div></div>' % cols)
 
