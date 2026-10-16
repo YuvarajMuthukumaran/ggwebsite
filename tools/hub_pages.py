@@ -179,7 +179,6 @@ def resources_hub(root, posts, tests, href, pretty_date, tag_map=None):
     more = [(FAQ_HUB, 'Frequently asked questions (FAQ)', 'Answers on consulting, treatment, fees and Dr. Gupta.'),
             ('ask-the-doctor', 'Ask the Doctor', 'Questions often asked about mental illness and addiction.'),
             ('video-gallery', 'Video Gallery', 'Films and YouTube videos from Dr. Gupta.'),
-            ('video-gallery-draft', 'Video Library', 'Every video in one place: films, centre tours and talks.'),
             ('publication', 'Publications', 'Articles and press coverage.'),
             ('testimonials', 'Testimonials', 'What clients and families say.'),
             ('services', 'Conditions we treat', 'Guides to every condition and its treatment.')]

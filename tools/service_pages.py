@@ -198,22 +198,21 @@ def build(pg, root, content, callout, after, crumbs, groups, by_slug, href, wa, 
     body, toc, lede_html = prepare(content, pg)
     lede = pg.get('subtitle') or lede_html or LEDE.format(exp=exp)
     chips = ''.join('<li>%s%s</li>' % (CHECK, c) for c in ('%s years of experience' % exp, 'New Delhi and Gurugram', 'Online consultations'))
-    hero = ('<header class="sp-hero"><div class="sp-hero__txt">%s<p class="sp-eyebrow">%s<span>%s</span></p><h1>%s</h1><p class="sp-lede">%s</p>'
-            '<ul class="sp-chips">%s</ul></div>'
-            '<a class="sp-tul" href="https://tulasihealthcare.com" target="_blank" rel="noopener" aria-label="Visit Tulasi Healthcare to book a consultation (opens the Tulasi website)">'
-            '<span class="sp-tul__logo"><img src="%sassets/img/tulasi-logo.webp" alt="" width="64" height="64"></span>'
-            '<span class="sp-tul__k">Tulasi Healthcare</span><span class="sp-tul__t">Visit Tulasi to book a consultation</span>'
-            '<span class="sp-tul__p">Book with Dr. Gorav Gupta&rsquo;s team on the Tulasi website. Consultations in New Delhi, Gurugram and online.</span>'
-            '<span class="sp-tul__go">Visit Tulasi Healthcare <i aria-hidden="true">&nearr;</i></span></a></header>'
-            % (crumbs, icon(ic, 'sp-eyebrow__ic'), esc(label), esc(pg['title']), lede, chips, root))
+    hero = ('<header class="sp-hero sp-hero--solo"><div class="sp-hero__txt">%s<p class="sp-eyebrow">%s<span>%s</span></p>'
+            '<h1>%s</h1><p class="sp-lede">%s</p><ul class="sp-chips">%s</ul>'
+            '<p class="sp-hero__act"><a class="btn" href="#book">Ask for a call back</a>'
+            '<a class="btn ghost" href="%s" target="_blank" rel="noopener">WhatsApp</a></p></div></header>'
+            % (crumbs, icon(ic, 'sp-eyebrow__ic'), esc(label), esc(pg['title']), lede, chips, wa))
     toc_html = ''
     if len(toc) >= 3:
         toc_html = ('<nav class="sp-toc" aria-label="On this page"><p class="sp-side__t">On this page</p><ol>%s</ol></nav>'
                     % ''.join('<li><a href="#%s">%s</a></li>' % (i, esc(t)) for i, t in toc))
     side = ('<aside class="sp__side">%s<div class="sp-book"><p class="sp-side__t">Book a consultation</p>'
-            '<p>Call +91 88000 00255 or message the team on WhatsApp.</p>'
-            '<a class="btn" href="%scontactus/">Book Consultation</a><a class="btn ghost" href="%s" target="_blank" rel="noopener">WhatsApp</a></div></aside>'
-            % (toc_html, root, wa))
-    return (hero + '<article class="sec sp"><div class="sp__grid"><div class="sp__main">%s<div class="prose__in sp__in">%s</div>%s'
+            '<p>Leave your number on this page and the team calls you back, or message them now.</p>'
+            '<a class="btn" href="#book">Ask for a call back</a><a class="btn ghost" href="%s" target="_blank" rel="noopener">WhatsApp</a></div></aside>'
+            % (toc_html, wa))
+    part_of = ('<p class="sp-partof">Dr. Gupta&rsquo;s practice is part of <a href="https://tulasihealthcare.com" '
+               'target="_blank" rel="noopener">Tulasi Healthcare</a>, with centres in Gurugram and Mehrauli.</p>')
+    return (hero + '<article class="sec sp"><div class="sp__grid"><div class="sp__main">%s<div class="prose__in sp__in">%s</div>%s%s'
             '<div class="prose__after sp__after">%s</div></div>%s</div></article>'
-            % (callout, body, related(pg, root, groups, by_slug, href), after, side))
+            % (callout, body, related(pg, root, groups, by_slug, href), part_of, after, side))

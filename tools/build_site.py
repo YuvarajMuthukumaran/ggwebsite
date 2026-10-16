@@ -29,6 +29,7 @@ import re
 import sys
 import urllib.parse
 
+import booking
 import hub_pages
 import tests_pages
 import faq_pages
@@ -43,9 +44,20 @@ SITE = 'https://www.goravgupta.com'
 
 # Same order the single page linked them, then the two newest layers.
 CSS = ['site', 'cinematic', 'films', 'refine', 'warm', 'calm', 'bloom', 'pro', 'spatial',
-       'fix', 'polish', 'touchup', 'tulasi', 'taste', 'refresh', 'pages', 'articles', 'booking', 'navy', 'home2', 'films2', 'about2', 'menu', 'tests', 'hub', 'faq', 'service', 'final']
+       'fix', 'polish', 'touchup', 'tulasi', 'taste', 'refresh', 'pages', 'articles', 'booking', 'navy', 'home2', 'films2', 'about2', 'menu', 'tests', 'hub', 'faq', 'service', 'form', 'final']
 
-WA = 'https://wa.me/918800000255?text=Hello%20Dr.%20Gupta%27s%20team%2C%20I%27d%20like%20to%20book%20a%20consultation.'
+WA_NUMBER = '918800000255'
+# Where a page has a subject, the WhatsApp message says so, so the call centre opens with context.
+LOCAL_TOPIC = {'psychiatrist-in-delhi': 'in New Delhi', 'psychiatrist-in-gurgaon': 'in Gurugram'}
+
+
+def wa_link(topic=''):
+    """topic is a phrase that follows "a consultation": "about de-addiction", "in New Delhi"."""
+    msg = "Hello Dr. Gupta's team, I'd like to book a consultation%s." % ((' ' + topic) if topic else '')
+    return 'https://wa.me/%s?text=%s' % (WA_NUMBER, urllib.parse.quote(msg))
+
+
+WA = wa_link()
 WAICON = ('<svg class="wai" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">'
           '<path d="M20.5 3.5A11 11 0 0 0 3.2 17.3L2 22l4.8-1.2A11 11 0 1 0 20.5 3.5zM12 20.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-2.8.7.8-2.7-.2-.3a8.2 8.2 0 1 1 6.7 3.7zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3a.5.5 0 0 0 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.3z"/></svg>')
 DELHI = 'https://share.google/T2NTrfaXPM0Pgc0wf'
@@ -66,6 +78,9 @@ PLACEHOLDERS = {
     'addr_delhi': 'centres.delhi.address', 'addr_gurugram': 'centres.gurugram.address',
     'addr_mehrauli': 'centres.mehrauli.address',
     'beds_gurugram': 'centres.gurugram.beds', 'beds_mehrauli': 'centres.mehrauli.beds',
+    'gmap_delhi': 'centres.delhi.maps', 'gmap_gurugram': 'centres.gurugram.maps',
+    'role_gurugram': 'centres.gurugram.role', 'role_mehrauli': 'centres.mehrauli.role',
+    'crisis_name': 'crisis.name', 'tulasi_url': 'tulasi.url',
     'founded': 'tulasi.founded', 'award_year': 'award.year', 'award_url': 'award.url',
     'rpwd_act': 'tulasi.act', 'crisis_line': 'crisis.line', 'crisis_number': 'crisis.number',
 }
@@ -217,6 +232,7 @@ def main():
         read(SRC / 'partials' / (n + '.html')) for n in ('head', 'header', 'footer', 'floating', 'intro'))
     home_ld = read(SRC / 'partials' / 'jsonld-home.json').strip()
     groups = json.loads(read(SRC / 'content' / 'groups.json')) if (SRC / 'content' / 'groups.json').exists() else {'condition_groups': []}
+    group_of = {slug: title for title, slugs in groups['condition_groups'] for slug in slugs}
     years = datetime.date.today().year - PRACTICE_SINCE
     bio_short = BIO_SHORT.format(exp=EXPERIENCE)
 
@@ -305,13 +321,25 @@ def main():
         canonical = SITE + '/' + ((url_path(path) + '/') if path and not is404 else '')
         kind = pg['kind']
 
-        v = {'root': root, 'wa': WA, 'waicon': WAICON, 'delhi': DELHI, 'gurugram': GURUGRAM,
+        topic = ''
+        if kind == 'page':
+            topic = (LOCAL_TOPIC.get(pg['slug'], '') if pg.get('group') == 'local'
+                     else ('about ' + group_of[pg['slug']].lower()) if pg['slug'] in group_of else '')
+        wa = wa_link(topic)
+
+        v = {'root': root, 'wa': wa, 'waicon': WAICON, 'delhi': DELHI, 'gurugram': GURUGRAM,
              'since': PRACTICE_SINCE, 'years': years, 'exp': EXPERIENCE, 'bio_short': bio_short, 'bio_long': BIO_LONG,
              'index_conditions': index_conditions(root), 'index_mental_health': index_group(root, 'mental-health'),
              'index_local': index_group(root, 'local'), 'latest_posts': latest_posts(root),
              'resources_menu': tests_pages.menu(root, tests, path, faq_pages.menu_item(root, faq, path)),
              'services_menu': hub_pages.services_menu(root, groups, by_slug, path)}
         v.update({k: fact(key) for k, key in PLACEHOLDERS.items()})    # the shared facts, from data/site.json
+        # map embeds are derived from the one address, so they cannot point somewhere else
+        for key in ('delhi', 'gurugram'):
+            v['mapsrc_' + key] = ('https://www.google.com/maps?q=%s&output=embed'
+                                  % urllib.parse.quote(fact('centres.%s.address' % key))) if fact('centres.%s.address' % key) else ''
+        v['booking_panel'] = booking.panel(root, v, url_path(path) + ('/' if path else ''))
+        v['book_href'] = '#book' if (path == 'contactus' or (kind == 'page' and pg.get('group') in ('services', 'local'))) else root + 'contactus/#book'
         if path == 'resources':
             v['resources_hub'] = hub_pages.resources_hub(root, posts, tests, href, pretty_date, tag_map)
         for key, name in INCLUDES.items():
@@ -347,7 +375,8 @@ def main():
                 ld += '<script type="application/ld+json">%s</script>' % json.dumps(art, ensure_ascii=False)
             ld += pg.get('ld_extra', '')
 
-        scripts_list = pg.get('scripts', []) + (['service'] if kind == 'page' else [])
+        has_panel = path == 'contactus' or (kind == 'page' and pg.get('group') in ('services', 'local'))
+        scripts_list = pg.get('scripts', []) + (['service'] if kind == 'page' else []) + (['booking'] if has_panel and 'booking' not in pg.get('scripts', []) else [])
         preload = ''.join('<link rel="preload" as="image" href="%s%s" fetchpriority="high">' % (root, p) for p in pg.get('preload', []))
         scripts = ''.join(
             '<script src="%sassets/js/%s.js?v=%s"%s></script>' % (root, s, js_v[s], '' if s == 'site' else ' defer')
@@ -377,13 +406,13 @@ def main():
         elif kind == 'tests-index':
             body = tests_pages.index_body(pg, root, ph)
         elif kind == 'test':
-            body = tests_pages.test_body(pg, root, ph, WA)
+            body = tests_pages.test_body(pg, root, ph, wa)
         elif kind == 'tax':
             body = taxonomy_pages.body(pg, root, ph, post_by_slug, href, pretty_date)
         elif kind == 'faq-index':
-            body = faq_pages.index_body(pg, root, ph, WA, EXPERIENCE)
+            body = faq_pages.index_body(pg, root, ph, wa, EXPERIENCE)
         elif kind == 'faq':
-            body = faq_pages.topic_body(pg, root, ph, WA)
+            body = faq_pages.topic_body(pg, root, ph, wa)
         elif kind == 'blog-index':
             cards = ''.join(
                 '<li class="reveal"><a href="%s"><time datetime="%s">%s</time><h2>%s</h2><p>%s</p><span class="plist__go">Read article <i>→</i></span></a></li>'
@@ -417,6 +446,7 @@ def main():
             after = (taxonomy_pages.tag_row(root, pg['slug'], tag_map) if kind == 'post' else '') + author_box(root, kind == 'post', bio_short)
             if group in ('services', 'local'):
                 after += ASSESS.format(root=root)
+                after += v['booking_panel']
             if kind == 'post':
                 i = next((k for k, p in enumerate(posts) if p['slug'] == pg['slug']), 0)
                 near = [p for p in posts[max(0, i - 1):i + 3] if p['slug'] != pg['slug']][:3]
@@ -426,7 +456,7 @@ def main():
                               % (''.join('<li><a href="%s"><time datetime="%s">%s</time><b>%s</b></a></li>' % (href(p, root), p['date'], pretty_date(p['date']), p['title']) for p in near), root))
             if kind == 'page':        # condition, local and guide pages: the designed service template
                 body = service_pages.build(pg, root, fill(pg['_body'], v, 'content ' + path), tests_pages.source_callout(root, tests, pg['slug']), after,
-                                           crumb_html(crumbs), groups, by_slug, href, WA, EXPERIENCE)
+                                           crumb_html(crumbs), groups, by_slug, href, wa, EXPERIENCE)
             else:
                 inner, toc = add_toc(inner)
                 side = ('<aside class="prose__side"><div class="side__box">%s<p class="side__t">Book a consultation</p>'
