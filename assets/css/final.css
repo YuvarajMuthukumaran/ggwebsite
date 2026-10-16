@@ -100,3 +100,72 @@ img{ max-width:100%; height:auto; }
 .hjny .jchips__go a{ display:block; width:100%; padding:.2rem 0; }
 @media (max-width:760px){ .hjny .ab2-jny__head{ grid-template-columns:1fr !important; align-items:start !important; } }
 
+/* ==========================================================================
+   Polish layer (taste-skill audit)
+   1. Labels are sentence case, not tracked capitals: they read as words, and match the pages already redesigned.
+   2. Headings balance their lines, paragraphs avoid a lone last word.
+   3. Buttons and cards answer a press; anchors stop under the sticky bar; one underline offset.
+   4. Card rows: calls to action sit on one line whatever the copy above them.
+   ========================================================================== */
+.adm__k,
+.bp-facts b,
+.bp-k,
+.ct-dl dt,
+.ct-room__k,
+.ct-urgent__k,
+.ct-urgent__l b,
+.dd__k,
+.eyebrow,
+.eyebrow:not(#s),
+.facts dt,
+.fq__k,
+.hb2-c__k,
+.hb2-k,
+.jr__b .jr__rk,
+.lp-cond__g h3,
+.press__d,
+.sp-glance dt,
+.sp-glance__t,
+.strip span,
+.sv__all small,
+.tq-res__k,
+.ptags__k,
+.fq-cmp b,
+.brand__sub{
+  text-transform:none !important; letter-spacing:0 !important; font-size:.8125rem !important; font-weight:600;
+}
+.h1k,
+.rec h3,
+.stg-k,
+.tl b{ text-transform:none !important; letter-spacing:0 !important; }
+.brand__sub{ font-size:.75rem !important; font-weight:500; }
+.foot-k:not(#s){ margin:0 0 1rem; font:600 .875rem/1.3 Geist,system-ui,sans-serif !important; letter-spacing:0; text-transform:none; color:#9ec1ee !important; }
+.eyebrow:not(#s){ font-size:.875rem !important; }
+
+h1,h2,h3,.fh-hero h1,.sp-hero h1{ text-wrap:balance; }
+p,li,dd,.ph__lede{ text-wrap:pretty; }
+html{ scroll-padding-top:96px; }
+.prose__in a:not(.btn),.sp__in a:not(.btn),.faq a,.fq-a a{ text-underline-offset:3px; text-decoration-thickness:1px; }
+
+.btn,.more__a,.sv__more,.jchips a,.tfacts a,.sp-rel li a,.hx-q summary,.fq-q summary{ -webkit-tap-highlight-color:transparent; }
+.btn:active,.tfacts a:active,.sv__c:active,.jchips li:active,.sp-tul:active,.jr__tags li:active{ translate:0 1px; scale:.985; transition-duration:.08s; }
+.btn:focus-visible,.more__a:focus-visible,.sv__more:focus-visible,.jchips a:focus-visible{ outline:2px solid var(--blue); outline-offset:3px; border-radius:12px; }
+
+/* the services cards line their links up along the bottom */
+.sv__c,.svl__grid .card{ display:flex; flex-direction:column; }
+.sv__c .sv__more,.svl__grid .card .more__a:last-of-type{ margin-top:auto; padding-top:.9rem; align-self:flex-start; }
+
+@media (prefers-reduced-motion:reduce){ .btn:active,.tfacts a:active,.sv__c:active{ scale:none; translate:none; } }
+
+
+/* Film dots: the visible dot stays small, the button is a proper 24px target */
+.vr__dots{ gap:.1rem !important; }
+.vr__dot,.vr__dot.is-on{ position:relative; width:24px !important; height:24px !important; background:none !important; border-radius:0; }
+.vr__dot.is-on{ width:40px !important; }
+.vr__dot::before{ content:""; position:absolute; top:50%; left:50%; width:9px; height:9px; translate:-50% -50%; border-radius:99px; background:#b9d0ee; transition:width .45s var(--e),background .3s ease; }
+.vr__dot:hover::before{ background:#7ea6dd; }
+.vr__dot.is-on::before{ width:28px; background:var(--blue); }
+@media (prefers-reduced-motion:reduce){ .vr__dot::before{ transition:none; } }
+
+/* The hero portrait is what the page is measured on (largest paint): it eases in faster, with no wait */
+html.js.go .cut{ animation:v7cut 1.1s var(--e) 0s both; }

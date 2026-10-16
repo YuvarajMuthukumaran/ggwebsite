@@ -43,7 +43,7 @@ SRC = ROOT / 'src'
 SITE = 'https://www.goravgupta.com'
 
 # Same order the single page linked them, then the two newest layers.
-CSS = ['site', 'cinematic', 'films', 'refine', 'warm', 'calm', 'bloom', 'pro', 'spatial',
+CSS = ['fonts', 'site', 'cinematic', 'films', 'refine', 'warm', 'calm', 'bloom', 'pro', 'spatial',
        'fix', 'polish', 'touchup', 'tulasi', 'taste', 'refresh', 'pages', 'articles', 'booking', 'navy', 'home2', 'films2', 'about2', 'menu', 'tests', 'hub', 'faq', 'service', 'form', 'final']
 
 WA_NUMBER = '918800000255'
