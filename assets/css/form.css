@@ -230,6 +230,29 @@
   grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));
 }
 .tfacts li{ border-top:2px solid var(--line); padding-top:.7rem; }
+
+/* The facts scroll, the way the institutions list used to. .mq and .mqt carry the track,
+   the mask and the 42s loop from site.css; the second copy of the four facts is what makes
+   the loop seamless, and it is aria-hidden so it is not read out twice. */
+.strip--facts .mq{ margin-top:.2rem; }
+.tfacts.mqt{
+  display:flex; width:max-content; align-items:stretch;
+  gap:clamp(1.6rem,4vw,3.4rem); padding:.2rem 0;
+}
+.tfacts.mqt li{ flex:0 0 auto; }
+.tfacts.mqt b, .tfacts.mqt span{ white-space:nowrap; }
+.mq:hover .mqt, .mq:focus-within .mqt{ animation-play-state:paused; }
+
+/* Nothing moves for anyone who asked for that: the four facts lay out as a row instead. */
+@media (prefers-reduced-motion:reduce){
+  .strip--facts .mq{ -webkit-mask:none; mask:none; overflow:visible; }
+  .tfacts.mqt{
+    display:grid; width:auto; gap:1rem;
+    grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));
+  }
+  .tfacts.mqt li[aria-hidden="true"]{ display:none; }
+  .tfacts.mqt b, .tfacts.mqt span{ white-space:normal; }
+}
 .tfacts b{ display:block; font-size:1rem; color:var(--navy); }
 .tfacts span{ display:block; font-size:.9rem; color:var(--mut); margin-top:.15rem; }
 
@@ -350,40 +373,6 @@ textarea:focus-visible,
 @media (max-width:860px){
   .lp-prac__in{ grid-template-columns:1fr; }
 }
-
-/* ---------- 13 · JOURNEY TIMELINE ----------------------------- */
-/* One vertical timeline with large year markers, in place of the two- and three-column
-   grids the entries were laid out in. The rail returns, running behind the icons. */
-@media (min-width:720px){
-  .jr__list>li{
-    --ycol:5.5rem; --icol:48px; --ygap:1rem;
-    grid-template-columns:var(--ycol) var(--icol) minmax(0,1fr); gap:var(--ygap); align-items:start;
-  }
-  .jr__ic{ grid-column:2; }
-  .jr__b{ grid-column:3; }
-  /* The year marker belongs in the left gutter, but it is nested inside .jr__b, which is the
-     positioned ancestor (it carries the whole-card link). So it is pulled back across the two
-     columns before it, using the same values the grid uses. */
-  .jr__k{
-    position:absolute; top:.2rem; margin:0; text-align:right;
-    left:calc(-1 * (var(--ycol) + var(--icol) + var(--ygap) * 2));
-    width:var(--ycol);
-    font-size:1.02rem !important; font-weight:700 !important; color:var(--navy) !important;
-    font-variant-numeric:tabular-nums; line-height:1.25; letter-spacing:-.01em;
-  }
-}
-@media (min-width:900px){
-  .jrp .jr__list{ grid-template-columns:minmax(0,1fr); gap:clamp(1.3rem,2.2vw,1.9rem); }
-  .jrp .jr__list:before{ display:block; left:calc(5.5rem + 23px); }
-  .jrp .jr__list>li::after{ display:none; }
-  #positions .jr__list>li:nth-child(7){ grid-column:auto; }
-}
-@media (min-width:1100px){
-  #service .jr__list{ grid-template-columns:minmax(0,1fr); }
-}
-.jr__k{ font-variant-numeric:tabular-nums; }
-.jr__b h3{ font-size:clamp(1.05rem,1.5vw,1.2rem) !important; margin-bottom:.25rem !important; }
-.jr__meta:empty{ display:none; }
 
 /* ---------- 14 · SERVICES MENU -------------------------------- */
 .dd__g>summary{ list-style:none; cursor:pointer; }
