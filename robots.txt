@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://goravgupta.com/sitemap.xml
+Sitemap: https://www.goravgupta.com/sitemap.xml

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+
+  "trailingSlash": true,
+
+  "headers": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "(.*)\\.vercel\\.app" }],
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    }
+  ],
+
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "goravgupta.com" }],
+      "destination": "https://www.goravgupta.com/:path*",
+      "statusCode": 301
+    },
+
+    { "source": "/tests", "destination": "/mental-health-assessment-tests", "statusCode": 301 },
+    { "source": "/faq", "destination": "/frequently-asked-questions-psychiatrist-near-me-consultation", "statusCode": 301 },
+
+    { "source": "/anxiety-treatment-delhi", "destination": "/best-psychiatrist-anxiety-specialist-delhi-gurgaon", "statusCode": 301 },
+    { "source": "/alcohol-addiction-treatment-india", "destination": "/psychiatrist-alcohol-deaddiction-treatment-delhi-gurgaon", "statusCode": 301 },
+
+    { "source": "/author/admin", "destination": "/about-us", "statusCode": 301 },
+    { "source": "/author/admin/page/:n*", "destination": "/about-us", "statusCode": 301 },
+    { "source": "/category/blog", "destination": "/resources", "statusCode": 301 },
+    { "source": "/category/blog/:path*", "destination": "/resources", "statusCode": 301 },
+
+    { "source": "/psychrist-in-delhi", "destination": "/psychiatrist-in-delhi", "statusCode": 301 },
+    { "source": "/psychistrist-in-india", "destination": "/psychiatrist-in-india", "statusCode": 301 },
+    { "source": "/pest-psychiatrist-in-gurgaon", "destination": "/psychiatrist-in-gurgaon", "statusCode": 301 },
+    { "source": "/dalectical-behavior-therapy", "destination": "/borderline-personality-disorder", "statusCode": 301 },
+    { "source": "/blog/advanced-treatment-from-ocd", "destination": "/ocd-psychiatrist-in-gurgaon-delhi-ncr", "statusCode": 301 },
+
+    { "source": "/tag/best-psychiatrist-in-delhi", "destination": "/psychiatrist-in-delhi", "statusCode": 301 },
+    { "source": "/tag/top-psychiatrist-in-delhi", "destination": "/psychiatrist-in-delhi", "statusCode": 301 },
+    { "source": "/tag/ocd-psychiatrist", "destination": "/ocd-psychiatrist-in-gurgaon-delhi-ncr", "statusCode": 301 },
+    { "source": "/tag/addiction-disorder", "destination": "/psychiatrist-de-addiction-treatment-delhi-gurgaon", "statusCode": 301 },
+    { "source": "/tag/drug-psychiatrist", "destination": "/psychiatrist-de-addiction-treatment-delhi-gurgaon", "statusCode": 301 },
+    { "source": "/tag/psychiatrist", "destination": "/", "statusCode": 301 },
+    { "source": "/tag/psychiatrist-near-me", "destination": "/", "statusCode": 301 }
+  ]
+}

@@ -7,12 +7,15 @@ in the browser from the JSON embedded in the page. Answers never leave the devic
 import json
 import pathlib
 
-from hub_pages import icon
+from hub_pages import icon, TESTS_HUB as HUB
 
 TEST_ICON = {'mental-health-self-assessment': 'pulse', 'bipolar-early-warning-signs': 'wave', 'schizophrenia-relapse-signs': 'eye',
              'relapse-risk-assessment': 'shield', 'substance-use-vs-social-use': 'glass'}
 
 DATA = pathlib.Path(__file__).resolve().parent.parent / 'data' / 'tests'
+
+# The hub lives at HUB (see hub_pages). The individual tests keep their own /tests/<slug>/ paths:
+# they are new URLs with no search history, so moving them would only add redirects.
 
 ICON_CLOCK = ('<svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"/></svg>')
 ICON_LIST = ('<svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H104a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM104,72H216a8,8,0,0,0,0-16H104a8,8,0,0,0,0,16ZM216,184H104a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16ZM56,116a12,12,0,1,0,12,12A12,12,0,0,0,56,116Zm0-64A12,12,0,1,0,68,64,12,12,0,0,0,56,52Zm0,128a12,12,0,1,0,12,12A12,12,0,0,0,56,180Z"/></svg>')
@@ -31,8 +34,8 @@ def load():
 
 def items(tests):
     """Page records for build_site.py's render loop."""
-    out = [{'kind': 'tests-index', 'path': 'tests', 'nav': 'resources', 'crumb': 'Interactive tests',
-            'title': 'Interactive Mental Health Tests | Dr. Gorav Gupta',
+    out = [{'kind': 'tests-index', 'path': HUB, 'nav': 'resources', 'crumb': 'Interactive tests',
+            'title': 'Mental Health Assessment Tests: Free, Private Screening | Dr. Gorav Gupta',
             'description': 'Free, private self-assessment tests from Dr. Gorav Gupta: mental health wellbeing, bipolar early warning signs, '
                            'schizophrenia relapse signs and substance use. Screening tools, not a diagnosis.',
             'tests': tests}]
@@ -56,7 +59,7 @@ def menu(root, tests, path, extra=''):
             root, href, cur, icon(ic), label, ('<small>%s</small>' % sub) if sub else '')
     return ('<div class="dd__in">'
             + a('resources', 'Articles &amp; resources', 'Guides, conditions and the blog', 'book')
-            + a('tests', 'Interactive tests', 'Private self-assessment tools', 'clipboard')
+            + a(HUB, 'Interactive tests', 'Private self-assessment tools', 'clipboard')
             + extra
             + '</div>')
 
@@ -100,16 +103,17 @@ def test_body(pg, root, ph, wa):
              '<h3>How to answer</h3><p>%s</p><ul class="tq-legend">%s</ul>%s'
              '<div class="tq-notes"><p>%s<span>%s</span></p><p class="tq-notes__d"><span>%s</span></p></div>'
              '<div class="tq-start"><button class="btn tq-go" type="button" data-act="start" disabled>Start the test <i aria-hidden="true">→</i></button>'
-             '<a class="tq-src" href="%s%s/">Read about this topic</a></div></div>'
+             '%s</div></div>'
              % (meta_chips(t), esc(t['intro']['measures']), esc(t['intro']['instructions']), legend, ph_field,
-                ICON_LOCK, PRIVACY, DISCLAIMER, root, t['source']['page']))
-    return (ph([('Home', root), ('Interactive tests', root + 'tests/'), (esc(t['menu_title']), None)], esc(t['title']), esc(t['short']))
+                ICON_LOCK, PRIVACY, DISCLAIMER,
+                '' if t['source']['page'] == HUB else '<a class="tq-src" href="%s%s/">Read about this topic</a>' % (root, t['source']['page'])))
+    return (ph([('Home', root), ('Interactive tests', root + HUB + '/'), (esc(t['menu_title']), None)], esc(t['title']), esc(t['short']))
             + '<section class="sec tq-sec" aria-label="%s">' % esc(t['title'])
-            + '<div class="tq-card tq-app" id="tq" data-contact="%scontactus/" data-wa="%s" data-index="%stests/" data-doc="%sassets/img/portrait-close-col.webp">%s'
+            + '<div class="tq-card tq-app" id="tq" data-contact="%scontactus/" data-wa="%s" data-index="%s%s/" data-doc="%sassets/img/portrait-close-col.webp">%s'
               '<div class="tq-screen tq-qs" data-screen="q" hidden></div><div class="tq-screen tq-res" data-screen="result" hidden></div>'
               '<noscript><p class="tq-ns">This test runs in your browser and needs JavaScript. You can read the questions on '
               '<a href="%s%s/">the article page</a>.</p></noscript></div>'
-            % (root, wa, root, root, intro, root, t['source']['page'])
+            % (root, wa, root, HUB, root, intro, root, t['source']['page'])
             + '<p class="tq-more"><a class="more__a" href="%stests/">All interactive tests <i>→</i></a></p></section>' % root
             + '<script type="application/json" id="tq-data">%s</script>' % data)
 

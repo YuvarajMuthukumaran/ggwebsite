@@ -14,7 +14,7 @@ Placeholders available in partials and designed pages:
     {{wa}} {{waicon}}              WhatsApp link and glyph
     {{delhi}} {{gurugram}}         the two Google Business listings
     {{since}} {{years}}            year of the M.D., and years since (see PRACTICE_SINCE)
-    {{exp}}                        the experience figure, "40+" (see EXPERIENCE)
+    {{exp}} {{fee}} {{opd_delhi}} ...  the shared facts from data/site.json (see PLACEHOLDERS)
     {{bio_short}} {{bio_long}}     the doctor's biography blocks (one source for the whole site)
     {{index_conditions}} {{index_mental_health}} {{index_local}} {{latest_posts}}   generated link lists
     {{films_player}}   shared page fragment (see INCLUDES)
@@ -37,7 +37,9 @@ import service_pages
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / 'src'
-SITE = 'https://goravgupta.com'
+# Search Console shows the live site on the www host, so canonicals, OG URLs, structured data and the
+# sitemap all use it. The single 301 from the bare host to www lives in vercel.json.
+SITE = 'https://www.goravgupta.com'
 
 # Same order the single page linked them, then the two newest layers.
 CSS = ['site', 'cinematic', 'films', 'refine', 'warm', 'calm', 'bloom', 'pro', 'spatial',
@@ -49,11 +51,36 @@ WAICON = ('<svg class="wai" viewBox="0 0 24 24" width="18" height="18" fill="cur
 DELHI = 'https://share.google/T2NTrfaXPM0Pgc0wf'
 GURUGRAM = 'https://share.google/ZI81WGD0iUjLSohvh'
 
-# The one source for "years in practice". Change the year here, then rebuild.
-# {{since}} is the year; {{years}} is how many years ago that was (it rolls forward each January).
-PRACTICE_SINCE = 1997   # the year the M.D. was completed; used for the training dates
-# The experience figure shown to visitors ({{exp}}), as given by the client. Change it here, then rebuild.
-EXPERIENCE = '40+'
+# Every fact that appears on more than one page lives in data/site.json: experience, the centres, timings,
+# the fee. Edit it there and rebuild; no page carries its own copy of a shared fact.
+FACTS = json.loads((ROOT / 'data' / 'site.json').read_text(encoding='utf-8'))
+
+# {{placeholder}} -> the dotted key in data/site.json it prints.
+PLACEHOLDERS = {
+    'exp': 'doctor.experience', 'reg_no': 'doctor.registration_number', 'md_subject': 'doctor.md_subject',
+    'fee': 'consultation.fee', 'session': 'consultation.minutes',
+    'phone': 'consultation.phone', 'phone_href': 'consultation.phone_href', 'email': 'consultation.email',
+    'opd_delhi': 'centres.delhi.opd', 'opd_gurugram': 'centres.gurugram.opd', 'opd_online': 'consultation.online_opd',
+    'clinic_delhi': 'centres.delhi.clinic_name', 'clinic_gurugram': 'centres.gurugram.clinic_name',
+    'clinic_mehrauli': 'centres.mehrauli.clinic_name',
+    'addr_delhi': 'centres.delhi.address', 'addr_gurugram': 'centres.gurugram.address',
+    'addr_mehrauli': 'centres.mehrauli.address',
+    'beds_gurugram': 'centres.gurugram.beds', 'beds_mehrauli': 'centres.mehrauli.beds',
+    'founded': 'tulasi.founded', 'award_year': 'award.year', 'award_url': 'award.url',
+    'rpwd_act': 'tulasi.act', 'crisis_line': 'crisis.line', 'crisis_number': 'crisis.number',
+}
+
+
+def fact(key):
+    """One fact from data/site.json, by dotted key ("centres.delhi.opd")."""
+    v = FACTS
+    for part in key.split('.'):
+        v = v[part]
+    return v
+
+
+PRACTICE_SINCE = fact('doctor.md_year')   # {{since}} is the year; {{years}} is how many years ago (rolls forward each January)
+EXPERIENCE = fact('doctor.experience')    # {{exp}}, the experience figure shown to visitors
 
 # Page fragments shared by more than one designed page: {{placeholder}} -> src/partials/<file>.
 INCLUDES = {'films_player': 'films-player.html'}
@@ -203,8 +230,14 @@ def main():
         designed.append(meta)
 
     content = []
+    retired = []
     for f in sorted((SRC / 'content').glob('*/*.html')):
         meta, body = parse(read(f), f.name)
+        # A "retired" page is kept as a source but not built: either a new page is served at its URL,
+        # or vercel.json 301s it. The meta says which. Nothing links to one (see "no stale links" below).
+        if meta.get('retired'):
+            retired.append((meta['slug'], meta['retired']))
+            continue
         meta['_body'] = body
         content.append(meta)
     by_slug = {c['slug']: c for c in content if c['kind'] == 'page'}
@@ -221,7 +254,7 @@ def main():
             if not c:
                 continue
             d = ('<span>%s</span>' % esc(c['description'])) if with_desc and c.get('description') else ''
-            out.append('<li><a href="%s"><b>%s</b>%s</a></li>' % (href(c, root), c['title'], d))
+            out.append('<li><a href="%s"><b>%s</b>%s</a></li>' % (href(c, root), c.get('menu_title') or c['title'], d))
         return '<ul class="idx">%s</ul>' % ''.join(out)
 
     def index_conditions(root):
@@ -232,7 +265,7 @@ def main():
 
     def index_group(root, group):
         slugs = [c['slug'] for c in content if c['kind'] == 'page' and c['group'] == group]
-        order = {'mental-health-assessment-tests': 0, 'early-warning-signs-scale-for-bipolar-disorder': 1,
+        order = {'early-warning-signs-scale-for-bipolar-disorder': 1,
                  'early-relapse-signs-of-schizophrenia': 2, 'substance-use-disorder': 3, 'substance-use-disorder-vs-social-use': 4,
                  'psychiatrist-in-delhi': 0, 'psychiatrist-in-gurgaon': 1, 'psychiatrist-in-india': 2}
         slugs.sort(key=lambda s: order.get(s, 9))
@@ -255,6 +288,7 @@ def main():
                            'description': 'Articles by Dr. Gorav Gupta on mental health, addiction, anxiety, depression, OCD and treatment.',
                            'modified': chunk[0]['modified'] if chunk else ''})
 
+    faq_pages.VARS = {k: fact(key) for k, key in PLACEHOLDERS.items()}   # FAQ answers pull facts too
     tests = tests_pages.load()   # data/tests/*.json -> /tests/ and /tests/<slug>/
     faq = faq_pages.load()       # data/faq/*.json -> /faq/ and /faq/<topic>/
     tax = taxonomy_pages.load()  # data/taxonomy.json -> /tag/<slug>/, /category/blog/, /author/<slug>/ (kept from the old WordPress site)
@@ -277,6 +311,7 @@ def main():
              'index_local': index_group(root, 'local'), 'latest_posts': latest_posts(root),
              'resources_menu': tests_pages.menu(root, tests, path, faq_pages.menu_item(root, faq, path)),
              'services_menu': hub_pages.services_menu(root, groups, by_slug, path)}
+        v.update({k: fact(key) for k, key in PLACEHOLDERS.items()})    # the shared facts, from data/site.json
         if path == 'resources':
             v['resources_hub'] = hub_pages.resources_hub(root, posts, tests, href, pretty_date, tag_map)
         for key, name in INCLUDES.items():
@@ -289,6 +324,8 @@ def main():
         else:
             seo_title, desc = (title if kind != 'blog-index' else pg['title']), pg.get('description') or ''
         desc = re.sub(r'\s+', ' ', desc).strip() or 'Dr. Gorav Gupta, senior psychiatrist in Delhi NCR.'
+        # titles and descriptions pull from data/site.json as well, so a fact cannot drift in a meta tag
+        seo_title, desc = fill(seo_title, v, 'title ' + path), fill(desc, v, 'description ' + path)
 
         # structured data
         if path == '':
@@ -421,8 +458,19 @@ def main():
     (ROOT / 'sitemap.xml').write_text(
         '<?xml version="1.0" encoding="UTF-8"?>'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">%s</urlset>\n' % urls, encoding='utf-8', newline='\n')
+    for slug, why in retired:
+        print('retired: %-62s %s' % (slug, why))
     print('built %d pages (%d designed, %d imported pages, %d posts, %d blog index pages); sitemap has %d urls; css bundle %s'
           % (len(all_items), len(designed), len(by_slug), len(posts), len(blog_pages), len(sitemap), css_v))
+
+    # Facts still waiting on a decision (data/site.json "pending"), so none is forgotten at cutover.
+    pending = FACTS.get('pending', {})
+    empty = [(row, key) for key, row in pending.items() if not str(fact(key)).strip()]
+    if pending:
+        print('%d facts wait on decisions %s; %d of them have nothing to publish yet'
+              % (len(pending), ', '.join(str(r) for r in sorted(set(pending.values()))), len(empty)))
+        for row, key in sorted(empty):
+            print('  decision %-2s %-32s %s' % (row, key, FACTS['decisions'][str(row)]))
 
 
 if __name__ == '__main__':

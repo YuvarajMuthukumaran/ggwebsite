@@ -9,11 +9,13 @@ import json
 import pathlib
 import re
 
-from hub_pages import icon
+from hub_pages import icon, FAQ_HUB, TESTS_HUB
 
 DATA = pathlib.Path(__file__).resolve().parent.parent / 'data' / 'faq'
-SITE = 'https://goravgupta.com'
-SOURCE_PATH = 'frequently-asked-questions-psychiatrist-near-me-consultation'
+SITE = 'https://www.goravgupta.com'
+# The hub is served at the long URL the old site ranked on (284 clicks a month); /faq/ 301s to it
+# (see vercel.json and hub_pages.FAQ_HUB). The topic pages keep their own /faq/<topic>/ paths.
+SOURCE_PATH = FAQ_HUB
 TITLE = 'Frequently Asked Questions (FAQ)'
 LEDE = ('Answers to the questions people ask most before they see a psychiatrist: when to seek help, how treatment works, '
         'what a consultation involves and who Dr. Gorav Gupta is.')
@@ -51,7 +53,7 @@ def faq_ld(qas):
 
 def items(topics):
     """Page records for build_site.py's render loop."""
-    out = [{'kind': 'faq-index', 'path': 'faq', 'nav': 'resources', 'crumb': 'Frequently asked questions',
+    out = [{'kind': 'faq-index', 'path': FAQ_HUB, 'nav': 'resources', 'crumb': 'Frequently asked questions',
             'title': '%s | Dr. Gorav Gupta' % TITLE,
             'description': 'Frequently asked questions about seeing a psychiatrist in Delhi NCR: when to seek help, treatment and therapy, '
                            'consultation and fees, and about Dr. Gorav Gupta.',
@@ -71,13 +73,21 @@ def menu_item(root, topics, path):
     """The FAQ entry in the Resources dropdown: one plain link to /faq/ (the topics are listed on the FAQ pages themselves)."""
     if not topics:
         return ''
-    cur = ' aria-current="page"' if path == 'faq' else ''
-    return ('<a href="%sfaq/"%s>%s<span class="dd__tx"><b>Frequently asked questions (FAQ)</b><small>Answers on consulting, treatment and fees</small></span></a>'
-            % (root, cur, icon('help')))
+    cur = ' aria-current="page"' if path == FAQ_HUB else ''
+    return ('<a href="%s%s/"%s>%s<span class="dd__tx"><b>Frequently asked questions (FAQ)</b><small>Answers on consulting, treatment and fees</small></span></a>'
+            % (root, FAQ_HUB, cur, icon('help')))
+
+
+# The shared facts from data/site.json, set by build_site.py before rendering, so an answer can say
+# {{fee}} or {{exp}} instead of carrying its own copy of a number that changes.
+VARS = {}
 
 
 def r(html, root):
-    return html.replace('{{root}}', root)
+    html = html.replace('{{root}}', root)
+    for k, v in VARS.items():
+        html = html.replace('{{%s}}' % k, str(v))
+    return html
 
 
 def first_part(html):
@@ -86,12 +96,11 @@ def first_part(html):
     return m.group(1) if m else html
 
 
-def help_band(root, wa, full_guide=True):
+def help_band(root, wa):
     return ('<aside class="fq-help"><div><p class="fq-help__t">Didn&rsquo;t find your answer?</p>'
             '<p>Call the clinic or message the team on WhatsApp. Consultations are available online and at both consulting rooms.</p></div>'
             '<div class="fq-help__a"><a class="btn" href="tel:+918800000255">Call +91 88000 00255</a>'
-            '<a class="btn ghost" href="%s" target="_blank" rel="noopener">WhatsApp</a>%s</div></aside>'
-            % (wa, ('<a class="more__a" href="%s%s/">Read the full guide <i>&rarr;</i></a>' % (root, SOURCE_PATH)) if full_guide else ''))
+            '<a class="btn ghost" href="%s" target="_blank" rel="noopener">WhatsApp</a></div></aside>' % wa)
 
 
 SUGGEST = ['fee', 'online', 'OCD', 'alcohol', 'therapy', 'psychologist']
@@ -128,10 +137,10 @@ def index_body(pg, root, ph, wa, exp='40+'):
                fact('exp', 'Experience', '%s years in psychiatry' % exp), fact('pin', 'Consulting rooms', 'New Delhi and Gurugram'),
                fact('video', 'Online', 'Consultations available online')))
     side = ('<aside class="fh__side" aria-label="Topics"><p class="fh__k">Topics</p><ul class="fh-topics">'
-            '<li><a href="%sfaq/" class="is-on" data-topic="all" aria-pressed="true">All questions <span>%d</span></a></li>%s</ul>'
-            '<div class="fh__more"><a href="%s%s/">Read the full guide <i>&rarr;</i></a><a href="%stests/">Take a private self-assessment <i>&rarr;</i></a></div></aside>'
-            % (root, total, ''.join('<li><a href="%sfaq/%s/" data-topic="%s" aria-pressed="false">%s <span>%d</span></a></li>' % (root, t['slug'], t['slug'], esc(t['menu_title']), t['n']) for t in topics),
-               root, SOURCE_PATH, root))
+            '<li><a href="%s%s/" class="is-on" data-topic="all" aria-pressed="true">All questions <span>%d</span></a></li>%s</ul>'
+            '<div class="fh__more"><a href="%s%s/">Take a private self-assessment <i>&rarr;</i></a></div></aside>'
+            % (root, FAQ_HUB, total, ''.join('<li><a href="%sfaq/%s/" data-topic="%s" aria-pressed="false">%s <span>%d</span></a></li>' % (root, t['slug'], t['slug'], esc(t['menu_title']), t['n']) for t in topics),
+               root, TESTS_HUB))
     groups = ''
     for t in topics:
         items = ''
@@ -160,10 +169,10 @@ def topic_body(pg, root, ph, wa):
         '<details class="fq-q" id="%s"%s><summary><span>%s</span></summary><div class="fq-a">%s</div></details>'
         % (q['id'], ' open' if i == 0 else '', q['q'], r(q['a'], root)) for i, q in enumerate(t['qas']))
     intro = ('<div class="fq-intro">%s</div>' % r(t['intro'], root)) if t.get('intro') else ''
-    head = ph([('Home', root), ('Resources', root + 'resources/'), ('Frequently asked questions', root + 'faq/'), (esc(t['menu_title']), None)], esc(t['title']), esc(t['short']))
+    head = ph([('Home', root), ('Resources', root + 'resources/'), ('Frequently asked questions', root + FAQ_HUB + '/'), (esc(t['menu_title']), None)], esc(t['title']), esc(t['short']))
     return (head
             + '<section class="sec fq"><div class="fq__grid"><aside class="fq__side"><nav aria-label="FAQ topics"><p class="fq__k">FAQ topics</p>'
-              '<ul>%s</ul><a class="fq__all" href="%sfaq/">All FAQs <i>&rarr;</i></a></nav></aside>' % (side, root)
+              '<ul>%s</ul><a class="fq__all" href="%s%s/">All FAQs <i>&rarr;</i></a></nav></aside>' % (side, root, FAQ_HUB)
             + '<div class="fq__main">%s<div class="fq-bar"><span>%d questions</span><button type="button" class="fq-tog" data-fq-all aria-pressed="false">Expand all</button></div>'
               '<div class="fq-list">%s</div>' % (intro, t['n'], qs)
             + help_band(root, wa) + '</div></div></section>')

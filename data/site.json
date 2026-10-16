@@ -1,0 +1,125 @@
+{
+  "_comment": [
+    "One source for every fact that appears on more than one page: experience, the centres, timings and fee.",
+    "Edit a value here, run python tools/build_site.py, and every page that shows it changes.",
+    "Never retype one of these facts into a page: use its {{placeholder}} instead (see PLACEHOLDERS in",
+    "tools/build_site.py for the key each one maps to).",
+    "",
+    "\"pending\" lists the facts still waiting on a decision, against the row in the Decisions tab of the",
+    "tracker. Values here are what the site publishes today, so the preview reads correctly either way.",
+    "An empty value means we have nothing to publish yet; the build prints those so they are not forgotten.",
+    "When a decision lands: set the value, delete its line from \"pending\", rebuild."
+  ],
+
+  "doctor": {
+    "name": "Dr. Gorav Gupta",
+    "qualifications": "M.B.B.S., M.D. (Psychiatry)",
+    "md_subject": "Psychiatry",
+    "md_year": 1997,
+    "experience": "40+",
+    "registration_number": ""
+  },
+
+  "societies": [
+    "Life Fellow, Indian Psychiatric Society",
+    "Life Member, Indian Medical Association",
+    "Life Member, Indian Association of Private Psychiatry",
+    "Life Member, Delhi Psychiatric Society",
+    "President, Mental Research Society",
+    "Member, National Task Force on Brain Health, NITI Aayog",
+    "Member, Executive Council, National Institute of Mental Health Rehabilitation (NIMHR)"
+  ],
+
+  "award": {
+    "title": "Psychiatrist of the Year",
+    "publication": "The Economic Times",
+    "year": "",
+    "url": ""
+  },
+
+  "tulasi": {
+    "name": "Tulasi Healthcare",
+    "founded": "",
+    "url": "https://tulasihealthcare.com",
+    "act": "RPwD Act, 2016",
+    "accreditation": "NABH accredited"
+  },
+
+  "centres": {
+    "delhi": {
+      "label": "New Delhi",
+      "clinic_name": "Sarvapriya Vihar, New Delhi",
+      "address": "2/6 Sarvapriya Vihar, New Delhi 110016",
+      "role": "Consulting room",
+      "beds": "",
+      "opd": "Wed and Fri, 2 to 6 pm",
+      "maps": "https://share.google/T2NTrfaXPM0Pgc0wf"
+    },
+    "gurugram": {
+      "label": "Gurugram",
+      "clinic_name": "Tulasi Psychiatric and Rehabilitation Centre, Sector 64",
+      "address": "Sector 64, Gurugram, Haryana 122102",
+      "role": "Acute care",
+      "beds": "",
+      "opd": "",
+      "maps": "https://share.google/ZI81WGD0iUjLSohvh"
+    },
+    "mehrauli": {
+      "label": "Mehrauli",
+      "clinic_name": "Tulasi Home, Mehrauli",
+      "address": "",
+      "role": "Long-term rehabilitation",
+      "beds": "",
+      "opd": "",
+      "maps": ""
+    }
+  },
+
+  "consultation": {
+    "fee": "₹2,700",
+    "minutes": "20",
+    "online_opd": "Thu, 2 to 5 pm",
+    "phone": "+91 88000 00255",
+    "phone_href": "tel:+918800000255",
+    "email": "drgoravgupta@tulasihealthcare.com",
+    "callback_hours": ""
+  },
+
+  "crisis": {
+    "name": "Tele-MANAS",
+    "number": "14416",
+    "note": "free, 24x7",
+    "line": "If you are in crisis, call Tele-MANAS on 14416 (free, 24x7) or your local emergency number."
+  },
+
+  "pending": {
+    "doctor.experience": 1,
+    "doctor.registration_number": 9,
+    "award.year": 8,
+    "award.url": 8,
+    "tulasi.founded": 2,
+    "centres.delhi.clinic_name": 3,
+    "centres.gurugram.beds": 3,
+    "centres.mehrauli.address": 3,
+    "centres.mehrauli.beds": 3,
+    "consultation.fee": 4,
+    "consultation.minutes": 4,
+    "consultation.online_opd": 4,
+    "consultation.callback_hours": 4,
+    "centres.delhi.opd": 4,
+    "centres.gurugram.opd": 4
+  },
+
+  "decisions": {
+    "1": "Years of experience: one number to use everywhere",
+    "2": "Founding year of Tulasi (1999 or 2002) and the matching \"X years\" line",
+    "3": "Bed numbers and centre names; is the Delhi room Sarvapriya Vihar or Hauz Khas?",
+    "4": "Fee, session length, OPD days and times to publish",
+    "5": "Promotional claims: best / renowned / 1,00,000 patients / India's first Neuromodulation lab",
+    "6": "Patient reviews on site, or link out to Google only",
+    "7": "Exact society names, and Tulasi Home's registration under the RPwD Act, 2016",
+    "8": "The year of the Economic Times award",
+    "9": "Medical registration number for the footer",
+    "10": "\"How I work\" copy, and the dual diagnosis page"
+  }
+}

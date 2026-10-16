@@ -1,6 +1,12 @@
 """Services dropdown and the Resources hub page, used by tools/build_site.py."""
 import re
 
+# Both hubs are served at the old site's URLs, because those carry the search traffic: the tests hub
+# at /mental-health-assessment-tests/ (306 clicks a month) and the FAQ at the long URL (284). /tests/
+# and /faq/ 301 to them (see vercel.json). Defined here because every generator imports this module.
+TESTS_HUB = 'mental-health-assessment-tests'
+FAQ_HUB = 'frequently-asked-questions-psychiatrist-near-me-consultation'
+
 # Small line icons for the nav dropdowns (24px grid, drawn with currentColor)
 ICONS = {
     'book': '<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/><path d="M9 7.5h6"/>',
@@ -97,7 +103,7 @@ def services_menu(root, groups, by_slug, path):
         body = '<b>%s</b>%s' % (label, ('<small>%s</small>' % sub) if sub else '')
         return '<a href="%s%s/"%s>%s</a>' % (root, href, cur, (icon(ic) + '<span class="dd__tx">%s</span>' % body) if ic else body)
     cols = ''.join('<div class="dd__g"><p class="dd__k">%s%s</p>%s</div>'
-                   % (icon(group_icon(title), 'dd__kic'), esc(title), ''.join(a(by_slug[s]['path'], esc(by_slug[s]['title'])) for s in slugs if s in by_slug))
+                   % (icon(group_icon(title), 'dd__kic'), esc(title), ''.join(a(by_slug[s]['path'], esc(by_slug[s].get('menu_title') or by_slug[s]['title'])) for s in slugs if s in by_slug))
                    for title, slugs in groups['condition_groups'])
     return ('<div class="dd__in dd__in--wide">' + a('services', 'All services', 'Every condition Dr. Gupta treats', 'grid')
             + '<div class="dd__cols">%s</div></div>' % cols)
@@ -170,7 +176,7 @@ def resources_hub(root, posts, tests, href, pretty_date, tag_map=None):
         return '<li><a class="hb2-tag" href="%stag/%s/" data-tag="%s">%s <span>%d</span></a></li>' % (root, s, s, esc(names[s]), counts[s])
 
     quick = ''.join('<li><a href="%stests/%s/">%s <i aria-hidden="true">&rarr;</i></a></li>' % (root, t['slug'], esc(t['menu_title'])) for t in tests)
-    more = [('faq', 'Frequently asked questions (FAQ)', 'Answers on consulting, treatment, fees and Dr. Gupta.'),
+    more = [(FAQ_HUB, 'Frequently asked questions (FAQ)', 'Answers on consulting, treatment, fees and Dr. Gupta.'),
             ('ask-the-doctor', 'Ask the Doctor', 'Questions often asked about mental illness and addiction.'),
             ('video-gallery', 'Video Gallery', 'Films and YouTube videos from Dr. Gupta.'),
             ('video-gallery-draft', 'Video Library', 'Every video in one place: films, centre tours and talks.'),
@@ -187,8 +193,8 @@ def resources_hub(root, posts, tests, href, pretty_date, tag_map=None):
             '<div class="hb2-box"><h2 class="hb2-k">Tags</h2><ul class="hb2-tags">%s</ul>'
             '<ul class="hb2-tags hb2-tags--more" id="hb2-tags-more" hidden>%s</ul>'
             '<button type="button" class="hb2-link" id="hb2-tagtog" aria-expanded="false" aria-controls="hb2-tags-more">Show all tags (%d)</button></div>'
-            '<div class="hb2-box hb2-quick"><h2 class="hb2-k">Take a quick test</h2><ul>%s</ul><a class="hb2-link" href="%stests/">All tests &rarr;</a></div></aside>'
-            % (SEARCH_ICON, cats, ''.join(tag(s) for s in first), ''.join(tag(s) for s in rest), len(ranked), quick, root))
+            '<div class="hb2-box hb2-quick"><h2 class="hb2-k">Take a quick test</h2><ul>%s</ul><a class="hb2-link" href="%s%s/">All tests &rarr;</a></div></aside>'
+            % (SEARCH_ICON, cats, ''.join(tag(s) for s in first), ''.join(tag(s) for s in rest), len(ranked), quick, root, TESTS_HUB))
     bar = ('<div class="hb2-bar"><button type="button" class="hb2-ftog" id="hb2-ftog" aria-expanded="false" aria-controls="hb2-side">%s Filters <b class="hb2-badge" hidden></b></button>'
            '<p class="hb2-count" id="hb2-count" aria-live="polite" tabindex="-1">%d articles</p>'
            '<label class="hb2-sort"><span class="hb2-sr">Sort articles</span><select id="hb2-sort"><option value="new">Newest first</option><option value="old">Oldest first</option>'
