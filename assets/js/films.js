@@ -28,6 +28,24 @@
   }
   function d_frag() { return document.createDocumentFragment(); }
   var slides = [].slice.call(rail.querySelectorAll('.vr__slide'));
+  // Only the first poster ships in the markup. The rest are 100 KB that would otherwise
+  // load with the hero, now that the films sit second on the page, so they wait until the
+  // slide is close to view. Without IntersectionObserver they simply all load.
+  var pending = [].slice.call(rail.querySelectorAll('video[data-poster]'));
+  if (pending.length) {
+    var show = function (v) {
+      if (v.dataset.poster) { v.poster = v.dataset.poster; delete v.dataset.poster; }
+    };
+    if ('IntersectionObserver' in window) {
+      var po = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { show(e.target); po.unobserve(e.target); } });
+      }, { root: null, rootMargin: '300px' });
+      pending.forEach(function (v) { po.observe(v); });
+    } else {
+      pending.forEach(show);
+    }
+  }
+
   var cards = slides.map(function (s) { return s.querySelector('.vr__card'); });
   var vids = slides.map(function (s) { return s.querySelector('video'); });
   var caps = slides.map(function (s) { return s.querySelector('.vr__cap'); });

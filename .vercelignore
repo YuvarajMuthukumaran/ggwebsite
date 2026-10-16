@@ -1,0 +1,24 @@
+# What Vercel does not need.
+#
+# The site is built locally (python tools/build_site.py) and the finished HTML is committed,
+# so the sources and the build tooling never have to be uploaded. Nothing here is served.
+#
+# The originals matter most: assets/video/_originals holds a 14 MB source file that no page
+# references, and it was going up with every deploy.
+
+src/
+tools/
+data/
+docs/
+integrations/
+legacy/
+
+assets/video/_originals/
+assets/img/_source/
+
+*.py
+add-items-script.js
+fix-delete-script.js
+skills-lock.json
+patient-portal/
+patients_portal_for_hosting.html

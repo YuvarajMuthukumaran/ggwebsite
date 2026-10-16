@@ -456,7 +456,15 @@ def main():
 
         has_panel = path == 'contactus' or (kind == 'page' and pg.get('group') in ('services', 'local'))
         scripts_list = pg.get('scripts', []) + (['service'] if kind == 'page' else []) + (['booking'] if has_panel and 'booking' not in pg.get('scripts', []) else [])
-        preload = ''.join('<link rel="preload" as="image" href="%s%s" fetchpriority="high">' % (root, p) for p in pg.get('preload', []))
+        # a preload entry is a path, or {src, srcset, sizes} so the phone preloads the small file
+        def preload_tag(item):
+            if isinstance(item, str):
+                return '<link rel="preload" as="image" href="%s%s" fetchpriority="high">' % (root, item)
+            srcset = ', '.join('%s%s' % (root, part.strip()) for part in item['srcset'].split(','))
+            return ('<link rel="preload" as="image" href="%s%s" imagesrcset="%s" imagesizes="%s" fetchpriority="high">'
+                    % (root, item['src'], srcset, esc(item['sizes'])))
+
+        preload = ''.join(preload_tag(p) for p in pg.get('preload', []))
         scripts = ''.join(
             '<script src="%sassets/js/%s.js?v=%s"%s></script>' % (root, s, js_v[s], '' if s == 'site' else ' defer')
             for s in ['site'] + scripts_list + ['calm', 'spatial'])
