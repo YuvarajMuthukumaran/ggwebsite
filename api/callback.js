@@ -7,6 +7,7 @@
  *
  *   TELECRM_WEBHOOK_URL   TeleCRM's lead endpoint (with TELECRM_TOKEN)   <- once Zubair confirms it
  *   CALLBACK_WEBHOOK_URL  a Google Apps Script web app writing to a Sheet
+ *                         (with CALLBACK_WEBHOOK_SECRET; see integrations/google-sheet/)
  *
  * With neither set the lead is accepted and written to the function log, and
  * the reply says delivered:false. The thank-you screen always shows the phone
@@ -79,7 +80,10 @@ async function deliver(lead) {
     return post(TELECRM_WEBHOOK_URL, lead, TELECRM_TOKEN ? { Authorization: 'Bearer ' + TELECRM_TOKEN } : {});
   }
   if (CALLBACK_WEBHOOK_URL) {
-    return post(CALLBACK_WEBHOOK_URL, lead, {});
+    // An Apps Script web app has to be readable by anyone, so the shared secret is what
+    // stops a stranger who finds the URL writing rows into the sheet.
+    const { CALLBACK_WEBHOOK_SECRET } = process.env;
+    return post(CALLBACK_WEBHOOK_URL, CALLBACK_WEBHOOK_SECRET ? { ...lead, secret: CALLBACK_WEBHOOK_SECRET } : lead, {});
   }
   return { delivered: false, why: 'no destination configured' };
 }
