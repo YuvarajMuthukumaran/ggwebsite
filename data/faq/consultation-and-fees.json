@@ -9,8 +9,12 @@
  "intro": "",
  "qas": [
   {
+   "q": "What does a consultation cost, and when is Dr. Gupta available?",
+   "a": "<p>A consultation with Dr. Gorav Gupta is {{fee}} for {{session}} minutes.</p><p>OPD runs in New Delhi on {{opd_delhi}}, and online on {{opd_online}}. Times can change around ward rounds and admissions, so the team confirms the slot when they call you back.</p><p>You can <a href=\"{{root}}contactus/#book\">leave your number</a> and the team will call, or reach them on {{phone}}.</p>"
+  },
+  {
    "q": "What is the consultation fee of a psychiatrist?",
-   "a": "<p>Consultation fees for psychiatrists can vary widely based on factors such as location, the psychiatrist&rsquo;s experience, and the type of services offered. The consultation fee for Dr. Gorav Gupta is Rs. 2700 for 20 minutes.</p>"
+   "a": "<p>Consultation fees for psychiatrists can vary widely based on factors such as location, the psychiatrist&rsquo;s experience, and the type of services offered. The consultation fee for Dr. Gorav Gupta is {{fee}} for {{session}} minutes.</p>"
   },
   {
    "q": "How do I find a psychiatrist near me?",
@@ -31,6 +35,14 @@
   {
    "q": "Can I see a psychiatrist for relationship issues?",
    "a": "<p>Yes. There are times when relationship issues arise from physical factors that present as mental issues. Seeing a psychiatrist can relieve your doubts, and you can be directed to a relationship therapist if further issues exist.</p>"
+  },
+  {
+   "q": "How does an online consultation work?",
+   "a": "<p>It is a video call, and it covers the same ground as a visit: history, assessment and a treatment plan. Online slots run on {{opd_online}}.</p><p>After you ask for a call back, the team confirms a time and sends the link. You do not need to install anything unusual; a phone or a laptop with a camera is enough, in a room where you can speak freely.</p><p>A first assessment for a serious illness or for admission is better done in person where possible, and the team will say so when they call.</p>"
+  },
+  {
+   "q": "Do I need to pay before the consultation?",
+   "a": "<p>No. The team takes you through payment when they confirm the appointment. Nothing is collected on this website, and the booking form asks only for your name, number and what you would like help with.</p>"
   }
  ],
  "source": "frequently-asked-questions-psychiatrist-near-me-consultation"

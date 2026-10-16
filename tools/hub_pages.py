@@ -46,6 +46,7 @@ TOPICS = [   # (key, label, pattern matched against a post's slug and title)
     ('personality', 'Personality', r'personality|narciss|borderline|bpd'),
 ]
 OTHER = ('wellbeing', 'Wellbeing')
+HINDI = ('hindi', 'हिंदी')
 
 # Stand-in pictures for posts that have none: a close keyword match first, then the topic's pool (rotated).
 IMG = 'assets/img/blog/'
@@ -81,7 +82,7 @@ def stand_in(p, n):
     for pat, f in KEYWORD_IMG:
         if re.search(pat, text):
             return IMG + f
-    pool = TOPIC_IMG[topic(p)[0]]
+    pool = TOPIC_IMG.get(topic(p)[0], TOPIC_IMG['wellbeing'])
     return IMG + pool[n % len(pool)]
 
 
@@ -90,6 +91,8 @@ def esc(s):
 
 
 def topic(p):
+    if p.get('lang') == 'hi':        # a Hindi reader is filtering for language, not for subject
+        return HINDI
     text = (p['slug'] + ' ' + p['title']).lower()
     for key, label, pat in TOPICS:
         if re.search(pat, text):
@@ -166,7 +169,7 @@ def resources_hub(root, posts, tests, href, pretty_date, tag_map=None):
         tcount[topic(p)[0]] = tcount.get(topic(p)[0], 0) + 1
     cats = ('<li><button type="button" class="hb2-cat" data-topic="all" aria-pressed="true">All articles <span>%d</span></button></li>' % len(posts)
             + ''.join('<li><button type="button" class="hb2-cat" data-topic="%s" aria-pressed="false">%s <span>%d</span></button></li>' % (k, l, tcount[k])
-                      for k, l, _ in TOPICS + [OTHER + ('',)] if k in used))
+                      for k, l, _ in TOPICS + [OTHER + ('',), HINDI + ('',)] if k in used))
 
     ranked = sorted(counts, key=lambda s: (-counts[s], names[s].lower()))
     first = [s for s in ranked if s not in GENERIC_TAGS][:FIRST_TAGS]

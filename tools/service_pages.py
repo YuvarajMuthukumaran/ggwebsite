@@ -9,6 +9,7 @@
 
 Needs beautifulsoup4 and lxml (pip install beautifulsoup4 lxml). Styles: assets/css/service.css.
 """
+import datetime
 import re
 
 from bs4 import BeautifulSoup
@@ -127,6 +128,21 @@ def prepare(html, pg):
     toc, used = [], set()
     prev = None
     for t in items:
+        # the headings regrouped into a two-column block are sections too, nested under the last one
+        if t.name == 'div' and 'sp-dl' in (t.get('class') or []):
+            for h in t.find_all('h4'):
+                txt = text_of(h)
+                if not txt:
+                    continue
+                base = re.sub(r'[^a-z0-9]+', '-', txt.lower()).strip('-')[:40] or 'part'
+                sid, n = base, 2
+                while sid in used:
+                    sid = '%s-%d' % (base, n); n += 1
+                used.add(sid)
+                h['id'] = sid
+                toc.append((sid, txt, True))
+            prev = t
+            continue
         if t.name in ('h2', 'h3'):
             txt = text_of(t)
             sub = prev is not None and prev.name in ('h2', 'h3')    # a heading straight after a heading is a label, not a section
@@ -139,7 +155,7 @@ def prepare(html, pg):
                     sid = '%s-%d' % (base, n); n += 1
                 used.add(sid)
                 t['id'] = sid
-                toc.append((sid, txt))
+                toc.append((sid, txt, False))
                 if re.search(r'frequently asked', txt, re.I):
                     t['class'] = t.get('class', []) + ['sp-faq-h']
         prev = t
@@ -192,6 +208,25 @@ def related(pg, root, groups, by_slug, href):
             '<a class="more__a" href="%sservices/">All services <i>&rarr;</i></a></section>' % (head, lis, root))
 
 
+def reviewed(pg, root):
+    """"Medically reviewed by ...".
+
+    The date comes from the page's own "reviewed" field. It falls back to "modified", which is
+    when the text last changed rather than when a clinician last read it, so those dates need
+    confirming with Dr. Gupta before launch (see docs/url-rules.md).
+    """
+    iso = pg.get('reviewed') or pg.get('modified') or ''
+    if not iso:
+        return ''
+    try:
+        d = datetime.date.fromisoformat(iso)
+        when = '%d %s %d' % (d.day, d.strftime('%B'), d.year)
+    except ValueError:
+        return ''
+    return ('<p class="sp-review">Medically reviewed by <a href="%sabout-us/">Dr. Gorav Gupta</a>, '
+            'M.B.B.S., M.D. (Psychiatry) &middot; <time datetime="%s">%s</time></p>' % (root, iso, when))
+
+
 def build(pg, root, content, callout, after, crumbs, groups, by_slug, href, wa, exp):
     group_of = {s: t for t, ss in groups['condition_groups'] for s in ss}
     label, ic = label_for(pg, group_of)
@@ -199,14 +234,23 @@ def build(pg, root, content, callout, after, crumbs, groups, by_slug, href, wa, 
     lede = pg.get('subtitle') or lede_html or LEDE.format(exp=exp)
     chips = ''.join('<li>%s%s</li>' % (CHECK, c) for c in ('%s years of experience' % exp, 'New Delhi and Gurugram', 'Online consultations'))
     hero = ('<header class="sp-hero sp-hero--solo"><div class="sp-hero__txt">%s<p class="sp-eyebrow">%s<span>%s</span></p>'
-            '<h1>%s</h1><p class="sp-lede">%s</p><ul class="sp-chips">%s</ul>'
+            '<h1>%s</h1>%s<p class="sp-lede">%s</p><ul class="sp-chips">%s</ul>'
             '<p class="sp-hero__act"><a class="btn" href="#book">Ask for a call back</a>'
             '<a class="btn ghost" href="%s" target="_blank" rel="noopener">WhatsApp</a></p></div></header>'
-            % (crumbs, icon(ic, 'sp-eyebrow__ic'), esc(label), esc(pg['title']), lede, chips, wa))
+            % (crumbs, icon(ic, 'sp-eyebrow__ic'), esc(label), esc(pg['title']), reviewed(pg, root), lede, chips, wa))
     toc_html = ''
-    if len(toc) >= 3:
+    if len(toc) >= 2:
+        rows, open_sub = [], False
+        for sid, text, nested in toc:
+            if nested and not open_sub:
+                rows.append('<li><ul class="sp-toc__sub">'); open_sub = True
+            elif not nested and open_sub:
+                rows.append('</ul></li>'); open_sub = False
+            rows.append('<li><a href="#%s">%s</a></li>' % (sid, esc(text)))
+        if open_sub:
+            rows.append('</ul></li>')
         toc_html = ('<nav class="sp-toc" aria-label="On this page"><p class="sp-side__t">On this page</p><ol>%s</ol></nav>'
-                    % ''.join('<li><a href="#%s">%s</a></li>' % (i, esc(t)) for i, t in toc))
+                    % ''.join(rows))
     side = ('<aside class="sp__side">%s<div class="sp-book"><p class="sp-side__t">Book a consultation</p>'
             '<p>Leave your number on this page and the team calls you back, or message them now.</p>'
             '<a class="btn" href="#book">Ask for a call back</a><a class="btn ghost" href="%s" target="_blank" rel="noopener">WhatsApp</a></div></aside>'

@@ -225,12 +225,51 @@ def author_box(root, long_form, years_text):
             '<a class="more__a" href="%sabout-us/">More about Dr. Gupta <i>→</i></a></div></aside>' % (root, bio, root))
 
 
+FILMS_PUBLISHED = '2026-10-09'   # when the films were first published here (git history of assets/video/)
+
+
+def films_ld(home_ld_text):
+    """VideoObject for each film, from the titles and posters in the player partial."""
+    src = read(SRC / 'partials' / 'films-player.html')
+    titles = [re.sub(r'<[^>]+>', '', t).strip() for t in re.findall(r'<h3[^>]*>(.*?)</h3>', src, re.S)]
+    posters = re.findall(r'poster="\{\{root\}\}([^"]+)"', src)
+    mp4s = re.findall(r'src="\{\{root\}\}([^"]+\.mp4)"', src)
+    out = []
+    for i, name in enumerate(titles):
+        if i >= len(posters) or i >= len(mp4s):
+            break
+        out.append({'@context': 'https://schema.org', '@type': 'VideoObject', 'name': name,
+                    'description': name + ' — a short film with Dr. Gorav Gupta, Tulasi Healthcare.',
+                    'thumbnailUrl': SITE + '/' + posters[i], 'contentUrl': SITE + '/' + mp4s[i],
+                    'uploadDate': FILMS_PUBLISHED, 'publisher': {'@type': 'Organization', 'name': 'Dr. Gorav Gupta'}})
+    return ''.join('<script type="application/ld+json">%s</script>' % json.dumps(v, ensure_ascii=False) for v in out)
+
+
+def clinic_ld(centre, name_url):
+    """MedicalClinic for a location page, from data/site.json."""
+    node = {'@context': 'https://schema.org', '@type': 'MedicalClinic',
+            'name': centre['clinic_name'], 'url': name_url,
+            'medicalSpecialty': 'Psychiatric',
+            'telephone': fact('consultation.phone'),
+            'address': {'@type': 'PostalAddress', 'streetAddress': centre['address'], 'addressCountry': 'IN'}}
+    if centre.get('opd'):
+        node['openingHours'] = centre['opd']
+    return '<script type="application/ld+json">%s</script>' % json.dumps(node, ensure_ascii=False)
+
+
+LOCATION_CENTRE = {'psychiatrist-in-delhi': 'delhi', 'psychiatrist-in-gurgaon': 'gurugram'}
+
+
 def main():
     css_v = bundle_css()
     js_v = {p.stem: digest(p) for p in (ROOT / 'assets' / 'js').glob('*.js')}
     head_t, header_t, footer_t, float_t, intro_t = (
         read(SRC / 'partials' / (n + '.html')) for n in ('head', 'header', 'footer', 'floating', 'intro'))
     home_ld = read(SRC / 'partials' / 'jsonld-home.json').strip()
+    physician = next((n for n in json.loads(home_ld).get('@graph', []) if n.get('@type') == 'Physician'), None)
+    physician_ld = ('<script type="application/ld+json">%s</script>'
+                    % json.dumps(dict(physician, **{'@context': 'https://schema.org'}), ensure_ascii=False)) if physician else ''
+    film_ld = films_ld(home_ld)
     groups = json.loads(read(SRC / 'content' / 'groups.json')) if (SRC / 'content' / 'groups.json').exists() else {'condition_groups': []}
     group_of = {slug: title for title, slugs in groups['condition_groups'] for slug in slugs}
     years = datetime.date.today().year - PRACTICE_SINCE
@@ -304,7 +343,33 @@ def main():
                            'description': 'Articles by Dr. Gorav Gupta on mental health, addiction, anxiety, depression, OCD and treatment.',
                            'modified': chunk[0]['modified'] if chunk else ''})
 
-    faq_pages.VARS = {k: fact(key) for k, key in PLACEHOLDERS.items()}   # FAQ answers pull facts too
+    shared = {k: fact(key) for k, key in PLACEHOLDERS.items()}
+
+    def fill_facts(text):
+        """The shared facts, for text used outside a template: excerpts, titles, card copy."""
+        for k, val in shared.items():
+            text = text.replace('{{%s}}' % k, str(val))
+        return text.replace('{{root}}', '')
+
+    def tidy_title(s):
+        """Imported titles arrive as ALL CAPS or all lowercase; the template shows one case."""
+        letters = [c for c in s if c.isalpha()]
+        if letters and all(c.isupper() for c in letters):
+            s = s.capitalize()
+        elif letters and all(c.islower() for c in letters):
+            s = s[0].upper() + s[1:]
+        return s
+
+    for item in content:
+        if item.get('kind') == 'post' and item.get('title'):
+            item['title'] = tidy_title(item['title'])
+
+    for item in content:            # a card or a search result must never show {{exp}}
+        for key in ('excerpt', 'title', 'subtitle'):
+            if item.get(key):
+                item[key] = fill_facts(item[key])
+    faq_pages.VARS = shared          # FAQ answers pull facts too
+    tests_pages.VARS = dict(shared, wa_number=WA_NUMBER)
     tests = tests_pages.load()   # data/tests/*.json -> /tests/ and /tests/<slug>/
     faq = faq_pages.load()       # data/faq/*.json -> /faq/ and /faq/<topic>/
     tax = taxonomy_pages.load()  # data/taxonomy.json -> /tag/<slug>/, /category/blog/, /author/<slug>/ (kept from the old WordPress site)
@@ -357,7 +422,7 @@ def main():
 
         # structured data
         if path == '':
-            ld = '<script type="application/ld+json">%s</script>' % home_ld
+            ld = '<script type="application/ld+json">%s</script>' % home_ld + film_ld
         elif is404:
             ld = ''
         else:
@@ -374,6 +439,12 @@ def main():
                        'author': {'@type': 'Person', 'name': 'Dr. Gorav Gupta', 'url': SITE + '/about-us/'}}
                 ld += '<script type="application/ld+json">%s</script>' % json.dumps(art, ensure_ascii=False)
             ld += pg.get('ld_extra', '')
+            if path == 'about-us':
+                ld += physician_ld
+            if path in LOCATION_CENTRE:
+                ld += clinic_ld(fact('centres.' + LOCATION_CENTRE[path]), canonical)
+            if path in ('video-gallery',):
+                ld += film_ld
 
         has_panel = path == 'contactus' or (kind == 'page' and pg.get('group') in ('services', 'local'))
         scripts_list = pg.get('scripts', []) + (['service'] if kind == 'page' else []) + (['booking'] if has_panel and 'booking' not in pg.get('scripts', []) else [])
@@ -381,7 +452,8 @@ def main():
         scripts = ''.join(
             '<script src="%sassets/js/%s.js?v=%s"%s></script>' % (root, s, js_v[s], '' if s == 'site' else ' defer')
             for s in ['site'] + scripts_list + ['calm', 'spatial'])
-        v.update({'title': esc(seo_title), 'description': esc(desc), 'canonical': canonical,
+        v.update({'lang': pg.get('lang', 'en'),
+                  'title': esc(seo_title), 'description': esc(desc), 'canonical': canonical,
                   'htmlclass': 'inner go' if path else '', 'jsonld': ld, 'preload': preload, 'cssv': css_v})
 
         head = fill(head_t, v, 'head')
@@ -445,7 +517,7 @@ def main():
             inner = tests_pages.source_callout(root, tests, pg['slug']) + fill(pg['_body'], v, 'content ' + path)
             after = (taxonomy_pages.tag_row(root, pg['slug'], tag_map) if kind == 'post' else '') + author_box(root, kind == 'post', bio_short)
             if group in ('services', 'local'):
-                after += ASSESS.format(root=root)
+                after += tests_pages.page_callout(root, tests, pg['slug']) or ASSESS.format(root=root)
                 after += v['booking_panel']
             if kind == 'post':
                 i = next((k for k, p in enumerate(posts) if p['slug'] == pg['slug']), 0)

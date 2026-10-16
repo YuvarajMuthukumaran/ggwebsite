@@ -168,6 +168,45 @@
       return '<li><span>' + esc(words(q.text)) + '</span><b>' + esc(opts(q)[answers[i]].label) + '</b></li>';
     }).join('');
 
+    /* Each band earns a different next step: a low score does not need a consultation,
+       and a high one should not be offered a reading list. */
+    var root = app.getAttribute('data-root') || '';
+    var phone = app.getAttribute('data-phone') || 'tel:+918800000255';
+    var article = T.source && T.source.page && T.source.page !== 'mental-health-assessment-tests'
+      ? root + T.source.page + '/' : root + 'services/';
+    var level = band.level === 'mild' ? 'low' : band.level;
+    var step = {
+      low: {
+        t: 'Keep an eye on it',
+        p: 'Nothing here points to a problem that needs treatment today. If this changes, or it has been going on a while, a conversation is still worth having.',
+        a: '<a class="btn ghost" href="' + article + '">Read more about this <i aria-hidden="true">→</i></a>' +
+           '<a class="btn ghost" href="' + app.getAttribute('data-contact') + '">Book a consultation</a>'
+      },
+      moderate: {
+        t: 'Worth talking to someone',
+        p: 'A score in this range is usually worth an assessment. Dr. Gupta consults in New Delhi, Gurugram and online; bring this result with you.',
+        a: '<a class="btn" href="' + app.getAttribute('data-contact') + '">Book a consultation</a>' +
+           '<a class="btn ghost" href="' + article + '">Read more about this</a>'
+      },
+      high: {
+        t: 'Please speak to someone soon',
+        p: 'A score in this range should not wait. Call the clinic and the team will find you a time; if you feel unsafe, use the helpline above instead.',
+        a: '<a class="btn" href="' + phone + '">Call the clinic now</a>' +
+           '<a class="btn ghost" href="' + app.getAttribute('data-contact') + '">Book a consultation</a>'
+      }
+    }[level] || null;
+
+    /* Sending the result is the patient's choice: it goes nowhere unless this is tapped. */
+    var wanum = app.getAttribute('data-wanum');
+    var shareWa = '';
+    if (wanum) {
+      var msg = "Hello Dr. Gupta's team, I took the " + T.title + ' on goravgupta.com. My result was "'
+        + band.label + '" (' + (sc.type === 'count' ? score + ' of ' + N : score + ' out of ' + sc.max)
+        + '). I would like to book a consultation.';
+      shareWa = '<a class="btn wa" href="https://wa.me/' + wanum + '?text=' + encodeURIComponent(msg)
+        + '" target="_blank" rel="noopener">Share my result with the team</a>';
+    }
+
     screens.result.innerHTML =
       '<div class="tq-res__head" data-level="' + band.level + '">' +
       '<p class="tq-res__k">Your result</p>' +
@@ -179,13 +218,14 @@
       (keyHit && sc.key_note ? '<p class="tq-res__txt tq-res__key">' + esc(sc.key_note) + '</p>' : '') +
       '</div>' +
       crisis(urgent) +
-      '<div class="tq-res__next"><h3>What to do next</h3>' +
-      (T.next_steps ? '<p>' + esc(T.next_steps) + '</p>' : '') + '<p>' + esc(T.note) + '</p></div>' +
+      '<div class="tq-res__next" data-level="' + band.level + '"><h3>' + (step ? esc(step.t) : 'What to do next') + '</h3>' +
+      (step ? '<p>' + esc(step.p) + '</p>' : '') +
+      (T.next_steps ? '<p>' + esc(T.next_steps) + '</p>' : '') + '<p>' + esc(T.note) + '</p>' +
+      (step ? '<div class="tq-res__acts">' + step.a + '</div>' : '') + '</div>' +
       '<div class="tq-cta"><img class="tq-cta__doc" src="' + app.getAttribute('data-doc') + '" alt="Dr. Gorav Gupta" width="72" height="84" loading="lazy"><div><p class="tq-cta__t">Talk it through with a specialist</p>' +
       '<p>Dr. Gorav Gupta consults in New Delhi, Gurugram and online. Bring this result along; it is a good place to start the conversation.</p></div>' +
       '<div class="tq-cta__a"><a class="btn" href="' + app.getAttribute('data-contact') + '">Book a consultation with Dr. Gorav Gupta</a>' +
-      '<a class="btn ghost" href="tel:+918800000255">Call +91 88000 00255</a>' +
-      '<a class="btn wa" href="' + esc(app.getAttribute('data-wa')) + '" target="_blank" rel="noopener">Chat on WhatsApp</a></div></div>' +
+      '<a class="btn ghost" href="' + phone + '">Call the clinic</a>' + shareWa + '</div></div>' +
       '<div class="tq-acts"><button type="button" class="tq-act" data-act="retake">Retake the test</button>' +
       '<button type="button" class="tq-act" data-act="print">Print</button>' +
       '<button type="button" class="tq-act" data-act="share">Share this test</button>' +

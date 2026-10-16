@@ -41,6 +41,8 @@ def plain(html):
     s = re.sub(r'<[^>]+>', '', s)
     s = s.replace('&rsquo;', '’').replace('&ldquo;', '“').replace('&rdquo;', '”').replace('&rarr;', '').replace('&amp;', '&')
     s = re.sub(r'\{\{root\}\}', '', s)
+    for k, v in VARS.items():       # Google reads this text, so it must carry the facts, not {{fee}}
+        s = s.replace('{{%s}}' % k, str(v))
     return re.sub(r'\s+', ' ', s).replace('; ;', ';').strip().rstrip(';').strip()
 
 
@@ -57,7 +59,8 @@ def items(topics):
             'title': '%s | Dr. Gorav Gupta' % TITLE,
             'description': 'Frequently asked questions about seeing a psychiatrist in Delhi NCR: when to seek help, treatment and therapy, '
                            'consultation and fees, and about Dr. Gorav Gupta.',
-            'scripts': ['faq-index'], 'faq': topics, 'ld_extra': ''}]
+            'scripts': ['faq-index'], 'faq': topics,
+            'ld_extra': faq_ld([q for t in topics for q in t['qas']])}]
     for t in topics:
         out.append({'kind': 'faq', 'path': 'faq/' + t['slug'], 'nav': 'resources', 'crumb': t['menu_title'],
                     'title': '%s | FAQ | Dr. Gorav Gupta' % t['title'], 'description': t['description'],
@@ -91,9 +94,16 @@ def r(html, root):
 
 
 def first_part(html):
-    """The opening paragraph (or the whole answer when it starts with a list)."""
-    m = re.match(r'\s*(<p>.*?</p>)', html, re.S)
-    return m.group(1) if m else html
+    """The opening paragraph, plus the list it introduces.
+
+    An answer like "Here are some steps you can take:" says nothing without the steps,
+    so a leading paragraph that ends on a colon keeps the list that follows it.
+    """
+    m = re.match(r'\s*(<p>.*?</p>)\s*(<(?:ul|ol)>.*?</(?:ul|ol)>)?', html, re.S)
+    if not m:
+        return html
+    lead, lst = m.group(1), m.group(2)
+    return lead + lst if (lst and lead.rstrip().endswith(':</p>')) else lead
 
 
 def help_band(root, wa):

@@ -180,3 +180,113 @@
   .ct-urgent__in{ grid-template-columns:1fr; }
 }
 @media print{ .actbar{ display:none !important; } }
+
+/* ---------- 8 · TESTS: CRISIS NOTE AND PER-BAND NEXT STEP ----- */
+.tq-help{
+  margin:clamp(1.4rem,3vw,2rem) 0 0; padding:1rem 1.2rem;
+  border:1px solid var(--line); border-left:3px solid var(--blue); border-radius:14px;
+  background:var(--tint); color:var(--ink);
+}
+.tq-help p{ margin:0; }
+.tq-help p + p{ margin-top:.3rem; color:var(--mut); }
+.tq-help a{ color:var(--blue-d); font-weight:600; }
+
+.tq-res__acts{ display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1rem; }
+.tq-res__next[data-level="high"]{ border-left:3px solid #c0392b; padding-left:1rem; }
+.tq-res__next[data-level="moderate"]{ border-left:3px solid var(--blue); padding-left:1rem; }
+
+/* ---------- 9 · SERVICE PAGE: REVIEW LINE AND NESTED CONTENTS -- */
+.sp-review{
+  margin:.6rem 0 1rem; font-size:.9rem; color:var(--mut);
+}
+.sp-review a{ color:var(--blue-d); font-weight:600; }
+.sp-toc__sub{
+  list-style:none; margin:.35rem 0 .35rem .2rem; padding:0 0 0 .8rem;
+  border-left:1px solid var(--line); display:grid; gap:.2rem;
+}
+.sp-toc__sub a{ font-size:.92rem; color:var(--mut); }
+.sp-toc__sub a:hover{ color:var(--blue-d); }
+.tq-call--end{ margin-top:clamp(1.6rem,3vw,2.4rem); }
+
+/* ---------- 10 · HOME AND HEADER ------------------------------ */
+.hero__sub{
+  margin:0 0 .7rem; font-size:clamp(1rem,1.5vw,1.15rem); line-height:1.3;
+  color:var(--navy); font-weight:600;
+}
+
+.hero__when{
+  margin:.85rem 0 0; font-size:.92rem; color:var(--mut);
+}
+.hero__when strong{ color:var(--ink); }
+
+/* the trust strip: four facts that can be checked, not a loop that repeats */
+.strip--facts{ display:block; }
+.strip--facts > span{
+  display:block; margin-bottom:.9rem; font-size:.76rem; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--mut); font-weight:600;
+}
+.tfacts{
+  list-style:none; margin:0; padding:0; display:grid; gap:1rem;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));
+}
+.tfacts li{ border-top:2px solid var(--line); padding-top:.7rem; }
+.tfacts b{ display:block; font-size:1rem; color:var(--navy); }
+.tfacts span{ display:block; font-size:.9rem; color:var(--mut); margin-top:.15rem; }
+
+/* four milestones instead of the whole timeline; the dated one lives on Journey */
+.jchips{
+  list-style:none; margin:0; padding:0; display:grid; gap:.9rem;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));
+}
+.jchips li{
+  background:#fff; border:1px solid var(--line); border-radius:14px; padding:.9rem 1.1rem;
+}
+.jchips b{ display:block; font-size:1.3rem; color:var(--blue); line-height:1.1; }
+.jchips span{ display:block; margin-top:.25rem; font-size:.92rem; color:var(--mut); }
+.jchips__go{ display:grid; place-items:center; background:var(--tint); }
+.jchips__go a{ font-weight:600; color:var(--blue-d); text-decoration:none; }
+.jchips__go a:hover{ text-decoration:underline; }
+
+/* the wordmark: his name, with Tulasi as the smaller line under it */
+.brand--wm{ display:flex; flex-direction:column; gap:.1rem; line-height:1.15; }
+.brand__n{ font-weight:700; letter-spacing:-.01em; }
+.brand__sub{ font-size:.68rem; letter-spacing:.06em; text-transform:uppercase; color:var(--mut); font-weight:600; }
+@media (max-width:600px){ .brand__sub{ display:none; } }
+
+/* ---------- 11 · ACCESSIBILITY PASS --------------------------- */
+/* One visible focus ring everywhere, so keyboard users can see where they are. */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible{
+  outline:3px solid var(--blue);
+  outline-offset:2px;
+  border-radius:6px;
+}
+/* Touch targets: the review asked for 44px. Nav, footer and inline action links. */
+@media (pointer:coarse){
+  .nav nav a,
+  footer a,
+  .dd__in a,
+  .actbar__b,
+  .fq-topics a,
+  .hb2-cat{
+    min-height:44px;
+    display:flex;
+    align-items:center;
+  }
+}
+/* Anything that moves stops for people who ask it to. */
+@media (prefers-reduced-motion:reduce){
+  *,
+  *::before,
+  *::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+}
