@@ -43,8 +43,8 @@ SRC = ROOT / 'src'
 SITE = 'https://www.goravgupta.com'
 
 # Same order the single page linked them, then the two newest layers.
-CSS = ['site', 'cinematic', 'films', 'refine', 'warm', 'calm', 'bloom', 'pro', 'spatial',
-       'fix', 'polish', 'touchup', 'tulasi', 'taste', 'refresh', 'pages', 'articles', 'booking', 'navy', 'home2', 'films2', 'about2', 'menu', 'tests', 'hub', 'faq', 'service', 'form', 'final']
+CSS = ['site', 'cinematic', 'refine', 'warm', 'calm', 'bloom', 'pro', 'spatial',
+       'fix', 'polish', 'touchup', 'tulasi', 'taste', 'refresh', 'pages', 'articles', 'navy', 'home2', 'films2', 'about2', 'menu', 'tests', 'hub', 'faq', 'service', 'form', 'final']
 
 WA_NUMBER = '918800000255'
 # Where a page has a subject, the WhatsApp message says so, so the call centre opens with context.
@@ -130,6 +130,24 @@ def digest(path):
     return hashlib.md5(pathlib.Path(path).read_bytes()).hexdigest()[:8]
 
 
+def minify_css(css):
+    """Whitespace only: nothing here can change which rules match.
+
+    Runs of whitespace collapse, and spaces are removed around the characters that cannot
+    appear inside a selector or a value ({ } ; ,). A space before a colon is left alone,
+    because "a :hover" and "a:hover" are different rules.
+    """
+    css = re.sub(r'\s+', ' ', css)
+    css = re.sub(r'\s*([{};,])\s*', r'\1', css)
+    css = re.sub(r';\}', '}', css)
+    # inside a declaration block a colon always separates property from value, so the space
+    # after it is never meaningful; in a selector it would be ("a :hover"), hence block-only
+    css = re.sub(r'\{([^{}]*)\}', lambda m: '{' + re.sub(r':\s+', ':', m.group(1)) + '}', css)
+    # combinators cannot be part of a name
+    css = re.sub(r'\s*([>~])\s*', r'\1', css)
+    return css.strip()
+
+
 def bundle_css():
     """Concatenate the layers in order and drop comments: one request instead of sixteen."""
     parts = []
@@ -137,7 +155,7 @@ def bundle_css():
         css = read(ROOT / 'assets' / 'css' / (name + '.css'))
         css = re.sub(r'/\*.*?\*/', '', css, flags=re.S)
         parts.append(css.strip())
-    out = '\n'.join(parts) + '\n'
+    out = minify_css('\n'.join(parts)) + '\n'
     (ROOT / 'assets' / 'css' / 'bundle.css').write_text(out, encoding='utf-8', newline='\n')
     return hashlib.md5(out.encode('utf-8')).hexdigest()[:8]
 
