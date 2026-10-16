@@ -82,6 +82,7 @@ PLACEHOLDERS = {
     'role_gurugram': 'centres.gurugram.role', 'role_mehrauli': 'centres.mehrauli.role',
     'crisis_name': 'crisis.name', 'tulasi_url': 'tulasi.url',
     'founded': 'tulasi.founded', 'award_year': 'award.year', 'award_url': 'award.url',
+    'rating': 'reviews.rating', 'review_count': 'reviews.count',
     'rpwd_act': 'tulasi.act', 'crisis_line': 'crisis.line', 'crisis_number': 'crisis.number',
 }
 
@@ -370,6 +371,7 @@ def main():
                 item[key] = fill_facts(item[key])
     faq_pages.VARS = shared          # FAQ answers pull facts too
     tests_pages.VARS = dict(shared, wa_number=WA_NUMBER)
+    service_pages.VARS = dict(shared, centres=FACTS['centres'], online_opd=fact('consultation.online_opd'))
     tests = tests_pages.load()   # data/tests/*.json -> /tests/ and /tests/<slug>/
     faq = faq_pages.load()       # data/faq/*.json -> /faq/ and /faq/<topic>/
     tax = taxonomy_pages.load()  # data/taxonomy.json -> /tag/<slug>/, /category/blog/, /author/<slug>/ (kept from the old WordPress site)
@@ -404,6 +406,10 @@ def main():
             v['mapsrc_' + key] = ('https://www.google.com/maps?q=%s&output=embed'
                                   % urllib.parse.quote(fact('centres.%s.address' % key))) if fact('centres.%s.address' % key) else ''
         v['booking_panel'] = booking.panel(root, v, url_path(path) + ('/' if path else ''))
+        # the star line only appears once there is a rating to show
+        v['rating_line'] = ('<p class="rv-rating"><b>%s</b><span class="rv-rating__s" aria-hidden="true">★★★★★</span>'
+                            '<span>from %s Google reviews</span></p>'
+                            % (esc(str(fact('reviews.rating'))), esc(str(fact('reviews.count')))))             if fact('reviews.rating') and fact('reviews.count') else ''
         v['book_href'] = '#book' if (path == 'contactus' or (kind == 'page' and pg.get('group') in ('services', 'local'))) else root + 'contactus/#book'
         if path == 'resources':
             v['resources_hub'] = hub_pages.resources_hub(root, posts, tests, href, pretty_date, tag_map)

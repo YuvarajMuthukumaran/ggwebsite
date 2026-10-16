@@ -11,6 +11,7 @@ Needs beautifulsoup4 and lxml (pip install beautifulsoup4 lxml). Styles: assets/
 """
 import datetime
 import re
+import urllib.parse
 
 from bs4 import BeautifulSoup
 
@@ -208,6 +209,58 @@ def related(pg, root, groups, by_slug, href):
             '<a class="more__a" href="%sservices/">All services <i>&rarr;</i></a></section>' % (head, lis, root))
 
 
+# The shared facts (data/site.json), set by build_site.py.
+VARS = {}
+PAGE_CENTRE = {'psychiatrist-in-delhi': 'delhi', 'psychiatrist-in-gurgaon': 'gurugram'}
+
+
+def practical(pg, root, wa):
+    """What someone on a location page actually needs: where, when, and how to be seen.
+
+    It opens the page, above the prose, because that is the question the page is being
+    asked. A detail nobody has recorded yet (the metro, the parking) is left out.
+    """
+    key = PAGE_CENTRE.get(pg.get('slug'))
+    if not key:
+        return ''
+    c = VARS.get('centres', {}).get(key, {})
+    rows = [('Address', c.get('address')), ('OPD', c.get('opd')),
+            ('Nearest metro', c.get('metro')), ('Parking', c.get('parking')),
+            ('Online', VARS.get('online_opd'))]
+    dl = ''.join('<div><dt>%s</dt><dd>%s</dd></div>' % (k, esc(v)) for k, v in rows if v)
+    mapsrc = ('https://www.google.com/maps?q=%s&output=embed' % urllib.parse.quote(c['address'])) if c.get('address') else ''
+    frame = ('<div class="lp-map"><iframe src="%s" title="Map of the %s consulting room" loading="lazy" '
+             'referrerpolicy="no-referrer-when-downgrade" width="600" height="320"></iframe></div>' % (mapsrc, esc(c.get('label', '')))) if mapsrc else ''
+    return ('<section class="lp-prac" aria-labelledby="lp-prac-h"><div class="lp-prac__in">'
+            '<div class="lp-prac__txt"><h2 id="lp-prac-h">%s</h2><dl class="ct-dl">%s</dl>'
+            '<p class="lp-prac__a"><a class="btn" href="#book">Ask for a call back</a>'
+            '<a class="btn ghost" href="%s" target="_blank" rel="noopener">WhatsApp</a>'
+            '%s</p></div>%s</div></section>'
+            % (esc(c.get('clinic_name', 'Where to come')), dl, wa,
+               ('<a class="more__a" href="%s" target="_blank" rel="noopener">Directions <i aria-hidden="true">&nearr;</i></a>' % c['maps']) if c.get('maps') else '',
+               frame))
+
+
+def conditions_here(pg, root, groups, by_slug, href):
+    """One line per condition, each linking to the page that covers it.
+
+    A location page should say what is treated and send you to the real guide, rather than
+    repeat a paragraph about every condition.
+    """
+    if pg.get('group') != 'local':
+        return ''
+    cols = []
+    for title, slugs in groups['condition_groups']:
+        items = ''.join('<li><a href="%s">%s</a></li>' % (href(by_slug[x], root), esc(by_slug[x].get('menu_title') or by_slug[x]['title']))
+                        for x in slugs if x in by_slug)
+        if items:
+            cols.append('<div><h3>%s</h3><ul>%s</ul></div>' % (esc(title), items))
+    if not cols:
+        return ''
+    return ('<section class="lp-cond" aria-labelledby="lp-cond-h"><h2 id="lp-cond-h">What Dr. Gupta treats here</h2>'
+            '<div class="lp-cond__g">%s</div></section>' % ''.join(cols))
+
+
 def reviewed(pg, root):
     """"Medically reviewed by ...".
 
@@ -257,6 +310,6 @@ def build(pg, root, content, callout, after, crumbs, groups, by_slug, href, wa, 
             % (toc_html, wa))
     part_of = ('<p class="sp-partof">Dr. Gupta&rsquo;s practice is part of <a href="https://tulasihealthcare.com" '
                'target="_blank" rel="noopener">Tulasi Healthcare</a>, with centres in Gurugram and Mehrauli.</p>')
-    return (hero + '<article class="sec sp"><div class="sp__grid"><div class="sp__main">%s<div class="prose__in sp__in">%s</div>%s%s'
+    return (hero + practical(pg, root, wa) + conditions_here(pg, root, groups, by_slug, href) + '<article class="sec sp"><div class="sp__grid"><div class="sp__main">%s<div class="prose__in sp__in">%s</div>%s%s'
             '<div class="prose__after sp__after">%s</div></div>%s</div></article>'
             % (callout, body, related(pg, root, groups, by_slug, href), part_of, after, side))

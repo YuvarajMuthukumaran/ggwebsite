@@ -290,3 +290,63 @@ textarea:focus-visible,
     scroll-behavior:auto !important;
   }
 }
+
+/* ---------- 12 · FILMS, PRESS, REVIEWS, LOCATION PAGES -------- */
+/* the running time, on the thumbnail where the decision to tap is made */
+.vr__dur{
+  position:absolute; right:.6rem; bottom:.6rem; z-index:2;
+  padding:.15rem .45rem; border-radius:6px;
+  background:rgba(14,35,64,.78); color:#fff;
+  font-size:.75rem; font-weight:600; letter-spacing:.02em;
+  font-variant-numeric:tabular-nums; pointer-events:none;
+}
+
+/* press: the date leads each card, so the age of a piece is never a surprise */
+.press__d{
+  display:block; font-size:.76rem; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--mut); font-weight:600; margin-bottom:.15rem;
+}
+
+/* reviews: one rating line, then three cards */
+.rv-rating{
+  display:flex; align-items:center; gap:.55rem; flex-wrap:wrap;
+  margin:.5rem 0 .3rem; font-size:1rem; color:var(--mut);
+}
+.rv-rating b{ font-size:1.5rem; color:var(--navy); line-height:1; }
+.rv-rating__s{ color:#f5a623; letter-spacing:.06em; }
+.hx-rvs--grid{
+  display:grid; gap:clamp(1rem,2.5vw,1.6rem);
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));
+}
+.hx-rvs--grid .rv{ margin:0; height:100%; }
+
+/* location pages: where, when and how to be seen, before the prose */
+.lp-prac{ margin:clamp(1.6rem,4vw,3rem) auto 0; max-width:var(--wrap,74rem); padding-inline:clamp(1rem,4vw,2rem); }
+.lp-prac__in{
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,26rem);
+  gap:clamp(1.4rem,4vw,2.6rem); align-items:start;
+  background:#fff; border:1px solid var(--line); border-radius:var(--r);
+  padding:clamp(1.2rem,3vw,1.9rem); box-shadow:var(--sh);
+}
+.lp-prac h2{ margin:0 0 .9rem; font-size:clamp(1.2rem,2.4vw,1.5rem); color:var(--navy); }
+.lp-prac__a{ display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; margin:1.1rem 0 0; }
+.lp-map{ border-radius:14px; overflow:hidden; aspect-ratio:4/3; background:var(--tint); }
+.lp-map iframe{ width:100%; height:100%; border:0; display:block; }
+
+.lp-cond{ margin:clamp(1.6rem,4vw,2.6rem) auto 0; max-width:var(--wrap,74rem); padding-inline:clamp(1rem,4vw,2rem); }
+.lp-cond h2{ margin:0 0 1rem; font-size:clamp(1.2rem,2.4vw,1.5rem); color:var(--navy); }
+.lp-cond__g{
+  display:grid; gap:1.2rem clamp(1rem,3vw,2.4rem);
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));
+}
+.lp-cond__g h3{
+  margin:0 0 .4rem; font-size:.8rem; letter-spacing:.09em; text-transform:uppercase;
+  color:var(--mut); font-weight:600;
+}
+.lp-cond__g ul{ list-style:none; margin:0; padding:0; display:grid; gap:.3rem; }
+.lp-cond__g a{ color:var(--ink); text-decoration:none; }
+.lp-cond__g a:hover{ color:var(--blue-d); text-decoration:underline; }
+
+@media (max-width:860px){
+  .lp-prac__in{ grid-template-columns:1fr; }
+}
