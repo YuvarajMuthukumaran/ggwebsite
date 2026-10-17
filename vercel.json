@@ -20,6 +20,16 @@
   ],
   "redirects": [
     {
+      "source": "/blog/page/(.*)",
+      "destination": "/resources/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/page/",
+      "destination": "/resources/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {

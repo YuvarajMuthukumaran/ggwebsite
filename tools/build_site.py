@@ -6,7 +6,7 @@
 Reads  src/pages/*.html            designed pages: a <!--meta {json} --> block, then the body
        src/content/pages|posts/    pages and blog posts imported from the old WordPress site
        src/partials/*.html         head, header, footer, floating, intro (shared by every page)
-Writes index.html, <path>/index.html for every page, blog/ and blog/page/N/, 404.html,
+Writes index.html, <path>/index.html for every page, blog/ and blog/p/N/, 404.html,
        sitemap.xml and assets/css/bundle.css
 
 Placeholders available in partials and designed pages:
@@ -61,7 +61,7 @@ WA = wa_link()
 WAICON = ('<svg class="wai" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">'
           '<path d="M20.5 3.5A11 11 0 0 0 3.2 17.3L2 22l4.8-1.2A11 11 0 1 0 20.5 3.5zM12 20.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-2.8.7.8-2.7-.2-.3a8.2 8.2 0 1 1 6.7 3.7zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3a.5.5 0 0 0 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.3z"/></svg>')
 DELHI = 'https://share.google/T2NTrfaXPM0Pgc0wf'
-GURUGRAM = 'https://share.google/ZI81WGD0iUjLSohvh'
+GURUGRAM = 'https://share.google/Mvj2ZQKXahLxnIGjO'
 
 # Every fact that appears on more than one page lives in data/site.json: experience, the centres, timings,
 # the fee. Edit it there and rebuild; no page carries its own copy of a shared fact.
@@ -78,7 +78,7 @@ PLACEHOLDERS = {
     'addr_delhi': 'centres.delhi.address', 'addr_gurugram': 'centres.gurugram.address',
     'addr_mehrauli': 'centres.mehrauli.address',
     'beds_gurugram': 'centres.gurugram.beds', 'beds_mehrauli': 'centres.mehrauli.beds',
-    'gmap_delhi': 'centres.delhi.maps', 'gmap_gurugram': 'centres.gurugram.maps',
+    'gmap_delhi': 'centres.delhi.maps', 'gmap_gurugram': 'centres.gurugram.maps', 'gmap_mehrauli': 'centres.mehrauli.maps',
     'role_gurugram': 'centres.gurugram.role', 'role_mehrauli': 'centres.mehrauli.role',
     'crisis_name': 'crisis.name', 'tulasi_url': 'tulasi.url',
     'founded': 'tulasi.founded', 'award_year': 'award.year', 'award_url': 'award.url',
@@ -370,6 +370,19 @@ def clinic_ld(centre, name_url):
 LOCATION_CENTRE = {'psychiatrist-in-delhi': 'delhi', 'psychiatrist-in-gurgaon': 'gurugram'}
 
 
+def fix_levels(html):
+    """Imported posts jump from an h2 to an h4. Each heading is brought down to at most one level below the one before it."""
+    prev, cur = 1, [2]
+    def sub(m):
+        if m.group(1):                       # a closing tag takes the level its opening tag was given
+            return '</h%d' % cur[0]
+        lvl = int(m.group(2)); new = min(lvl, prev_box[0] + 1)
+        prev_box[0] = new; cur[0] = new
+        return '<h%d' % new
+    prev_box = [prev]
+    return re.sub(r'<(/?)h([2-6])\b', lambda m: sub(m), html)
+
+
 def main():
     CSSV = '__CSSV__'          # stands in until the pruned bundle has been hashed
     css_v = CSSV
@@ -450,7 +463,7 @@ def main():
     blog_pages = []
     for i in range(n_pages):
         chunk = posts[i * POSTS_PER_PAGE:(i + 1) * POSTS_PER_PAGE]
-        path = 'blog' if i == 0 else 'blog/page/%d' % (i + 1)
+        path = 'blog' if i == 0 else 'blog/p/%d' % (i + 1)
         blog_pages.append({'kind': 'blog-index', 'path': path, 'page': i + 1, 'chunk': chunk, 'nav': 'resources',
                            'title': 'Blog | Dr. Gorav Gupta' if i == 0 else 'Blog, page %d | Dr. Gorav Gupta' % (i + 1),
                            'description': 'Articles by Dr. Gorav Gupta on mental health, addiction, anxiety, depression, OCD and treatment.',
@@ -527,6 +540,7 @@ def main():
         for key in ('delhi', 'gurugram'):     # each Google listing's own rating, shown on its link
             r, c = fact('reviews.%s.rating' % key), fact('reviews.%s.count' % key)
             v['rv_' + key] = ('<span class="rv-pill__r">%s <em aria-hidden="true">&#9733;</em> (%s)</span>' % (esc(str(r)), esc(str(c)))) if r and c else ''
+        v['reg_line'] = ('<span class="fb__reg">Medical registration: %s</span>' % esc(str(fact('doctor.registration_number')))) if fact('doctor.registration_number') else ''
         v['book_href'] = '#book' if (path == 'contactus' or (kind == 'page' and pg.get('group') in ('services', 'local'))) else root + 'contactus/#book'
         if path == 'resources':
             v['resources_hub'] = hub_pages.resources_hub(root, posts, tests, href, pretty_date, tag_map)
@@ -624,10 +638,10 @@ def main():
             if n_pages > 1:
                 links = []
                 for j in range(1, n_pages + 1):
-                    target = root + ('blog/' if j == 1 else 'blog/page/%d/' % j)
+                    target = root + ('blog/' if j == 1 else 'blog/p/%d/' % j)
                     links.append('<a href="%s"%s>%d</a>' % (target, ' aria-current="page"' if j == pg['page'] else '', j))
-                prev = ('<a class="pager__s" href="%s">← Newer</a>' % (root + ('blog/' if pg['page'] == 2 else 'blog/page/%d/' % (pg['page'] - 1)))) if pg['page'] > 1 else ''
-                nxt = ('<a class="pager__s" href="%sblog/page/%d/">Older →</a>' % (root, pg['page'] + 1)) if pg['page'] < n_pages else ''
+                prev = ('<a class="pager__s" href="%s">← Newer</a>' % (root + ('blog/' if pg['page'] == 2 else 'blog/p/%d/' % (pg['page'] - 1)))) if pg['page'] > 1 else ''
+                nxt = ('<a class="pager__s" href="%sblog/p/%d/">Older →</a>' % (root, pg['page'] + 1)) if pg['page'] < n_pages else ''
                 pager = '<nav class="pager" aria-label="Blog pages">%s<span class="pager__n">%s</span>%s</nav>' % (prev, ''.join(links), nxt)
             crumbs = [('Home', root), ('Blog', None)] if pg['page'] == 1 else [('Home', root), ('Blog', root + 'blog/'), ('Page %d' % pg['page'], None)]
             body = (ph(crumbs, 'Blog', 'Articles on mental health, addiction, anxiety, depression, OCD and treatment, by Dr. Gorav Gupta.')
@@ -645,10 +659,11 @@ def main():
             lede = pg.get('subtitle') or ''     # a post's first paragraph is its own opening, so it is not repeated as a subtitle
             meta_line = ('<time datetime="%s">%s</time>' % (pg['date'], pretty_date(pg['date']))) if kind == 'post' else ''
             lang = ' lang="%s"' % pg['lang'] if pg.get('lang') else ''
-            inner = tests_pages.source_callout(root, tests, pg['slug']) + fill(pg['_body'], v, 'content ' + path)
+            inner = tests_pages.source_callout(root, tests, pg['slug']) + (fix_levels if kind == 'post' else (lambda x: x))(fill(pg['_body'], v, 'content ' + path))
             after = (taxonomy_pages.tag_row(root, pg['slug'], tag_map) if kind == 'post' else '') + author_box(root, kind == 'post', bio_short)
             if group in ('services', 'local'):
                 after += tests_pages.page_callout(root, tests, pg['slug']) or ASSESS.format(root=root)
+            if group in ('services', 'local') or kind == 'page':     # every page built on the service template has #book buttons, so it carries the panel they point to
                 after += v['booking_panel']
             if kind == 'post':
                 i = next((k for k, p in enumerate(posts) if p['slug'] == pg['slug']), 0)

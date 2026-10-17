@@ -226,5 +226,16 @@
    "mehrauli-lounge": "Supplied by the client (screenshots of the Mehrauli centre photographs), 17 Oct 2026",
    "mehrauli-reception": "Supplied by the client (screenshots of the Mehrauli centre photographs), 17 Oct 2026"
   }
+ },
+ "tulasi_team": {
+  "source": "Tulasi Healthcare team page (tulasihealthcare.com/our-team/), the clinic's own portraits, used with the client's permission",
+  "images": {
+   "ratnarakshit-ingole": "https://www.tulasihealthcare.com/wp-content/uploads/2022/12/ratna.webp",
+   "pavan-kumar-pardal": "https://www.tulasihealthcare.com/wp-content/uploads/2026/09/Dr-Pavan-Kumar-Pardal.png",
+   "ram-chander-jiloha": "https://www.tulasihealthcare.com/wp-content/uploads/2026/08/Dr-Ram-Chander-Jiloha.jpeg",
+   "inderjeet-singh": "https://www.tulasihealthcare.com/wp-content/uploads/2024/11/inderjeet-singh.webp",
+   "pranita-gaur": "https://www.tulasihealthcare.com/wp-content/uploads/2026/07/Dr-pranita-gaur.jpg.jpeg",
+   "ira-gupta": "https://www.tulasihealthcare.com/wp-content/uploads/2022/08/ira-gupta.jpg.jpeg"
+  }
  }
 }

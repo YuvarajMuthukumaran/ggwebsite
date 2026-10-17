@@ -42,6 +42,17 @@ DISCLAIMER = ('This is a screening tool, not a diagnosis. Only a qualified profe
 PRIVACY = ('Private by design: your answers are worked out in your browser only. Nothing is saved, sent or shared.')
 
 
+def _test_desc(short, n, m):
+    """The short line plus the length of the test, kept under about 160 characters for search results."""
+    suf = ' %d questions, about %d minutes. Private, not a diagnosis.' % (n, m)
+    sh = short.rstrip('.')
+    room = 160 - len(suf)
+    if len(sh) > room:
+        k = max(sh.rfind(',', 0, room), sh.rfind(' to ', 0, room))
+        sh = sh[:k] if k > 40 else sh[:room].rsplit(' ', 1)[0]
+    return sh + '.' + suf
+
+
 def load():
     tests = [json.loads(f.read_text(encoding='utf-8')) for f in sorted(DATA.glob('*.json'))] if DATA.exists() else []
     for t in tests:
@@ -53,13 +64,13 @@ def items(tests):
     """Page records for build_site.py's render loop."""
     out = [{'kind': 'tests-index', 'path': HUB, 'nav': 'resources', 'crumb': 'Interactive tests',
             'title': 'Mental Health Assessment Tests: Free, Private Screening | Dr. Gorav Gupta',
-            'description': 'Free, private self-assessment tests from Dr. Gorav Gupta: mental health wellbeing, bipolar early warning signs, '
-                           'schizophrenia relapse signs and substance use. Screening tools, not a diagnosis.',
+            'description': 'Free, private self-assessment tests by Dr. Gorav Gupta: mental health, bipolar early signs, '
+                           'schizophrenia relapse signs and substance use. Not a diagnosis.',
             'tests': tests}]
     for t in tests:
         out.append({'kind': 'test', 'path': 'tests/' + t['slug'], 'nav': 'resources', 'crumb': t['menu_title'],
                     'title': '%s | Interactive Test | Dr. Gorav Gupta' % t['title'],
-                    'description': '%s %d questions, about %d minutes. Private, and not a diagnosis.' % (t['short'], t['n'], t['minutes']),
+                    'description': _test_desc(t['short'], t['n'], t['minutes']),
                     'scripts': ['tests'], 'test': t})
     return out
 
@@ -140,7 +151,7 @@ def test_body(pg, root, ph, wa):
               '<noscript><p class="tq-ns">This test runs in your browser and needs JavaScript. You can read the questions on '
               '<a href="%s%s/">the article page</a>.</p></noscript></div>'
             % (root, wa, root, HUB, root, root, VARS.get('wa_number', ''), VARS.get('phone_href', ''), intro, root, t['source']['page'])
-            + '<p class="tq-more"><a class="more__a" href="%stests/">All interactive tests <i>→</i></a></p></section>' % root
+            + '<p class="tq-more"><a class="more__a" href="%smental-health-assessment-tests/">All interactive tests <i>→</i></a></p></section>' % root
             + '<script type="application/json" id="tq-data">%s</script>' % data)
 
 

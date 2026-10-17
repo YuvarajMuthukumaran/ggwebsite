@@ -381,6 +381,10 @@
   var markUrl = link.href.replace(/tulasi-favicon\.png.*$/, 'tulasi-mark.png');
   var img = new Image();
   img.onload = function () {
+    // the page paints and settles first; the icon starts moving a few seconds later so it never competes with the first load
+    setTimeout(startIcon, 6000);
+  };
+  function startIcon() {
     var S = 32, FPS = 25, INTRO = 12, LOOP = 40;        // 0.5 s build-in, then a 1.6 s breath
     var c = document.createElement('canvas'); c.width = c.height = S;
     var g = c.getContext('2d'); if (!g) return;
@@ -400,19 +404,24 @@
       g.globalAlpha = 1;
       return c.toDataURL('image/png');
     }
-    var intro = [], loop = [], i;
-    for (i = 0; i < INTRO; i++) intro.push(draw(ease(i / (INTRO - 1)), 0));
-    for (i = 0; i < LOOP; i++) loop.push(draw(1, Math.sin(i / LOOP * Math.PI * 2)));
-    var start = performance.now(), last = -1;
+    var intro = [], loop = [], built = 0, start = 0, last = -1;
+    function build() {                                   // a few frames at a time, so no single task holds up the page
+      for (var n = 0; n < 4 && built < INTRO + LOOP; n++, built++) {
+        if (built < INTRO) intro.push(draw(ease(built / (INTRO - 1)), 0));
+        else loop.push(draw(1, Math.sin((built - INTRO) / LOOP * Math.PI * 2)));
+      }
+      if (built < INTRO + LOOP) { setTimeout(build, 30); return; }
+      start = performance.now(); setInterval(tick, 1000 / FPS);
+    }
     function tick() {
       var f = Math.floor((performance.now() - start) / (1000 / FPS));
       if (f === last) return;
       last = f;
       link.href = f < INTRO ? intro[f] : loop[(f - INTRO) % LOOP];
     }
-    setInterval(tick, 1000 / FPS / 2);
-  };
-  img.src = markUrl;
+    build();
+  }
+  window.addEventListener('load', function () { img.src = markUrl; });
 })();
 
 /* Card spotlight: tell the card where the pointer is (the light itself is CSS, see final.css). */

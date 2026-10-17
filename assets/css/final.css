@@ -168,6 +168,8 @@ html{ scroll-padding-top:96px; }
 @media (prefers-reduced-motion:reduce){ .vr__dot::before{ transition:none; } }
 
 /* The hero portrait is what the page is measured on (largest paint): it eases in faster, with no wait */
+@keyframes cutScale{ from{ scale:1.035; } }
+/* the portrait is already in place under the opening curtain (so it is painted at once); it settles with a small scale instead of fading in */
 html.js.go .cut{ animation:v7cut 1.1s var(--e) 0s both; }
 
 /* Hero description line: waits for the name, then rises in with the rest of the hero */
@@ -244,3 +246,39 @@ html.js.go .hero__in > .hero__sub{ animation:subRise 1s var(--e) .4s both; }
 @media (max-width:1100px){ .ctr__g--4{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media (max-width:640px){ .ctr__g--4{ grid-template-columns:1fr; } }
 
+/* The team (About) */
+.team__g{ display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:1rem; margin:0; padding:0; list-style:none; }
+.team__c{ display:grid; justify-items:center; gap:.25rem; margin:0; padding:1.1rem .8rem 1rem; text-align:center; border:1px solid var(--line); border-radius:20px; background:#ffffff; box-shadow:0 1px 2px rgba(29,83,154,.04),0 10px 28px -20px rgba(29,83,154,.28); }
+.team__c img{ width:96px; height:96px; margin-bottom:.45rem; border-radius:50%; object-fit:cover; background:var(--tint); box-shadow:0 0 0 4px #ffffff,0 0 0 5px var(--line); }
+.team__c b{ font-size:.9375rem; font-weight:600; line-height:1.3; color:var(--ink); }
+.team__c span{ color:var(--mut); font-size:.8125rem; line-height:1.35; }
+@media (max-width:1100px){ .team__g{ grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media (max-width:640px){ .team__g{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+
+/* Publications: outlets and three quotes */
+.pq__o{ display:flex; flex-wrap:wrap; gap:.5rem; margin:0 0 1.2rem; padding:0; list-style:none; }
+.pq__o li{ margin:0; }
+.pq__o a{ display:inline-flex; align-items:center; gap:.4rem; padding:.45rem .9rem; border:1px solid var(--tint2); border-radius:999px; background:#ffffff; color:var(--navy); font-size:.9375rem; font-weight:600; text-decoration:none; transition:border-color .25s,background .25s; }
+.pq__o a:hover{ border-color:var(--blue); background:var(--tint); }
+.pq__o i{ font-style:normal; color:var(--blue); font-size:.85em; }
+.pq__g{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; margin:0 0 2rem; }
+.pq__c{ margin:0; padding:1.3rem 1.35rem 1.15rem; display:flex; flex-direction:column; gap:.9rem; border:1px solid var(--line); border-radius:20px; background:#ffffff; box-shadow:0 1px 2px rgba(29,83,154,.05),0 10px 28px -20px rgba(29,83,154,.28); }
+.pq__c blockquote{ margin:0; }
+.pq__c blockquote p{ margin:0; max-width:none; color:var(--ink); font-size:1.0625rem; line-height:1.55; letter-spacing:-.01em; }
+.pq__c figcaption{ margin-top:auto; color:var(--mut); font-size:.875rem; line-height:1.4; }
+.pq__c figcaption a{ color:var(--blue-d); font-weight:600; }
+@media (max-width:900px){ .pq__g{ grid-template-columns:1fr; } }
+@media (prefers-reduced-motion:reduce){ .pq__o a{ transition:none; } }
+.fb__reg{ display:block; margin-top:.35rem; color:#a9c6e9; font-size:.8125rem; line-height:1.4; }
+
+/* Centre photos open the centre's Google listing */
+.ctr__a{ position:relative; display:block; border-radius:20px; color:inherit; text-decoration:none; }
+.ctr__a:focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
+.ctr__a img{ transition:scale .6s var(--e); }
+.ctr__go{ position:absolute; left:.7rem; bottom:.7rem; display:inline-flex; align-items:center; gap:.35rem; padding:.4rem .8rem; border-radius:999px; background:rgba(255,255,255,.94); color:var(--navy); font-size:.8125rem; font-weight:600; box-shadow:0 6px 18px -8px rgba(15,34,66,.45); opacity:0; translate:0 6px; transition:opacity .3s,translate .45s var(--e); pointer-events:none; }
+.ctr__go i{ font-style:normal; color:var(--blue); }
+.ctr__a{ overflow:hidden; }
+@media (hover:hover){ .ctr__a:hover img{ scale:1.03; } .ctr__a:hover .ctr__go,.ctr__a:focus-visible .ctr__go{ opacity:1; translate:0 0; } }
+@media (hover:none){ .ctr__go{ opacity:1; translate:0 0; } }
+@media (prefers-reduced-motion:reduce){ .ctr__a img,.ctr__go{ transition:none; } .ctr__a:hover img{ scale:none; } }
+.press h3{ margin:0; font-size:1.08rem !important; font-weight:600 !important; line-height:1.4 !important; letter-spacing:-.005em; color:var(--ink) !important; font-family:inherit !important; }

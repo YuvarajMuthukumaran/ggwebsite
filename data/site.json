@@ -16,7 +16,8 @@
     "md_subject": "Psychiatry",
     "md_year": 1997,
     "experience": "40+",
-    "registration_number": ""
+    "registration_number": "Delhi Medical Council 17637 (2003); Medical Council of India 11570 (1993)",
+    "registration_note": "Read from the Practo profile (practo.com/delhi/doctor/tulasi-health-care-psychiatrist, marked \"Medical Registration Verified\") on 17 Oct 2026. Another listing (Medprone) shows a Haryana registration from 1998 and no number. Dr. Gupta should confirm before launch."
   },
   "societies": [
     "Life Fellow, Indian Psychiatric Society",
@@ -61,7 +62,7 @@
       "role": "Acute care",
       "beds": "",
       "opd": "",
-      "maps": "https://share.google/ZI81WGD0iUjLSohvh",
+      "maps": "https://share.google/Mvj2ZQKXahLxnIGjO",
       "metro": "",
       "parking": ""
     },
@@ -72,7 +73,8 @@
       "role": "Long-term rehabilitation",
       "beds": "",
       "opd": "",
-      "maps": ""
+      "maps": "https://maps.app.goo.gl/GuPTTH9xMrhTD6Nx7",
+      "maps_note": "Mehrauli centre Google listing, supplied by the client on 17 Oct 2026."
     }
   },
   "consultation": {
@@ -92,7 +94,6 @@
   },
   "pending": {
     "doctor.experience": 1,
-    "doctor.registration_number": 9,
     "award.url": 8,
     "centres.delhi.clinic_name": 3,
     "centres.gurugram.beds": 3,

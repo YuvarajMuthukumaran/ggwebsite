@@ -76,7 +76,7 @@
 }
 
 /* ---------- scroll motion (assets/js/scrollfx.js) ---------------- */
-[data-fx="words"]{ --fx-on:#46586f; --fx-dim:#a3b2c6; }
+[data-fx="words"]{ --fx-on:#33445a; --fx-dim:#5d7088; }
 .ab2 p.ab2-lead[data-fx="words"]{ --fx-on:var(--ink); }
 .fx-ready .fx-w{ color:var(--fx-dim); transition:color .35s ease; }
 .fx-ready .fx-w.on{ color:var(--fx-on); }

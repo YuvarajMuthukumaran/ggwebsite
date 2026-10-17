@@ -50,7 +50,7 @@ def items(tax):
         name = AUTHOR_NAME.get(slug, a['name'])
         out.append({'kind': 'tax', 'path': 'author/' + slug, 'nav': 'resources', 'crumb': name, 'tax': 'author', 'name': name, 'posts': a['posts'],
                     'title': 'Articles by %s | Dr. Gorav Gupta' % name,
-                    'description': 'Articles by %s on mental health, addiction, anxiety, depression, OCD and treatment.' % name})
+                    'description': 'Every article written by %s: mental health, addiction, anxiety, depression, OCD and treatment.' % name})
     return out
 
 
