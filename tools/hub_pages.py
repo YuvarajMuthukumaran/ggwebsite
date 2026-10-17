@@ -47,7 +47,7 @@ GROUP_ICON = [(r'addiction|substance', 'pill'), (r'schizo', 'eye'), (r'mood|depr
 
 
 # one icon per condition link, chosen from the page's address (the specific words first)
-LINK_ICON = [(r'borderline', 'split'), (r'narcissis', 'mirror'), (r'schizotypal', 'spark'), (r'personality', 'layers'),
+LINK_ICON = [(r'dual', 'split'), (r'borderline', 'split'), (r'narcissis', 'mirror'), (r'schizotypal', 'spark'), (r'personality', 'layers'),
              (r'eating|anorexia|bulimia', 'fork'), (r'smok', 'smoke'), (r'alcohol', 'glass'), (r'de-?addiction', 'shield'),
              (r'schizo', 'brain'), (r'depress', 'cloud'), (r'bipolar', 'swing'), (r'anxiety', 'pulse'), (r'ocd', 'repeat'), (r'stress', 'gauge')]
 
@@ -121,6 +121,11 @@ def topic(p):
     return OTHER
 
 
+TREATMENT_LINKS = [('Deep TMS', 'https://www.tulasihealthcare.com/deep-tms-treatment/', 'brain'),
+                   ('Modified ECT', 'https://www.tulasihealthcare.com/modified-electroconvulsive-therapy/', 'spark'),
+                   ('Virtual reality therapy', 'https://www.tulasihealthcare.com/virtual-reality-therapy/', 'eye')]
+
+
 def services_menu(root, groups, by_slug, path):
     def a(href, label, sub='', ic='', cls=''):
         cur = ' aria-current="page"' if href == path else ''
@@ -140,6 +145,10 @@ def services_menu(root, groups, by_slug, path):
                 % (icon(group_icon(title), 'dd__kic'), esc(title), ''.join(out)))
 
     cols = ''.join(group_html(title, slugs) for title, slugs in groups['condition_groups'])
+    # procedures offered at Tulasi: one group, each link going to the matching page on tulasihealthcare.com
+    tl = ''.join('<a href="%s" target="_blank" rel="noopener">%s<span class="dd__tx"><b>%s</b></span></a>' % (u, icon(i), esc(n)) for n, u, i in TREATMENT_LINKS)
+    cols += ('<details class="dd__g" open><summary class="dd__k">%s%s</summary><div class="dd__gl">%s</div></details>'
+             % (icon('pulse', 'dd__kic'), 'Treatments', tl))
     return ('<div class="dd__in dd__in--wide">' + a('services', 'All services', 'Every condition Dr. Gupta treats', 'grid')
             + '<div class="dd__cols">%s</div></div>' % cols)
 

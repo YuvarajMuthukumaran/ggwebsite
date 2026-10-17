@@ -1,47 +1,2269 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-
   "trailingSlash": true,
-
   "headers": [
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "(.*)\\.vercel\\.app" }],
-      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+      "has": [
+        {
+          "type": "host",
+          "value": "(.*)\\.vercel\\.app"
+        }
+      ],
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     }
   ],
-
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "goravgupta.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "goravgupta.com"
+        }
+      ],
       "destination": "https://www.goravgupta.com/:path*",
       "statusCode": 301
     },
-
-    { "source": "/tests/", "destination": "/mental-health-assessment-tests/", "statusCode": 301 },
-    { "source": "/faq/", "destination": "/frequently-asked-questions-psychiatrist-near-me-consultation/", "statusCode": 301 },
-
-    { "source": "/anxiety-treatment-delhi/", "destination": "/best-psychiatrist-anxiety-specialist-delhi-gurgaon/", "statusCode": 301 },
-    { "source": "/alcohol-addiction-treatment-india/", "destination": "/psychiatrist-alcohol-deaddiction-treatment-delhi-gurgaon/", "statusCode": 301 },
-
-    { "source": "/author/admin/", "destination": "/about-us/", "statusCode": 301 },
-    { "source": "/author/admin/(.*)", "destination": "/about-us/", "statusCode": 301 },
-    { "source": "/category/blog/", "destination": "/resources/", "statusCode": 301 },
-    { "source": "/category/blog/(.*)", "destination": "/resources/", "statusCode": 301 },
-
-    { "source": "/psychrist-in-delhi/", "destination": "/psychiatrist-in-delhi/", "statusCode": 301 },
-    { "source": "/psychistrist-in-india/", "destination": "/psychiatrist-in-india/", "statusCode": 301 },
-    { "source": "/pest-psychiatrist-in-gurgaon/", "destination": "/psychiatrist-in-gurgaon/", "statusCode": 301 },
-    { "source": "/dalectical-behavior-therapy/", "destination": "/borderline-personality-disorder/", "statusCode": 301 },
-    { "source": "/blog/advanced-treatment-from-ocd/", "destination": "/ocd-psychiatrist-in-gurgaon-delhi-ncr/", "statusCode": 301 },
-
-    { "source": "/tag/best-psychiatrist-in-delhi/", "destination": "/psychiatrist-in-delhi/", "statusCode": 301 },
-    { "source": "/tag/top-psychiatrist-in-delhi/", "destination": "/psychiatrist-in-delhi/", "statusCode": 301 },
-    { "source": "/tag/ocd-psychiatrist/", "destination": "/ocd-psychiatrist-in-gurgaon-delhi-ncr/", "statusCode": 301 },
-    { "source": "/tag/addiction-disorder/", "destination": "/psychiatrist-de-addiction-treatment-delhi-gurgaon/", "statusCode": 301 },
-    { "source": "/tag/drug-psychiatrist/", "destination": "/psychiatrist-de-addiction-treatment-delhi-gurgaon/", "statusCode": 301 },
-    { "source": "/tag/psychiatrist/", "destination": "/", "statusCode": 301 },
-    { "source": "/tag/psychiatrist-near-me/", "destination": "/", "statusCode": 301 }
+    {
+      "source": "/tests/",
+      "destination": "/mental-health-assessment-tests/",
+      "statusCode": 301
+    },
+    {
+      "source": "/faq/",
+      "destination": "/frequently-asked-questions-psychiatrist-near-me-consultation/",
+      "statusCode": 301
+    },
+    {
+      "source": "/anxiety-treatment-delhi/",
+      "destination": "/best-psychiatrist-anxiety-specialist-delhi-gurgaon/",
+      "statusCode": 301
+    },
+    {
+      "source": "/alcohol-addiction-treatment-india/",
+      "destination": "/psychiatrist-alcohol-deaddiction-treatment-delhi-gurgaon/",
+      "statusCode": 301
+    },
+    {
+      "source": "/author/admin/",
+      "destination": "/about-us/",
+      "statusCode": 301
+    },
+    {
+      "source": "/author/admin/(.*)",
+      "destination": "/about-us/",
+      "statusCode": 301
+    },
+    {
+      "source": "/category/blog/",
+      "destination": "/resources/",
+      "statusCode": 301
+    },
+    {
+      "source": "/category/blog/(.*)",
+      "destination": "/resources/",
+      "statusCode": 301
+    },
+    {
+      "source": "/psychrist-in-delhi/",
+      "destination": "/psychiatrist-in-delhi/",
+      "statusCode": 301
+    },
+    {
+      "source": "/psychistrist-in-india/",
+      "destination": "/psychiatrist-in-india/",
+      "statusCode": 301
+    },
+    {
+      "source": "/pest-psychiatrist-in-gurgaon/",
+      "destination": "/psychiatrist-in-gurgaon/",
+      "statusCode": 301
+    },
+    {
+      "source": "/dalectical-behavior-therapy/",
+      "destination": "/borderline-personality-disorder/",
+      "statusCode": 301
+    },
+    {
+      "source": "/blog/advanced-treatment-from-ocd/",
+      "destination": "/ocd-psychiatrist-in-gurgaon-delhi-ncr/",
+      "statusCode": 301
+    },
+    {
+      "source": "/tag/best-psychiatrist-in-delhi/",
+      "destination": "/psychiatrist-in-delhi/",
+      "statusCode": 301
+    },
+    {
+      "source": "/tag/top-psychiatrist-in-delhi/",
+      "destination": "/psychiatrist-in-delhi/",
+      "statusCode": 301
+    },
+    {
+      "source": "/tag/ocd-psychiatrist/",
+      "destination": "/ocd-psychiatrist-in-gurgaon-delhi-ncr/",
+      "statusCode": 301
+    },
+    {
+      "source": "/tag/addiction-disorder/",
+      "destination": "/psychiatrist-de-addiction-treatment-delhi-gurgaon/",
+      "statusCode": 301
+    },
+    {
+      "source": "/tag/drug-psychiatrist/",
+      "destination": "/psychiatrist-de-addiction-treatment-delhi-gurgaon/",
+      "statusCode": 301
+    },
+    {
+      "source": "/tag/psychiatrist/",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/tag/psychiatrist-near-me/",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/wp-content/uploads/2020/12/gutener-corporate-img5-50-50.png",
+      "destination": "/assets/img/blog/gutener-corporate-img5-50-50.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2020/12/gutener-corporate-img6-50-50.png",
+      "destination": "/assets/img/blog/gutener-corporate-img6-50-50.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/Delirium-Tremens-150x150.webp",
+      "destination": "/assets/img/blog/delirium-tremens.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/Delirium-Tremens-209x150.webp",
+      "destination": "/assets/img/blog/delirium-tremens.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/Delirium-Tremens-24x24.webp",
+      "destination": "/assets/img/blog/delirium-tremens.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/Delirium-Tremens-36x34.webp",
+      "destination": "/assets/img/blog/delirium-tremens.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/Delirium-Tremens-48x46.webp",
+      "destination": "/assets/img/blog/delirium-tremens.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/Delirium-Tremens-80x60.webp",
+      "destination": "/assets/img/blog/delirium-tremens.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/Delirium-Tremens.webp",
+      "destination": "/assets/img/blog/delirium-tremens.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/How-To-Overcome-Binge-DrinkingGG-150x150.jpg",
+      "destination": "/assets/img/blog/how-to-overcome-binge-drinkinggg.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/How-To-Overcome-Binge-DrinkingGG-290x150.jpg",
+      "destination": "/assets/img/blog/how-to-overcome-binge-drinkinggg.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/How-To-Overcome-Binge-DrinkingGG-80x60.jpg",
+      "destination": "/assets/img/blog/how-to-overcome-binge-drinkinggg.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/How-To-Overcome-Binge-DrinkingGG.jpg",
+      "destination": "/assets/img/blog/how-to-overcome-binge-drinkinggg.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/Role-of-Rehabilitation-Center-To-CounteractGG-700x467.jpg",
+      "destination": "/assets/img/blog/role-of-rehabilitation-center-to-counteractgg-700x467.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/Teenage-Drug-Abuse-Gorav-700x422.webp",
+      "destination": "/assets/img/blog/teenage-drug-abuse-gorav-700x422.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/behavioral-problems1-700x394.webp",
+      "destination": "/assets/img/blog/behavioral-problems1-700x394.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/behavioral-problems2-150x150.jpg",
+      "destination": "/assets/img/blog/behavioral-problems2.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/behavioral-problems2-24x17.jpg",
+      "destination": "/assets/img/blog/behavioral-problems2.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/behavioral-problems2-290x150.jpg",
+      "destination": "/assets/img/blog/behavioral-problems2.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/behavioral-problems2-300x212.jpg",
+      "destination": "/assets/img/blog/behavioral-problems2.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/behavioral-problems2-36x25.jpg",
+      "destination": "/assets/img/blog/behavioral-problems2.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/behavioral-problems2-420x200.jpg",
+      "destination": "/assets/img/blog/behavioral-problems2.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/behavioral-problems2-420x300.jpg",
+      "destination": "/assets/img/blog/behavioral-problems2.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/behavioral-problems2-420x380.jpg",
+      "destination": "/assets/img/blog/behavioral-problems2.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/behavioral-problems2-48x34.jpg",
+      "destination": "/assets/img/blog/behavioral-problems2.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/behavioral-problems2-590x310.jpg",
+      "destination": "/assets/img/blog/behavioral-problems2.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/behavioral-problems2-80x60.jpg",
+      "destination": "/assets/img/blog/behavioral-problems2.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/behavioral-problems2.jpg",
+      "destination": "/assets/img/blog/behavioral-problems2.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/family-doctor-01-webp-535x700.webp",
+      "destination": "/assets/img/blog/family-doctor-01-webp-535x700.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/gutener-corporate-img5-50-50-24x24.webp",
+      "destination": "/assets/img/blog/gutener-corporate-img5-50-50.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/gutener-corporate-img5-50-50-36x36.webp",
+      "destination": "/assets/img/blog/gutener-corporate-img5-50-50.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/gutener-corporate-img5-50-50-48x48.webp",
+      "destination": "/assets/img/blog/gutener-corporate-img5-50-50.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/gutener-corporate-img5-50-50.webp",
+      "destination": "/assets/img/blog/gutener-corporate-img5-50-50.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/gutener-corporate-img6-50-50-24x24.webp",
+      "destination": "/assets/img/blog/gutener-corporate-img6-50-50.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/gutener-corporate-img6-50-50-36x36.webp",
+      "destination": "/assets/img/blog/gutener-corporate-img6-50-50.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/gutener-corporate-img6-50-50-48x48.webp",
+      "destination": "/assets/img/blog/gutener-corporate-img6-50-50.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/gutener-corporate-img6-50-50.webp",
+      "destination": "/assets/img/blog/gutener-corporate-img6-50-50.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/01/personality-disorderGG-700x467.webp",
+      "destination": "/assets/img/blog/personality-disordergg-700x467.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/02/rehabitation-centre-150x150.png",
+      "destination": "/assets/img/blog/rehabitation-centre.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/02/rehabitation-centre-225x150.png",
+      "destination": "/assets/img/blog/rehabitation-centre.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/02/rehabitation-centre-225x200.png",
+      "destination": "/assets/img/blog/rehabitation-centre.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/02/rehabitation-centre-24x24.png",
+      "destination": "/assets/img/blog/rehabitation-centre.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/02/rehabitation-centre-36x36.png",
+      "destination": "/assets/img/blog/rehabitation-centre.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/02/rehabitation-centre-48x48.png",
+      "destination": "/assets/img/blog/rehabitation-centre.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/02/rehabitation-centre-80x60.png",
+      "destination": "/assets/img/blog/rehabitation-centre.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/02/rehabitation-centre.png",
+      "destination": "/assets/img/blog/rehabitation-centre.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/04/de-adiction-treatment-150x150.webp",
+      "destination": "/assets/img/blog/de-adiction-treatment.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/04/de-adiction-treatment-24x24.webp",
+      "destination": "/assets/img/blog/de-adiction-treatment.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/04/de-adiction-treatment-290x150.webp",
+      "destination": "/assets/img/blog/de-adiction-treatment.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/04/de-adiction-treatment-300x200.webp",
+      "destination": "/assets/img/blog/de-adiction-treatment.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/04/de-adiction-treatment-36x36.webp",
+      "destination": "/assets/img/blog/de-adiction-treatment.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/04/de-adiction-treatment-48x48.webp",
+      "destination": "/assets/img/blog/de-adiction-treatment.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/04/de-adiction-treatment-80x60.webp",
+      "destination": "/assets/img/blog/de-adiction-treatment.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/04/de-adiction-treatment.webp",
+      "destination": "/assets/img/blog/de-adiction-treatment.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/04/personality-disorder-150x150.webp",
+      "destination": "/assets/img/blog/personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/04/personality-disorder-24x24.webp",
+      "destination": "/assets/img/blog/personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/04/personality-disorder-290x150.webp",
+      "destination": "/assets/img/blog/personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/04/personality-disorder-300x200.webp",
+      "destination": "/assets/img/blog/personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/04/personality-disorder-36x36.webp",
+      "destination": "/assets/img/blog/personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/04/personality-disorder-48x48.webp",
+      "destination": "/assets/img/blog/personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/04/personality-disorder-80x60.webp",
+      "destination": "/assets/img/blog/personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/04/personality-disorder.webp",
+      "destination": "/assets/img/blog/personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/08/ocd-1-700x350.webp",
+      "destination": "/assets/img/blog/ocd-1-700x350.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/early-mental-health-issues-150x150.webp",
+      "destination": "/assets/img/blog/early-mental-health-issues.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/early-mental-health-issues-225x150.webp",
+      "destination": "/assets/img/blog/early-mental-health-issues.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/early-mental-health-issues-225x200.webp",
+      "destination": "/assets/img/blog/early-mental-health-issues.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/early-mental-health-issues-24x24.webp",
+      "destination": "/assets/img/blog/early-mental-health-issues.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/early-mental-health-issues-36x36.webp",
+      "destination": "/assets/img/blog/early-mental-health-issues.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/early-mental-health-issues-48x48.webp",
+      "destination": "/assets/img/blog/early-mental-health-issues.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/early-mental-health-issues-80x60.webp",
+      "destination": "/assets/img/blog/early-mental-health-issues.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/early-mental-health-issues.webp",
+      "destination": "/assets/img/blog/early-mental-health-issues.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/panic-disorder-treatment-psychiatrist-150x150.webp",
+      "destination": "/assets/img/blog/panic-disorder-treatment-psychiatrist.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/panic-disorder-treatment-psychiatrist-24x24.webp",
+      "destination": "/assets/img/blog/panic-disorder-treatment-psychiatrist.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/panic-disorder-treatment-psychiatrist-290x150.webp",
+      "destination": "/assets/img/blog/panic-disorder-treatment-psychiatrist.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/panic-disorder-treatment-psychiatrist-300x300.webp",
+      "destination": "/assets/img/blog/panic-disorder-treatment-psychiatrist.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/panic-disorder-treatment-psychiatrist-36x36.webp",
+      "destination": "/assets/img/blog/panic-disorder-treatment-psychiatrist.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/panic-disorder-treatment-psychiatrist-420x200.webp",
+      "destination": "/assets/img/blog/panic-disorder-treatment-psychiatrist.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/panic-disorder-treatment-psychiatrist-420x300.webp",
+      "destination": "/assets/img/blog/panic-disorder-treatment-psychiatrist.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/panic-disorder-treatment-psychiatrist-420x380.webp",
+      "destination": "/assets/img/blog/panic-disorder-treatment-psychiatrist.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/panic-disorder-treatment-psychiatrist-48x48.webp",
+      "destination": "/assets/img/blog/panic-disorder-treatment-psychiatrist.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/panic-disorder-treatment-psychiatrist-500x310.webp",
+      "destination": "/assets/img/blog/panic-disorder-treatment-psychiatrist.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/panic-disorder-treatment-psychiatrist-80x60.webp",
+      "destination": "/assets/img/blog/panic-disorder-treatment-psychiatrist.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/10/panic-disorder-treatment-psychiatrist.webp",
+      "destination": "/assets/img/blog/panic-disorder-treatment-psychiatrist.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder-1370x550.jpg",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder-150x150.jpg",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder-1536x878.jpg",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder-1920x550.jpg",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder-2048x1170.jpg",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder-24x14.jpg",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder-290x150.jpg",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder-300x171.jpg",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder-36x21.jpg",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder-420x200.jpg",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder-420x300.jpg",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder-420x380.jpg",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder-48x27.jpg",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder-590x310.jpg",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder-700x400.jpg",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder-768x439.jpg",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder-80x60.jpg",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder.jpg",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Seasonal-Affective-Disorder.webp",
+      "destination": "/assets/img/blog/seasonal-affective-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/11/Self-Harm_11zon.webp",
+      "destination": "/assets/img/blog/self-harm_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/alcohol-addiction-150x150.webp",
+      "destination": "/assets/img/blog/alcohol-addiction.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/alcohol-addiction-24x24.webp",
+      "destination": "/assets/img/blog/alcohol-addiction.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/alcohol-addiction-290x150.webp",
+      "destination": "/assets/img/blog/alcohol-addiction.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/alcohol-addiction-300x300.webp",
+      "destination": "/assets/img/blog/alcohol-addiction.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/alcohol-addiction-36x36.webp",
+      "destination": "/assets/img/blog/alcohol-addiction.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/alcohol-addiction-420x200.webp",
+      "destination": "/assets/img/blog/alcohol-addiction.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/alcohol-addiction-420x300.webp",
+      "destination": "/assets/img/blog/alcohol-addiction.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/alcohol-addiction-420x380.webp",
+      "destination": "/assets/img/blog/alcohol-addiction.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/alcohol-addiction-48x48.webp",
+      "destination": "/assets/img/blog/alcohol-addiction.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/alcohol-addiction-590x310.webp",
+      "destination": "/assets/img/blog/alcohol-addiction.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/alcohol-addiction-608x550.webp",
+      "destination": "/assets/img/blog/alcohol-addiction.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/alcohol-addiction-80x60.webp",
+      "destination": "/assets/img/blog/alcohol-addiction.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/alcohol-addiction.webp",
+      "destination": "/assets/img/blog/alcohol-addiction.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/schizophrenia-1-700x700.webp",
+      "destination": "/assets/img/blog/schizophrenia-1-700x700.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/stress-_-Anxiety-150x150.webp",
+      "destination": "/assets/img/blog/stress-_-anxiety.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/stress-_-Anxiety-24x16.webp",
+      "destination": "/assets/img/blog/stress-_-anxiety.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/stress-_-Anxiety-290x150.webp",
+      "destination": "/assets/img/blog/stress-_-anxiety.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/stress-_-Anxiety-300x200.webp",
+      "destination": "/assets/img/blog/stress-_-anxiety.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/stress-_-Anxiety-36x24.webp",
+      "destination": "/assets/img/blog/stress-_-anxiety.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/stress-_-Anxiety-420x200.webp",
+      "destination": "/assets/img/blog/stress-_-anxiety.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/stress-_-Anxiety-420x300.webp",
+      "destination": "/assets/img/blog/stress-_-anxiety.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/stress-_-Anxiety-420x380.webp",
+      "destination": "/assets/img/blog/stress-_-anxiety.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/stress-_-Anxiety-48x32.webp",
+      "destination": "/assets/img/blog/stress-_-anxiety.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/stress-_-Anxiety-590x310.webp",
+      "destination": "/assets/img/blog/stress-_-anxiety.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/stress-_-Anxiety-80x60.webp",
+      "destination": "/assets/img/blog/stress-_-anxiety.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2023/12/stress-_-Anxiety.webp",
+      "destination": "/assets/img/blog/stress-_-anxiety.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/02/Postpartum-Depression-150x150.webp",
+      "destination": "/assets/img/blog/postpartum-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/02/Postpartum-Depression-24x16.webp",
+      "destination": "/assets/img/blog/postpartum-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/02/Postpartum-Depression-290x150.webp",
+      "destination": "/assets/img/blog/postpartum-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/02/Postpartum-Depression-300x200.webp",
+      "destination": "/assets/img/blog/postpartum-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/02/Postpartum-Depression-36x24.webp",
+      "destination": "/assets/img/blog/postpartum-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/02/Postpartum-Depression-420x200.webp",
+      "destination": "/assets/img/blog/postpartum-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/02/Postpartum-Depression-420x300.webp",
+      "destination": "/assets/img/blog/postpartum-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/02/Postpartum-Depression-420x380.webp",
+      "destination": "/assets/img/blog/postpartum-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/02/Postpartum-Depression-48x32.webp",
+      "destination": "/assets/img/blog/postpartum-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/02/Postpartum-Depression-590x310.webp",
+      "destination": "/assets/img/blog/postpartum-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/02/Postpartum-Depression-80x60.webp",
+      "destination": "/assets/img/blog/postpartum-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/02/Postpartum-Depression.webp",
+      "destination": "/assets/img/blog/postpartum-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/5-Habits-of-A-Good-Psychiatrist_11zon-1.webp",
+      "destination": "/assets/img/blog/5-habits-of-a-good-psychiatrist_11zon-1.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Alcohol-Addiction.webp",
+      "destination": "/assets/img/blog/alcohol-addiction.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Anger-Management-A-Guide-to-A-Healthier-Life_11zon.webp",
+      "destination": "/assets/img/blog/anger-management-a-guide-to-a-healthier-life_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Anorexia-Nervosa-1_11zon.webp",
+      "destination": "/assets/img/blog/anorexia-nervosa-1_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Anxiety-Disorder_11zon.webp",
+      "destination": "/assets/img/blog/anxiety-disorder_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Anxiety.webp",
+      "destination": "/assets/img/blog/anxiety.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/BPD-Treatment-1_11zon.webp",
+      "destination": "/assets/img/blog/bpd-treatment-1_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/BPD-Treatment_11zon.webp",
+      "destination": "/assets/img/blog/bpd-treatment_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Bipolar-I-Symptoms.webp",
+      "destination": "/assets/img/blog/bipolar-i-symptoms.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Bipolar-II-Symptoms.webp",
+      "destination": "/assets/img/blog/bipolar-ii-symptoms.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/DR.-GORAV-GUPTA-DEPRESSION-PSYCHIATRIST-IN-DELHI-GURGAON-AND-NCR_11zon-1.webp",
+      "destination": "/assets/img/blog/dr.-gorav-gupta-depression-psychiatrist-in-delhi-gurgaon-and-ncr_11zon-1.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Drug-addiction-How-to-help-your-loved-one-fight-Marijuana-addiction.webp",
+      "destination": "/assets/img/blog/drug-addiction-how-to-help-your-loved-one-fight-marijuana-addiction.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Hallucination-700x525.jpg",
+      "destination": "/assets/img/blog/hallucination-700x525.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Healthy-Sleep.webp",
+      "destination": "/assets/img/blog/healthy-sleep.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Mental-Health.webp",
+      "destination": "/assets/img/blog/mental-health.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Narcissistic-Personality-Disorder-1.webp",
+      "destination": "/assets/img/blog/narcissistic-personality-disorder-1.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Narcissistic-Personality-Disorder.webp",
+      "destination": "/assets/img/blog/narcissistic-personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/OCD-Psychiatrist.webp",
+      "destination": "/assets/img/blog/ocd-psychiatrist.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Pink-Self-Care-Mental-Health-Graph-1_11zon.webp",
+      "destination": "/assets/img/blog/pink-self-care-mental-health-graph-1_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Pink-Self-Care-Mental-Health-Graph-5_11zon.webp",
+      "destination": "/assets/img/blog/pink-self-care-mental-health-graph-5_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Rise-of-Eating-Disorders_11zon.webp",
+      "destination": "/assets/img/blog/rise-of-eating-disorders_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Schizotypal-Personality-Disorder.webp",
+      "destination": "/assets/img/blog/schizotypal-personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Smoking-Cessation-Treatment-by-Psychiatrist-in-Delhi_11zon.webp",
+      "destination": "/assets/img/blog/smoking-cessation-treatment-by-psychiatrist-in-delhi_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Stress-Management_11zon.webp",
+      "destination": "/assets/img/blog/stress-management_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Substance-Use-Disorder-1.webp",
+      "destination": "/assets/img/blog/substance-use-disorder-1.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Substance-Use-Disorder.webp",
+      "destination": "/assets/img/blog/substance-use-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Untitled-design_11zon.webp",
+      "destination": "/assets/img/blog/untitled-design_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/Work-Related-Stress-700x525.jpg",
+      "destination": "/assets/img/blog/work-related-stress-700x525.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/alcohol-addiction-by-the-psychiatrist-in-Gurgaon.webp",
+      "destination": "/assets/img/blog/alcohol-addiction-by-the-psychiatrist-in-gurgaon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/06/dr-gorav-gupta.webp",
+      "destination": "/assets/img/blog/dr-gorav-gupta.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/07/Personality-Disorders.webp",
+      "destination": "/assets/img/blog/personality-disorders.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/07/dr-gorav-gupta-1.webp",
+      "destination": "/assets/img/blog/dr-gorav-gupta-1.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Depression-Depression-Causes-in-Delhi-150x150.webp",
+      "destination": "/assets/img/blog/depression-depression-causes-in-delhi.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Depression-Depression-Causes-in-Delhi-24x24.webp",
+      "destination": "/assets/img/blog/depression-depression-causes-in-delhi.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Depression-Depression-Causes-in-Delhi-290x150.webp",
+      "destination": "/assets/img/blog/depression-depression-causes-in-delhi.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Depression-Depression-Causes-in-Delhi-300x300.webp",
+      "destination": "/assets/img/blog/depression-depression-causes-in-delhi.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Depression-Depression-Causes-in-Delhi-36x36.webp",
+      "destination": "/assets/img/blog/depression-depression-causes-in-delhi.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Depression-Depression-Causes-in-Delhi-420x200.webp",
+      "destination": "/assets/img/blog/depression-depression-causes-in-delhi.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Depression-Depression-Causes-in-Delhi-420x300.webp",
+      "destination": "/assets/img/blog/depression-depression-causes-in-delhi.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Depression-Depression-Causes-in-Delhi-420x380.webp",
+      "destination": "/assets/img/blog/depression-depression-causes-in-delhi.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Depression-Depression-Causes-in-Delhi-48x48.webp",
+      "destination": "/assets/img/blog/depression-depression-causes-in-delhi.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Depression-Depression-Causes-in-Delhi-590x310.webp",
+      "destination": "/assets/img/blog/depression-depression-causes-in-delhi.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Depression-Depression-Causes-in-Delhi-612x550.webp",
+      "destination": "/assets/img/blog/depression-depression-causes-in-delhi.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Depression-Depression-Causes-in-Delhi-80x60.webp",
+      "destination": "/assets/img/blog/depression-depression-causes-in-delhi.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Depression-Depression-Causes-in-Delhi.webp",
+      "destination": "/assets/img/blog/depression-depression-causes-in-delhi.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Signs-of-relapse-in-Schizophrenia-150x150.jpg",
+      "destination": "/assets/img/blog/signs-of-relapse-in-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Signs-of-relapse-in-Schizophrenia-24x16.jpg",
+      "destination": "/assets/img/blog/signs-of-relapse-in-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Signs-of-relapse-in-Schizophrenia-290x150.jpg",
+      "destination": "/assets/img/blog/signs-of-relapse-in-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Signs-of-relapse-in-Schizophrenia-300x200.jpg",
+      "destination": "/assets/img/blog/signs-of-relapse-in-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Signs-of-relapse-in-Schizophrenia-36x24.jpg",
+      "destination": "/assets/img/blog/signs-of-relapse-in-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Signs-of-relapse-in-Schizophrenia-420x200.jpg",
+      "destination": "/assets/img/blog/signs-of-relapse-in-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Signs-of-relapse-in-Schizophrenia-420x300.jpg",
+      "destination": "/assets/img/blog/signs-of-relapse-in-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Signs-of-relapse-in-Schizophrenia-420x380.jpg",
+      "destination": "/assets/img/blog/signs-of-relapse-in-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Signs-of-relapse-in-Schizophrenia-48x32.jpg",
+      "destination": "/assets/img/blog/signs-of-relapse-in-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Signs-of-relapse-in-Schizophrenia-590x310.jpg",
+      "destination": "/assets/img/blog/signs-of-relapse-in-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Signs-of-relapse-in-Schizophrenia-80x60.jpg",
+      "destination": "/assets/img/blog/signs-of-relapse-in-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Signs-of-relapse-in-Schizophrenia.jpg",
+      "destination": "/assets/img/blog/signs-of-relapse-in-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Substance-use-disorder-vs.-Social-use-Whats-the-difference-1-150x150.webp",
+      "destination": "/assets/img/blog/substance-use-disorder-vs.-social-use-whats-the-difference-1.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Substance-use-disorder-vs.-Social-use-Whats-the-difference-1-24x8.webp",
+      "destination": "/assets/img/blog/substance-use-disorder-vs.-social-use-whats-the-difference-1.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Substance-use-disorder-vs.-Social-use-Whats-the-difference-1-290x150.webp",
+      "destination": "/assets/img/blog/substance-use-disorder-vs.-social-use-whats-the-difference-1.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Substance-use-disorder-vs.-Social-use-Whats-the-difference-1-300x99.webp",
+      "destination": "/assets/img/blog/substance-use-disorder-vs.-social-use-whats-the-difference-1.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Substance-use-disorder-vs.-Social-use-Whats-the-difference-1-36x12.webp",
+      "destination": "/assets/img/blog/substance-use-disorder-vs.-social-use-whats-the-difference-1.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Substance-use-disorder-vs.-Social-use-Whats-the-difference-1-420x200.webp",
+      "destination": "/assets/img/blog/substance-use-disorder-vs.-social-use-whats-the-difference-1.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Substance-use-disorder-vs.-Social-use-Whats-the-difference-1-420x264.webp",
+      "destination": "/assets/img/blog/substance-use-disorder-vs.-social-use-whats-the-difference-1.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Substance-use-disorder-vs.-Social-use-Whats-the-difference-1-48x16.webp",
+      "destination": "/assets/img/blog/substance-use-disorder-vs.-social-use-whats-the-difference-1.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Substance-use-disorder-vs.-Social-use-Whats-the-difference-1-590x264.webp",
+      "destination": "/assets/img/blog/substance-use-disorder-vs.-social-use-whats-the-difference-1.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Substance-use-disorder-vs.-Social-use-Whats-the-difference-1-700x231.webp",
+      "destination": "/assets/img/blog/substance-use-disorder-vs.-social-use-whats-the-difference-1.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Substance-use-disorder-vs.-Social-use-Whats-the-difference-1-768x253.webp",
+      "destination": "/assets/img/blog/substance-use-disorder-vs.-social-use-whats-the-difference-1.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Substance-use-disorder-vs.-Social-use-Whats-the-difference-1-80x60.webp",
+      "destination": "/assets/img/blog/substance-use-disorder-vs.-social-use-whats-the-difference-1.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/Substance-use-disorder-vs.-Social-use-Whats-the-difference-1.webp",
+      "destination": "/assets/img/blog/substance-use-disorder-vs.-social-use-whats-the-difference-1.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/intricacies-of-schizophrenia-150x150.jpg",
+      "destination": "/assets/img/blog/intricacies-of-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/intricacies-of-schizophrenia-21x24.jpg",
+      "destination": "/assets/img/blog/intricacies-of-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/intricacies-of-schizophrenia-263x300.jpg",
+      "destination": "/assets/img/blog/intricacies-of-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/intricacies-of-schizophrenia-290x150.jpg",
+      "destination": "/assets/img/blog/intricacies-of-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/intricacies-of-schizophrenia-32x36.jpg",
+      "destination": "/assets/img/blog/intricacies-of-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/intricacies-of-schizophrenia-420x200.jpg",
+      "destination": "/assets/img/blog/intricacies-of-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/intricacies-of-schizophrenia-420x300.jpg",
+      "destination": "/assets/img/blog/intricacies-of-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/intricacies-of-schizophrenia-420x380.jpg",
+      "destination": "/assets/img/blog/intricacies-of-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/intricacies-of-schizophrenia-42x48.jpg",
+      "destination": "/assets/img/blog/intricacies-of-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/intricacies-of-schizophrenia-537x310.jpg",
+      "destination": "/assets/img/blog/intricacies-of-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/intricacies-of-schizophrenia-537x550.jpg",
+      "destination": "/assets/img/blog/intricacies-of-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/intricacies-of-schizophrenia-80x60.jpg",
+      "destination": "/assets/img/blog/intricacies-of-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/intricacies-of-schizophrenia.jpg",
+      "destination": "/assets/img/blog/intricacies-of-schizophrenia.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/relapse-prevention-150x150.webp",
+      "destination": "/assets/img/blog/relapse-prevention.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/relapse-prevention-24x13.webp",
+      "destination": "/assets/img/blog/relapse-prevention.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/relapse-prevention-290x150.webp",
+      "destination": "/assets/img/blog/relapse-prevention.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/relapse-prevention-300x161.webp",
+      "destination": "/assets/img/blog/relapse-prevention.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/relapse-prevention-36x19.webp",
+      "destination": "/assets/img/blog/relapse-prevention.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/relapse-prevention-420x200.webp",
+      "destination": "/assets/img/blog/relapse-prevention.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/relapse-prevention-420x300.webp",
+      "destination": "/assets/img/blog/relapse-prevention.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/relapse-prevention-420x366.webp",
+      "destination": "/assets/img/blog/relapse-prevention.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/relapse-prevention-48x26.webp",
+      "destination": "/assets/img/blog/relapse-prevention.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/relapse-prevention-590x310.webp",
+      "destination": "/assets/img/blog/relapse-prevention.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/relapse-prevention-80x60.webp",
+      "destination": "/assets/img/blog/relapse-prevention.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/08/relapse-prevention.webp",
+      "destination": "/assets/img/blog/relapse-prevention.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/09/low_quality-X4eMlJd0kT-150x150.webp",
+      "destination": "/assets/img/blog/low_quality-x4emljd0kt.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/09/low_quality-X4eMlJd0kT-18x24.webp",
+      "destination": "/assets/img/blog/low_quality-x4emljd0kt.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/09/low_quality-X4eMlJd0kT-225x300.webp",
+      "destination": "/assets/img/blog/low_quality-x4emljd0kt.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/09/low_quality-X4eMlJd0kT-27x36.webp",
+      "destination": "/assets/img/blog/low_quality-x4emljd0kt.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/09/low_quality-X4eMlJd0kT-290x150.webp",
+      "destination": "/assets/img/blog/low_quality-x4emljd0kt.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/09/low_quality-X4eMlJd0kT-36x48.webp",
+      "destination": "/assets/img/blog/low_quality-x4emljd0kt.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/09/low_quality-X4eMlJd0kT-420x200.webp",
+      "destination": "/assets/img/blog/low_quality-x4emljd0kt.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/09/low_quality-X4eMlJd0kT-420x300.webp",
+      "destination": "/assets/img/blog/low_quality-x4emljd0kt.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/09/low_quality-X4eMlJd0kT-420x380.webp",
+      "destination": "/assets/img/blog/low_quality-x4emljd0kt.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/09/low_quality-X4eMlJd0kT-460x310.webp",
+      "destination": "/assets/img/blog/low_quality-x4emljd0kt.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/09/low_quality-X4eMlJd0kT-460x550.webp",
+      "destination": "/assets/img/blog/low_quality-x4emljd0kt.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/09/low_quality-X4eMlJd0kT-80x60.webp",
+      "destination": "/assets/img/blog/low_quality-x4emljd0kt.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/09/low_quality-X4eMlJd0kT.webp",
+      "destination": "/assets/img/blog/low_quality-x4emljd0kt.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/09/psychiatrist-for-alcohol-addiction-1-700x525.jpg",
+      "destination": "/assets/img/blog/psychiatrist-for-alcohol-addiction-1-700x525.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/09/psychiatrist-for-alcohol-addiction-700x371.jpg",
+      "destination": "/assets/img/blog/psychiatrist-for-alcohol-addiction-700x371.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/10/Dr._gorav_award--e1729074750758.png",
+      "destination": "/assets/img/blog/dr._gorav_award--e1729074750758.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/10/narcissistic-personality-disorder-1224x550.jpg",
+      "destination": "/assets/img/blog/narcissistic-personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/10/narcissistic-personality-disorder-150x150.jpg",
+      "destination": "/assets/img/blog/narcissistic-personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/10/narcissistic-personality-disorder-24x15.jpg",
+      "destination": "/assets/img/blog/narcissistic-personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/10/narcissistic-personality-disorder-290x150.jpg",
+      "destination": "/assets/img/blog/narcissistic-personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/10/narcissistic-personality-disorder-300x188.jpg",
+      "destination": "/assets/img/blog/narcissistic-personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/10/narcissistic-personality-disorder-36x23.jpg",
+      "destination": "/assets/img/blog/narcissistic-personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/10/narcissistic-personality-disorder-420x200.jpg",
+      "destination": "/assets/img/blog/narcissistic-personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/10/narcissistic-personality-disorder-420x300.jpg",
+      "destination": "/assets/img/blog/narcissistic-personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/10/narcissistic-personality-disorder-420x380.jpg",
+      "destination": "/assets/img/blog/narcissistic-personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/10/narcissistic-personality-disorder-48x30.jpg",
+      "destination": "/assets/img/blog/narcissistic-personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/10/narcissistic-personality-disorder-590x310.jpg",
+      "destination": "/assets/img/blog/narcissistic-personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/10/narcissistic-personality-disorder-700x438.jpg",
+      "destination": "/assets/img/blog/narcissistic-personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/10/narcissistic-personality-disorder-768x481.jpg",
+      "destination": "/assets/img/blog/narcissistic-personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/10/narcissistic-personality-disorder-80x60.jpg",
+      "destination": "/assets/img/blog/narcissistic-personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/10/narcissistic-personality-disorder.jpg",
+      "destination": "/assets/img/blog/narcissistic-personality-disorder.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Anxiety-to-OCD-1224x550.jpg",
+      "destination": "/assets/img/blog/anxiety-to-ocd.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Anxiety-to-OCD-150x114.jpg",
+      "destination": "/assets/img/blog/anxiety-to-ocd.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Anxiety-to-OCD-150x150.jpg",
+      "destination": "/assets/img/blog/anxiety-to-ocd.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Anxiety-to-OCD-24x18.jpg",
+      "destination": "/assets/img/blog/anxiety-to-ocd.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Anxiety-to-OCD-290x150.jpg",
+      "destination": "/assets/img/blog/anxiety-to-ocd.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Anxiety-to-OCD-300x228.jpg",
+      "destination": "/assets/img/blog/anxiety-to-ocd.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Anxiety-to-OCD-36x27.jpg",
+      "destination": "/assets/img/blog/anxiety-to-ocd.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Anxiety-to-OCD-420x200.jpg",
+      "destination": "/assets/img/blog/anxiety-to-ocd.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Anxiety-to-OCD-420x300.jpg",
+      "destination": "/assets/img/blog/anxiety-to-ocd.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Anxiety-to-OCD-420x380.jpg",
+      "destination": "/assets/img/blog/anxiety-to-ocd.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Anxiety-to-OCD-48x36.jpg",
+      "destination": "/assets/img/blog/anxiety-to-ocd.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Anxiety-to-OCD-590x310.jpg",
+      "destination": "/assets/img/blog/anxiety-to-ocd.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Anxiety-to-OCD-640x853.jpg",
+      "destination": "/assets/img/blog/anxiety-to-ocd.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Anxiety-to-OCD-700x532.jpg",
+      "destination": "/assets/img/blog/anxiety-to-ocd.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Anxiety-to-OCD-768x584.jpg",
+      "destination": "/assets/img/blog/anxiety-to-ocd.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Anxiety-to-OCD-80x60.jpg",
+      "destination": "/assets/img/blog/anxiety-to-ocd.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Anxiety-to-OCD-96x96.jpg",
+      "destination": "/assets/img/blog/anxiety-to-ocd.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Anxiety-to-OCD.jpg",
+      "destination": "/assets/img/blog/anxiety-to-ocd.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Can-AI-replace-human-counselors-1224x550.jpg",
+      "destination": "/assets/img/blog/can-ai-replace-human-counselors.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Can-AI-replace-human-counselors-150x150.jpg",
+      "destination": "/assets/img/blog/can-ai-replace-human-counselors.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Can-AI-replace-human-counselors-24x24.jpg",
+      "destination": "/assets/img/blog/can-ai-replace-human-counselors.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Can-AI-replace-human-counselors-290x150.jpg",
+      "destination": "/assets/img/blog/can-ai-replace-human-counselors.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Can-AI-replace-human-counselors-300x300.jpg",
+      "destination": "/assets/img/blog/can-ai-replace-human-counselors.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Can-AI-replace-human-counselors-36x36.jpg",
+      "destination": "/assets/img/blog/can-ai-replace-human-counselors.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Can-AI-replace-human-counselors-420x200.jpg",
+      "destination": "/assets/img/blog/can-ai-replace-human-counselors.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Can-AI-replace-human-counselors-420x300.jpg",
+      "destination": "/assets/img/blog/can-ai-replace-human-counselors.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Can-AI-replace-human-counselors-420x380.jpg",
+      "destination": "/assets/img/blog/can-ai-replace-human-counselors.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Can-AI-replace-human-counselors-48x48.jpg",
+      "destination": "/assets/img/blog/can-ai-replace-human-counselors.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Can-AI-replace-human-counselors-590x310.jpg",
+      "destination": "/assets/img/blog/can-ai-replace-human-counselors.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Can-AI-replace-human-counselors-640x853.jpg",
+      "destination": "/assets/img/blog/can-ai-replace-human-counselors.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Can-AI-replace-human-counselors-700x700.jpg",
+      "destination": "/assets/img/blog/can-ai-replace-human-counselors.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Can-AI-replace-human-counselors-768x768.jpg",
+      "destination": "/assets/img/blog/can-ai-replace-human-counselors.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Can-AI-replace-human-counselors-80x60.jpg",
+      "destination": "/assets/img/blog/can-ai-replace-human-counselors.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Can-AI-replace-human-counselors-96x96.jpg",
+      "destination": "/assets/img/blog/can-ai-replace-human-counselors.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Can-AI-replace-human-counselors.jpg",
+      "destination": "/assets/img/blog/can-ai-replace-human-counselors.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Manage-addiction-disorder-with-expert-intervention_11zon-1224x550.webp",
+      "destination": "/assets/img/blog/manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Manage-addiction-disorder-with-expert-intervention_11zon-150x122.webp",
+      "destination": "/assets/img/blog/manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Manage-addiction-disorder-with-expert-intervention_11zon-150x150.webp",
+      "destination": "/assets/img/blog/manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Manage-addiction-disorder-with-expert-intervention_11zon-24x20.webp",
+      "destination": "/assets/img/blog/manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Manage-addiction-disorder-with-expert-intervention_11zon-290x150.webp",
+      "destination": "/assets/img/blog/manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Manage-addiction-disorder-with-expert-intervention_11zon-300x244.webp",
+      "destination": "/assets/img/blog/manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Manage-addiction-disorder-with-expert-intervention_11zon-36x29.webp",
+      "destination": "/assets/img/blog/manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Manage-addiction-disorder-with-expert-intervention_11zon-420x200.webp",
+      "destination": "/assets/img/blog/manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Manage-addiction-disorder-with-expert-intervention_11zon-420x300.webp",
+      "destination": "/assets/img/blog/manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Manage-addiction-disorder-with-expert-intervention_11zon-420x380.webp",
+      "destination": "/assets/img/blog/manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Manage-addiction-disorder-with-expert-intervention_11zon-48x39.webp",
+      "destination": "/assets/img/blog/manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Manage-addiction-disorder-with-expert-intervention_11zon-590x310.webp",
+      "destination": "/assets/img/blog/manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Manage-addiction-disorder-with-expert-intervention_11zon-640x853.webp",
+      "destination": "/assets/img/blog/manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Manage-addiction-disorder-with-expert-intervention_11zon-700x570.webp",
+      "destination": "/assets/img/blog/manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Manage-addiction-disorder-with-expert-intervention_11zon-768x625.webp",
+      "destination": "/assets/img/blog/manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Manage-addiction-disorder-with-expert-intervention_11zon-80x60.webp",
+      "destination": "/assets/img/blog/manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Manage-addiction-disorder-with-expert-intervention_11zon-96x96.webp",
+      "destination": "/assets/img/blog/manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/Manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "destination": "/assets/img/blog/manage-addiction-disorder-with-expert-intervention_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/mental-health-Moving-past-the-stigma_11zon-1224x550.webp",
+      "destination": "/assets/img/blog/mental-health-moving-past-the-stigma_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/mental-health-Moving-past-the-stigma_11zon-150x150.webp",
+      "destination": "/assets/img/blog/mental-health-moving-past-the-stigma_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/mental-health-Moving-past-the-stigma_11zon-24x24.webp",
+      "destination": "/assets/img/blog/mental-health-moving-past-the-stigma_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/mental-health-Moving-past-the-stigma_11zon-290x150.webp",
+      "destination": "/assets/img/blog/mental-health-moving-past-the-stigma_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/mental-health-Moving-past-the-stigma_11zon-300x300.webp",
+      "destination": "/assets/img/blog/mental-health-moving-past-the-stigma_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/mental-health-Moving-past-the-stigma_11zon-36x36.webp",
+      "destination": "/assets/img/blog/mental-health-moving-past-the-stigma_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/mental-health-Moving-past-the-stigma_11zon-420x200.webp",
+      "destination": "/assets/img/blog/mental-health-moving-past-the-stigma_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/mental-health-Moving-past-the-stigma_11zon-420x300.webp",
+      "destination": "/assets/img/blog/mental-health-moving-past-the-stigma_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/mental-health-Moving-past-the-stigma_11zon-420x380.webp",
+      "destination": "/assets/img/blog/mental-health-moving-past-the-stigma_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/mental-health-Moving-past-the-stigma_11zon-48x48.webp",
+      "destination": "/assets/img/blog/mental-health-moving-past-the-stigma_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/mental-health-Moving-past-the-stigma_11zon-590x310.webp",
+      "destination": "/assets/img/blog/mental-health-moving-past-the-stigma_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/mental-health-Moving-past-the-stigma_11zon-640x853.webp",
+      "destination": "/assets/img/blog/mental-health-moving-past-the-stigma_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/mental-health-Moving-past-the-stigma_11zon-700x700.webp",
+      "destination": "/assets/img/blog/mental-health-moving-past-the-stigma_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/mental-health-Moving-past-the-stigma_11zon-768x768.webp",
+      "destination": "/assets/img/blog/mental-health-moving-past-the-stigma_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/mental-health-Moving-past-the-stigma_11zon-80x60.webp",
+      "destination": "/assets/img/blog/mental-health-moving-past-the-stigma_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/mental-health-Moving-past-the-stigma_11zon-96x96.webp",
+      "destination": "/assets/img/blog/mental-health-moving-past-the-stigma_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/11/mental-health-Moving-past-the-stigma_11zon.webp",
+      "destination": "/assets/img/blog/mental-health-moving-past-the-stigma_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-T_11zon-1224x550.webp",
+      "destination": "/assets/img/blog/mental-health-t_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-T_11zon-150x150.webp",
+      "destination": "/assets/img/blog/mental-health-t_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-T_11zon-150x87.webp",
+      "destination": "/assets/img/blog/mental-health-t_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-T_11zon-24x14.webp",
+      "destination": "/assets/img/blog/mental-health-t_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-T_11zon-290x150.webp",
+      "destination": "/assets/img/blog/mental-health-t_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-T_11zon-300x175.webp",
+      "destination": "/assets/img/blog/mental-health-t_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-T_11zon-36x21.webp",
+      "destination": "/assets/img/blog/mental-health-t_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-T_11zon-420x200.webp",
+      "destination": "/assets/img/blog/mental-health-t_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-T_11zon-420x300.webp",
+      "destination": "/assets/img/blog/mental-health-t_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-T_11zon-420x380.webp",
+      "destination": "/assets/img/blog/mental-health-t_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-T_11zon-48x28.webp",
+      "destination": "/assets/img/blog/mental-health-t_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-T_11zon-590x310.webp",
+      "destination": "/assets/img/blog/mental-health-t_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-T_11zon-640x712.webp",
+      "destination": "/assets/img/blog/mental-health-t_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-T_11zon-700x407.webp",
+      "destination": "/assets/img/blog/mental-health-t_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-T_11zon-768x447.webp",
+      "destination": "/assets/img/blog/mental-health-t_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-T_11zon-80x60.webp",
+      "destination": "/assets/img/blog/mental-health-t_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-T_11zon-96x96.webp",
+      "destination": "/assets/img/blog/mental-health-t_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-T_11zon.webp",
+      "destination": "/assets/img/blog/mental-health-t_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Mental-Health-Tests_11zon-150x150.webp",
+      "destination": "/assets/img/blog/mental-health-tests_11zon-150x150.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Top-Signs-You-Need-to-See-a-Psychiatrist-in-Gurgaon_11zon-1224x550.webp",
+      "destination": "/assets/img/blog/top-signs-you-need-to-see-a-psychiatrist-in-gurgaon_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Top-Signs-You-Need-to-See-a-Psychiatrist-in-Gurgaon_11zon-150x150.webp",
+      "destination": "/assets/img/blog/top-signs-you-need-to-see-a-psychiatrist-in-gurgaon_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Top-Signs-You-Need-to-See-a-Psychiatrist-in-Gurgaon_11zon-24x24.webp",
+      "destination": "/assets/img/blog/top-signs-you-need-to-see-a-psychiatrist-in-gurgaon_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Top-Signs-You-Need-to-See-a-Psychiatrist-in-Gurgaon_11zon-290x150.webp",
+      "destination": "/assets/img/blog/top-signs-you-need-to-see-a-psychiatrist-in-gurgaon_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Top-Signs-You-Need-to-See-a-Psychiatrist-in-Gurgaon_11zon-300x300.webp",
+      "destination": "/assets/img/blog/top-signs-you-need-to-see-a-psychiatrist-in-gurgaon_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Top-Signs-You-Need-to-See-a-Psychiatrist-in-Gurgaon_11zon-36x36.webp",
+      "destination": "/assets/img/blog/top-signs-you-need-to-see-a-psychiatrist-in-gurgaon_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Top-Signs-You-Need-to-See-a-Psychiatrist-in-Gurgaon_11zon-420x200.webp",
+      "destination": "/assets/img/blog/top-signs-you-need-to-see-a-psychiatrist-in-gurgaon_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Top-Signs-You-Need-to-See-a-Psychiatrist-in-Gurgaon_11zon-420x300.webp",
+      "destination": "/assets/img/blog/top-signs-you-need-to-see-a-psychiatrist-in-gurgaon_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Top-Signs-You-Need-to-See-a-Psychiatrist-in-Gurgaon_11zon-420x380.webp",
+      "destination": "/assets/img/blog/top-signs-you-need-to-see-a-psychiatrist-in-gurgaon_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Top-Signs-You-Need-to-See-a-Psychiatrist-in-Gurgaon_11zon-48x48.webp",
+      "destination": "/assets/img/blog/top-signs-you-need-to-see-a-psychiatrist-in-gurgaon_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Top-Signs-You-Need-to-See-a-Psychiatrist-in-Gurgaon_11zon-590x310.webp",
+      "destination": "/assets/img/blog/top-signs-you-need-to-see-a-psychiatrist-in-gurgaon_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Top-Signs-You-Need-to-See-a-Psychiatrist-in-Gurgaon_11zon-640x853.webp",
+      "destination": "/assets/img/blog/top-signs-you-need-to-see-a-psychiatrist-in-gurgaon_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Top-Signs-You-Need-to-See-a-Psychiatrist-in-Gurgaon_11zon-700x700.webp",
+      "destination": "/assets/img/blog/top-signs-you-need-to-see-a-psychiatrist-in-gurgaon_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Top-Signs-You-Need-to-See-a-Psychiatrist-in-Gurgaon_11zon-768x768.webp",
+      "destination": "/assets/img/blog/top-signs-you-need-to-see-a-psychiatrist-in-gurgaon_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Top-Signs-You-Need-to-See-a-Psychiatrist-in-Gurgaon_11zon-80x60.webp",
+      "destination": "/assets/img/blog/top-signs-you-need-to-see-a-psychiatrist-in-gurgaon_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Top-Signs-You-Need-to-See-a-Psychiatrist-in-Gurgaon_11zon-96x96.webp",
+      "destination": "/assets/img/blog/top-signs-you-need-to-see-a-psychiatrist-in-gurgaon_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/Top-Signs-You-Need-to-See-a-Psychiatrist-in-Gurgaon_11zon.webp",
+      "destination": "/assets/img/blog/top-signs-you-need-to-see-a-psychiatrist-in-gurgaon_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/psychiatrist-near-me_11zon-1224x550.webp",
+      "destination": "/assets/img/blog/psychiatrist-near-me_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/psychiatrist-near-me_11zon-150x123.webp",
+      "destination": "/assets/img/blog/psychiatrist-near-me_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/psychiatrist-near-me_11zon-150x150.webp",
+      "destination": "/assets/img/blog/psychiatrist-near-me_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/psychiatrist-near-me_11zon-24x20.webp",
+      "destination": "/assets/img/blog/psychiatrist-near-me_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/psychiatrist-near-me_11zon-290x150.webp",
+      "destination": "/assets/img/blog/psychiatrist-near-me_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/psychiatrist-near-me_11zon-300x246.webp",
+      "destination": "/assets/img/blog/psychiatrist-near-me_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/psychiatrist-near-me_11zon-36x29.webp",
+      "destination": "/assets/img/blog/psychiatrist-near-me_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/psychiatrist-near-me_11zon-420x200.webp",
+      "destination": "/assets/img/blog/psychiatrist-near-me_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/psychiatrist-near-me_11zon-420x300.webp",
+      "destination": "/assets/img/blog/psychiatrist-near-me_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/psychiatrist-near-me_11zon-420x380.webp",
+      "destination": "/assets/img/blog/psychiatrist-near-me_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/psychiatrist-near-me_11zon-48x39.webp",
+      "destination": "/assets/img/blog/psychiatrist-near-me_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/psychiatrist-near-me_11zon-590x310.webp",
+      "destination": "/assets/img/blog/psychiatrist-near-me_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/psychiatrist-near-me_11zon-640x853.webp",
+      "destination": "/assets/img/blog/psychiatrist-near-me_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/psychiatrist-near-me_11zon-700x573.webp",
+      "destination": "/assets/img/blog/psychiatrist-near-me_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/psychiatrist-near-me_11zon-768x629.webp",
+      "destination": "/assets/img/blog/psychiatrist-near-me_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/psychiatrist-near-me_11zon-80x60.webp",
+      "destination": "/assets/img/blog/psychiatrist-near-me_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/psychiatrist-near-me_11zon-96x96.webp",
+      "destination": "/assets/img/blog/psychiatrist-near-me_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2024/12/psychiatrist-near-me_11zon.webp",
+      "destination": "/assets/img/blog/psychiatrist-near-me_11zon.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/01/gorav-150x150.webp",
+      "destination": "/assets/img/blog/gorav.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/01/gorav-24x14.webp",
+      "destination": "/assets/img/blog/gorav.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/01/gorav-290x150.webp",
+      "destination": "/assets/img/blog/gorav.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/01/gorav-300x180.webp",
+      "destination": "/assets/img/blog/gorav.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/01/gorav-36x22.webp",
+      "destination": "/assets/img/blog/gorav.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/01/gorav-400x200.webp",
+      "destination": "/assets/img/blog/gorav.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/01/gorav-48x29.webp",
+      "destination": "/assets/img/blog/gorav.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/01/gorav-80x60.webp",
+      "destination": "/assets/img/blog/gorav.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/01/gorav.webp",
+      "destination": "/assets/img/blog/gorav.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/04/psychiatrist-in-gurgaon-200x300.webp",
+      "destination": "/assets/img/blog/psychiatrist-in-gurgaon-200x300.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/04/psychiatrist_3-1-scaled.webp",
+      "destination": "/assets/img/blog/psychiatrist_3-1-scaled.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/06/OCD-Psychiatrist-in-Delhi-700x700.webp",
+      "destination": "/assets/img/blog/ocd-psychiatrist-in-delhi-700x700.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/06/mental-health-150x150.webp",
+      "destination": "/assets/img/blog/mental-health.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/06/mental-health-24x16.webp",
+      "destination": "/assets/img/blog/mental-health.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/06/mental-health-290x150.webp",
+      "destination": "/assets/img/blog/mental-health.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/06/mental-health-300x200.webp",
+      "destination": "/assets/img/blog/mental-health.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/06/mental-health-36x24.webp",
+      "destination": "/assets/img/blog/mental-health.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/06/mental-health-420x200.webp",
+      "destination": "/assets/img/blog/mental-health.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/06/mental-health-420x300.webp",
+      "destination": "/assets/img/blog/mental-health.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/06/mental-health-420x380.webp",
+      "destination": "/assets/img/blog/mental-health.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/06/mental-health-48x32.webp",
+      "destination": "/assets/img/blog/mental-health.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/06/mental-health-590x310.webp",
+      "destination": "/assets/img/blog/mental-health.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/06/mental-health-80x60.webp",
+      "destination": "/assets/img/blog/mental-health.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/06/mental-health.webp",
+      "destination": "/assets/img/blog/mental-health.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/07/Does-therapy-actually-work-for-depression-150x150.webp",
+      "destination": "/assets/img/blog/does-therapy-actually-work-for-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/07/Does-therapy-actually-work-for-depression-24x16.webp",
+      "destination": "/assets/img/blog/does-therapy-actually-work-for-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/07/Does-therapy-actually-work-for-depression-290x150.webp",
+      "destination": "/assets/img/blog/does-therapy-actually-work-for-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/07/Does-therapy-actually-work-for-depression-300x200.webp",
+      "destination": "/assets/img/blog/does-therapy-actually-work-for-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/07/Does-therapy-actually-work-for-depression-36x24.webp",
+      "destination": "/assets/img/blog/does-therapy-actually-work-for-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/07/Does-therapy-actually-work-for-depression-420x200.webp",
+      "destination": "/assets/img/blog/does-therapy-actually-work-for-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/07/Does-therapy-actually-work-for-depression-420x300.webp",
+      "destination": "/assets/img/blog/does-therapy-actually-work-for-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/07/Does-therapy-actually-work-for-depression-420x380.webp",
+      "destination": "/assets/img/blog/does-therapy-actually-work-for-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/07/Does-therapy-actually-work-for-depression-48x32.webp",
+      "destination": "/assets/img/blog/does-therapy-actually-work-for-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/07/Does-therapy-actually-work-for-depression-590x310.webp",
+      "destination": "/assets/img/blog/does-therapy-actually-work-for-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/07/Does-therapy-actually-work-for-depression-80x60.webp",
+      "destination": "/assets/img/blog/does-therapy-actually-work-for-depression.webp",
+      "permanent": true
+    },
+    {
+      "source": "/wp-content/uploads/2025/07/Does-therapy-actually-work-for-depression.webp",
+      "destination": "/assets/img/blog/does-therapy-actually-work-for-depression.webp",
+      "permanent": true
+    }
   ]
 }

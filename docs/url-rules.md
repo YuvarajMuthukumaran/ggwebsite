@@ -50,11 +50,7 @@ dropped from the tag rows at the foot of posts, so nothing links into a redirect
 
 ## Still open
 
-**`/wp-content/uploads/*` is not done, and cannot be done from this repo.** The importer built its
-old-path → new-filename map in memory and never wrote it out (`tools/import_wp.py`, `self.images`),
-so the mapping is gone. It needs either Rajneesh's crawl of the live site or a re-run of the importer
-in a mode that dumps the map. Once the list of old image URLs exists, the new filenames are
-derivable: the importer lowercases the basename and replaces every run of non-alphanumerics with `-`.
+**`/wp-content/uploads/*` is done for the images the new site uses.** The old media library was read from the live site (`/wp-json/wp/v2/media`, 230 items, 1,651 URLs including the resized copies) and each URL was mapped to its new file the way the importer names them (lowercased basename, runs of non-alphanumerics become `-`, `.webp`). 427 URLs map to a file the new site has, and each is a 301 in `vercel.json`, resized copies included. The other 1,224 are images the new site no longer uses, and they are not redirected.
 
 **`/blog/page/*` must not be redirected.** The review groups it with the WordPress archive paths and
 sends it to `/resources/`, but this build uses `/blog/page/2/` … `/blog/page/9/` for the blog's own

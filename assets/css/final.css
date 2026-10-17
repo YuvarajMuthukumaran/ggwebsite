@@ -175,3 +175,22 @@ html.js.go .cut{ animation:v7cut 1.1s var(--e) 0s both; }
 html.js:not(.go) .hero__in > .hero__sub{ opacity:0; animation:none !important; }
 html.js.go .hero__in > .hero__sub{ animation:subRise 1s var(--e) .4s both; }
 @media (prefers-reduced-motion:reduce){ html.js:not(.go) .hero__in > .hero__sub{ opacity:1; } html.js.go .hero__in > .hero__sub{ animation:none; } }
+
+/* Services hub: Treatments */
+.trt__g{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
+.trt__c{
+  position:relative; display:flex; flex-direction:column; gap:.55rem; padding:1.3rem 1.35rem 1.2rem; border:1px solid var(--line); border-radius:20px; background:#ffffff; color:var(--ink); text-decoration:none;
+  box-shadow:0 1px 2px rgba(29,83,154,.05); transition:translate .45s var(--e),border-color .25s,box-shadow .45s var(--e);
+}
+.trt__c:hover{ translate:0 -3px; border-color:var(--tint2); box-shadow:0 1px 2px rgba(29,83,154,.08),0 24px 40px -28px rgba(29,83,154,.55); }
+.trt__c:focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
+.trt__ic{ display:grid; place-items:center; width:44px; height:44px; border-radius:13px; background:var(--tint); color:var(--blue-d); }
+.trt__c h3{ margin:.2rem 0 0; font-size:1.15rem; font-weight:500; letter-spacing:-.02em; }
+.trt__c p{ margin:0; color:var(--mut); font-size:.9375rem; line-height:1.6; }
+.trt__go{ margin-top:auto; padding-top:.5rem; color:var(--blue-d); font-size:.9rem; font-weight:600; }
+.trt__go i{ font-style:normal; }
+@media (max-width:900px){ .trt__g{ grid-template-columns:1fr; } }
+@media (prefers-reduced-motion:reduce){ .trt__c{ transition:none; } .trt__c:hover{ translate:none; } }
+.trt__c--static:hover{ translate:none; border-color:var(--line); box-shadow:0 1px 2px rgba(29,83,154,.05); }
+.trt__c--static a{ color:var(--blue-d); font-weight:600; }
+

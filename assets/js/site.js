@@ -371,3 +371,46 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
 })();
 
+
+/* Tab icon: the two hands of the Tulasi mark build in once, then breathe: they open and close a little while a blue light
+   swells and settles between them. Frames are drawn once at 32px and cycled by the clock (25 a second), by changing the one
+   icon link. Reduced motion keeps the still icon; Safari does not allow a changing icon and keeps it too. */
+(function () {
+  var link = document.querySelector('link[rel~="icon"]');
+  if (!link || (window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches)) return;
+  var markUrl = link.href.replace(/tulasi-favicon\.png.*$/, 'tulasi-mark.png');
+  var img = new Image();
+  img.onload = function () {
+    var S = 32, FPS = 25, INTRO = 12, LOOP = 40;        // 0.5 s build-in, then a 1.6 s breath
+    var c = document.createElement('canvas'); c.width = c.height = S;
+    var g = c.getContext('2d'); if (!g) return;
+    function ease(t) { t = t < 0 ? 0 : t > 1 ? 1 : t; return 1 - Math.pow(1 - t, 3); }
+    function draw(open, breath) {                        // open 0..1 hands arriving, breath -1..1
+      g.clearRect(0, 0, S, S);
+      var w = 29, h = 29, x0 = (S - w) / 2, y0 = (S - h) / 2 + 1.5, slide = (1 - open) * 8 + breath * 0.9;
+      g.globalAlpha = open;
+      g.drawImage(img, 0, 0, 128, 256, x0 - slide, y0, w / 2, h);
+      g.drawImage(img, 128, 0, 128, 256, x0 + w / 2 + slide, y0, w / 2, h);
+      var r = (open * 4.2) * (1 + 0.38 * breath);
+      if (r > 0.3) {
+        var gr = g.createRadialGradient(16, 11.5, 0, 16, 11.5, r * 1.9);
+        gr.addColorStop(0, 'rgba(47,111,203,0.98)'); gr.addColorStop(0.5, 'rgba(47,111,203,0.6)'); gr.addColorStop(1, 'rgba(47,111,203,0)');
+        g.globalAlpha = 1; g.fillStyle = gr; g.beginPath(); g.arc(16, 11.5, r * 1.9, 0, Math.PI * 2); g.fill();
+      }
+      g.globalAlpha = 1;
+      return c.toDataURL('image/png');
+    }
+    var intro = [], loop = [], i;
+    for (i = 0; i < INTRO; i++) intro.push(draw(ease(i / (INTRO - 1)), 0));
+    for (i = 0; i < LOOP; i++) loop.push(draw(1, Math.sin(i / LOOP * Math.PI * 2)));
+    var start = performance.now(), last = -1;
+    function tick() {
+      var f = Math.floor((performance.now() - start) / (1000 / FPS));
+      if (f === last) return;
+      last = f;
+      link.href = f < INTRO ? intro[f] : loop[(f - INTRO) % LOOP];
+    }
+    setInterval(tick, 1000 / FPS / 2);
+  };
+  img.src = markUrl;
+})();
