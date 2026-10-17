@@ -194,3 +194,53 @@ html.js.go .hero__in > .hero__sub{ animation:subRise 1s var(--e) .4s both; }
 .trt__c--static:hover{ translate:none; border-color:var(--line); box-shadow:0 1px 2px rgba(29,83,154,.05); }
 .trt__c--static a{ color:var(--blue-d); font-weight:600; }
 
+
+/* Card spotlight: a faint light follows the cursor across the cards. Fine pointers only, off for reduced motion and on touch. */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  :is(.sv__c,.svl__grid .card,.trt__c:not(.trt__c--static),.tfacts a,.jchips li,.hb2-c):hover{
+    background-image:radial-gradient(280px circle at var(--mx,50%) var(--my,50%),rgba(47,111,203,.085),rgba(47,111,203,0) 72%) !important;
+    background-repeat:no-repeat;
+  }
+}
+
+/* ==========================================================================
+   Refinement layer (high-end-visual-design, light palette only)
+   - Buttons that end in an arrow carry it in its own small circle, flush to the right edge; the circle nudges on hover.
+   - The booking form sits in a thin outer tray with concentric corners.
+   - Shadows are layered, wide and tinted blue instead of one grey drop.
+   - On a phone the menu items rise in one after another.
+   ========================================================================== */
+.btn > svg:last-child:not(:first-child){
+  box-sizing:content-box; width:11px; height:11px; margin:-.35rem -.8rem -.35rem .15rem; padding:7px; border-radius:50%;
+  background:rgba(255,255,255,.3); transition:translate .5s var(--e),scale .5s var(--e),background .3s;
+}
+.btn.ghost > svg:last-child:not(:first-child){ background:var(--tint); }
+.btn:hover > svg:last-child:not(:first-child){ translate:2px -2px; scale:1.08; background:rgba(255,255,255,.4); }
+.btn.ghost:hover > svg:last-child:not(:first-child){ background:rgba(255,255,255,.3); }
+
+.bp__r{ padding:6px; border-radius:calc(var(--r,20px) + 6px); background:var(--tint); box-shadow:0 0 0 1px rgba(47,111,203,.1) inset; }
+.bp-form{ box-shadow:0 1px 1px rgba(255,255,255,.9) inset,0 2px 4px rgba(29,83,154,.04),0 18px 40px -22px rgba(29,83,154,.35); }
+
+.tfacts a,.trt__c,.sv__c,.svl__grid .card{ box-shadow:0 1px 2px rgba(29,83,154,.04),0 10px 28px -20px rgba(29,83,154,.28); }
+.tfacts a:hover,.trt__c:hover,.sv__c:hover,.svl__grid .card:hover{ box-shadow:0 1px 2px rgba(29,83,154,.06),0 4px 10px rgba(29,83,154,.05),0 30px 52px -26px rgba(29,83,154,.45); }
+
+@keyframes navItemIn{ from{ opacity:0; transform:translate3d(0,12px,0); } }
+@media (max-width:1000px) and (prefers-reduced-motion:no-preference){
+  .nav.open nav > *{ animation:navItemIn .6s var(--e) both; }
+  .nav.open nav > :nth-child(2){ animation-delay:.05s; } .nav.open nav > :nth-child(3){ animation-delay:.1s; }
+  .nav.open nav > :nth-child(4){ animation-delay:.15s; } .nav.open nav > :nth-child(5){ animation-delay:.2s; } .nav.open nav > :nth-child(6){ animation-delay:.25s; }
+}
+.rv-pill__r{ margin-left:.15rem; padding-left:.55rem; border-left:1px solid var(--line); color:var(--navy); font-weight:600; white-space:nowrap; }
+.rv-pill__r em{ font-style:normal; color:#f5a623; }
+
+/* Centre photographs (About and Home) */
+.ctr__g{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
+.ctr__f{ margin:0; }
+.ctr__f img{ display:block; width:100%; height:auto; aspect-ratio:3/2; object-fit:cover; border-radius:20px; background:var(--tint); box-shadow:0 1px 2px rgba(29,83,154,.06),0 18px 36px -24px rgba(29,83,154,.45); }
+.ctr__f figcaption{ margin:.6rem .2rem 0; color:var(--mut); font-size:.9rem; line-height:1.4; }
+.ctr__more{ margin:1.2rem 0 0; }
+@media (max-width:760px){ .ctr__g{ grid-template-columns:1fr; } }
+.ctr__g--4{ grid-template-columns:repeat(4,minmax(0,1fr)); }
+@media (max-width:1100px){ .ctr__g--4{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:640px){ .ctr__g--4{ grid-template-columns:1fr; } }
+

@@ -524,6 +524,9 @@ def main():
         v['rating_line'] = ('<p class="rv-rating"><b>%s</b><span class="rv-rating__s" aria-hidden="true">★★★★★</span>'
                             '<span>from %s Google reviews</span></p>'
                             % (esc(str(fact('reviews.rating'))), esc(str(fact('reviews.count')))))             if fact('reviews.rating') and fact('reviews.count') else ''
+        for key in ('delhi', 'gurugram'):     # each Google listing's own rating, shown on its link
+            r, c = fact('reviews.%s.rating' % key), fact('reviews.%s.count' % key)
+            v['rv_' + key] = ('<span class="rv-pill__r">%s <em aria-hidden="true">&#9733;</em> (%s)</span>' % (esc(str(r)), esc(str(c)))) if r and c else ''
         v['book_href'] = '#book' if (path == 'contactus' or (kind == 'page' and pg.get('group') in ('services', 'local'))) else root + 'contactus/#book'
         if path == 'resources':
             v['resources_hub'] = hub_pages.resources_hub(root, posts, tests, href, pretty_date, tag_map)

@@ -414,3 +414,21 @@
   };
   img.src = markUrl;
 })();
+
+/* Card spotlight: tell the card where the pointer is (the light itself is CSS, see final.css). */
+(function () {
+  if (!window.matchMedia || !matchMedia('(hover:hover) and (pointer:fine)').matches || matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var SEL = '.sv__c,.svl__grid .card,.trt__c,.tfacts a,.jchips li,.hb2-c', raf = 0, ev;
+  document.addEventListener('pointermove', function (e) {
+    ev = e;
+    if (raf) return;
+    raf = requestAnimationFrame(function () {
+      raf = 0;
+      var t = ev.target && ev.target.closest ? ev.target.closest(SEL) : null;
+      if (!t) return;
+      var r = t.getBoundingClientRect();
+      t.style.setProperty('--mx', (ev.clientX - r.left) + 'px');
+      t.style.setProperty('--my', (ev.clientY - r.top) + 'px');
+    });
+  }, { passive: true });
+})();

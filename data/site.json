@@ -30,15 +30,17 @@
   "award": {
     "title": "Psychiatrist of the Year",
     "publication": "The Economic Times",
-    "year": "",
-    "url": ""
+    "year": "2024 and 2025",
+    "url": "",
+    "note": "Two trophies reading \"Psychiatrist of the Year, National, Dr. Gorav Gupta\" from The Economic Times Healthcare Awards 2024 and 2025 are photographed on tulasihealthcare.com (read 17 Oct 2026). Dr. Gupta should confirm. The winners-list URL is still to find."
   },
   "tulasi": {
     "name": "Tulasi Healthcare",
-    "founded": "",
+    "founded": "2002",
     "url": "https://tulasihealthcare.com",
     "act": "RPwD Act, 2016",
-    "accreditation": "NABH accredited"
+    "accreditation": "NABH accredited",
+    "note": "Tulasi Healthcare's own site says \"Since Tulasi Healthcare's inauguration in 2002\" (read 17 Oct 2026). Dr. Gupta's earlier Founder and CEO role is dated 1999 on the Journey page."
   },
   "centres": {
     "delhi": {
@@ -91,9 +93,7 @@
   "pending": {
     "doctor.experience": 1,
     "doctor.registration_number": 9,
-    "award.year": 8,
     "award.url": 8,
-    "tulasi.founded": 2,
     "centres.delhi.clinic_name": 3,
     "centres.gurugram.beds": 3,
     "centres.mehrauli.address": 3,
@@ -104,8 +104,6 @@
     "consultation.callback_hours": 4,
     "centres.delhi.opd": 4,
     "centres.gurugram.opd": 4,
-    "reviews.rating": 6,
-    "reviews.count": 6,
     "centres.delhi.metro": 3,
     "centres.delhi.parking": 3,
     "centres.gurugram.metro": 3,
@@ -124,8 +122,16 @@
     "10": "\"How I work\" copy, and the dual diagnosis page"
   },
   "reviews": {
-    "rating": "",
-    "count": "",
-    "note": "Google rating and review count, supplied by Rajneesh"
+    "rating": "4.7",
+    "count": "238",
+    "delhi": {
+      "rating": "4.7",
+      "count": "190"
+    },
+    "gurugram": {
+      "rating": "4.8",
+      "count": "48"
+    },
+    "note": "Read from the two Google listings on 17 Oct 2026 (Dr. Gorav Gupta, New Delhi: 4.7 from 190; Dr. Gorav Gupta Psychiatrist in Gurgaon: 4.8 from 48). The headline figure is the weighted average, 4.72, shown to one decimal, over 238 reviews."
   }
 }

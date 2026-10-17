@@ -209,5 +209,22 @@
     900
    ]
   }
+ },
+ "tulasi_site": {
+  "source": "Tulasi Healthcare website (tulasihealthcare.com), the clinic's own photographs, used with the client's permission",
+  "images": {
+   "gurugram-exterior": "https://www.tulasihealthcare.com/wp-content/gallery/hospital/IMG_0958.webp?t=1729745827",
+   "gurugram-reception": "https://www.tulasihealthcare.com/wp-content/gallery/hospital/DSC04317_11zon.webp?t=1729745826",
+   "gurugram-recreation": "https://www.tulasihealthcare.com/wp-content/gallery/hospital/IMG_1009.webp?t=1729745827",
+   "gurugram-room": "https://www.tulasihealthcare.com/wp-content/gallery/hospital/DSC04289_11zon.webp?t=1729745827"
+  }
+ },
+ "client_supplied": {
+  "source": "Photographs supplied by the client",
+  "images": {
+   "mehrauli-exterior": "Supplied by the client (screenshots of the Mehrauli centre photographs), 17 Oct 2026",
+   "mehrauli-lounge": "Supplied by the client (screenshots of the Mehrauli centre photographs), 17 Oct 2026",
+   "mehrauli-reception": "Supplied by the client (screenshots of the Mehrauli centre photographs), 17 Oct 2026"
+  }
  }
 }
