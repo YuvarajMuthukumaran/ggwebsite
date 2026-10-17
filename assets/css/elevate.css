@@ -64,12 +64,12 @@ footer :where(a,button):focus-visible,.ann :where(a):focus-visible,.ct-urgent :w
 :root{ accent-color:var(--blue); caret-color:var(--blue); }
 
 /* ---------------------------------------------------------------- 4. cards: one light, one family */
-:is(.sv__c,.card.svc,.trt__c,.adm__c,.team__c,.pq__c,.ct-room,.hb2-c,.tq-card,.sp-rel li a,.fh-g,.lp-cond,.ab2-ri,.ri,.press,.rv,.tband__card,.jchips li,.tfacts a):not(#s){
+:is(.sv__c,.card.svc,.trt__c,.adm__c,.team__c,.pq__c,.ct-room,.hb2-c,.tq-card,.sp-rel li a,.fh-g,.lp-cond,.ab2-ri,.ri,.press,.rv,.tband__card,.jchips li:not(.jc-stage),.tfacts a):not(#s){
   border-color:var(--el-line);
   box-shadow:var(--el-hi),var(--el-sh-1);
 }
 @media (hover:hover){
-  :is(.sv__c,.card.svc,.trt__c:not(.trt__c--static),.hb2-c,.tq-card,.sp-rel li a,.lp-cond,.jchips li,.tfacts a,.ct-room):not(#s):hover{
+  :is(.sv__c,.card.svc,.trt__c:not(.trt__c--static),.hb2-c,.tq-card,.sp-rel li a,.lp-cond,.jchips li:not(.jc-stage),.tfacts a,.ct-room):not(#s):hover{
     border-color:var(--el-line-h);
     box-shadow:var(--el-hi),var(--el-sh-3) !important;
   }
