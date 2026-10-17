@@ -1,0 +1,179 @@
+/* ==========================================================================
+   elevate.css: the last layer. Look and feel only. No markup, content, route or script is touched.
+   The client palette and Geist stay as they are. What moves: secondary-text contrast, depth (one light
+   source, blue-tinted shadows), hover / press / focus states, arrows that sit in Geist, motion, mobile fit.
+   Idea: calm precision. Surfaces sit in the same soft light as the logo's hands: a bright top edge,
+   a hairline, a shadow that is a tint of the page blue, never grey. Nothing here runs on scroll.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- 0. tokens */
+:root{
+  --mut:#4f627a;                      /* secondary text, one step darker: 5.5:1 became 6.3:1 on white */
+  --el-out:cubic-bezier(.22,1,.36,1);
+  --el-line:rgba(34,78,145,.14);
+  --el-line-h:rgba(47,111,203,.42);
+  --el-hi:inset 0 1px 0 rgba(255,255,255,.9);
+  --el-sh-1:0 1px 2px rgba(15,33,65,.04),0 10px 26px -18px rgba(29,83,154,.28);
+  --el-sh-2:0 1px 2px rgba(15,33,65,.05),0 8px 20px -8px rgba(29,83,154,.18),0 22px 40px -26px rgba(29,83,154,.24);
+  --el-sh-3:0 2px 4px rgba(15,33,65,.05),0 14px 28px -10px rgba(29,83,154,.22),0 34px 60px -30px rgba(29,83,154,.36);
+  --el-ring:0 0 0 4px rgba(47,111,203,.20);
+}
+
+/* ---------------------------------------------------------------- 1. type and rendering */
+html{ -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; text-rendering:optimizeLegibility; -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+::selection{ background:rgba(47,111,203,.22); color:var(--navy); }
+h1,h2,h3,.giant{ text-wrap:balance; }
+:is(p,li,dd,figcaption,blockquote,summary){ text-wrap:pretty; }
+:is(time,.stats b,.tfacts b,.jr-glance b,.jr__k,.rv-pill__r,.ph__meta,.bp-now b,.tq-card__n,.pager a){ font-variant-numeric:tabular-nums lining-nums; }
+/* card copy was 14.7px; it is now 15px rising to 15.8px, so a family reading on a phone is not squinting */
+.sv__c p,.card.svc p,.trt__c p,.adm__c p,.team__c p,.pq__c p,.ct-room p,.hb2-c__x,.sp-glance dd,.bp-note,.bp-hint{ font-size:clamp(.94rem,.92rem + .14vw,.99rem); line-height:1.62; }
+.ph__lede,.sp-lede,.lede2,.fh-lede,.bp-lede{ line-height:1.62; color:#3d5068; }
+.tags span,.svc .tags span{ letter-spacing:.012em; font-weight:500; }
+
+/* ---------------------------------------------------------------- 2. header and menus */
+.nav:not(#s){
+  border:1px solid rgba(34,78,145,.12);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 1px 2px rgba(15,33,65,.04),0 16px 36px -18px rgba(29,83,154,.34);
+}
+.dd__m{ border-color:var(--el-line) !important; box-shadow:var(--el-hi),0 2px 4px rgba(15,33,65,.05),0 26px 50px -20px rgba(29,83,154,.40) !important; }
+@media (min-width:1001px){
+  .dd__m{ transform-origin:50% 0; scale:.985; transition:opacity .22s ease,translate .36s var(--el-out),scale .36s var(--el-out),visibility 0s linear .36s; }
+  .dd.open .dd__m{ scale:1; }
+  .nav nav .dd__m a:hover .dd__ic{ box-shadow:0 6px 14px -6px rgba(31,79,154,.6); }
+}
+/* the gliding pill is measured by a script that waits for a transition to end; with reduced motion there is none, so rest the tint on the link itself */
+@media (prefers-reduced-motion:reduce) and (min-width:1001px){
+  .nav-pill{ display:none !important; }
+  .nav nav > a.act,.nav nav > .dd:has(.act){ background:var(--tint); border-radius:999px; padding:6px 13px; margin:-6px -13px; }
+}
+
+/* ---------------------------------------------------------------- 3. buttons and links */
+.btn:not(.ghost):not(.wa):not(.nav .btn){ background-image:linear-gradient(180deg,#3d7ddb 0%,var(--blue) 46%,#2a62b8 100%); box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 1px 2px rgba(31,79,154,.35),0 10px 22px -10px rgba(31,79,154,.6); }
+.btn.ghost,.nav .btn{ box-shadow:var(--el-hi),0 1px 2px rgba(15,33,65,.05); }
+.btn.ghost:hover,.nav .btn:hover{ border-color:var(--el-line-h) !important; }
+/* the arrow in a text link leans toward where it goes */
+.more__a i,.sv__more i,.trt__go i,.ct-room__go i,.jchips__go i,.tband__go i,.fq__all i,.sp-rel i{ display:inline-block; transition:translate .3s var(--el-out); }
+@media (hover:hover){ .more__a:hover i,.sv__more:hover i,.trt__c:hover .trt__go i,.ct-room:hover .ct-room__go i,.tband__link:hover i,.fq__all:hover i{ translate:4px 0; } }
+/* inline links in running copy: a quiet underline that firms up on hover */
+.prose__main a:not(.btn),.sp__main a:not(.btn),.fq-a a,.ct-dl a,.tq-notes a{ text-decoration-thickness:1px; text-underline-offset:.22em; text-decoration-color:rgba(47,111,203,.4); transition:text-decoration-color .25s,color .25s; }
+.prose__main a:not(.btn):hover,.sp__main a:not(.btn):hover,.fq-a a:hover,.ct-dl a:hover,.tq-notes a:hover{ text-decoration-color:currentColor; text-decoration-thickness:1.5px; }
+:where(a,button,summary,input,select,textarea,[tabindex]):focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
+.nav :focus-visible,.dd__m :focus-visible,.actbar :focus-visible,.vr :focus-visible,.bp-field :focus-visible{ box-shadow:none; }
+/* on the navy areas the blue ring is too dim (3.2:1), so it goes pale there */
+footer :where(a,button):focus-visible,.ann :where(a):focus-visible,.ct-urgent :where(a,button):focus-visible{ outline-color:#bcd5f5; }
+:root{ accent-color:var(--blue); caret-color:var(--blue); }
+
+/* ---------------------------------------------------------------- 4. cards: one light, one family */
+:is(.sv__c,.card.svc,.trt__c,.adm__c,.team__c,.pq__c,.ct-room,.hb2-c,.tq-card,.sp-rel li a,.fh-g,.lp-cond,.ab2-ri,.ri,.press,.rv,.tband__card,.jchips li,.tfacts a):not(#s){
+  border-color:var(--el-line);
+  box-shadow:var(--el-hi),var(--el-sh-1);
+}
+@media (hover:hover){
+  :is(.sv__c,.card.svc,.trt__c:not(.trt__c--static),.hb2-c,.tq-card,.sp-rel li a,.lp-cond,.jchips li,.tfacts a,.ct-room):not(#s):hover{
+    border-color:var(--el-line-h);
+    box-shadow:var(--el-hi),var(--el-sh-3) !important;
+  }
+}
+/* the icon tile fills with blue when its card is reached: the same move the menu icons make */
+.sv__ic,.card.svc .ico,.trt__ic,.ri__ic,.ab2-ri__ic,.ct-room__ic,.tband__ic{ transition:background-color .3s,color .3s,border-color .3s,box-shadow .3s var(--el-out); }
+@media (hover:hover){
+  :is(.sv__c,.card.svc,.trt__c,.ct-room,.tband__card):hover :is(.sv__ic,.ico,.trt__ic,.ct-room__ic,.tband__ic){ background:var(--blue); border-color:var(--blue); color:#ffffff; box-shadow:0 8px 16px -8px rgba(31,79,154,.7); }
+}
+/* images inside linked cards ease in a little on hover; the crop never changes */
+.hb2-c__img,.ctr__a,.ct-room__map,.sp-fig{ overflow:hidden; }
+.hb2-c__img img,.ct-room__map img{ transition:scale .8s var(--el-out); }
+@media (hover:hover){ .hb2-c:hover .hb2-c__img img,.ct-room:hover .ct-room__map img{ scale:1.035; } }
+.prose__main img,.sp__main img{ box-shadow:0 0 0 1px rgba(34,78,145,.08),0 12px 28px -18px rgba(29,83,154,.35); }
+
+/* ---------------------------------------------------------------- 5. forms */
+.bp-field input,.bp-field textarea{ box-shadow:inset 0 1px 2px rgba(15,33,65,.04); transition:border-color .2s,box-shadow .25s var(--el-out),background-color .2s; }
+.bp-field input:hover,.bp-field textarea:hover{ border-color:rgba(47,111,203,.45); }
+.bp-field input:focus-visible,.bp-field textarea:focus-visible{ background:#ffffff; box-shadow:var(--el-ring); }
+.bp-choice span{ transition:background-color .2s,border-color .2s,color .2s,box-shadow .25s var(--el-out),translate .2s var(--el-out); }
+.bp-choice:hover span{ border-color:var(--el-line-h); }
+.bp-choice input:checked + span{ box-shadow:0 8px 16px -8px rgba(31,79,154,.6); }
+.bp-choice:active span{ translate:0 1px; }
+.bp-form{ box-shadow:var(--el-hi),var(--el-sh-2); }
+
+/* ---------------------------------------------------------------- 6. footer */
+footer{ line-height:1.55; }
+footer a{ text-underline-offset:.22em; transition:color .2s,translate .3s var(--el-out); }
+footer .f1 b{ font-weight:500; letter-spacing:-.01em; }
+@media (hover:hover){ footer > div:not(.f1):not(.fb) a:hover{ translate:3px 0; } }
+.fb > span{ white-space:normal !important; }
+@media (max-width:900px){ footer{ grid-template-columns:repeat(2,minmax(0,1fr)); } }   /* minmax(0,..): a long unbroken line can no longer widen the grid past the screen */
+@media (max-width:420px){ footer .foot-mark{ font-size:10.6vw; } }   /* the ghost wordmark wrapped onto two lines on a 320px phone */
+@media (max-width:560px){
+  footer{ grid-template-columns:minmax(0,1fr); }
+  footer .fb{ grid-template-columns:minmax(0,1fr); }
+  footer p,footer .fb p{ overflow-wrap:anywhere; }
+}
+
+/* ---------------------------------------------------------------- 7. accordions and small states */
+.hx-q[open] p{ animation:elIn .45s var(--el-out) both; }
+@keyframes elIn{ from{ opacity:0; translate:0 -6px; } to{ opacity:1; translate:0 0; } }
+.hx-q summary::after,.fq-q summary::after,.fh-q summary::after{ transition:background-color .25s,color .25s,transform .35s var(--el-out); }
+.hx-q:hover,.fq-q:hover,.fh-q:hover{ border-color:var(--el-line-h); }
+.hx-q summary,.fq-q summary,.fh-q summary{ transition:color .2s; }
+.hx-q summary:hover,.fq-q summary:hover,.fh-q summary:hover{ color:var(--blue-d); }
+/* while a picture loads there is a pale block, not a white flash */
+.hb2-c__img,.ctr__a,.ab2-intro__frame,.sp-fig{ background-color:#e6eef9; }
+.actbar__b{ transition:background-color .2s,color .2s; }
+.actbar__b:not(.actbar__b--book):active{ background:var(--tint); }
+.actbar__b--book{ background-image:linear-gradient(180deg,#3d7ddb,var(--blue) 50%,#2a62b8); }
+.actbar__b--book:active{ filter:brightness(.94); }
+
+/* ---------------------------------------------------------------- 8. hero breathing room */
+@media (min-width:1000px){ .hero .giant{ margin-top:1rem; } }   /* the name sat 10px under the card edge; the sub-line follows it */
+
+/* ---------------------------------------------------------------- 9. in between: tablets and the no-motion grid */
+@media (min-width:700px) and (max-width:860px){
+  .svl__grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (prefers-reduced-motion:reduce){
+  .tfacts{ grid-template-columns:repeat(4,minmax(0,1fr)); }
+}
+@media (prefers-reduced-motion:reduce) and (max-width:1099px){ .tfacts{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (prefers-reduced-motion:reduce) and (max-width:559px){ .tfacts{ grid-template-columns:minmax(0,1fr); } }
+
+/* ---------------------------------------------------------------- 10. phones */
+@media (max-width:480px){
+  .sp-hero__act,.bp-now{ display:grid; gap:.6rem; }
+  .sp-hero__act .btn,.bp-now .btn{ width:100%; justify-content:center; }
+}
+
+/* ---------------------------------------------------------------- 11. details */
+/* icon tiles: a little lift, so they read as objects and not as flat squares */
+.sv__ic,.card.svc .ico,.trt__ic,.ri__ic,.ab2-ri__ic,.ct-room__ic,.tband__ic,.dd__ic,.jr__ic,.bp-facts__ic{ background-image:linear-gradient(180deg,#f6faff,#e4eefa); box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 1px 2px rgba(29,83,154,.10); }
+.card.svc .ico{ background-color:#ffffff; }
+/* tables: the row under the pointer is tinted, so a long row is easy to follow */
+.tbl tbody tr,.prose__main table tbody tr{ transition:background-color .2s; }
+.tbl tbody tr:hover td,.prose__main table tbody tr:hover td{ background-color:rgba(47,111,203,.045); }
+/* the one native select gets the site's own chevron */
+.hb2-sort select{ -webkit-appearance:none; appearance:none; padding-right:2.1rem; background:#ffffff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%231f4f9a' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E") no-repeat right .7rem center/14px; transition:border-color .2s,box-shadow .25s var(--el-out); box-shadow:var(--el-hi),0 1px 2px rgba(15,33,65,.05); }
+.hb2-sort select:hover{ border-color:var(--el-line-h); }
+.crumb a{ text-decoration:none; transition:color .2s; }
+.crumb a:hover{ color:var(--blue-d); text-decoration:underline; text-underline-offset:.22em; }
+.ptags a,.topics a,.hb2-tag,.pager a{ transition:background-color .25s,border-color .25s,color .25s,translate .3s var(--el-out); }
+@media (hover:hover){ .ptags a:hover,.topics a:hover,.hb2-tag:hover,.pager a:hover{ translate:0 -1px; border-color:var(--el-line-h); } }
+.side__box,.sp-side .sp-book,.prose__side .side__box{ border-color:var(--el-line); box-shadow:var(--el-hi),var(--el-sh-1); }
+footer a{ font-size:.86rem; }
+footer .f1 span,footer .f1 p{ font-size:.86rem; }
+
+/* ---------------------------------------------------------------- 12. motion */
+/* Reveals were 1.4s with 110ms between siblings, and the "settled" rule that was meant to make hover quick lost on specificity, so a card
+   took 1.4s to lift under the pointer. Entrances are now about a second, and a revealed card answers the pointer in under half of one.
+   Only where motion is welcome: with reduced motion the earlier layers keep everything in place. */
+@media (prefers-reduced-motion:no-preference){
+  .reveal{ translate:0 18px; }
+  html.js .reveal{ transition:opacity 1.05s var(--el-out) calc(var(--i,0)*80ms),translate 1.05s var(--el-out) calc(var(--i,0)*80ms),scale 1.05s var(--el-out) calc(var(--i,0)*80ms),box-shadow .5s var(--el-out),border-color .3s; }
+  html.js .reveal.done{ transition:translate .45s var(--el-out),scale .45s var(--el-out),box-shadow .45s var(--el-out),border-color .25s,background-color .25s,opacity .3s; }
+}
+
+/* ---------------------------------------------------------------- 13. answers to an action: sending, error, thanks */
+.bp-err,.bp-thanks:not([hidden]){ animation:elIn .45s var(--el-out) both; }
+@media (prefers-reduced-motion:no-preference){
+  .bp-submit[disabled]{ position:relative; overflow:hidden; }
+  .bp-submit[disabled]::after{ content:""; position:absolute; inset:0; background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.38) 50%,transparent 70%); translate:-100% 0; animation:elShine 1.3s var(--el-out) infinite; }
+  @keyframes elShine{ to{ translate:100% 0; } }
+}
