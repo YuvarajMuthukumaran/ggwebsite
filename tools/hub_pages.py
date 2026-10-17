@@ -98,6 +98,31 @@ TOPIC_IMG = {
 }
 
 
+CARDS = 'assets/img/cards/'   # six framings of each topic photograph (a whole frame, b to f close-ups), cut from assets/img/pages
+def _c(name, keys):
+    return [name + '-' + k for k in keys]
+_X = lambda *f: ['blog/' + x for x in f]
+_ADD = _c('alcohol-recovery', 'abcf') + _c('group-support', 'abcf') + ['alcohol-recovery-d', 'alcohol-recovery-e', 'consultation-c']
+CARD_PHOTOS = [   # (pattern on slug and title, pictures in order of preference); None keeps the post's own picture
+    (r'postpartum|seasonal|anger|sleep|hallucinat|delirium|recovery journey|psychiatrist near me|डर', None),
+    (r'smok|quit', _c('smoking', 'af') + _X('smoking-cessation-treatment-by-psychiatrist-in-delhi_11zon')),
+    (r'eating|anorexia|nutrition|diet', _c('eating', 'abcdef')),
+    (r'schizotypal', _c('schizotypal-fog', 'adef')),
+    (r'schizo|psychos|antipsychotic', _c('schizophrenia-fog', 'adefc') + _c('schizotypal-fog', 'adef')),
+    (r'narciss|npd', _c('narcissism-mirror', 'abcdef')),
+    (r'borderline|bpd', _c('borderline', 'adf') + _c('narcissism-mirror', 'dae')),
+    (r'personality', _c('personality-masks', 'afe') + _c('borderline', 'adf')),
+    (r'bipolar|bi polar', ['bipolar-light-a', 'bipolar-shadow-a', 'bipolar-light-d', 'bipolar-shadow-b', 'bipolar-light-f'] + _c('bipolar-shadow', 'cdef')),
+    (r'ocd|obsess|ओसीडी', _c('ocd-handwashing', 'abcdef') + ['anxiety-d']),
+    (r'alcohol|drink|withdrawal|sobriety', _ADD),
+    (r'substance|addict|drug|cannabis|marijuana|rehab|relapse|buprenorphine|dual diagnosis', _ADD),
+    (r'depress|self harm|suicid|mood|therapy actually', _c('depression', 'abcef') + ['anxiety-d', 'anxiety-f']),
+    (r'anxiety|panic|stress|worry|phobia', _c('anxiety', 'abdf') + _c('stress-calm', 'af')),
+    (r'psychiatrist|psychologist|counsel|consult|prescribe|online|test|habits|questions|dtms', _c('consultation', 'abcdef') + _c('stress-calm', 'af') + _c('group-support', 'abc')),
+    (r'.', _c('stress-calm', 'af') + _c('group-support', 'abcf') + _c('depression', 'cef') + _c('anxiety', 'abdf')),
+]
+
+
 def stand_in(p, n):
     text = (p['slug'] + ' ' + p['title']).lower().replace('-', ' ')
     for pat, f in KEYWORD_IMG:
@@ -180,7 +205,18 @@ def resources_hub(root, posts, tests, href, pretty_date, tag_map=None):
     (assets/js/hub.js), and more resources. Every article is in the HTML; hub.js filters, sorts and pages them in the browser."""
     tag_map = tag_map or {}
 
+    taken = {}   # picture -> times used on this page, so a card takes the first picture of its subject that no card has yet
+
     def img(p):
+        # a picture that matches the subject comes first; the post's own picture stays only where it already says exactly what the article is about
+        text = (p['slug'] + ' ' + p['title']).lower().replace('-', ' ')
+        for pat, pool in CARD_PHOTOS:
+            if re.search(pat, text):
+                if pool:
+                    pick = min(pool, key=lambda n: (taken.get(n, 0), pool.index(n)))
+                    taken[pick] = taken.get(pick, 0) + 1
+                    return root + ((IMG + pick[5:] + '.webp') if pick.startswith('blog/') else (CARDS + pick + '.webp'))
+                break
         m = re.search(r'<img[^>]*src="\{\{root\}\}([^"]+)"', p['_body'])
         return root + (m.group(1) if m else stand_in(p, posts.index(p)))
 
