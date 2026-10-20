@@ -496,3 +496,27 @@ body:has(.ab2-ph) #how:not(#s){ max-width:1180px; width:100%; margin-inline:auto
   .cenr:hover .cenr__img--x,.cenr.is-open .cenr__img--x{ animation-play-state:paused; }
   @keyframes cenrFade{ 0%{ opacity:0; } 6%,31%{ opacity:1; } 38%,100%{ opacity:0; } }
 }
+
+/* Home: the two Economic Times trophies, in one pale panel beside the text */
+.awd__in{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.15fr); gap:clamp(1.5rem,4vw,3.5rem); align-items:center; padding:clamp(1.4rem,3vw,2.4rem); border:1px solid rgba(34,78,145,.10); border-radius:34px; background:linear-gradient(135deg,#eef4fc,#f8fbff); box-shadow:var(--el-hi),var(--el-sh-1); }
+.awd__t{ display:flex; flex-direction:column; align-items:flex-start; gap:.7rem; }
+.awd__t .eyebrow{ margin:0; }
+.awd__t h2{ margin:0 !important; font-size:clamp(1.6rem,2.8vw,2.3rem) !important; line-height:1.12 !important; letter-spacing:-.035em; }
+.awd__t p{ margin:0; max-width:34ch; color:#4f627a; font-size:1.0625rem; line-height:1.65; }
+.awd__t .btn{ margin-top:.6rem; }
+.awd__g{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; }
+.awd__c{ position:relative; margin:0; overflow:hidden; border-radius:24px; background:#ffffff; box-shadow:0 1px 2px rgba(15,33,65,.06),0 18px 36px -22px rgba(29,83,154,.4); transition:translate .5s var(--el-out),box-shadow .5s var(--el-out); }
+.awd__a{ display:block; padding:.8rem .8rem 0; text-decoration:none; }
+.awd__a img{ display:block; width:100%; height:auto; aspect-ratio:4 / 5; object-fit:contain; transition:scale .9s var(--el-out); }
+.awd__c figcaption{ position:absolute; left:.9rem; top:.9rem; padding:.2rem .7rem; border-radius:999px; background:var(--tint); color:var(--blue-d); font-size:.8125rem; font-weight:600; font-variant-numeric:tabular-nums; }
+.awd__c::after{ content:""; display:block; height:.8rem; }
+@media (hover:hover){ .awd__c:hover{ translate:0 -4px; box-shadow:0 2px 4px rgba(15,33,65,.06),0 26px 44px -22px rgba(29,83,154,.5); } .awd__c:hover img{ scale:1.03; } }
+@media (max-width:860px){ .awd__in{ grid-template-columns:minmax(0,1fr); } .awd__g{ max-width:30rem; } }
+@media (max-width:520px){ .awd__g{ gap:.7rem; } }
+
+/* ---- Services hero: the headline fits its column ---------------------------------------------------------------------------------------------
+   "Comprehensive Mental Health Services" is a longer H1 than the old one; at the old size its first word ran under the areas panel. */
+.sh__in:not(#s){ grid-template-columns:minmax(270px,.62fr) minmax(0,1.9fr); }
+.sh__txt h1:not(#s){ font-size:clamp(1.9rem,2.7vw,2.8rem) !important; line-height:1.06 !important; letter-spacing:-.04em !important; overflow-wrap:break-word; hyphens:manual; max-width:100%; }
+.sh__txt .ph__lede{ font-size:1rem; line-height:1.6; max-width:34ch; }
+@media (max-width:980px){ .sh__in:not(#s){ grid-template-columns:minmax(0,1fr); } .sh__txt h1:not(#s){ font-size:clamp(2rem,7vw,2.8rem) !important; } .sh__txt .ph__lede{ max-width:46ch; } }
