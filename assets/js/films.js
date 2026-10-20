@@ -97,7 +97,7 @@
 
       cards[i].style.transform = 'translate3d(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px,' + tz.toFixed(1) + 'px) rotateY(' + (rotY + tiltY).toFixed(2) + 'deg) rotateX(' + (rotX + tiltX).toFixed(2) + 'deg) scale(' + sc.toFixed(3) + ')';
       cards[i].style.opacity = op.toFixed(3);
-      cards[i].style.filter = blur > .15 ? 'blur(' + blur.toFixed(2) + 'px)' : 'none';
+      /* no blur filter here: it forced a repaint of the playing video on every scrolled frame */
       cards[i].style.setProperty('--shift', clamp(d * -5, -5, 5).toFixed(2) + '%');     // media parallax
       caps[i].style.opacity = (clamp(1 - a * .85, .12, 1) * e).toFixed(3);
       caps[i].style.transform = 'translate3d(0,' + ((1 - e) * 24).toFixed(1) + 'px,0)';

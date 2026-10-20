@@ -46,8 +46,8 @@
 .vr__stage{ position:relative; }
 .vr__glow{
   position:absolute; inset:-6% -10% 8%; z-index:-1; pointer-events:none; opacity:.22;
-  background:center 30%/cover no-repeat; filter:blur(90px) saturate(1.05);
-  transition:opacity .45s ease; will-change:transform;
+  background:center 30%/cover no-repeat; filter:blur(46px) saturate(1.05);
+  transition:opacity .45s ease; transform:translateZ(0);
 }
 .vr__glow.sw{ opacity:0; }
 

@@ -73,18 +73,19 @@
     return true;
   }
 
-  function go(i) {
+  function go(i, initial) {
     current = i;
     steps.forEach(function (s, n) { s.classList.toggle('is-active', n === i); });
     progN.textContent = 'Step ' + (i + 1) + ' of ' + steps.length;
     progB.style.width = ((i + 1) / steps.length * 100) + '%';
     var name = steps[i].dataset.step;
     live.textContent = 'Step ' + (i + 1) + ' of ' + steps.length + ': ' + (LABELS[name] || '');
+    if (initial) return;     // on page load, show step 1 only: do not take focus or scroll the page down to the form
     var field = steps[i].querySelector('input:not([type=hidden]),textarea');
     if (field) field.focus({ preventScroll: true });
     steps[i].scrollIntoView({ block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   }
-  go(0);
+  go(0, true);
 
   // a server-side error (booking.js, after submit) can land on a field in a step that is
   // currently hidden -- surface it by jumping back to that step
