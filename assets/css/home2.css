@@ -1,0 +1,396 @@
+/* ============================================================
+   home2.css  v1. Loads last (bundled after navy.css).
+   Client review, round 3: the home page rewritten from the
+   "Gorav Sir Homepage Rewrite" document, with tighter layouts,
+   and the About page redesign.
+
+     1  institution pills that link out
+     2  areas of treatment (.sv): one even grid, "Read more" on each
+     3  journey: back on the original timeline layout (.jr), new content
+     5  reviews (.hx-rvh, .hx-rvs): three columns under the heading
+     6  questions (.hx-qa, .hx-q): two columns
+     7  Tulasi band cards that link out
+     8  floating call and WhatsApp circles (.fabs)
+     9  films: eight-item reel scrolls instead of stretching the page
+    10  About page (.ab-*)
+
+   New components use their own class names; the few overrides of
+   older layers carry !important, as in refresh.css and navy.css.
+   ============================================================ */
+
+/* ---------- 1 · INSTITUTION PILLS ----------------------------- */
+.strip a{
+  display:inline-flex; align-items:center; gap:.4rem; margin:0; padding:.45rem 1rem; white-space:nowrap;
+  border-radius:99px; background:#ffffff; border:1px solid var(--line); color:var(--blue-d); font-weight:600;
+  text-decoration:none; transition:border-color .3s ease, background .3s ease, box-shadow .3s ease;
+}
+.strip a i{ font-style:normal; font-size:.8em; }
+.strip a:hover{ border-color:var(--blue); background:var(--tint); box-shadow:0 8px 20px -12px rgba(29,83,154,.5); }
+.strip a:focus-visible{ outline:2px solid var(--blue); outline-offset:2px; }
+
+/* ---------- 2 · AREAS OF TREATMENT ---------------------------- */
+.sv{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; align-items:stretch; }
+.sv__c{
+  display:flex; flex-direction:column; gap:.7rem; padding:1.25rem 1.3rem 1.1rem;
+  background:#ffffff; border:1px solid var(--line); border-radius:18px;
+  box-shadow:0 1px 2px rgba(29,83,154,.04),0 14px 30px -22px rgba(29,83,154,.3);
+}
+.sv__c{ transition:translate .45s var(--e),border-color .3s ease,box-shadow .45s ease; }
+.sv__c.reveal.in:hover,.sv__c:hover{ translate:0 -6px; border-color:var(--blue); box-shadow:0 1px 2px rgba(29,83,154,.05),0 26px 44px -20px rgba(29,83,154,.5); }
+.sv__c .sv__ic{ transition:background .3s ease,color .3s ease; }
+.sv__c:hover .sv__ic{ background:var(--blue); color:#ffffff; }
+.sv__h{ display:flex; align-items:center; gap:.8rem; }
+.sv__ic{ flex:none; display:grid; place-items:center; width:40px; height:40px; border-radius:12px; background:var(--tint); color:var(--blue-d); }
+.sv__ic svg{ width:22px; height:22px; }
+.sv__c h3{ margin:0; font-size:1.08rem; line-height:1.25; font-weight:600; letter-spacing:-.01em; }
+.sv__c p{ margin:0; font-size:.92rem; line-height:1.6; color:var(--mut); }
+.sv__more{
+  display:inline-flex; align-items:center; gap:.35rem; align-self:flex-start; margin-top:auto; padding-top:.25rem;
+  font-weight:600; font-size:.9rem; color:var(--blue-d); text-decoration:none;
+}
+.sv__more i{ font-style:normal; transition:transform .3s ease; }
+.sv__more:hover i,.sv__more:focus-visible i{ transform:translateX(4px); }
+.sv__more:hover{ text-decoration:underline; text-underline-offset:4px; }
+.sv__all{
+  grid-column:span 2; align-self:center; display:flex; align-items:center; justify-content:space-between; gap:1.5rem; padding:1.4rem 1.6rem;
+  border:1px dashed #9cbde6; border-radius:18px; color:var(--ink); text-decoration:none;
+  transition:translate .45s var(--e),border-color .3s ease,background .3s ease;
+}
+.sv__all small{ display:block; margin-bottom:.3rem; font-size:.72rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--blue-d); }
+.sv__all b{ font-size:1.25rem; font-weight:600; letter-spacing:-.02em; line-height:1.25; }
+.sv__all i{ flex:none; display:grid; place-items:center; width:44px; height:44px; border-radius:50%; background:var(--tint); color:var(--blue-d); font-style:normal; font-size:1.2rem; transition:background .3s ease,color .3s ease; }
+.sv__all:hover{ border-color:var(--blue); border-style:solid; background:#ffffff; translate:0 -4px; }
+.sv__all:hover i{ background:var(--blue); color:#ffffff; }
+.sv__all:focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
+
+/* ---------- 3 · JOURNEY --------------------------------------
+   The timeline itself is .jr in refresh.css; only the recognition label is new. */
+.jr__b .jr__rk{ margin:.1rem 0 .55rem; font-size:.72rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--mut); }
+
+/* ---------- 5 · REVIEWS --------------------------------------- */
+.reviews{ display:block !important; }
+.hx-rvh{ display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:1.2rem 2rem; margin-bottom:1.5rem; }
+.hx-rvh h2{ margin:.6rem 0 .6rem !important; }
+.hx-rvh .lede2{ margin:0; max-width:52ch; }
+.hx-rvh .rv-pills{ display:flex; flex-wrap:wrap; gap:.6rem; }
+.hx-rvs{ columns:3 280px; column-gap:1rem; }
+.hx-rvs .rv{ display:inline-block; width:100%; margin:0 0 1rem; break-inside:avoid; grid-column:auto !important; grid-row:auto !important; }
+.hx-rvs .rv blockquote{ font-size:.95rem !important; line-height:1.6 !important; }
+
+/* ---------- 6 · QUESTIONS ------------------------------------- */
+.hx-qa{ columns:2; column-gap:1rem; }
+.hx-q{
+  display:block; break-inside:avoid; margin:0 0 .8rem !important; padding:0 !important; overflow:hidden; background:#ffffff !important;
+  border:1px solid var(--line) !important; border-radius:14px !important; box-shadow:none !important;
+}
+.hx-q[open]{ border-color:#b9d0ee !important; box-shadow:0 18px 34px -26px rgba(29,83,154,.45) !important; }
+.hx-q summary{
+  display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1rem 1.2rem; list-style:none; cursor:pointer;
+  font-size:1rem; font-weight:600; line-height:1.4; color:var(--ink);
+}
+.hx-q summary::-webkit-details-marker{ display:none; }
+.hx-q summary::marker{ content:""; }
+.hx-q summary::before{ display:none !important; }
+.hx-q summary::after{
+  content:"+" !important; position:static !important; flex:none; display:grid; place-items:center; width:26px; height:26px; border-radius:50%;
+  background:var(--tint); color:var(--blue-d); font-size:1.15rem; font-weight:500; line-height:1; transform:none !important; translate:none !important; rotate:none !important; inset:auto !important;
+}
+.hx-q[open] summary::after{ content:"\2212" !important; }
+.hx-q summary:focus-visible{ outline:2px solid var(--blue); outline-offset:-2px; border-radius:14px; }
+.hx-q p{ margin:0; padding:0 1.2rem 1.15rem; font-size:.95rem; line-height:1.65; color:var(--mut); }
+#questions .faq__more{ margin:1.3rem 0 0; color:var(--mut); }
+
+/* ---------- 7 · TULASI BAND ----------------------------------- */
+.tband__list li{ display:block !important; padding:0 !important; background:none !important; border:0 !important; }
+.tband__card{
+  display:grid; grid-template-columns:44px minmax(0,1fr) auto; gap:.9rem; align-items:start; height:100%; padding:1.2rem;
+  background:#ffffff; border:1px solid var(--line); border-radius:16px; color:inherit; text-decoration:none;
+  transition:translate .45s var(--e),border-color .3s ease,box-shadow .45s ease;
+}
+.tband__card:hover{ translate:0 -5px; border-color:var(--blue); box-shadow:0 24px 40px -20px rgba(29,83,154,.5); }
+.tband__card:focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
+.tband__go{ display:grid; place-items:center; width:28px; height:28px; border-radius:50%; background:var(--tint); color:var(--blue-d); font-size:.9rem; transition:background .3s ease,color .3s ease; }
+.tband__card:hover .tband__go{ background:var(--blue); color:#ffffff; }
+
+/* ---------- 8 · FLOATING CALL AND WHATSAPP -------------------- */
+.fabs{
+  position:fixed; right:20px; bottom:20px; z-index:60; display:flex; flex-direction:column; gap:.75rem;
+  transition:opacity .35s ease,translate .35s ease;
+}
+html.js .fabs:not(.show){ opacity:0; translate:0 14px; pointer-events:none; }
+.fab{
+  display:grid; place-items:center; width:56px; height:56px; border-radius:50%; color:#ffffff; text-decoration:none;
+  box-shadow:0 14px 28px -10px rgba(10,30,70,.55),inset 0 1px 0 rgba(255,255,255,.25);
+  transition:transform .3s var(--e),box-shadow .3s ease;
+}
+.fab svg{ width:28px; height:28px; }
+.fab--call{ background:linear-gradient(180deg,#2f6fcb,#1f4f9a); }
+.fab--wa{ width:62px; height:62px; background:none; box-shadow:none; filter:drop-shadow(0 10px 14px rgba(8,60,30,.35)); }
+.fab--wa img{ display:block; width:100%; height:100%; }
+.fab:hover{ transform:translateY(-3px) scale(1.06); box-shadow:0 20px 34px -12px rgba(10,30,70,.6),inset 0 1px 0 rgba(255,255,255,.3); }
+.fab--wa:hover{ box-shadow:none; filter:drop-shadow(0 14px 18px rgba(8,60,30,.45)); }
+.fab:focus-visible{ outline:3px solid #ffffff; box-shadow:0 0 0 6px #1f4f9a; }
+@media (max-width:900px){
+  .fabs{ right:14px; bottom:calc(14px + env(safe-area-inset-bottom,0px)); }
+  .fab{ width:52px; height:52px; }
+  .fab--wa{ width:56px; height:56px; }
+}
+@media (prefers-reduced-motion:reduce){ .fabs,.fab{ transition:none; } }
+
+/* ---------- 9 · FILMS: eight-item reel ------------------------
+   Every film keeps its caption; the list scrolls beside the player. */
+@media (min-width:861px){
+  .films .reel{
+    max-height:min(74svh,600px); overflow-y:auto; padding:.2rem .4rem .2rem .2rem; scrollbar-width:thin; scrollbar-color:#b9d0ee transparent;
+    -webkit-mask-image:linear-gradient(180deg,#000 calc(100% - 36px),transparent); mask-image:linear-gradient(180deg,#000 calc(100% - 36px),transparent);
+    padding-bottom:36px;
+  }
+}
+
+/* ---------- 11 · RESPONSIVE ----------------------------------- */
+@media (max-width:980px){
+  .sv{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:860px){
+  .hx-qa{ columns:1; }
+}
+@media (max-width:640px){
+  .sv{ grid-template-columns:1fr; }
+  .sv__all{ grid-column:auto; }
+}
+@media (prefers-reduced-motion:reduce){
+  .sv__c,.tband__card,.sv__more i{ transition:none; }
+  .tband__card:hover,.sv__c:hover{ translate:none !important; }
+}
+
+/* ---------- 12 · BOOKING BLOCK (home and contact) -------------
+   navy.css put this on a dark rounded panel. Here it is an open layout on the
+   page background: one large question, the actions, the request form as the only
+   framed element, and the two rooms as ruled rows with plain text links. */
+#appoint .bk{
+  display:grid !important; grid-template-columns:minmax(0,7fr) minmax(0,5fr); gap:clamp(2rem,5vw,4.5rem); align-items:start;
+  padding:clamp(2.2rem,5vw,3.6rem) 0 0 !important; overflow:visible; color:var(--ink);
+  border:0 !important; border-top:2px solid var(--ink) !important; border-radius:0 !important; box-shadow:none !important;
+  background:none !important; background-image:none !important;
+}
+#appoint .bk:before{ display:none !important; }
+#appoint .bk .eyebrow{ color:var(--blue-d) !important; background:none !important; border:0 !important; box-shadow:none !important; padding-left:0 !important; }
+#appoint .bk .eyebrow:before{ background:var(--blue) !important; box-shadow:0 0 0 4px rgba(47,111,203,.18) !important; }
+#appoint .bk h2{ margin:.9rem 0 1.2rem !important; max-width:13ch; color:var(--ink) !important; font-size:clamp(2.3rem,5vw,4rem) !important; line-height:1.02 !important; letter-spacing:-.045em !important; }
+#appoint .bk__p{ margin:0 0 1.7rem; max-width:48ch; color:var(--mut) !important; font-size:1.06rem; line-height:1.72; }
+#appoint .bk .cta{ display:flex; flex-wrap:wrap; align-items:center; gap:.8rem; }
+#appoint .bk__l .btn:not(.wa){ background:linear-gradient(180deg,#2f6fcb,#1f4f9a) !important; color:#ffffff !important; border-color:#1f4f9a !important; font-weight:600; }
+#appoint .bk__l .btn:not(.wa):hover{ background:#16386b !important; border-color:#16386b !important; box-shadow:0 14px 28px -14px rgba(14,35,64,.6); }
+#appoint .bk__l .btn.wa{ background:#ffffff !important; color:var(--ink) !important; border:1px solid var(--line) !important; box-shadow:none; }
+#appoint .bk__l .btn.wa:hover{ border-color:#25d366 !important; background:#f3fcf6 !important; }
+#appoint .bk__mail{ margin:1.3rem 0 0; color:var(--blue-d) !important; text-decoration-color:rgba(31,79,154,.35); }
+#appoint .bk__mail:hover{ color:var(--blue-d) !important; text-decoration-color:currentColor; }
+
+#appoint .bk__r{
+  margin-top:.4rem; padding:clamp(1.3rem,2.6vw,2rem); border:1px solid var(--line) !important; border-radius:20px;
+  background:linear-gradient(180deg,#ffffff,#f6f9fe) !important; box-shadow:0 1px 2px rgba(29,83,154,.05),0 26px 50px -34px rgba(29,83,154,.45) !important;
+}
+
+#appoint .bk .rooms{ grid-column:1/-1; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 clamp(1.5rem,4vw,3.5rem); margin:.6rem 0 0; padding:0; border:0; }
+#appoint .bk .rooms>div,#appoint .bk .rooms>div:hover{
+  display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.3rem 1.2rem; align-items:start; padding:1.3rem 0 .2rem !important;
+  border:0 !important; border-top:1px solid var(--line) !important; border-radius:0 !important; background:none !important; box-shadow:none !important;
+  -webkit-backdrop-filter:none; backdrop-filter:none; translate:none !important; transform:none !important;
+}
+#appoint .bk .rooms>div:hover{ border-top-color:var(--ink) !important; }
+#appoint .bk .rooms h4{ margin:0; color:var(--ink) !important; font-size:1.05rem; font-weight:600; letter-spacing:-.01em; }
+#appoint .bk .rooms p{ grid-column:1/-1; margin:0; max-width:36ch; color:var(--mut) !important; font-size:.94rem; line-height:1.6; }
+#appoint .bk .rooms .room__go{
+  grid-column:2; grid-row:1; align-self:start; padding:0 !important; border-radius:0 !important; background:none !important;
+  color:var(--blue-d) !important; font-weight:600; font-size:.9rem; white-space:nowrap; text-decoration:underline; text-underline-offset:4px; text-decoration-color:rgba(31,79,154,.35);
+}
+#appoint .bk .rooms>div:hover .room__go{ background:none !important; text-decoration-color:currentColor; }
+#appoint .room__go:focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
+@media (max-width:940px){
+  #appoint .bk{ grid-template-columns:1fr; }
+  #appoint .bk h2{ max-width:none; }
+}
+@media (max-width:640px){
+  #appoint .bk .rooms{ grid-template-columns:1fr; }
+  #appoint .bk .rooms>div{ grid-template-columns:1fr; }
+  #appoint .bk .rooms .room__go{ grid-column:1; grid-row:auto; margin-top:.4rem; }
+}
+
+/* ---------- 13 · ONE TYPEFACE ---------------------------------
+   Older layers still name Poppins, Figtree and Inter on individual elements with
+   !important (press cards, buttons, the nav, form fields). The whole site is Geist;
+   Devanagari falls through to Noto Sans Devanagari. */
+html body,html body *:not(#_z),html body *:not(#_z)::before,html body *:not(#_z)::after{
+  font-family:Geist,"Noto Sans Devanagari",system-ui,-apple-system,"Segoe UI",sans-serif !important;
+}
+
+/* ---------- 14 · CLOSING CALL TO ACTION (every inner page) -----
+   Same open layout as the booking block: a ruled top edge, one large question, and the
+   three ways to reach the team stacked beside it. The dark rounded band is gone. */
+.ctab{ width:min(1132px,calc(100% - 48px)); margin:clamp(2.4rem,6vw,4.5rem) auto clamp(3rem,6vw,5rem); }
+.ctab__in{
+  display:grid; grid-template-columns:minmax(0,7fr) minmax(0,5fr); gap:clamp(1.6rem,5vw,4.5rem); align-items:end;
+  padding:clamp(2rem,4.5vw,3.2rem) 0 0; border:0; border-top:2px solid var(--ink); border-radius:0; background:none; color:var(--ink); box-shadow:none;
+}
+.ctab h2{ margin:0 0 1rem !important; max-width:14ch; color:var(--ink) !important; font-size:clamp(2.1rem,4.6vw,3.6rem) !important; line-height:1.04 !important; letter-spacing:-.04em !important; }
+.ctab p{ max-width:48ch; margin:0; font-size:1.0625rem; line-height:1.72; color:#46586f; }
+.ctab__act{ display:grid; gap:.7rem; max-width:23rem; width:100%; justify-self:end; }
+.ctab .btn{ justify-content:center; width:100%; white-space:nowrap; }
+.ctab .btn:not(.wa):not(.ghost){ background:linear-gradient(180deg,#2f6fcb,#1f4f9a) !important; color:#ffffff !important; border-color:#1f4f9a !important; font-weight:600; }
+.ctab .btn:not(.wa):not(.ghost):hover{ background:#16386b !important; border-color:#16386b !important; }
+.ctab .btn.ghost{ background:#ffffff !important; color:var(--blue-d) !important; border:1px solid #9cbde6 !important; box-shadow:none; }
+.ctab .btn.ghost:hover{ background:var(--tint) !important; border-color:var(--blue) !important; }
+.ctab .btn.wa{ background:#ffffff !important; color:var(--ink) !important; border:1px solid var(--line) !important; box-shadow:none; }
+.ctab .btn.wa:hover{ border-color:#25d366 !important; background:#f3fcf6 !important; }
+@media (max-width:860px){
+  .ctab__in{ grid-template-columns:1fr; align-items:start; }
+  .ctab h2{ max-width:none; }
+  .ctab__act{ justify-self:stretch; max-width:none; }
+}
+
+/* ---------- 15 · POLISH PASS ----------------------------------
+   Services grid balance, the home About text on the same type scale as the About page,
+   hero legibility, a quieter film backdrop, phone clutter, and the browser-drawn details
+   (selection, caret, form accent, focus ring). */
+
+/* services: the long seventh card spans two columns, and the link tile fills the last cell */
+.sv__c:nth-child(7){ grid-column:span 2; }
+.sv__c:nth-child(7) p{ max-width:70ch; }
+.sv__all{
+  grid-column:auto; align-self:stretch; flex-direction:column; align-items:flex-start; justify-content:space-between; gap:1.4rem;
+  padding:1.4rem 1.5rem; border:1px solid #d3e3f6; border-style:solid; background:var(--tint);
+}
+.sv__all b{ font-size:1.3rem; }
+.sv__all i{ align-self:flex-end; background:#ffffff; }
+.sv__all:hover{ background:#ffffff; }
+@media (max-width:980px){ .sv__all{ grid-column:span 2; flex-direction:row; align-items:center; } .sv__all i{ align-self:center; } }
+@media (max-width:640px){ .sv__c:nth-child(7),.sv__all{ grid-column:auto; } }
+
+/* home About: same scale as the About page */
+#who .about__txt p{ max-width:64ch; font-size:1.0625rem; line-height:1.75; color:#46586f; }
+#who .about__txt p.lead{ font-size:1.25rem; line-height:1.55; color:var(--ink); }
+
+/* hero: a touch more legible */
+.hero__l p{ font-size:1rem !important; line-height:1.65 !important; }
+.qual small{ font-size:.9rem !important; line-height:1.55; }
+.stats span{ font-size:.9rem !important; }
+
+/* films: the backdrop is a tint now, not a second photograph; the link sits on the page edge */
+.vr__glow{ opacity:.16; filter:blur(90px) saturate(.35); }
+.vr__more{ text-align:center; }
+.vr__more .more__a{ margin:0; }
+
+/* phones: fewer floating things on top of the text */
+@media (max-width:900px){
+  .bg,.bg__nudge{ display:none !important; }
+}
+@media (max-width:700px){
+  .fabs{ right:12px; bottom:calc(12px + env(safe-area-inset-bottom,0px)); gap:.6rem; }
+  .fab{ width:46px; height:46px; }
+  .fab svg{ width:23px; height:23px; }
+  .fab--wa{ width:50px; height:50px; }
+}
+
+/* browser-drawn details */
+:root{ accent-color:#2f6fcb; caret-color:#2f6fcb; }
+::selection{ background:#cfe1f7; color:#0e2340; }
+:where(a,button,summary,input,textarea,select,[tabindex]):focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
+p{ text-wrap:pretty; }
+h1,h2,h3{ text-wrap:balance; }
+
+/* ---------- 16 · WHOLE CARD IS THE LINK ------------------------
+   The "Read more" link stretches over its card (home and Services page), so a tap or click anywhere
+   on the card opens the page. Extra links in a card (Anxiety and OCD has two) stay separately clickable. */
+.sv__c,.svl__grid .svc{ position:relative; cursor:pointer; }
+.sv__more,.svc__more .more__a:first-child{ position:static; }
+.sv__more::after,.svc__more .more__a:first-child::after{ content:""; position:absolute; inset:0; z-index:1; border-radius:inherit; }
+.svc__more a:not(:first-child){ position:relative; z-index:2; }
+.sv__c:has(.sv__more:focus-visible),.svl__grid .svc:has(.more__a:focus-visible){ outline:2px solid var(--blue); outline-offset:3px; }
+.sv__more:focus-visible,.svc__more .more__a:focus-visible{ outline:0; }
+.svl__grid .svc{ transition:translate .45s var(--e),border-color .3s ease,box-shadow .45s ease; }
+.svl__grid .svc:hover{ border-color:var(--blue); box-shadow:0 26px 44px -20px rgba(29,83,154,.45); }
+
+/* legibility floor: nothing the visitor has to read is set below 12.5px */
+.tags span,.svc .tags span{ font-size:.8125rem !important; }
+.strip>span{ font-size:.8rem !important; letter-spacing:.12em; }
+
+/* ---------- 17 · BOOKING BLOCK WITHOUT THE FORM -----------------
+   Message on the left, the ways to reach the team stacked on the right, the two rooms underneath. */
+#appoint .bk__act{ display:grid; gap:.7rem; width:100%; max-width:23rem; justify-self:end; align-self:end; }
+#appoint .bk__act .cta{ display:grid; gap:.7rem; }
+#appoint .bk__act .btn{ justify-content:center; width:100%; }
+#appoint .bk__act .bk__mail{ margin:.4rem 0 0; text-align:center; }
+@media (max-width:940px){ #appoint .bk__act{ justify-self:stretch; max-width:none; } }
+
+/* ---------- 18 · SCROLL PERFORMANCE ------------------------------
+   Three things repainted or recalculated on every scrolled frame: the glass-blur navigation (a backdrop
+   blur over moving content), two infinite full-page background animations, and the aurora's scroll-driven
+   offsets. The nav is now a near-solid white pill and the backgrounds are still, so scrolling is just
+   compositing. */
+.nav,.nav.on{
+  -webkit-backdrop-filter:none !important; backdrop-filter:none !important;
+  background:rgba(255,255,255,.95) !important;
+}
+.aurora i{ animation:none !important; translate:none !important; }
+html::before{ animation:none !important; }
+
+/* ---------- 19 · EVERYTHING THAT NAMES SOMETHING OPENS SOMETHING ---
+   The memberships strip: every item is the same pill (they were a mix of pills and plain text) and every pill links. */
+.strip p{ display:none; }
+.strip a{ font-weight:500; color:var(--ink); }
+.strip a:hover{ color:var(--blue-d); }
+/* hero award badge is a link now */
+a.fl.fl1{ text-decoration:none; color:inherit; transition:translate .4s var(--e),box-shadow .4s ease; }
+a.fl.fl1:hover{ translate:0 -3px; box-shadow:0 18px 34px -18px rgba(29,83,154,.55); }
+/* About: Tulasi cards and membership rows */
+.ab2-ri{ position:relative; }
+.ab2-ri__a{ color:inherit; text-decoration:none; }
+.ab2-ri__a::after{ content:""; position:absolute; inset:0; }
+.ab2-ri:has(.ab2-ri__a):hover h3{ color:var(--blue-d); }
+.ab2-ri__tel{ position:relative; z-index:1; font-weight:600; color:var(--blue-d); text-underline-offset:3px; }
+.ab2-ri__a i{ font-style:normal; font-size:.8em; }
+.ab2-bio__list li a{ color:inherit; text-decoration:none; }
+.ab2-bio__list li a:hover{ color:var(--blue-d); text-decoration:underline; text-underline-offset:4px; }
+.ab2-bio__list li a i{ font-style:normal; font-size:.8em; color:var(--blue-d); }
+
+/* home About: facts panel on the About page type scale */
+#who .about__facts>div{ display:block !important; }
+#who .about__facts dt{ margin:0 0 .3rem !important; font-size:.875rem !important; font-weight:500; letter-spacing:0 !important; text-transform:none !important; color:var(--mut); }
+#who .about__facts dd{ margin:0; font-size:1.0625rem; font-weight:500; line-height:1.45; color:var(--ink); }
+#who .about__facts a{ color:inherit; text-decoration:none; }
+#who .about__facts a:hover{ color:var(--blue-d); text-decoration:underline; text-underline-offset:4px; }
+#who .about__facts a i{ font-style:normal; font-size:.8em; }
+
+/* ---------- 20 · CONSULTING ROOMS (home) ---------------------------
+   The two addresses used to sit as plain ruled rows under the booking block. They are the way a patient
+   actually finds the clinic, so each is now a framed card: a pin, the city, the full address and one clear
+   "Open on Google" button. The whole card opens the map. */
+.rm__g{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:clamp(.9rem,2vw,1.4rem); }
+.rm__c{
+  position:relative; display:grid; grid-template-columns:auto minmax(0,1fr); grid-template-rows:1fr auto; gap:.2rem 1.2rem; align-items:start;
+  padding:clamp(1.3rem,2.6vw,1.9rem); border:1px solid var(--line); border-radius:22px;
+  background:linear-gradient(180deg,#ffffff,#f6f9fe); box-shadow:0 1px 2px rgba(29,83,154,.06),0 14px 26px -20px rgba(14,35,64,.32);
+  transition:translate .5s var(--e),box-shadow .5s var(--e),border-color .4s ease;
+}
+.rm__c:hover{ translate:0 -3px; border-color:var(--tint2); box-shadow:0 1px 2px rgba(29,83,154,.08),0 22px 38px -22px rgba(29,83,154,.45); }
+.rm__ic{ grid-row:1/3; display:grid; place-items:center; width:52px; height:52px; border-radius:16px; background:var(--tint); color:var(--blue-d); }
+.rm__ic svg{ width:26px; height:26px; }
+.rm__b h3{ margin:0 0 .4rem; font-size:clamp(1.25rem,2vw,1.5rem); line-height:1.2; letter-spacing:-.02em; color:var(--ink); }
+.rm__b p{ margin:0; max-width:40ch; font-size:1rem; line-height:1.6; color:var(--mut); }
+.rm__go{
+  grid-column:2; justify-self:start; display:inline-flex; align-items:center; gap:.45rem; margin-top:.9rem; padding:.6rem 1.1rem;
+  border:1px solid var(--blue); border-radius:999px; background:var(--tint); color:var(--blue-d); font-size:.9375rem; font-weight:600; text-decoration:none;
+  transition:background .35s ease,color .35s ease,border-color .35s ease;
+}
+.rm__go::after{ content:""; position:absolute; inset:0; border-radius:22px; }
+.rm__go i{ font-style:normal; transition:transform .4s var(--e); }
+.rm__c:hover .rm__go{ background:var(--blue); color:#ffffff; }
+.rm__c:hover .rm__go i{ transform:translate(2px,-2px); }
+.rm__go:focus-visible{ outline:none; }
+.rm__c:has(.rm__go:focus-visible){ outline:2px solid var(--blue); outline-offset:3px; }
+@media (max-width:760px){
+  .rm__g{ grid-template-columns:1fr; }
+  .rm__ic{ width:44px; height:44px; border-radius:14px; }
+  .rm__ic svg{ width:22px; height:22px; }
+}
+@media (prefers-reduced-motion:reduce){ .rm__c,.rm__go,.rm__go i{ transition:none; } .rm__c:hover{ translate:none; } }

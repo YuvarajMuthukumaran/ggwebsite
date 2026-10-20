@@ -1,0 +1,241 @@
+{
+ "source": "Unsplash (free to use under the Unsplash License)",
+ "images": {
+  "alcohol-recovery": {
+   "photo": "1676629922083-96d147ab81a9",
+   "photographer": "Bermix Studio",
+   "page": "https://unsplash.com/photos/a-hand-reaching-for-a-glass-of-water",
+   "size_4k": [
+    3840,
+    2596
+   ],
+   "size_1600": [
+    1600,
+    1082
+   ]
+  },
+  "group-support": {
+   "photo": "1582213782179-e0d53f98f2ca",
+   "photographer": "Hannah Busing",
+   "page": "https://unsplash.com/photos/group-stacking-hands-in-colorful-sweaters-Zyx1bK9mqmA",
+   "size_4k": [
+    3840,
+    2560
+   ],
+   "size_1600": [
+    1600,
+    1067
+   ]
+  },
+  "anxiety": {
+   "photo": "1688397548038-f71a418e2045",
+   "photographer": "engin akyurt",
+   "page": "https://unsplash.com/photos/a-woman-holding-her-head-in-her-hands-WI4k8Z15hbQ",
+   "size_4k": [
+    3840,
+    2880
+   ],
+   "size_1600": [
+    1600,
+    1200
+   ]
+  },
+  "bipolar-light": {
+   "photo": "1512206451403-542d321772f3",
+   "photographer": "Andras Vas",
+   "page": "https://unsplash.com/photos/a-woman-standing-in-front-of-a-window-with-the-sun-shining-through-the-blinds-f-Nj5p6EBJI",
+   "size_4k": [
+    3840,
+    2560
+   ],
+   "size_1600": [
+    1600,
+    1067
+   ]
+  },
+  "bipolar-shadow": {
+   "photo": "1771919005587-d49d985daa0b",
+   "photographer": "Leonardo Iribe",
+   "page": "https://unsplash.com/photos/woman-with-sunlight-and-leaf-shadows-on-face-9D_C2IQnDac",
+   "size_4k": [
+    3840,
+    2560
+   ],
+   "size_1600": [
+    1600,
+    1067
+   ]
+  },
+  "borderline": {
+   "photo": "1752882227051-1aa384ecb30d",
+   "photographer": "Andrew Lvov",
+   "page": "https://unsplash.com/photos/a-dark-portrait-with-a-strong-shadow-lMcm3TFqpeI",
+   "size_4k": [
+    3760,
+    2506
+   ],
+   "size_1600": [
+    1600,
+    1066
+   ]
+  },
+  "depression": {
+   "photo": "1762126242240-cafa01fb1351",
+   "photographer": "Henry Fraczek",
+   "page": "https://unsplash.com/photos/woman-sits-in-chair-looking-out-rainy-window-ZPUMT3YYn1U",
+   "size_4k": [
+    3000,
+    2000
+   ],
+   "size_1600": [
+    1600,
+    1067
+   ]
+  },
+  "schizophrenia-fog": {
+   "photo": "1642958139719-989473e7bf84",
+   "photographer": "Lena Borge",
+   "page": "https://unsplash.com/photos/a-forest-filled-with-lots-of-trees-covered-in-fog-SlmormT2f04",
+   "size_4k": [
+    3840,
+    2238
+   ],
+   "size_1600": [
+    1600,
+    933
+   ]
+  },
+  "schizotypal-fog": {
+   "photo": "1615764040719-755348cd691b",
+   "photographer": "Tatum Bergen",
+   "page": "https://unsplash.com/photos/green-trees-covered-by-fog-Y43n8Wt67PQ",
+   "size_4k": [
+    3840,
+    2560
+   ],
+   "size_1600": [
+    1600,
+    1067
+   ]
+  },
+  "eating": {
+   "photo": "1533777857889-4be7c70b33f7",
+   "photographer": "Pablo Merchan Montes",
+   "page": "https://unsplash.com/photos/woman-holding-fork-in-front-table-Orz90t6o0e4",
+   "size_4k": [
+    3840,
+    2560
+   ],
+   "size_1600": [
+    1600,
+    1067
+   ]
+  },
+  "narcissism-mirror": {
+   "photo": "1515594264927-9bbe53366990",
+   "photographer": "Darius Bashar",
+   "page": "https://unsplash.com/photos/woman-leaning-on-wall-looking-beside-mirror-KYjUHwgtMSI",
+   "size_4k": [
+    3840,
+    2560
+   ],
+   "size_1600": [
+    1600,
+    1067
+   ]
+  },
+  "ocd-handwashing": {
+   "photo": "1584744646898-40ff0404e767",
+   "photographer": "Melissa Jeanty",
+   "page": "https://unsplash.com/photos/person-in-white-shirt-washing-hands-Ks4RTBgQ_64",
+   "size_4k": [
+    3840,
+    2560
+   ],
+   "size_1600": [
+    1600,
+    1067
+   ]
+  },
+  "personality-masks": {
+   "photo": "1567765911290-e3a7498231e2",
+   "photographer": "camilo jimenez",
+   "page": "https://unsplash.com/photos/three-silver-colored-masks-RvBVvaMl5o0",
+   "size_4k": [
+    3840,
+    2560
+   ],
+   "size_1600": [
+    1600,
+    1067
+   ]
+  },
+  "smoking": {
+   "photo": "1527099908998-5b73a5fe2a0d",
+   "photographer": "Mathew MacQuarrie",
+   "page": "https://unsplash.com/photos/single-cigarette-stick-with-ashes-stick-lzcKZlVPYaU",
+   "size_4k": [
+    3840,
+    2543
+   ],
+   "size_1600": [
+    1600,
+    1060
+   ]
+  },
+  "stress-calm": {
+   "photo": "1522075782449-e45a34f1ddfb",
+   "photographer": "Sage Friedman",
+   "page": "https://unsplash.com/photos/woman-sitting-on-bench-over-viewing-mountain-HS5CLnQbCOc",
+   "size_4k": [
+    3840,
+    2560
+   ],
+   "size_1600": [
+    1600,
+    1067
+   ]
+  },
+  "consultation": {
+   "photo": "1758273241086-f3585ef8c2f8",
+   "photographer": "Vitaly Gariev",
+   "page": "https://unsplash.com/photos/therapist-listens-to-patient-in-a-counseling-session-tw-mAZXr6H4",
+   "size_4k": [
+    3800,
+    2138
+   ],
+   "size_1600": [
+    1600,
+    900
+   ]
+  }
+ },
+ "tulasi_site": {
+  "source": "Tulasi Healthcare website (tulasihealthcare.com), the clinic's own photographs, used with the client's permission",
+  "images": {
+   "gurugram-exterior": "https://www.tulasihealthcare.com/wp-content/gallery/hospital/IMG_0958.webp?t=1729745827",
+   "gurugram-reception": "https://www.tulasihealthcare.com/wp-content/gallery/hospital/DSC04317_11zon.webp?t=1729745826",
+   "gurugram-recreation": "https://www.tulasihealthcare.com/wp-content/gallery/hospital/IMG_1009.webp?t=1729745827",
+   "gurugram-room": "https://www.tulasihealthcare.com/wp-content/gallery/hospital/DSC04289_11zon.webp?t=1729745827"
+  }
+ },
+ "client_supplied": {
+  "source": "Photographs supplied by the client",
+  "images": {
+   "mehrauli-exterior": "Supplied by the client (screenshots of the Mehrauli centre photographs), 17 Oct 2026",
+   "mehrauli-lounge": "Supplied by the client (screenshots of the Mehrauli centre photographs), 17 Oct 2026",
+   "mehrauli-reception": "Supplied by the client (screenshots of the Mehrauli centre photographs), 17 Oct 2026"
+  }
+ },
+ "tulasi_team": {
+  "source": "Tulasi Healthcare team page (tulasihealthcare.com/our-team/), the clinic's own portraits, used with the client's permission",
+  "images": {
+   "ratnarakshit-ingole": "https://www.tulasihealthcare.com/wp-content/uploads/2022/12/ratna.webp",
+   "pavan-kumar-pardal": "https://www.tulasihealthcare.com/wp-content/uploads/2026/09/Dr-Pavan-Kumar-Pardal.png",
+   "ram-chander-jiloha": "https://www.tulasihealthcare.com/wp-content/uploads/2026/08/Dr-Ram-Chander-Jiloha.jpeg",
+   "inderjeet-singh": "https://www.tulasihealthcare.com/wp-content/uploads/2024/11/inderjeet-singh.webp",
+   "pranita-gaur": "https://www.tulasihealthcare.com/wp-content/uploads/2026/07/Dr-pranita-gaur.jpg.jpeg",
+   "ira-gupta": "https://www.tulasihealthcare.com/wp-content/uploads/2022/08/ira-gupta.jpg.jpeg"
+  }
+ }
+}

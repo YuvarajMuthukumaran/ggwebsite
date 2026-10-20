@@ -1,0 +1,33 @@
+{
+ "slug": "treatment-and-therapy",
+ "order": 4,
+ "icon": "pill",
+ "title": "Treatment and therapy",
+ "menu_title": "Treatment and therapy",
+ "short": "Treatment options, whether therapy works, OCD treatment and help with alcoholism.",
+ "description": "What treatment options psychiatrists offer, whether therapy works, the best treatment for OCD and how a psychiatrist helps with alcoholism.",
+ "intro": "",
+ "qas": [
+  {
+   "q": "What treatment options do psychiatrists offer?",
+   "a": "<p>Pharmacotherapy (medication management), psychotherapy (talk therapy), cognitive behavioural therapy (CBT), dialectical behaviour therapy (DBT) and other empirically supported therapies are just a few of the treatment choices psychiatrists can offer. They might also advocate support networks, coping mechanisms and lifestyle adjustments. In combination, they may also advise treatments such as Deep Transcranial Magnetic Stimulation therapy, bio-feedback therapy and Virtual Reality therapy.</p>"
+  },
+  {
+   "q": "Do I need counselling or therapy?",
+   "a": "<p>If you are struggling with emotional issues, stress, or mental health concerns such as anxiety or depression, counselling with a mental health therapist or psychologist could help. Therapy provides a safe space to explore feelings, develop coping strategies and gain insight into your challenges. If you are unsure, speaking with a mental health professional can help determine whether therapy is right for you.</p>"
+  },
+  {
+   "q": "Does therapy really work?",
+   "a": "<p>Yes, therapy works. It works wonders for anyone who is committed and resolved to improving their mental health. Dr. Gorav Gupta, a psychiatrist in Gurgaon, uses therapy alongside medication where the evidence supports it.</p>"
+  },
+  {
+   "q": "What is the best treatment for OCD?",
+   "a": "<p>The best treatment for OCD typically involves a combination of cognitive behavioural therapy (CBT), specifically Exposure and Response Prevention (ERP), and medication. Consulting a psychiatrist and a clinical psychologist first is the recommended course of action. Dr. Gorav Gupta treats OCD at our consulting rooms and online. Read more on <a href=\"{{root}}ocd-psychiatrist-in-gurgaon-delhi-ncr/\">OCD treatment</a>.</p>"
+  },
+  {
+   "q": "Can a psychiatrist help with alcoholism?",
+   "a": "<p>Yes. Through a rehabilitation plan, a psychiatrist can help you manage and treat alcoholism. With the help of a counselling psychologist, mental health therapist, clinical psychologist and behavioural therapist, they work on a long-term, personalised plan for a condition like alcoholism. Read more on <a href=\"{{root}}psychiatrist-alcohol-deaddiction-treatment-delhi-gurgaon/\">alcohol de-addiction treatment</a>.</p>"
+  }
+ ],
+ "source": "frequently-asked-questions-psychiatrist-near-me-consultation"
+}

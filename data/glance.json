@@ -1,0 +1,81 @@
+{
+  "_comment": [
+    "The At a glance box under each condition page's H1 (tools/service_pages.py).",
+    "who:        plain language, who the page is for. Written to match the home page cards.",
+    "treatments: the named treatments offered. Clinical - confirm with Dr. Gupta before filling.",
+    "duration:   how long treatment usually takes. Clinical - confirm with Dr. Gupta.",
+    "A row with an empty value is not rendered, so nothing is ever claimed on his behalf."
+  ],
+  "pages": {
+    "psychiatrist-de-addiction-treatment-delhi-gurgaon": {
+      "who": "Alcohol, drug or tobacco dependence, with or without withdrawal.",
+      "treatments": "",
+      "duration": ""
+    },
+    "psychiatrist-alcohol-deaddiction-treatment-delhi-gurgaon": {
+      "who": "Drinking that has become difficult to stop, or is causing harm.",
+      "treatments": "",
+      "duration": ""
+    },
+    "smoking-cessation": {
+      "who": "Tobacco or nicotine dependence, including after earlier attempts to quit.",
+      "treatments": "",
+      "duration": ""
+    },
+    "schizophrenia-psychiatrist-delhi-gurgaon-ncr": {
+      "who": "Hallucinations, delusions, or withdrawal from ordinary life.",
+      "treatments": "",
+      "duration": ""
+    },
+    "best-bipolar-disorder-psychiatrist-delhi-gurgaon": {
+      "who": "Swings between elevated and low mood that disrupt work or relationships.",
+      "treatments": "",
+      "duration": ""
+    },
+    "depression-psychiatrist-doctor-in-delhi-gurgaon": {
+      "who": "Low mood, exhaustion or loss of interest lasting weeks.",
+      "treatments": "",
+      "duration": ""
+    },
+    "best-psychiatrist-anxiety-specialist-delhi-gurgaon": {
+      "who": "Constant worry or panic attacks that take over the day.",
+      "treatments": "",
+      "duration": ""
+    },
+    "ocd-psychiatrist-in-gurgaon-delhi-ncr": {
+      "who": "Obsessive thoughts and compulsions that are hard to resist.",
+      "treatments": "",
+      "duration": ""
+    },
+    "stress-management-psychologist-counselling-delhi-gurgaon": {
+      "who": "Stress that is affecting sleep, work or relationships.",
+      "treatments": "",
+      "duration": ""
+    },
+    "personality-disorder-treatment-delhi-india": {
+      "who": "Long-standing patterns in mood, identity and relationships.",
+      "treatments": "",
+      "duration": ""
+    },
+    "borderline-personality-disorder": {
+      "who": "Intense emotions, unstable relationships and fear of abandonment.",
+      "treatments": "",
+      "duration": ""
+    },
+    "narcissistic-personality-disorder": {
+      "who": "Patterns of grandiosity and difficulty with criticism or empathy.",
+      "treatments": "",
+      "duration": ""
+    },
+    "schizotypal-personality-disorder": {
+      "who": "Odd beliefs or perceptions alongside discomfort in close relationships.",
+      "treatments": "",
+      "duration": ""
+    },
+    "eating-disorder-psychiatrist-delhi-gurgaon": {
+      "who": "Restricting, bingeing or purging, and distress about weight or shape.",
+      "treatments": "",
+      "duration": ""
+    }
+  }
+}

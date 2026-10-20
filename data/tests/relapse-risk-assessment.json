@@ -1,0 +1,52 @@
+{
+  "slug": "relapse-risk-assessment",
+  "order": 4,
+  "menu_title": "Substance use relapse risk",
+  "title": "Relapse Risk Assessment Scale",
+  "short": "A self-assessment of early relapse warning signs for people in recovery from substance use, to help in early identification and prompt intervention.",
+  "source": {
+    "url": "https://www.goravgupta.com/substance-use-disorder/",
+    "page": "substance-use-disorder"
+  },
+  "minutes": 4,
+  "intro": {
+    "measures": "Assessing the risk of relapse in individuals with Substance Use Disorder (SUD) can help in early identification and prompt intervention. This tool can be used by individuals in recovery or by clinicians as part of a therapeutic process.",
+    "instructions": "Please read each statement below and rate how much it has applied to you in the past week on a scale from 0 to 4."
+  },
+  "scale": [
+    { "value": 0, "label": "Not at all" },
+    { "value": 1, "label": "Rarely" },
+    { "value": 2, "label": "Sometimes" },
+    { "value": 3, "label": "Often" },
+    { "value": 4, "label": "Very Often" }
+  ],
+  "questions": [
+    { "id": "e1", "section": "Emotional and Psychological Well-being", "text": "I have felt overwhelmed by my emotions (e.g., anxiety, sadness)." },
+    { "id": "e2", "section": "Emotional and Psychological Well-being", "text": "I find myself denying or minimizing problems that are clearly important." },
+    { "id": "e3", "section": "Emotional and Psychological Well-being", "text": "I have noticed an increase in negative thoughts about myself or my recovery." },
+    { "id": "e4", "section": "Emotional and Psychological Well-being", "text": "I feel complacent about my recovery process." },
+    { "id": "e5", "section": "Emotional and Psychological Well-being", "text": "I have been romanticizing my past substance use." },
+    { "id": "b1", "section": "Behavioral Indicators", "text": "I have skipped meetings or therapy sessions that are part of my recovery plan." },
+    { "id": "b2", "section": "Behavioral Indicators", "text": "I have engaged in behaviors that I previously associated with substance use." },
+    { "id": "b3", "section": "Behavioral Indicators", "text": "I have spent time with people who use substances or encourage my use." },
+    { "id": "b4", "section": "Behavioral Indicators", "text": "I have found myself lying or being secretive about my activities or feelings." },
+    { "id": "b5", "section": "Behavioral Indicators", "text": "I have neglected important responsibilities at work, home, or school." },
+    { "id": "p1", "section": "Physical and Situational Awareness", "text": "I have experienced physical cravings for substances." },
+    { "id": "p2", "section": "Physical and Situational Awareness", "text": "I have put myself in situations where substances are available, thinking I can resist." },
+    { "id": "p3", "section": "Physical and Situational Awareness", "text": "I am facing new or worsening financial or legal problems that stress me." },
+    { "id": "c1", "section": "Coping and Support", "text": "I have been using healthy coping strategies less frequently than before." },
+    { "id": "c2", "section": "Coping and Support", "text": "I feel less connected to or supported by my sober network or support groups." },
+    { "id": "c3", "section": "Coping and Support", "text": "I have had thoughts about using substances as a way to cope with my current situation." }
+  ],
+  "scoring": {
+    "type": "sum",
+    "max": 64,
+    "bands": [
+      { "min": 0, "max": 21, "level": "low", "label": "Low apparent risk of relapse", "text": "Continue practicing coping strategies and maintaining support networks." },
+      { "min": 22, "max": 42, "level": "moderate", "label": "Moderate risk of relapse", "text": "It may be beneficial to increase support, whether through more frequent therapy sessions, support group meetings, or by enhancing your relapse prevention strategies." },
+      { "min": 43, "max": 64, "level": "high", "label": "High risk of relapse", "urgent": true, "text": "Strongly consider reaching out for additional support from a therapist, counselor, or support group. It may be necessary to revisit and strengthen your relapse prevention plan." }
+    ]
+  },
+  "note": "Remember, this tool is for self-assessment purposes and is not a substitute for professional advice.",
+  "next_steps": "Regardless of your score, it's important to discuss your results with a healthcare professional, counselor, or support group who can provide personalized feedback and guidance."
+}

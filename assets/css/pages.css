@@ -1,0 +1,225 @@
+/* ============================================================
+   pages.css  v1. Loads LAST (bundled after refresh.css).
+   The multi-page layer: page headers, closing call-to-action,
+   the home-page teasers, Services, About, Journey, Publications,
+   page-to-page transitions and a skip link.
+   New components keep their own class names; the few overrides of
+   older layers carry !important, matching taste.css and refresh.css.
+   ============================================================ */
+
+/* ---------- 1 · PAGE-TO-PAGE TRANSITIONS ----------------------
+   Cross-document view transitions: supported browsers fade between
+   pages and keep the header still; the rest navigate normally. */
+@view-transition{ navigation:auto; }
+::view-transition-old(root){ animation:vt-out .2s ease both; }
+::view-transition-new(root){ animation:vt-in .34s ease both; }
+@keyframes vt-out{ to{ opacity:0; } }
+@keyframes vt-in{ from{ opacity:0; } }
+.nav{ view-transition-name:site-nav; }
+@media (prefers-reduced-motion:reduce){ @view-transition{ navigation:none; } }
+
+/* inner pages: no opening sequence, the header is simply there */
+html.inner .nav,html.inner .ann{ animation:none !important; opacity:1 !important; }
+html.seen .intro{ display:none !important; }
+html.inner .sec:not(#s){ padding-block:clamp(2.4rem,5vw,4.5rem) !important; }
+html.inner main{ min-height:60vh; }
+
+/* ---------- 2 · SKIP LINK ------------------------------------- */
+.skip{
+  position:fixed; left:12px; top:-64px; z-index:300; padding:.7rem 1.1rem; border-radius:10px;
+  background:var(--ink); color:#ffffff; font-weight:500; transition:top .2s ease;
+}
+.skip:focus{ top:12px; outline:2px solid #ffffff; outline-offset:2px; }
+
+/* ---------- 3 · PAGE HEADER ----------------------------------- */
+.ph{ max-width:1180px; margin:0 auto; padding:clamp(2.2rem,5vw,4.2rem) 24px clamp(.6rem,2vw,1.4rem); }
+.ph__in{ max-width:60rem; }
+.crumb{ display:flex; flex-wrap:wrap; gap:.5rem; margin:0 0 1.3rem; font-size:.86rem; color:var(--mut); }
+.crumb a{ color:var(--mut); text-decoration:none; transition:color .3s ease; }
+.crumb a:hover{ color:var(--blue-d); }
+.crumb [aria-current]{ color:var(--ink); }
+.ph h1{
+  margin:0 0 1rem; font-weight:500 !important; letter-spacing:-.042em !important;
+  font-size:clamp(2.3rem,5.4vw,4.2rem) !important; line-height:1.04 !important; color:var(--ink);
+}
+.ph__lede{ margin:0; max-width:56ch; font-size:clamp(1.05rem,1.5vw,1.2rem); line-height:1.65; color:var(--mut); }
+.ph--lone .ph__in{ padding-block:clamp(2rem,8vw,6rem); }
+.ph__act{ display:flex; flex-wrap:wrap; gap:.7rem; margin:1.8rem 0 0; }
+
+/* ---------- 4 · CLOSING CALL TO ACTION ------------------------ */
+.ctab{ width:min(1132px,calc(100% - 48px)); margin:clamp(2rem,5vw,4rem) auto clamp(3rem,6vw,5rem); }
+.ctab__in{
+  display:grid; grid-template-columns:minmax(0,1fr) auto; gap:clamp(1.5rem,4vw,3rem); align-items:center;
+  padding:clamp(1.8rem,4vw,3.2rem); border-radius:32px; color:#f9fbfd;
+  background:linear-gradient(145deg,#0b1b33 0%,#11264a 100%);
+}
+.ctab h2{ margin:0 0 .7rem; color:#ffffff !important; font-size:clamp(1.7rem,3.2vw,2.6rem) !important; }
+.ctab p{ margin:0; max-width:46ch; color:rgba(249,251,253,.8); line-height:1.65; }
+.ctab__act{ display:flex; flex-wrap:wrap; gap:.7rem; }
+.ctab .btn{ white-space:nowrap; }
+
+/* ---------- 5 · SMALL SHARED PIECES --------------------------- */
+.more{ margin:2rem 0 0; }
+.more__a{
+  display:inline-flex; align-items:center; gap:.45rem; font-weight:600; color:var(--blue-d); text-decoration:none;
+  border-bottom:1px solid currentColor; padding-bottom:2px; transition:gap .4s var(--e);
+}
+.more__a:hover{ gap:.75rem; }
+.more__a i{ font-style:normal; }
+
+.ri{ display:grid; grid-template-columns:46px minmax(0,1fr); gap:1.1rem; align-items:start; }
+.ri__ic{ width:46px; height:46px; display:grid; place-items:center; border-radius:12px; border:1px solid var(--hair); background:var(--paper); color:var(--blue); }
+.ri__ic svg{ width:24px; height:24px; }
+.ri h3{ margin:0 0 .4rem; font-size:1.2rem; line-height:1.2; }
+.ri p{ margin:0; max-width:62ch; color:var(--mut); line-height:1.65; }
+
+/* ---------- 6 · HOME: areas of care --------------------------- */
+.rows{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:clamp(1.5rem,4vw,3.5rem); }
+.rows li{ border-top:1px solid var(--hair); }
+.rows li:nth-last-child(-n+2){ border-bottom:1px solid var(--hair); }
+.row{ display:grid; grid-template-columns:46px minmax(0,1fr) auto; gap:1rem; align-items:start; padding:1.35rem .2rem; color:inherit; text-decoration:none; }
+.row .ico{ margin:0 !important; }
+.row__t b{ display:block; margin-bottom:.25rem; font-size:1.14rem; font-weight:500; letter-spacing:-.016em; }
+.row__t span{ display:block; font-size:.93rem; line-height:1.55; color:var(--mut); }
+.row__go{ font-style:normal; color:var(--blue); transition:transform .4s var(--e); }
+.row:hover .row__go{ transform:translateX(4px); }
+.row:hover .ico,.row:focus-visible .ico{ background:var(--blue) !important; color:#ffffff !important; border-color:var(--blue); }
+.row:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; border-radius:8px; }
+
+/* ---------- 7 · HOME: about teaser ---------------------------- */
+.hab{ display:grid; grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:clamp(2rem,5vw,4.5rem); align-items:center; }
+.hab__fig{ margin:0; }
+.hab__fig img{ display:block; width:100%; height:auto; aspect-ratio:5/5.2; object-fit:cover; object-position:64% 30%; border-radius:var(--r-card,16px); }
+.hab .head{ margin-bottom:1rem !important; }
+
+/* ---------- 8 · HOME: journey milestones ---------------------- */
+.miles{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:clamp(1.2rem,3vw,2.4rem); }
+.miles li{ padding-top:1.1rem; border-top:1px solid var(--hair); }
+.miles b{
+  display:block; font-size:clamp(2.2rem,4.4vw,3.4rem); font-weight:500; line-height:1; letter-spacing:-.045em;
+  color:var(--blue-d); font-variant-numeric:tabular-nums;
+}
+.miles span{ display:block; margin-top:.7rem; max-width:24ch; line-height:1.5; color:var(--mut); }
+
+/* ---------- 9 · HOME: film teaser ----------------------------- */
+.hfl{ display:grid; grid-template-columns:minmax(0,4fr) minmax(0,8fr); gap:clamp(2rem,5vw,4rem); align-items:center; }
+.hfl__txt h2{ margin:0 0 1rem; }
+.hfl__txt .lede2{ margin:0 0 1.6rem; }
+.hfl__list{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
+.hfl__list a{ display:grid; gap:.7rem; color:inherit; text-decoration:none; }
+.hfl__list img{ display:block; width:100%; height:auto; aspect-ratio:9/16; object-fit:cover; border-radius:var(--r-card,16px); transition:transform .8s var(--e); }
+.hfl__list a:hover img{ transform:scale(1.025); }
+.hfl__list span{ font-weight:500; line-height:1.3; letter-spacing:-.01em; }
+.hfl__list a:focus-visible{ outline:2px solid var(--accent); outline-offset:4px; border-radius:8px; }
+.hfl__list li{ overflow:hidden; }
+
+/* ---------- 10 · SERVICES ------------------------------------- */
+.svl__grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.25rem; align-items:stretch; }
+.svl__grid .card[id]{ scroll-margin-top:112px; }
+.svc h2{ margin:0 0 .6rem; font-size:1.35rem !important; line-height:1.2 !important; font-weight:500 !important; letter-spacing:-.02em !important; }
+.how__list{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(1.5rem,3vw,2.6rem); }
+
+/* ---------- 11 · ABOUT ---------------------------------------- */
+.tul{ display:grid; grid-template-columns:minmax(0,4fr) minmax(0,8fr); gap:clamp(2rem,5vw,4.5rem); align-items:start; }
+.tul__intro{ position:sticky; top:116px; }
+.tul__intro h2{ margin:0 0 1rem; }
+.tul__intro .lede2{ margin:0 0 1.4rem; }
+.tul__list{ display:grid; gap:clamp(1.6rem,2.8vw,2.4rem); }
+
+/* ---------- 12 · JOURNEY PAGE --------------------------------- */
+.jrp{ display:grid; grid-template-columns:minmax(0,3fr) minmax(0,8fr); gap:clamp(2rem,6vw,5rem); align-items:start; }
+.jrp .jr__intro{ position:sticky; top:116px; }
+.jr__tocl{ margin:0 0 .8rem; font-size:.82rem; font-weight:600; color:var(--accent); }
+.jr__toc{ list-style:none; margin:0 0 1.6rem; padding:0; display:grid; gap:.1rem; }
+.jr__toc a{ display:block; padding:.45rem 0; color:var(--mut); text-decoration:none; transition:color .3s ease, padding .4s var(--e); }
+.jr__toc a:hover{ color:var(--blue-d); padding-left:.4rem; }
+.jr__grp{ margin:0 0 clamp(2.6rem,5vw,4rem); scroll-margin-top:112px; }
+.jr__grp:last-child{ margin-bottom:0; }
+.jr__grp>h2{ margin:0 0 1.7rem; font-size:clamp(1.5rem,2.4vw,2rem) !important; }
+.jr__org{ margin:.05rem 0 .35rem !important; color:var(--ink) !important; font-weight:500; }
+.jr__meta{ margin:0 0 .6rem !important; font-size:.9rem; color:var(--mut) !important; }
+.jr__tags--lg li{ padding:.45rem 1rem; font-size:.9rem; }
+
+/* ---------- 13 · PUBLICATIONS -------------------------------- */
+.pub__intro{ max-width:66ch; margin:0 0 .9rem; font-size:1.12rem; line-height:1.65; color:var(--ink); }
+.pub .outlets{ margin:0 0 2.2rem; max-width:62ch; font-size:.95rem; line-height:1.6; color:var(--mut); }
+.presses--grid{
+  display:grid !important; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1.1rem; overflow:visible !important;
+  margin-inline:0 !important; padding:0 !important; cursor:auto; -webkit-mask-image:none !important; mask-image:none !important;
+}
+.presses--grid .press,.presses--grid .press:first-child{ flex:none; width:auto; min-height:0; }
+
+/* ---------- 14 · VIDEO GALLERY ------------------------------- */
+.why__list{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:clamp(1.5rem,3vw,2.6rem) clamp(2rem,5vw,4rem); }
+.why__yt{ margin:2.2rem 0 1.2rem; max-width:62ch; color:var(--mut); line-height:1.65; }
+
+/* ---------- 15 · RESPONSIVE ----------------------------------- */
+@media (max-width:1000px){
+  .miles{ grid-template-columns:repeat(2,minmax(0,1fr)); row-gap:2rem; }
+  .how__list{ grid-template-columns:1fr; }
+  .presses--grid{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .hfl{ grid-template-columns:1fr; }
+}
+@media (max-width:860px){
+  .rows{ grid-template-columns:1fr; }
+  .rows li:nth-last-child(2){ border-bottom:0; }
+  .hab{ grid-template-columns:1fr; }
+  .svl__grid{ grid-template-columns:1fr; }
+  .tul,.jrp{ grid-template-columns:1fr; }
+  .tul__intro,.jrp .jr__intro{ position:static; }
+  .why__list{ grid-template-columns:1fr; }
+  .ctab__in{ grid-template-columns:1fr; border-radius:26px; }
+}
+@media (max-width:640px){
+  .presses--grid{ grid-template-columns:1fr; }
+  .miles{ grid-template-columns:1fr 1fr; }
+  .hfl__list{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:.6rem; }
+  .hfl__list span{ font-size:.82rem; }
+  .ctab .btn{ white-space:normal; }
+  .ph{ padding-inline:20px; }
+}
+@media (prefers-reduced-motion:reduce){
+  .more__a,.row__go,.hfl__list img,.jr__toc a,.skip{ transition:none !important; }
+}
+
+/* Journey page: every organisation and membership is a link. An entry with a single organisation is clickable as a whole. */
+.jr__org a{ color:inherit; text-decoration:none; transition:color .25s ease; }
+.jr__org a:hover{ color:var(--blue-d); text-decoration:underline; text-underline-offset:3px; }
+.jr__org a i{ font-style:normal; font-size:.85em; color:var(--blue); }
+.jr__list>li:has(.jr__a) .jr__b{ position:relative; }
+.jr__a::after{ content:""; position:absolute; inset:-.6rem -.9rem; border-radius:16px; }
+.jr__list>li:has(.jr__a):hover .jr__org a{ color:var(--blue-d); }
+.jr__tags a{ display:block; margin:-.26rem -.7rem; padding:.26rem .7rem; color:inherit; text-decoration:none; border-radius:inherit; transition:color .25s ease; }
+.jr__tags--lg a{ margin:-.45rem -1rem; padding:.45rem 1rem; }
+.jr__tags li:has(a){ transition:border-color .25s ease,background .25s ease; }
+.jr__tags li:has(a):hover{ border-color:var(--blue); background:var(--tint); }
+.jr__tags a:hover{ color:var(--blue-d); }
+.jr__tags a i{ font-style:normal; font-size:.85em; }
+.jr__a:focus-visible,.jr__org a:focus-visible,.jr__tags a:focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
+
+/* Journey page without the sidebar: the entries use the whole width */
+.jrp{ grid-template-columns:minmax(0,1fr); }
+.jrp .jr__b p{ max-width:none; }
+@media (min-width:900px){
+  .jrp .jr__list{ --jg:clamp(1.5rem,2.6vw,2.2rem); grid-template-columns:repeat(2,minmax(0,1fr)); gap:var(--jg) clamp(2rem,5vw,4rem); }
+  .jrp .jr__list:before{ display:none; }
+  .jrp .jr__list>li::after{ content:""; position:absolute; left:23px; top:52px; bottom:calc(2px - var(--jg)); width:1px; background:var(--hair); }
+  .jrp .jr__list>li:nth-last-child(-n+2)::after{ display:none; }
+  #positions .jr__list>li:nth-child(7){ grid-column:1 / -1; }
+}
+@media (min-width:1100px){
+  #service .jr__list{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+  #service .jr__list>li::after{ display:none; }
+}
+
+/* Journey page: light polish, same layout */
+.jrp.sec:not(#s){ padding-top:clamp(1rem,2.4vw,1.8rem) !important; }
+.jrp .jr__grp{ margin-bottom:clamp(2rem,4vw,3rem); }
+.jrp .jr__grp>h2{ max-width:none; display:flex; align-items:center; gap:1rem; margin-bottom:1.3rem; letter-spacing:-.028em !important; }
+.jrp .jr__grp>h2::after{ content:""; flex:1; height:1px; background:linear-gradient(90deg,var(--tint2),rgba(214,226,243,0)); }
+.jrp .jr__ic{ background:var(--tint); border-color:var(--tint2); box-shadow:0 0 0 5px #ffffff; transition:background .3s ease,color .3s ease; }
+.jrp .jr__list>li:hover .jr__ic{ background:var(--blue); color:#ffffff; }
+.jrp .jr__k{ display:inline-block; padding:.18rem .6rem; margin-bottom:.45rem; border-radius:999px; background:var(--tint); color:var(--blue-d); font-size:.78rem; }
+.jrp .jr__b h3{ letter-spacing:-.02em; }
+.jrp .jr__tags--lg li{ border-color:var(--tint2); background:#f9fbff; font-weight:500; color:var(--ink); }
+@media (prefers-reduced-motion:reduce){ .jrp .jr__ic{ transition:none; } }

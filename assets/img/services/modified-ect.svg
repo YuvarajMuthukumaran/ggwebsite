@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" fill="none">
+  <defs>
+    <linearGradient id="wall" x1="400" y1="0" x2="400" y2="460" gradientUnits="userSpaceOnUse"><stop stop-color="#F6F5F1"/><stop offset="1" stop-color="#EDEFEF"/></linearGradient>
+    <linearGradient id="bed" x1="278" y1="230" x2="566" y2="348" gradientUnits="userSpaceOnUse"><stop stop-color="#FFF"/><stop offset="1" stop-color="#D8E2EB"/></linearGradient>
+    <filter id="shadow" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB" filterUnits="objectBoundingBox"><feGaussianBlur stdDeviation="9"/></filter>
+  </defs>
+  <rect width="800" height="460" rx="24" fill="url(#wall)"/>
+  <circle cx="117" cy="89" r="100" fill="#EAE2D5" opacity=".5"/>
+  <rect x="504" y="50" width="216" height="151" rx="9" fill="#DFEBF2"/>
+  <path d="M611 51v150m-106-76h215" stroke="#F9FCFD" stroke-width="9"/>
+  <path d="M48 212h704M48 366h704" stroke="#D5DDE2" stroke-width="2"/>
+  <ellipse cx="411" cy="375" rx="285" ry="26" fill="#8895A2" opacity=".18" filter="url(#shadow)"/>
+  <!-- monitored treatment bed, kept empty and calm -->
+  <path d="M212 241h363c15 0 27 12 27 27v57H212z" fill="url(#bed)" stroke="#9AAAB9" stroke-width="2"/>
+  <rect x="186" y="221" width="47" height="118" rx="10" fill="#DCE5EC" stroke="#9AAAB9" stroke-width="2"/>
+  <path d="M212 339v26m345-26v26m-372 0h400" stroke="#687D91" stroke-width="8" stroke-linecap="round"/>
+  <path d="M242 243h302v72H242z" fill="#F9FBFC"/>
+  <path d="M258 253h96v49h-96z" fill="#D4E1EA"/>
+  <path d="M382 269h137" stroke="#C1CDD6" stroke-width="3" stroke-linecap="round"/>
+  <path d="M382 286h106" stroke="#D1DAE1" stroke-width="3" stroke-linecap="round"/>
+  <!-- vital signs monitor -->
+  <path d="M108 144h117v86h-117z" fill="#FDFEFE" stroke="#8195A8" stroke-width="3"/>
+  <rect x="120" y="156" width="93" height="59" rx="4" fill="#183651"/>
+  <path d="M130 187h16l9-18 12 34 13-26 8 10h14" stroke="#83C7C6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M143 230v20m49-20v20m-66 0h82" stroke="#7D92A6" stroke-width="5" stroke-linecap="round"/>
+  <!-- discreet anesthesia cart -->
+  <rect x="643" y="227" width="76" height="111" rx="10" fill="#E8EDF1" stroke="#A7B5C2" stroke-width="2"/>
+  <rect x="655" y="242" width="52" height="29" rx="5" fill="#D6E3EC"/>
+  <circle cx="672" cy="256" r="4" fill="#6F8DA7"/><circle cx="690" cy="256" r="4" fill="#8FB6C2"/>
+  <path d="M658 286h45m-45 13h45" stroke="#B2C0CA" stroke-width="3" stroke-linecap="round"/>
+  <path d="M655 339v15m52-15v15m-62 0h72" stroke="#74899B" stroke-width="6" stroke-linecap="round"/>
+  <!-- soft circular theatre light -->
+  <path d="M360 92v35m0 0 33 19m-33-19-33 19" stroke="#8B9DAE" stroke-width="5" stroke-linecap="round"/>
+  <ellipse cx="360" cy="164" rx="59" ry="18" fill="#FFF" stroke="#9AAAB9" stroke-width="3"/>
+  <ellipse cx="360" cy="164" rx="40" ry="9" fill="#F5E9CF"/>
+  <path d="M360 182v24" stroke="#8B9DAE" stroke-width="4" stroke-linecap="round"/>
+</svg>

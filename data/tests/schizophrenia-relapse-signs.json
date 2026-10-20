@@ -1,0 +1,45 @@
+{
+  "slug": "schizophrenia-relapse-signs",
+  "order": 3,
+  "menu_title": "Schizophrenia relapse signs",
+  "title": "Schizophrenia Relapse Symptom Monitoring Scale",
+  "short": "A simplified rating scale for 10 important symptoms of a schizophrenia relapse, to help individuals and caregivers monitor changes over time.",
+  "source": {
+    "url": "https://www.goravgupta.com/early-relapse-signs-of-schizophrenia/",
+    "page": "early-relapse-signs-of-schizophrenia"
+  },
+  "minutes": 3,
+  "intro": {
+    "measures": "A simplified rating scale for the 10 important symptoms of a schizophrenia relapse can help individuals and caregivers monitor changes over time. This scale is designed for general monitoring and should not replace professional medical advice.",
+    "instructions": "For each symptom listed below, rate the occurrence over the past week by choosing the option that best describes the current situation. It can be filled in for yourself or by a caregiver for someone else."
+  },
+  "scale": [
+    { "value": 0, "label": "Not at all" },
+    { "value": 1, "label": "Mild", "hint": "Present but manageable; slight impact on daily life" },
+    { "value": 2, "label": "Moderate", "hint": "Definitely present; moderate impact on daily life and functioning" },
+    { "value": 3, "label": "Severe", "hint": "Very disruptive; significantly impacts daily life and functioning" }
+  ],
+  "questions": [
+    { "id": "q1", "title": "Hallucinations", "text": "Seeing or hearing things that aren’t there.", "help": "Notice if you or someone else starts to hear voices or see things that others can’t see." },
+    { "id": "q2", "title": "Delusions", "text": "Believing things that aren’t true.", "help": "Watch out for strong beliefs in things that seem odd or untrue to others, like thinking people are out to get you without any reason." },
+    { "id": "q3", "title": "Disorganized speech", "text": "Talking in a way that doesn’t make much sense.", "help": "Pay attention if speech becomes hard to follow or if sentences don’t fit together logically." },
+    { "id": "q4", "title": "Paranoia", "text": "Feeling very suspicious for no reason.", "help": "Be aware if there’s an increased fear or suspicion of others without any clear reason." },
+    { "id": "q5", "title": "Social withdrawal", "text": "Pulling away from friends and activities.", "help": "Keep an eye on if there’s a sudden lack of interest in hanging out with friends or doing things that used to be enjoyable." },
+    { "id": "q6", "title": "Personal hygiene", "text": "Not taking care of personal hygiene.", "help": "Notice if there’s a decline in showering, changing clothes, or other personal care routines." },
+    { "id": "q7", "title": "Focus and memory", "text": "Having trouble with focus and memory.", "help": "Be mindful of difficulties in concentrating on tasks, following conversations, or remembering important information." },
+    { "id": "q8", "title": "Depression", "text": "Feeling really down or experiencing mood swings.", "help": "Look out for signs of feeling extremely sad, hopeless, or having big changes in mood." },
+    { "id": "q9", "title": "Sleep", "text": "Sleep problems.", "help": "Watch for changes in sleep patterns, like having trouble falling asleep, sleeping much more than usual, or waking up often during the night." },
+    { "id": "q10", "title": "Nervousness or agitation", "text": "Increased nervousness or agitation.", "help": "Notice if there’s a significant increase in feeling restless, agitated, or showing behaviors like pacing around or being unable to sit still." }
+  ],
+  "scoring": {
+    "type": "sum",
+    "max": 30,
+    "bands": [
+      { "min": 0, "max": 10, "level": "low", "label": "Not present or very minimal", "text": "Symptoms are not present or very minimal; continue regular monitoring." },
+      { "min": 11, "max": 20, "level": "moderate", "label": "Mild to moderate symptoms", "text": "Mild to moderate symptoms; may require closer observation and potentially discussing with a healthcare professional." },
+      { "min": 21, "max": 30, "level": "high", "label": "Moderate symptoms", "urgent": true, "text": "Moderate symptoms; advisable to consult with a healthcare professional for a thorough assessment." }
+    ]
+  },
+  "note": "Remember, this scale is an aid for understanding and communicating the severity of symptoms; it's not a diagnostic tool. Any concerns or high scores should prompt a consultation with a healthcare provider for comprehensive evaluation and appropriate management.",
+  "next_steps": "Recognizing these symptoms early can be crucial in seeking help and preventing a full relapse. If you or someone you know is experiencing several of these symptoms, especially if they’re worsening, it’s important to contact a healthcare professional."
+}

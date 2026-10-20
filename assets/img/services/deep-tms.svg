@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" fill="none">
+  <defs>
+    <linearGradient id="wall" x1="400" y1="0" x2="400" y2="460" gradientUnits="userSpaceOnUse"><stop stop-color="#F2F7FC"/><stop offset="1" stop-color="#E5EEF7"/></linearGradient>
+    <linearGradient id="seat" x1="490" y1="177" x2="641" y2="337" gradientUnits="userSpaceOnUse"><stop stop-color="#8DA8C5"/><stop offset="1" stop-color="#5E7897"/></linearGradient>
+    <linearGradient id="console" x1="167" y1="122" x2="278" y2="342" gradientUnits="userSpaceOnUse"><stop stop-color="#FFF"/><stop offset="1" stop-color="#E2EAF2"/></linearGradient>
+    <filter id="shadow" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB" filterUnits="objectBoundingBox"><feGaussianBlur stdDeviation="9"/></filter>
+  </defs>
+  <rect width="800" height="460" rx="24" fill="url(#wall)"/>
+  <circle cx="676" cy="80" r="118" fill="#DCEAF7" opacity=".65"/>
+  <rect x="54" y="49" width="202" height="163" rx="8" fill="#D7E8F6"/>
+  <path d="M154 50v161M55 131h200" stroke="#F9FCFF" stroke-width="9"/>
+  <path d="M55 213h691" stroke="#D2DEE9" stroke-width="2"/>
+  <ellipse cx="442" cy="376" rx="262" ry="27" fill="#9EADC0" opacity=".2" filter="url(#shadow)"/>
+  <!-- TMS console and treatment arm -->
+  <rect x="172" y="123" width="112" height="200" rx="15" fill="url(#console)" stroke="#BAC9D8" stroke-width="2"/>
+  <rect x="188" y="143" width="80" height="51" rx="7" fill="#173453"/>
+  <rect x="197" y="152" width="62" height="31" rx="3" fill="#A8D4E9"/>
+  <path d="M202 169c8-15 14 13 23-1s14-7 19 1 8-8 12-10" stroke="#2D79B4" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="204" cy="214" r="5" fill="#7E9BB8"/><circle cx="224" cy="214" r="5" fill="#C8D4E0"/>
+  <path d="M198 324v24m50-24v24m-60 0h70" stroke="#657D96" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="199" cy="354" r="9" fill="#8297AC"/><circle cx="248" cy="354" r="9" fill="#8297AC"/>
+  <path d="M284 166h57c25 0 40 15 40 38v14" stroke="#738BA4" stroke-width="13" stroke-linecap="round"/>
+  <path d="M381 218v25" stroke="#738BA4" stroke-width="12" stroke-linecap="round"/>
+  <path d="M354 241c0-12 10-22 22-22h18c12 0 22 10 22 22v18h-62z" fill="#F9FBFD" stroke="#657D96" stroke-width="3"/>
+  <path d="M365 238h40" stroke="#8BA5BE" stroke-width="5" stroke-linecap="round"/>
+  <!-- quiet treatment chair and patient silhouette -->
+  <path d="M475 184c0-19 15-34 34-34h71c15 0 27 12 27 27v105H475z" fill="url(#seat)"/>
+  <path d="M475 273h137v35c0 17-14 31-31 31h-75c-17 0-31-14-31-31z" fill="#7892AE"/>
+  <path d="M495 336v29m97-29v29m-118 0h143" stroke="#627B95" stroke-width="8" stroke-linecap="round"/>
+  <path d="M522 158c0-28 21-50 48-50 24 0 43 18 45 41l5 48c2 20-14 37-34 37h-10c-29 0-54-23-54-52z" fill="#C99575"/>
+  <path d="M513 150c5-30 28-51 57-51 25 0 46 17 52 40l-16 4c-8-12-20-19-34-19-17 0-30 11-36 26z" fill="#344B63"/>
+  <path d="M515 143c-6 4-10 11-10 19v13c0 10 6 19 15 23" stroke="#758DA6" stroke-width="9" stroke-linecap="round"/>
+  <path d="M513 148c-2-21 6-40 22-51 13-9 30-12 45-8" stroke="#4D6E91" stroke-width="7" stroke-linecap="round"/>
+  <path d="M579 89c11 8 18 20 19 34" stroke="#4D6E91" stroke-width="7" stroke-linecap="round"/>
+  <path d="M574 83c17 7 28 22 30 40" stroke="#A6C4DE" stroke-width="3" stroke-linecap="round"/>
+  <path d="M522 222c14 7 27 11 42 11h18" stroke="#47627E" stroke-width="4" stroke-linecap="round" opacity=".5"/>
+</svg>

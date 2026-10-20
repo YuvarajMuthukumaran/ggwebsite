@@ -1,0 +1,172 @@
+{
+  "_comment": [
+    "One source for every fact that appears on more than one page: experience, the centres, timings and fee.",
+    "Edit a value here, run python tools/build_site.py, and every page that shows it changes.",
+    "Never retype one of these facts into a page: use its {{placeholder}} instead (see PLACEHOLDERS in",
+    "tools/build_site.py for the key each one maps to).",
+    "",
+    "\"pending\" lists the facts still waiting on a decision, against the row in the Decisions tab of the",
+    "tracker. Values here are what the site publishes today, so the preview reads correctly either way.",
+    "An empty value means we have nothing to publish yet; the build prints those so they are not forgotten.",
+    "When a decision lands: set the value, delete its line from \"pending\", rebuild."
+  ],
+  "doctor": {
+    "name": "Dr. Gorav Gupta",
+    "qualifications": "M.B.B.S., M.D. (Psychiatry)",
+    "md_subject": "Psychiatry",
+    "md_year": 1997,
+    "experience": "40+",
+    "registration_number": "Delhi Medical Council 17637 (2003); Medical Council of India 11570 (1993)",
+    "registration_note": "Read from the Practo profile (practo.com/delhi/doctor/tulasi-health-care-psychiatrist, marked \"Medical Registration Verified\") on 17 Oct 2026. Another listing (Medprone) shows a Haryana registration from 1998 and no number. Dr. Gupta should confirm before launch."
+  },
+  "societies": [
+    "Life Fellow, Indian Psychiatric Society",
+    "Life Member, Indian Medical Association",
+    "Life Member, Indian Association of Private Psychiatry",
+    "Life Member, Delhi Psychiatric Society",
+    "President, Mental Research Society",
+    "Member, National Task Force on Brain Health, NITI Aayog",
+    "Member, Executive Council, National Institute of Mental Health Rehabilitation (NIMHR)"
+  ],
+  "award": {
+    "title": "Psychiatrist of the Year",
+    "publication": "The Economic Times",
+    "year": "2024 and 2025",
+    "url": "",
+    "note": "Two trophies reading \"Psychiatrist of the Year, National, Dr. Gorav Gupta\" from The Economic Times Healthcare Awards 2024 and 2025 are photographed on tulasihealthcare.com (read 17 Oct 2026). Dr. Gupta should confirm. The winners-list URL is still to find."
+  },
+  "tulasi": {
+    "name": "Tulasi Healthcare",
+    "founded": "2002",
+    "url": "https://tulasihealthcare.com",
+    "act": "RPwD Act, 2016",
+    "accreditation": "NABH accredited",
+    "note": "Tulasi Healthcare's own site says \"Since Tulasi Healthcare's inauguration in 2002\" (read 17 Oct 2026). Dr. Gupta's earlier Founder and CEO role is dated 1999 on the Journey page."
+  },
+  "centres": {
+    "_comment": "Verified 19 Oct 2026 against web/src/lib/locations.ts in the client's own tulasi-web rebuild project (its header states addresses are taken as Google shows them on each Business Profile, nothing invented). That file lists 6 real centres; delhi/gurugram/mehrauli below are the 3 this site already had, corrected to match it, plus 3 new ones (delhi_womens, delhi_mandi, noida).",
+    "delhi": {
+      "label": "New Delhi",
+      "clinic_name": "Tulasi Psychiatric Clinic",
+      "badge": "Clinic",
+      "area": "Sarvapriya Vihar",
+      "address": "2/6, Block 2, Sarvapriya Vihar, New Delhi, Delhi 110016",
+      "role": "Consulting room",
+      "beds": "",
+      "opd": "Wed and Fri, 2 to 6 pm",
+      "maps": "https://share.google/T2NTrfaXPM0Pgc0wf",
+      "metro": "",
+      "parking": ""
+    },
+    "gurugram": {
+      "label": "Gurugram",
+      "clinic_name": "Tulasi Healthcare, Gurugram Hospital",
+      "badge": "Hospital",
+      "area": "Sector 64, Golf Course Extension Road",
+      "address": "Sector 64, Golf Course Extension Road, opposite M3M URBANA, next to Shriram Millennium School, Sector 64, Gurugram, Haryana 122101",
+      "role": "Acute care",
+      "beds": "",
+      "opd": "",
+      "maps": "https://share.google/Mvj2ZQKXahLxnIGjO",
+      "metro": "",
+      "parking": ""
+    },
+    "mehrauli": {
+      "label": "Mehrauli",
+      "clinic_name": "Tulasi Healthcare, Delhi Male Center",
+      "badge": "Male Center",
+      "area": "Andheria Morde, behind Shamsi Talab",
+      "address": "Farm No. 5, Andheria Morde, behind Shamsi Talab, Mehrauli, New Delhi, Delhi 110030",
+      "role": "Long-term rehabilitation",
+      "beds": "",
+      "opd": "",
+      "maps": "https://maps.app.goo.gl/GuPTTH9xMrhTD6Nx7",
+      "maps_note": "Mehrauli centre Google listing, supplied by the client on 17 Oct 2026."
+    },
+    "delhi_womens": {
+      "label": "Delhi Women's Center",
+      "clinic_name": "Tulasi Healthcare, Rehabilitation Centre for Adolescents and Women",
+      "badge": "Women’s Center",
+      "area": "Aam Bagh, Khandsa Colony, Mehrauli",
+      "address": "2, Ward No 6, Aam Bagh, Khandsa Colony, Mehrauli, New Delhi, Delhi 110030",
+      "role": "Rehabilitation for adolescents and women",
+      "maps": "https://share.google/MpRlOw03CBuaQF0Ow"
+    },
+    "delhi_mandi": {
+      "label": "Delhi Mandi",
+      "clinic_name": "Tulasi Home, Schizophrenia & Psychiatric Rehabilitation",
+      "badge": "Mandi Centre",
+      "area": "Mandi-Jonapur Main Road, near Lingaya’s",
+      "address": "Plot No 850/1, Mandi-Jonapur Main Road, near Lingaya's Lalita Devi Institute of Management, Mandi, New Delhi, Delhi 110047",
+      "role": "Schizophrenia and psychiatric rehabilitation",
+      "maps": "https://share.google/RaXCc4PPTQU4OyKBQ"
+    },
+    "noida": {
+      "label": "Noida",
+      "clinic_name": "Tulasi Healthcare Clinic, Noida",
+      "badge": "Clinic",
+      "area": "Sector 49, Puma building",
+      "address": "3rd floor, Puma building, BR/03, Sector 49, Noida, Uttar Pradesh 201304",
+      "role": "Consulting room",
+      "maps": "https://share.google/N04yU0P51YoGghMpX"
+    }
+  },
+  "consultation": {
+    "fee": "₹2,700",
+    "minutes": "20",
+    "online_opd": "Thu, 2 to 5 pm",
+    "phone": "+91 88000 00255",
+    "phone_href": "tel:+918800000255",
+    "email": "drgoravgupta@tulasihealthcare.com",
+    "callback_hours": ""
+  },
+  "crisis": {
+    "name": "Tele-MANAS",
+    "number": "14416",
+    "note": "free, 24x7",
+    "line": "If you are in crisis, call Tele-MANAS on 14416 (free, 24x7) or your local emergency number."
+  },
+  "pending": {
+    "doctor.experience": 1,
+    "award.url": 8,
+    "centres.delhi.clinic_name": 3,
+    "centres.gurugram.beds": 3,
+    "centres.mehrauli.address": 3,
+    "centres.mehrauli.beds": 3,
+    "consultation.fee": 4,
+    "consultation.minutes": 4,
+    "consultation.online_opd": 4,
+    "consultation.callback_hours": 4,
+    "centres.delhi.opd": 4,
+    "centres.gurugram.opd": 4,
+    "centres.delhi.metro": 3,
+    "centres.delhi.parking": 3,
+    "centres.gurugram.metro": 3,
+    "centres.gurugram.parking": 3
+  },
+  "decisions": {
+    "1": "Years of experience: one number to use everywhere",
+    "2": "Founding year of Tulasi (1999 or 2002) and the matching \"X years\" line",
+    "3": "Bed numbers and centre names; is the Delhi room Sarvapriya Vihar or Hauz Khas?",
+    "4": "Fee, session length, OPD days and times to publish",
+    "5": "Promotional claims: best / renowned / 1,00,000 patients / India's first Neuromodulation lab",
+    "6": "Patient reviews on site, or link out to Google only",
+    "7": "Exact society names, and Tulasi Home's registration under the RPwD Act, 2016",
+    "8": "The year of the Economic Times award",
+    "9": "Medical registration number for the footer",
+    "10": "\"How I work\" copy, and the dual diagnosis page"
+  },
+  "reviews": {
+    "rating": "4.7",
+    "count": "238",
+    "delhi": {
+      "rating": "4.7",
+      "count": "190"
+    },
+    "gurugram": {
+      "rating": "4.8",
+      "count": "48"
+    },
+    "note": "Read from the two Google listings on 17 Oct 2026 (Dr. Gorav Gupta, New Delhi: 4.7 from 190; Dr. Gorav Gupta Psychiatrist in Gurgaon: 4.8 from 48). The headline figure is the weighted average, 4.72, shown to one decimal, over 238 reviews."
+  }
+}

@@ -1,0 +1,131 @@
+/* ============================================================
+   navy.css  v1. Loads last (bundled after booking.css).
+   Navy and white, the palette the client preferred: the sage and
+   cream tokens in the older layers were re-pointed to the blue
+   set (--blue #2f6fcb, --navy #0e2340, --tint #e9f1fb). This file
+   adds what the client asked for in review:
+     1. the Tulasi logo in the header
+     2. tighter vertical rhythm (less empty space between sections)
+     3. gradient bands, so each section reads as its own block
+     4. a redesigned "Your mind deserves care" booking block
+   ============================================================ */
+
+:root{
+  --navy-2:#16386b; --navy-3:#1f4f9a; --sky:#4d8ee6;
+  --band:linear-gradient(180deg,#f6f9fe 0%,#e8f0fb 100%);
+}
+body{ background:#fff !important; }
+
+/* ---------- 1 · LOGO IN THE HEADER ---------------------------- */
+.nav .brand{ gap:.7rem !important; }
+.nav .brand .logo{
+  width:auto !important; height:auto !important; border-radius:0 !important;
+  background:none !important; rotate:none !important; display:grid; place-items:center; flex:none;
+}
+.nav .brand .logo img{ height:46px !important; width:auto !important; display:block; }
+.brand:hover .logo{ background:none !important; rotate:none !important; }
+@media (max-width:700px){ .nav .brand .logo img{ height:38px !important; } }
+
+/* ---------- 2 · SPACING --------------------------------------- */
+.sec:not(#s){ padding-block:clamp(2.5rem,5vw,4.25rem) !important; }
+@media (max-width:760px){ .sec:not(#s){ padding-block:2.25rem !important; } }
+
+/* ---------- 3 · GRADIENT BANDS -------------------------------- */
+/* full-bleed backgrounds painted behind the centred section */
+:is(#work,#journey,#reviews,#who):not(#s){ position:relative; isolation:isolate; }
+:is(#work,#journey,#reviews,#who):not(#s)::before{
+  content:""; position:absolute; z-index:-1; inset:0 calc(50% - 50vw); pointer-events:none;
+  background:
+    radial-gradient(60% 70% at 88% 0%,rgba(47,111,203,.12),transparent 62%),
+    var(--band);
+}
+#who:not(#s)::before{
+  background:
+    radial-gradient(55% 80% at 0% 100%,rgba(47,111,203,.10),transparent 62%),
+    linear-gradient(180deg,#fff 0%,#f2f7fd 100%);
+}
+#journey:not(#s)::before{
+  background:
+    radial-gradient(50% 60% at 6% 0%,rgba(77,142,230,.14),transparent 60%),
+    linear-gradient(180deg,#e8f0fb 0%,#f6f9fe 100%);
+}
+#questions:not(#s){ background:none !important; border-radius:0 !important; }
+
+/* tighter rhythm inside sections too */
+.sec:not(#s)>.head{ margin-bottom:1.5rem !important; }
+.about:not(#s){ row-gap:clamp(1.25rem,2.6vw,2.25rem) !important; }
+.strip:not(#s){ margin-bottom:0; }
+
+/* ---------- 4 · BOOKING BLOCK: "Your mind deserves care." ------ */
+/* One navy gradient panel: message and actions on the left, the
+   request form as a white card on the right, and the two consulting
+   rooms as a row of cards along the bottom. */
+#appoint .bk{
+  position:relative; isolation:isolate; overflow:hidden;
+  display:grid !important; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+  gap:clamp(1.5rem,3.4vw,2.75rem); align-items:start;
+  padding:clamp(1.5rem,4.2vw,3.5rem) !important; border:0 !important; border-radius:28px !important;
+  color:#fff;
+  background:
+    radial-gradient(60% 90% at 100% 0%,rgba(77,142,230,.42),transparent 62%),
+    radial-gradient(55% 80% at 0% 100%,rgba(47,111,203,.34),transparent 62%),
+    linear-gradient(135deg,#0b1b33 0%,#0e2340 38%,#16386b 74%,#1f4f9a 100%) !important;
+  box-shadow:0 34px 70px -34px rgba(14,35,64,.65) !important;
+}
+#appoint .bk:before{
+  display:block !important; content:""; position:absolute; z-index:-1; pointer-events:none;
+  right:-140px; top:-160px; width:460px; height:460px; border-radius:50%;
+  border:1px solid rgba(255,255,255,.12); background:none; box-shadow:0 0 0 70px rgba(255,255,255,.035),0 0 0 140px rgba(255,255,255,.025);
+}
+#appoint .bk>*{ position:relative; }
+
+/* left column */
+#appoint .bk .eyebrow{ color:#9ec1ee !important; background:rgba(255,255,255,.08) !important; border-color:rgba(255,255,255,.16) !important; box-shadow:none !important; }
+#appoint .bk .eyebrow:before{ background:#9ec1ee !important; box-shadow:0 0 0 4px rgba(158,193,238,.22) !important; }
+#appoint .bk h2{ color:#fff !important; margin:.9rem 0 1rem !important; font-size:clamp(2rem,3.8vw,3.1rem) !important; }
+#appoint .bk__p{ color:#c9dcf3 !important; max-width:44ch; font-size:1.04rem; line-height:1.7; margin:0 0 1.5rem; }
+#appoint .bk .cta{ display:flex; flex-wrap:wrap; gap:.75rem; }
+#appoint .bk__l .btn:not(.wa){ background:#fff !important; color:#0e2340 !important; border-color:#fff !important; font-weight:600; }
+#appoint .bk__l .btn:not(.wa):hover{ background:#e9f1fb !important; border-color:#e9f1fb !important; box-shadow:0 14px 28px -12px rgba(0,0,0,.45); }
+#appoint .bk__l .btn.wa{ background:rgba(255,255,255,.08) !important; color:#fff !important; border:1px solid rgba(255,255,255,.4) !important; box-shadow:none; }
+#appoint .bk__l .btn.wa:hover{ background:rgba(255,255,255,.18) !important; }
+#appoint .bk__mail{ display:inline-block; margin:1.15rem 1.4rem 0 0; color:#c9dcf3 !important; text-decoration:underline; text-decoration-color:rgba(201,220,243,.45); text-underline-offset:4px; }
+#appoint .bk__mail:hover{ color:#fff !important; text-decoration-color:currentColor; }
+
+/* right column: the request form, as a white card */
+#appoint .bk__r{
+  background:#fff !important; color:var(--ink); border:0 !important; border-radius:20px;
+  box-shadow:0 24px 50px -24px rgba(5,14,30,.7) !important; padding:clamp(1.3rem,2.6vw,2rem);
+}
+#appoint .bk__h{ color:var(--navy) !important; }
+#appoint .bk__r .btn{ background:linear-gradient(180deg,#2f6fcb,#1f4f9a) !important; color:#fff !important; border-color:#1f4f9a !important; }
+#appoint .bk__r .btn:hover{ background:#16386b !important; border-color:#16386b !important; }
+#appoint .bk__r .btn.ghost{ background:transparent !important; color:#1f4f9a !important; border-color:#9ec1ee !important; }
+#appoint .bk__r .btn.ghost:hover{ background:#e9f1fb !important; }
+
+/* consulting rooms: a full-width row of two cards under both columns */
+#appoint .bk .rooms{
+  grid-column:1/-1; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem;
+  margin:.25rem 0 0; padding:0; border:0;
+}
+#appoint .bk .rooms>div{
+  display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.25rem 1rem; align-items:start;
+  padding:1.15rem 1.3rem !important; border:1px solid rgba(255,255,255,.16) !important; border-radius:18px !important;
+  background:rgba(255,255,255,.07) !important; box-shadow:none !important; backdrop-filter:blur(6px);
+  transition:background .3s,border-color .3s !important;
+}
+#appoint .bk .rooms>div:hover{ background:rgba(255,255,255,.12) !important; border-color:rgba(255,255,255,.3) !important; }
+#appoint .bk .rooms h4{ grid-column:1; margin:0; color:#fff !important; font-size:1.02rem; font-weight:600; }
+#appoint .bk .rooms p{ grid-column:1; margin:0; color:#c9dcf3 !important; font-size:.92rem; line-height:1.55; }
+#appoint .bk .rooms .room__go{ grid-column:2; grid-row:1/span 2; align-self:center; color:#fff !important; font-weight:600; font-size:.88rem; white-space:nowrap; padding:.5rem .9rem; border-radius:999px; background:rgba(255,255,255,.12); transition:background .3s; }
+#appoint .bk .rooms .room__go:hover,#appoint .bk .rooms>div:hover .room__go{ background:rgba(255,255,255,.24); text-decoration:none; }
+#appoint .room__go:focus-visible{ outline:2px solid #fff; outline-offset:2px; border-radius:999px; }
+
+@media (max-width:940px){
+  #appoint .bk{ grid-template-columns:1fr; border-radius:22px !important; }
+}
+@media (max-width:640px){
+  #appoint .bk .rooms{ grid-template-columns:1fr; }
+  #appoint .bk .rooms>div{ grid-template-columns:1fr; }
+  #appoint .bk .rooms .room__go{ grid-column:1; grid-row:auto; justify-self:start; margin-top:.5rem; }
+}

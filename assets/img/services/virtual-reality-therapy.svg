@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" fill="none">
+  <defs>
+    <linearGradient id="wall" x1="400" y1="0" x2="400" y2="460" gradientUnits="userSpaceOnUse"><stop stop-color="#F1F5F4"/><stop offset="1" stop-color="#E7EEEC"/></linearGradient>
+    <linearGradient id="device" x1="280" y1="171" x2="517" y2="300" gradientUnits="userSpaceOnUse"><stop stop-color="#FDFEFE"/><stop offset="1" stop-color="#D2DEE5"/></linearGradient>
+    <filter id="shadow" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB" filterUnits="objectBoundingBox"><feGaussianBlur stdDeviation="8"/></filter>
+  </defs>
+  <rect width="800" height="460" rx="24" fill="url(#wall)"/>
+  <circle cx="686" cy="85" r="115" fill="#DDEBE6" opacity=".7"/>
+  <rect x="58" y="52" width="241" height="160" rx="8" fill="#D9E8E8"/>
+  <path d="M178 53v158M59 133h238" stroke="#FBFDFB" stroke-width="9"/>
+  <path d="M51 214h698M51 365h698" stroke="#D1DCD8" stroke-width="2"/>
+  <path d="M100 212c0-24 20-44 44-44h72v149H100z" fill="#9AB3A8"/>
+  <path d="M100 296h116v43c0 17-14 31-31 31h-54c-17 0-31-14-31-31z" fill="#79988B"/>
+  <path d="M119 370v10m77-10v10m-96 0h116" stroke="#657F75" stroke-width="7" stroke-linecap="round"/>
+  <!-- VR headset as the visual focus -->
+  <ellipse cx="419" cy="340" rx="193" ry="23" fill="#7F9290" opacity=".17" filter="url(#shadow)"/>
+  <path d="M271 224c0-23 19-42 42-42h207c23 0 42 19 42 42v74c0 20-16 36-36 36h-35c-10 0-19-6-22-15l-8-19h-87l-8 19c-4 9-12 15-22 15h-35c-20 0-36-16-36-36z" fill="url(#device)" stroke="#617A79" stroke-width="4"/>
+  <path d="M278 238c-38 7-60 23-72 49 14 13 33 22 57 25" stroke="#829A96" stroke-width="12" stroke-linecap="round"/>
+  <path d="M555 238c38 7 60 23 72 49-14 13-33 22-57 25" stroke="#829A96" stroke-width="12" stroke-linecap="round"/>
+  <path d="M328 236h87v45c0 10-8 18-18 18h-51c-10 0-18-8-18-18z" fill="#263F52"/>
+  <path d="M420 236h87v45c0 10-8 18-18 18h-51c-10 0-18-8-18-18z" fill="#263F52"/>
+  <path d="M376 257h83" stroke="#93B8B3" stroke-width="3" stroke-linecap="round"/>
+  <path d="M312 206c28-25 60-37 96-37h19c36 0 68 12 96 37" stroke="#A6B8B6" stroke-width="4" stroke-linecap="round"/>
+  <!-- tablet used by the clinician to guide the session -->
+  <rect x="608" y="237" width="91" height="117" rx="11" fill="#FDFEFE" stroke="#829793" stroke-width="3" transform="rotate(8 608 237)"/>
+  <rect x="619" y="250" width="68" height="82" rx="5" fill="#E3EFEC" transform="rotate(8 619 250)"/>
+  <path d="m633 303 14-17 11 10 15-24" stroke="#68958B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="659" cy="339" r="3" fill="#829793"/>
+</svg>

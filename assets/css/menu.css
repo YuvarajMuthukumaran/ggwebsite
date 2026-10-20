@@ -1,0 +1,56 @@
+/* ==========================================================================
+   Resources dropdown in the main nav (markup in src/partials/header.html, behaviour in site.js §7)
+   Desktop: a panel under the link. Up to 1000px: an accordion inside the mobile menu.
+   ========================================================================== */
+.dd{ position:relative; display:flex; align-items:center; gap:.1rem; }
+.dd__b{ display:grid; place-items:center; width:24px; height:24px; margin:0 -.35rem 0 0; padding:0; border:0; border-radius:50%; background:none; color:inherit; cursor:pointer; position:relative; z-index:1; transition:background .25s,color .25s; }
+.dd__b svg{ transition:rotate .35s var(--e); }
+.dd__b:hover{ color:var(--blue-d); background:var(--tint); }
+.dd__b:focus-visible{ outline:2px solid var(--blue); outline-offset:2px; }
+.dd.open .dd__b svg{ rotate:180deg; }
+.dd__in{ display:grid; gap:.1rem; }
+.nav nav .dd__m a{ display:grid; gap:.1rem; padding:.55rem .8rem; border-radius:12px; color:var(--ink); font-size:.9rem; font-weight:500; line-height:1.35; text-decoration:none; transition:background .2s,color .2s; }
+.nav nav .dd__m a::after{ display:none !important; }
+.nav nav .dd__m a b{ font-weight:500; }
+.nav nav .dd__m a small{ font-size:.78rem; font-weight:400; color:var(--mut); }
+.nav nav .dd__m a:hover{ background:var(--tint); color:var(--blue-d); }
+.nav nav .dd__m a:focus-visible{ outline:2px solid var(--blue); outline-offset:-2px; }
+.nav nav .dd__m a[aria-current="page"]{ background:var(--tint); color:var(--blue-d); }
+.nav nav .dd__m a[aria-current="page"] b{ font-weight:600; }
+.dd__k{ margin:.45rem .8rem .2rem; padding-top:.55rem; border-top:1px solid var(--line); font-size:.72rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--mut); }
+
+.nav nav .dd__m a:has(.dd__ic){ display:flex; align-items:center; gap:.7rem; }
+.dd__tx{ display:grid; gap:.1rem; min-width:0; }
+.dd__ic{ flex:none; display:grid; place-items:center; width:32px; height:32px; border-radius:10px; background:var(--tint); color:var(--blue-d); transition:background .2s,color .2s; }
+.nav nav .dd__m a:hover .dd__ic,.nav nav .dd__m a[aria-current="page"] .dd__ic{ background:var(--blue); color:#ffffff; }
+.dd__k:has(.dd__kic){ display:flex; align-items:center; gap:.4rem; }
+.dd__kic{ flex:none; display:grid; color:var(--blue); }
+.dd__kic svg{ width:15px; height:15px; }
+.dd__cols{ display:grid; gap:.2rem; }
+.dd__g .dd__k{ border-top:0; padding-top:0; }
+@media (min-width:1001px){
+  .dd__m.dd__m--wide{ width:min(600px,calc(100vw - 48px)); }
+  #dd-res-m{ width:340px; }
+  .dd__in--wide > a{ margin-bottom:.35rem; }
+  .dd__cols{ grid-template-columns:repeat(3,minmax(0,1fr)); gap:.6rem .2rem; padding-top:.5rem; border-top:1px solid var(--line); }
+  .dd__g .dd__k{ margin-top:.2rem; }
+  .dd__m{ position:absolute; top:calc(100% + 16px); left:50%; z-index:60; width:290px; padding:.45rem; background:#ffffff; border:1px solid var(--line); border-radius:18px;
+    box-shadow:0 1px 2px rgba(15,34,66,.06),0 24px 48px -20px rgba(15,34,66,.28);
+    opacity:0; visibility:hidden; translate:-50% 6px; transition:opacity .22s ease,translate .32s var(--e),visibility 0s linear .32s; }
+  .dd__m::before{ content:""; position:absolute; left:0; right:0; top:-18px; height:18px; }   /* keeps hover alive across the gap */
+  .dd.open .dd__m{ opacity:1; visibility:visible; translate:-50% 0; transition-delay:0s; }
+}
+@media (max-width:1000px){
+  .nav nav{ max-height:calc(100dvh - 110px); overflow-y:auto; overscroll-behavior:contain; }
+  .dd{ display:grid; grid-template-columns:1fr auto; }
+  .dd__b{ width:40px; height:40px; margin:0 -.5rem 0 0; }
+  .dd__m{ grid-column:1/-1; display:grid; grid-template-rows:0fr; visibility:hidden; transition:grid-template-rows .35s var(--e),visibility 0s linear .35s; }
+  .dd__in{ overflow:hidden; min-height:0; padding-left:.6rem; border-left:2px solid var(--tint2); margin-left:.15rem; }
+  .dd.open .dd__m{ grid-template-rows:1fr; visibility:visible; transition-delay:0s; }
+  .dd.open .dd__in{ margin-bottom:.5rem; }
+  .nav nav .dd__m a{ padding:.6rem .7rem; }
+  .dd__k{ margin-inline:.7rem; }
+}
+@media (prefers-reduced-motion:reduce){
+  .dd__m,.dd__b svg{ transition:none !important; }
+}

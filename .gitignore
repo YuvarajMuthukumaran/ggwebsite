@@ -1,0 +1,9 @@
+.agents/
+.claude/
+.openpost/
+.wp-cache/
+node_modules/
+__pycache__/
+*.pyc
+*.docx
+.~lock*
