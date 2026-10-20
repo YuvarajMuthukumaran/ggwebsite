@@ -12,7 +12,7 @@
   root.classList.add('ready');                       // tells the head failsafe that JS is alive
 
   var motion = root.classList.contains('js');
-  var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var fine = false; /* pointer-following motion is off: the hero, buttons, cards and films no longer move toward the cursor */
 
   var $ = function (s, c) { return (c || d).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || d).querySelectorAll(s)); };
@@ -429,7 +429,7 @@
 
 /* Card spotlight: tell the card where the pointer is (the light itself is CSS, see final.css). */
 (function () {
-  if (!window.matchMedia || !matchMedia('(hover:hover) and (pointer:fine)').matches || matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  return; if (!window.matchMedia || !matchMedia('(hover:hover) and (pointer:fine)').matches || matchMedia('(prefers-reduced-motion:reduce)').matches) return;
   var SEL = '.sv__c,.svl__grid .card,.trt__c,.tfacts a,.jchips li,.hb2-c,.svc-areas .ar', raf = 0, ev;
   document.addEventListener('pointermove', function (e) {
     ev = e;
@@ -443,4 +443,26 @@
       t.style.setProperty('--my', (ev.clientY - r.top) + 'px');
     });
   }, { passive: true });
+})();
+
+/* Home treatment cards on phones: a row of dots that follows the swipe, and a one-time nudge so people see the row moves */
+(function () {
+  var row = document.querySelector('#work .sv');
+  if (!row || !window.matchMedia || !matchMedia('(max-width:700px)').matches) return;
+  var cards = [].slice.call(row.children);
+  var dots = document.createElement('div'); dots.className = 'sv-dots'; dots.setAttribute('aria-hidden', 'true');
+  cards.forEach(function () { dots.appendChild(document.createElement('i')); });
+  row.parentNode.insertBefore(dots, row.nextSibling);
+  var d = [].slice.call(dots.children);
+  function sync() {
+    var mid = row.scrollLeft + row.clientWidth / 2, best = 0, bd = 1e9;
+    cards.forEach(function (c, i) { var dd = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (dd < bd) { bd = dd; best = i; } });
+    d.forEach(function (x, i) { x.classList.toggle('on', i === best); });
+  }
+  row.addEventListener('scroll', function () { requestAnimationFrame(sync); }, { passive: true });
+  sync();
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { row.classList.add('sv--hint'); io.disconnect(); } }, { threshold: .6 });
+    io.observe(row);
+  }
 })();

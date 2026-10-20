@@ -62,12 +62,12 @@ def load():
 
 def items(tests):
     """Page records for build_site.py's render loop."""
-    out = [{'kind': 'tests-index', 'path': HUB, 'nav': 'resources', 'crumb': 'Interactive tests',
+    out = [{'kind': 'tests-index', 'path': HUB, 'nav': 'tests', 'crumb': 'Interactive tests',
             'title': 'Mental Health Assessment Tests | Dr. Gorav Gupta',
             'description': 'Take online mental health assessment tests for anxiety, depression and more. A quick first step before consulting psychiatrist Dr. Gorav Gupta.',
             'tests': tests}]
     for t in tests:
-        out.append({'kind': 'test', 'path': 'tests/' + t['slug'], 'nav': 'resources', 'crumb': t['menu_title'],
+        out.append({'kind': 'test', 'path': 'tests/' + t['slug'], 'nav': 'tests', 'crumb': t['menu_title'],
                     'title': '%s | Interactive Test | Dr. Gorav Gupta' % t['title'],
                     'description': _test_desc(t['short'], t['n'], t['minutes']),
                     'scripts': ['tests'], 'test': t})
@@ -86,8 +86,7 @@ def menu(root, tests, path, extra=''):
             root, href, cur, icon(ic), label, ('<small>%s</small>' % sub) if sub else '')
     return ('<div class="dd__in">'
             + a('blog', 'Articles &amp; Blogs', 'Guides and conditions, explained', 'book')
-            + a('video-gallery', 'Video library', 'Films and real patient voices', 'play')
-            + a(HUB, 'Interactive tests', 'Private self-assessment tools', 'clipboard')
+            + a('video-gallery', 'Video library', 'Videos and real patient voices', 'play')
             + extra
             + '</div>')
 
@@ -106,20 +105,35 @@ def crisis_note():
             '<p>%s</p></aside>' % esc(line).replace('14416', '<a href="tel:14416">14416</a>'))
 
 
+TEST_ICON = {'mental-health-self-assessment': 'brain', 'bipolar-early-warning-signs': 'swing', 'schizophrenia-relapse-signs': 'eye',
+             'relapse-risk-assessment': 'repeat', 'substance-use-vs-social-use': 'glass'}
+
+
 def index_body(pg, root, ph):
+    tests = pg['tests']
+    n = len(tests)
+    wide_from = n - (n % 3) if n % 3 == 2 else n          # a last row of two is stretched to fill, so the grid has no hole
     cards = ''.join(
-        '<li class="reveal" style="--i:%d"><a class="tq-card" href="%stests/%s/"><span class="tq-card__n" aria-hidden="true">%02d</span>'
-        '<h2>%s</h2><p>%s</p>%s<span class="tq-card__go">Start test <i aria-hidden="true">→</i></span></a></li>'
-        % (i, root, t['slug'], i + 1, esc(t['title']), esc(t['short']), meta_chips(t))
-        for i, t in enumerate(pg['tests']))
+        '<li class="reveal%s" style="--i:%d"><a class="tq-card tq-card--h" href="%stests/%s/"><span class="tq-card__top">'
+        '<span class="tq-card__ic" aria-hidden="true">%s</span>'
+        '<span class="tq-card__meta"><span>%d questions</span><span>About %d min</span></span></span>'
+        '<h2>%s</h2><p>%s</p><span class="tq-card__go">Start test <i aria-hidden="true">&rarr;</i></span></a></li>'
+        % (' tq-w' if i >= wide_from else '', i, root, t['slug'], icon(TEST_ICON.get(t['slug'], 'clipboard'), 'tq-card__svg'),
+           len(t['questions']), t['minutes'], esc(t['title']), esc(t['short']))
+        for i, t in enumerate(tests))
+    mins = [t['minutes'] for t in tests]
+    span = str(mins[0]) if min(mins) == max(mins) else '%d to %d' % (min(mins), max(mins))
+    facts = ('<ul class="tqh__facts" aria-label="About these tests"><li><b>%d</b> tests</li><li><b>%s</b> minutes each</li>'
+             '<li>%s<span>Private, nothing is saved</span></li></ul>' % (n, span, ICON_LOCK))
     lede = ('A quick way to check whether what you are experiencing looks like the symptoms of a mental health condition. '
             'Each test is private, takes a few minutes, and is a starting point for a conversation with Dr. Gorav Gupta.')
     head = ph([('Home', root), ('Resources', root + 'resources/'), ('Interactive tests', None)], 'Mental Health Assessment Tests: Check Your Well-Being Online', lede)
-    head = head.replace('<header class="ph">', '<header class="ph ph--c">', 1)      # centred header
-    return (head
-            + '<section class="sec tq-idx" aria-label="Tests"><ul class="tq-grid">%s</ul>%s'
-              '<div class="tq-fine reveal"><p>%s<span>%s</span></p><p>%s</p></div></section>'
-            % (cards, crisis_note(), ICON_LOCK, PRIVACY, DISCLAIMER))
+    head = head.replace('<header class="ph">', '<header class="ph ph--c ph--tq">', 1)      # centred header
+    return (head + facts
+            + '<section class="sec tq-idx" aria-label="Tests"><ul class="tq-grid">%s</ul>'
+              '<div class="tq-fine tq-fine--h reveal"><p><span class="tq-fine__ic">%s</span><span>%s</span></p>'
+              '<p><span class="tq-fine__ic">%s</span><span>%s</span></p></div></section>'
+            % (cards, ICON_LOCK, PRIVACY, icon('shield', 'tq-fine__svg'), DISCLAIMER))
 
 
 def test_body(pg, root, ph, wa):

@@ -197,7 +197,7 @@ def related(pg, root, groups, by_slug, href):
         head = 'More conditions we treat'
     elif pg.get('group') == 'local':
         pool = [c['slug'] for c in by_slug.values() if c.get('group') == 'local' and c['slug'] != pg['slug']]
-        head = 'Dr. Gupta in other cities'
+        head = 'Dr. Gorav Gupta in other cities'
     else:
         pool = [c['slug'] for c in by_slug.values() if c.get('group') == pg.get('group') and c['slug'] != pg['slug']]
         head = 'Related guides'
@@ -279,7 +279,7 @@ def conditions_here(pg, root, groups, by_slug, href):
             cols.append('<div><h3>%s</h3><ul>%s</ul></div>' % (esc(title), items))
     if not cols:
         return ''
-    return ('<section class="lp-cond" aria-labelledby="lp-cond-h"><h2 id="lp-cond-h">What Dr. Gupta treats here</h2>'
+    return ('<section class="lp-cond" aria-labelledby="lp-cond-h"><h2 id="lp-cond-h">What Dr. Gorav Gupta treats here</h2>'
             '<div class="lp-cond__g">%s</div></section>' % ''.join(cols))
 
 

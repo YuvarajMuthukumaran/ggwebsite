@@ -29,15 +29,6 @@
         panel.addEventListener('mouseenter', function () { closeAll(panel); setOpen(panel, true); });
         panel.addEventListener('focusin', function () { closeAll(panel); setOpen(panel, true); });
       }
-      // thumbnail swap inside the expanded panel
-      panel.querySelectorAll('.cenr__th').forEach(function (b) {
-        b.addEventListener('click', function (e) {
-          e.stopPropagation();
-          var img = panel.querySelector('.cenr__img');
-          img.src = b.dataset.src; img.alt = b.dataset.alt;
-          panel.querySelectorAll('.cenr__th').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
-        });
-      });
     });
     row.addEventListener('mouseleave', function () { if (hoverable) closeAll(); });
 
@@ -53,5 +44,36 @@
         });
       });
     }
+  });
+
+  /* "Play video walkthrough": one shared player, filled in only when a button is pressed, so no video is downloaded until then */
+  var dlg = null;
+  function player() {
+    if (dlg) return dlg;
+    dlg = document.createElement('dialog');
+    dlg.className = 'vw';
+    dlg.innerHTML = '<div class="vw__box"><button type="button" class="vw__x" aria-label="Close video"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>' +
+      '<video class="vw__v" controls playsinline preload="none"></video><p class="vw__bar"><b></b></p></div>';
+    document.body.appendChild(dlg);
+    var v = dlg.querySelector('video');
+    v.addEventListener('loadedmetadata', function () { dlg.classList.toggle('vw--tall', v.videoHeight > v.videoWidth); });   // a phone-shaped film gets a narrow player
+    function close() { if (dlg.open) dlg.close(); }
+    dlg.querySelector('.vw__x').addEventListener('click', close);
+    dlg.addEventListener('click', function (e) { if (e.target === dlg) close(); });   // the dark area around the box
+    dlg.addEventListener('close', function () { v.pause(); v.removeAttribute('src'); v.load(); document.documentElement.classList.remove('vw-lock'); });
+    return dlg;
+  }
+  [].forEach.call(document.querySelectorAll('[data-vid]'), function (panel) {
+    var btn = panel.querySelector('[data-play]');
+    if (!btn || typeof HTMLDialogElement === 'undefined') { if (btn) btn.hidden = true; return; }
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var d = player(), v = d.querySelector('video');
+      d.querySelector('.vw__bar b').textContent = panel.getAttribute('data-vid-title') || '';
+      v.src = panel.getAttribute('data-vid');
+      document.documentElement.classList.add('vw-lock');
+      d.showModal();
+      var p = v.play(); if (p && p.catch) p.catch(function () {});   // if the browser refuses, the controls are right there
+    });
   });
 })();

@@ -52,7 +52,7 @@
   var dots = [].slice.call(root.querySelectorAll('.vr__dot'));
   var prev = root.querySelector('.vr__prev'), next = root.querySelector('.vr__next');
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var fine = false; /* pointer-following motion is off: the hero, buttons, cards and films no longer move toward the cursor */
 
   var cur = -1, wantSound = false, inView = false, ticking = false, settleT = 0, glowT = 0;
   var px = 0, py = 0, pointerIn = false;

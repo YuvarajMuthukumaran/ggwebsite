@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+  var fine = false; /* pointer-following motion is off: the hero, buttons, cards and films no longer move toward the cursor */
   var b = document.body;
   function el(tag, cls, html) { var n = document.createElement(tag); n.className = cls; if (html) n.innerHTML = html; return n; }
 

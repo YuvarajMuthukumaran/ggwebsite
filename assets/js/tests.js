@@ -207,6 +207,13 @@
         + '" target="_blank" rel="noopener">Share my result with the team</a>';
     }
 
+    /* Email the result to oneself: a mailto link with no recipient, so nothing leaves the device unless the person sends it */
+    var scoreTxt = sc.type === 'count' ? score + ' of ' + N : score + ' out of ' + sc.max;
+    var mail = 'mailto:?subject=' + encodeURIComponent('My result: ' + T.title) + '&body=' + encodeURIComponent(
+      T.title + '\n\nResult: ' + band.label + ' (' + scoreTxt + ')\n' + band.text +
+      '\n\nThis is a screening tool, not a diagnosis. Only a qualified professional can assess and diagnose a mental health condition.' +
+      '\n\nTake the test: ' + location.href.split('#')[0] + '\nDr. Gorav Gupta, consulting psychiatrist in New Delhi, Gurugram and online.');
+
     screens.result.innerHTML =
       '<div class="tq-res__head" data-level="' + band.level + '">' +
       '<p class="tq-res__k">Your result</p>' +
@@ -217,7 +224,7 @@
       '<p class="tq-res__txt">' + esc(band.text) + '</p>' +
       (keyHit && sc.key_note ? '<p class="tq-res__txt tq-res__key">' + esc(sc.key_note) + '</p>' : '') +
       '</div>' +
-      crisis(urgent) +
+      (urgent ? crisis(true) : '') +
       '<div class="tq-res__next" data-level="' + band.level + '"><h3>' + (step ? esc(step.t) : 'What to do next') + '</h3>' +
       (step ? '<p>' + esc(step.p) + '</p>' : '') +
       (T.next_steps ? '<p>' + esc(T.next_steps) + '</p>' : '') + '<p>' + esc(T.note) + '</p>' +
@@ -227,6 +234,7 @@
       '<div class="tq-cta__a"><a class="btn" href="' + app.getAttribute('data-contact') + '">Book a consultation with Dr. Gorav Gupta</a>' +
       '<a class="btn ghost" href="' + phone + '">Call the clinic</a>' + shareWa + '</div></div>' +
       '<div class="tq-acts"><button type="button" class="tq-act" data-act="retake">Retake the test</button>' +
+      '<a class="tq-act" href="' + mail + '">Email me my result</a>' +
       '<button type="button" class="tq-act" data-act="print">Print</button>' +
       '<button type="button" class="tq-act" data-act="share">Share this test</button>' +
       '<a class="tq-act" href="' + app.getAttribute('data-index') + '">Other tests</a>' +
@@ -253,4 +261,17 @@
       else status.textContent = url;
     }
   });
+
+  /* Opening a test lands on the test itself: the card is scrolled up under the header, so the title and the start button are in view at once.
+     Skipped when the link names a place on the page, or the browser has put the reader back where they were on a reload. */
+  (function () {
+    if (location.hash) return;
+    var go = function () {
+      if (window.scrollY > 40) return;
+      var calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var y = app.getBoundingClientRect().top + window.scrollY - 96;
+      window.scrollTo({ top: Math.max(0, y), behavior: calm ? 'auto' : 'smooth' });
+    };
+    if (document.readyState === 'complete') setTimeout(go, 150); else addEventListener('load', function () { setTimeout(go, 150); });
+  })();
 })();

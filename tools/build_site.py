@@ -113,7 +113,7 @@ EXPERIENCE = fact('doctor.experience')    # {{exp}}, the experience figure shown
 # Page fragments shared by more than one designed page: {{placeholder}} -> src/partials/<file>.
 INCLUDES = {'films_player': 'films-player.html', 'review_wall': 'review-wall.html'}
 
-NAV = ['home', 'about', 'journey', 'services', 'resources', 'contact']
+NAV = ['home', 'about', 'journey', 'services', 'resources', 'tests', 'contact']
 POSTS_PER_PAGE = 12
 
 # The doctor's biography, from the old site. Short form closes service pages; long form closes blog posts.

@@ -22,7 +22,7 @@
   var out = function (t) { return 1 - Math.pow(1 - t, 4); };      // quartic ease-out: fast start, long calm landing
   var K = .1;                                                      // inertia: share of the remaining distance covered per frame
   var vh = innerHeight, small = innerWidth < 700, jobs = [], running = false, lastY = scrollY, vel = 0;
-  var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var fine = false; /* pointer-following motion is off: the hero, buttons, cards and films no longer move toward the cursor */
 
   /* ---------------------------------------------------------------- one element, one state */
   function place(el, e, o) {

@@ -9,7 +9,7 @@
  "intro": "",
  "qas": [
   {
-   "q": "What does a consultation cost, and when is Dr. Gupta available?",
+   "q": "What does a consultation cost, and when is Dr. Gorav Gupta available?",
    "a": "<p>A consultation with Dr. Gorav Gupta is {{fee}} for {{session}} minutes.</p><p>OPD runs in New Delhi on {{opd_delhi}}, and online on {{opd_online}}. Times can change around ward rounds and admissions, so the team confirms the slot when they call you back.</p><p>You can <a href=\"{{root}}contactus/#book\">leave your number</a> and the team will call, or reach them on {{phone}}.</p>"
   },
   {

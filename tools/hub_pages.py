@@ -186,17 +186,7 @@ GENERIC_TAGS = {'psychiatrist', 'best-psychiatrist-in-delhi', 'top-psychiatrist-
 FIRST_TAGS = 14
 
 HERO_ART = (
-    '<svg class="hb2-hero__art" viewBox="0 0 440 220" fill="none" aria-hidden="true" focusable="false">'
-    '<circle cx="318" cy="112" r="132" fill="#ffffff" fill-opacity=".09"/><circle cx="318" cy="112" r="88" fill="#ffffff" fill-opacity=".08"/>'
-    '<rect x="250" y="46" width="112" height="146" rx="14" transform="rotate(-9 306 119)" fill="#ffffff" fill-opacity=".32"/>'
-    '<rect x="262" y="40" width="112" height="146" rx="14" transform="rotate(-3 318 113)" fill="#dbe9fb"/>'
-    '<rect x="276" y="34" width="112" height="148" rx="14" fill="#ffffff"/>'
-    '<rect x="296" y="62" width="58" height="9" rx="4.5" fill="#2f6fcb"/><circle cx="372" cy="66.500" r="5" fill="#2f6fcb"/>'
-    '<rect x="296" y="86" width="76" height="6" rx="3" fill="#cfe0f5"/><rect x="296" y="102" width="76" height="6" rx="3" fill="#cfe0f5"/>'
-    '<rect x="296" y="118" width="60" height="6" rx="3" fill="#cfe0f5"/><rect x="296" y="142" width="40" height="14" rx="7" fill="#e9f1fb"/>'
-    '<path d="M408 40l4.500 11 11 4.500-11 4.500-4.500 11-4.500-11-11-4.500 11-4.500z" fill="#ffffff"/>'
-    '<path d="M236 150l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="#ffffff" fill-opacity=".8"/>'
-    '<circle cx="238" cy="78" r="5" fill="#ffffff" fill-opacity=".7"/><circle cx="410" cy="150" r="4" fill="#ffffff" fill-opacity=".5"/></svg>')
+    '<img class="hb2-hero__art" src="%sassets/img/resources-banner.webp" alt="Residents reading and talking together in the library at the Gurugram centre" width="960" height="624" decoding="async">')
 SEARCH_ICON = ('<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
                '<circle cx="11" cy="11" r="6.500"/><path d="m16 16 4.500 4.500"/></svg>')
 FILTER_ICON = ('<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
@@ -209,8 +199,7 @@ def resources_landing(root, posts):
     that is its own page, articles_hub() at /blog/."""
     explore = [
         ('blog', 'Articles &amp; Blogs', '%d guides on mental health and addiction, searchable by condition.' % len(posts), 'book'),
-        ('video-gallery', 'Video library', 'Short films and real patient voices, in Hindi and English.', 'play'),
-        (TESTS_HUB, 'Interactive tests', 'Private, free self-assessment tools. Not a diagnosis.', 'clipboard'),
+        ('video-gallery', 'Video library', 'Short videos and real patient voices, in Hindi and English.', 'play'),
         (FAQ_HUB, 'Frequently asked questions', 'Answers on consulting, treatment, fees and Dr. Gupta.', 'help'),
         ('ask-the-doctor', 'Ask the Doctor', 'Questions patients and families often ask, answered directly.', 'quote'),
         ('services', 'Conditions we treat', 'A guide to every condition, matched to severity.', 'pulse'),
@@ -222,8 +211,8 @@ def resources_landing(root, posts):
         % (root, s, icon(ic, 'hb-x2__ic'), t, d) for s, t, d, ic in explore)
     hero = ('<header class="hb2-hero"><div class="hb2-hero__in"><nav class="crumb" aria-label="Breadcrumb"><a href="%s">Home</a><span aria-hidden="true">/</span>'
             '<span aria-current="page">Resources</span></nav><h1>Resources</h1>'
-            '<p>Articles, guides, answers and films from Dr. Gorav Gupta, to help you make sense of mental health and addiction.</p></div>%s</header>'
-            % (root, HERO_ART))
+            '<p>Articles, guides, answers and videos from Dr. Gorav Gupta, to help you make sense of mental health and addiction.</p></div>%s</header>'
+            % (root, HERO_ART % root))
     return hero + '<section class="sec hb-x2" aria-label="Explore resources"><ul class="hb-x2__g">%s</ul></section>' % explore_html
 
 
