@@ -489,20 +489,16 @@ body:has(.ab2-ph) #how:not(#s){ max-width:1180px; width:100%; margin-inline:auto
 @media (min-width:861px) and (hover:hover){ .who2__stack .jc-more:not(#s){ pointer-events:auto; } }   /* hidden panels have visibility:hidden, so they cannot be hit; a visible one stays hoverable while the pointer crosses to it */
 
 /* Home: the Economic Times award as one slim card under the stage boxes */
-.awd2{ position:relative; display:flex; align-items:center; gap:1rem; margin-top:.9rem; padding:.75rem 1rem .75rem 1.1rem; border:1px solid #dfe8f3; border-radius:14px; background:#ffffff; color:var(--ink); text-decoration:none; box-shadow:0 1px 2px rgba(29,83,154,.05); transition:border-color .25s,box-shadow .35s var(--el-out),background-color .25s; }
-.awd2__img{ flex:none; display:flex; align-items:center; gap:.45rem; }
-.awd2__p{ display:grid; justify-items:center; gap:.2rem; }
-.awd2__p img{ display:block; width:2.5rem; height:3.1rem; object-fit:contain; padding:.15rem; border-radius:8px; background:var(--tint); }
-.awd2__p b{ font-size:.68rem; font-weight:600; line-height:1; color:var(--mut); font-variant-numeric:tabular-nums; }
-.awd2__t{ display:grid; align-content:center; gap:.15rem; min-width:0; flex:1; }
-.awd2__t b{ font-size:1.05rem; font-weight:500; letter-spacing:-.01em; line-height:1.25; color:var(--blue); }
-.awd2__t small{ font-size:.875rem; line-height:1.35; color:var(--mut); }
-.awd2 > i{ flex:none; display:grid; place-items:center; width:1.9rem; height:1.9rem; border-radius:50%; background:var(--tint); color:var(--blue-d); font-style:normal; font-size:.95rem; transition:translate .3s var(--el-out),background-color .25s,color .25s; }
-.awd2:hover{ border-color:var(--el-line-h,#b9cfee); box-shadow:0 1px 2px rgba(29,83,154,.05),0 14px 26px -18px rgba(29,83,154,.45); }
-.awd2:hover > i{ background:var(--blue); color:#ffffff; translate:3px 0; }
-.awd2:focus-visible{ outline:2px solid var(--blue); outline-offset:3px; }
-@media (max-width:480px){ .awd2{ gap:.7rem; padding:.65rem .8rem; } .awd2__p img{ width:2.1rem; height:2.7rem; } .awd2__t b{ font-size:.98rem; } .awd2__t small{ font-size:.8rem; } }
-@media (prefers-reduced-motion:reduce){ .awd2,.awd2 > i{ transition:none; } .awd2:hover > i{ translate:none; } }
+/* the award is the fifth box of the stage list: same box, same hover text; two small trophy photographs sit on its left */
+.hjny .who2__stack .jc-stage.jc-stage--award:not(#s){ display:flex; flex-direction:row; flex-wrap:nowrap; align-items:center; gap:.5rem 1rem; }
+.who2__stack .jc-stage--award .jc-stage__hit{ position:absolute; inset:0; grid-area:auto; }
+.jc-stage--award .awd2__img{ flex:none; display:flex; align-items:center; gap:.45rem; }
+.jc-stage--award .awd2__t{ display:grid; gap:.15rem; min-width:0; flex:1 1 12rem; }
+.jc-stage--award .awd2__p{ display:grid; justify-items:center; gap:.2rem; }
+.jc-stage--award .awd2__p img{ display:block; width:2.4rem; height:3rem; object-fit:contain; padding:.15rem; border-radius:8px; background:var(--tint); }
+.jc-stage--award .awd2__y{ font-size:.68rem; font-weight:600; line-height:1; color:var(--mut); font-variant-numeric:tabular-nums; }
+@media (max-width:860px),(hover:none){ .hjny .who2__stack .jc-stage.jc-stage--award:not(#s){ flex-wrap:wrap; } .who2__stack .jc-stage--award .jc-more{ flex:1 1 100%; } }
+@media (max-width:480px){ .jc-stage--award .awd2__p img{ width:2rem; height:2.6rem; } }
 
 /* Resources banner: a framed photograph from the Gurugram centre library on the right */
 .hb2-hero img.hb2-hero__art{ position:absolute; right:clamp(1rem,4vw,3.2rem); top:50%; bottom:auto; translate:0 -50%; height:84%; width:auto; max-width:44%; max-height:none; object-fit:cover; border:4px solid rgba(255,255,255,.92); border-radius:22px; box-shadow:0 18px 40px -16px rgba(8,28,64,.65); filter:none; pointer-events:none; }
@@ -1216,3 +1212,9 @@ body:has(.gc--page) .bg{ display:none; }
 .gc--page .gc__top,.gc--page .gc__chips,.gc--page .gc__form,.gc--page .gc__fine{ flex:none; }
 @media (max-width:900px){ .gc--page{ height:calc(100dvh - 190px); min-height:380px; padding-bottom:8px; } .gc--page .gc__shell{ width:calc(100% - 16px); border-radius:20px; } }
 @media (max-height:560px){ .gc--page .gc__fine{ display:none; } }
+
+/* Services text: the areas intro reads under the heading on tablets and phones, and stays for screen readers on wide screens, where the circles fill one screen */
+.bbs__lede:not(#s){ margin:.6rem auto 0 !important; max-width:34rem; text-align:center; font-size:.95rem; line-height:1.55; color:var(--mut); }
+.bbs__head:has(.bbs__lede){ flex-direction:column; align-items:center; }
+@media (min-width:1200px){ .bbs__lede:not(#s){ position:absolute; width:1px; height:1px; margin:-1px !important; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; } }
+.bb .bb__d{ -webkit-line-clamp:6 !important; }
