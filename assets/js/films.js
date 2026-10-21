@@ -159,7 +159,8 @@
     v.addEventListener('timeupdate', function () {
       if (v.duration) cards[i].style.setProperty('--p', (v.currentTime / v.duration).toFixed(4));
     });
-    v.addEventListener('ended', function () { if (i === cur) go(i + 1 < slides.length ? i + 1 : N); });
+    /* when a film ends the rail moves left to right: the film on the left comes in next */
+    v.addEventListener('ended', function () { if (i === cur) go(i > 0 ? i - 1 : 2 * N - 1); });
   });
 
   /* ---------------------------------------------------------------- controls */
