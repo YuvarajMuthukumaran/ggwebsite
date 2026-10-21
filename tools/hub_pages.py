@@ -205,6 +205,9 @@ def resources_landing(root, posts):
         (FAQ_HUB, 'Frequently asked questions', 'Answers on consulting, treatment, fees and Dr. Gupta.', 'help'),
         ('ask-the-doctor', 'Ask the Doctor', 'Questions patients and families often ask, answered directly.', 'quote'),
         ('services', 'Conditions we treat', 'A guide to every condition, matched to severity.', 'pulse'),
+        ('psychiatrist-in-delhi', 'Psychiatrist in Delhi', 'Credentials, the Tulasi centres, achievements and OPD timings.', 'pin'),
+        ('psychiatrist-in-gurgaon', 'Psychiatrist in Gurugram', 'What a psychiatrist does and when to see one, for NCR residents.', 'pin'),
+        ('psychiatrist-in-india', 'Psychiatrist in India', 'Why to consult a psychiatrist, with national figures and FAQs.', 'pin'),
         ('publication', 'Publications', 'Articles and press coverage featuring Dr. Gupta.', 'press'),
         ('testimonials', 'Testimonials', 'What clients and families say about their care.', 'user'),
     ]

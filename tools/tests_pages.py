@@ -87,6 +87,9 @@ def menu(root, tests, path, extra=''):
     return ('<div class="dd__in">'
             + a('blog', 'Articles &amp; Blogs', 'Guides and conditions, explained', 'book')
             + a('video-gallery', 'Video library', 'Videos and real patient voices', 'play')
+            + a('psychiatrist-in-delhi', 'Psychiatrist in Delhi', 'Clinic, hours and credentials', 'pin')
+            + a('psychiatrist-in-gurgaon', 'Psychiatrist in Gurugram', 'What to expect and when to go', 'pin')
+            + a('psychiatrist-in-india', 'Psychiatrist in India', 'Care across the country', 'pin')
             + extra
             + '</div>')
 
@@ -129,6 +132,7 @@ def index_body(pg, root, ph):
             'Each test is private, takes a few minutes, and is a starting point for a conversation with Dr. Gorav Gupta.')
     head = ph([('Home', root), ('Resources', root + 'resources/'), ('Interactive tests', None)], 'Online Mental Health Assessment Tests', lede, banner=True)
     head = head.replace('</div></header>', facts + '</div></header>', 1)      # the facts sit inside the banner
+    head = head.replace('<header class="hb2-hero hb2-hero--s">', '<header class="hb2-hero hb2-hero--s hb2-hero--tq">', 1).replace('</header>', '<div class="tqh__art" aria-hidden="true"><div class="tqh__c tqh__c--q"><div class="tqh__qn"><span>Question 4 of 10</span><span>40%</span></div><i class="tqh__bar"><b></b></i><div class="tqh__qt">How often have you felt low in the past two weeks?</div><ul class="tqh__o"><li><i></i>Not at all</li><li class="on"><i></i>Rarely</li><li><i></i>Sometimes</li><li><i></i>Often</li></ul></div><div class="tqh__c tqh__c--r"><div class="tqh__rk">Your result</div><div class="tqh__g"><i></i><i></i><i></i><i></i><u></u></div><div class="tqh__rt">Low level of concern</div></div></div>' + '</header>', 1)
     return (head
             + '<section class="sec tq-idx" aria-label="Tests"><ul class="tq-grid">%s</ul>'
               '<div class="tq-fine tq-fine--h reveal"><p><span class="tq-fine__ic">%s</span><span>%s</span></p>'

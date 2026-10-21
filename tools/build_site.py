@@ -637,7 +637,7 @@ def main():
         # navigation state
         nav_key = pg.get('nav')
         if not nav_key and kind in ('page', 'post'):
-            nav_key = 'services' if pg['group'] in ('services', 'local') else 'resources'
+            nav_key = 'services' if pg['group'] == 'services' else 'resources'
         header = header_t
         for n in NAV:
             header = header.replace('{{cur:%s}}' % n, ' aria-current="page" class="act"' if n == nav_key else '')

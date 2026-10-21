@@ -302,6 +302,22 @@ def reviewed(pg, root):
             'M.B.B.S., M.D. (Psychiatry) &middot; <time datetime="%s">%s</time></p>' % (root, iso, when))
 
 
+CITY_PHOTO = {
+    'psychiatrist-in-delhi': ('assets/img/gallery/consulting-room.webp', 'Dr. Gorav Gupta at his desk in the New Delhi consulting room', 'New Delhi', 'Tulasi Psychiatric Clinic', 1360, 907),
+    'psychiatrist-in-gurgaon': ('assets/img/centre/gurugram-photo-1.webp', 'The brick building of Tulasi Healthcare in Sector 64, Gurugram', 'Gurugram', 'Tulasi Healthcare, Sector 64', 1280, 720),
+    'psychiatrist-in-india': ('assets/img/portrait-wide-col.webp', 'Dr. Gorav Gupta, smiling, in his garden', 'Across India', 'In person and online', 1152, 987),
+}
+
+
+def city_photo(pg, root):
+    """A framed photograph with a glass caption on the hero of the three city pages."""
+    c = CITY_PHOTO.get(pg['slug'])
+    if not c:
+        return ''
+    return ('<figure class="sp-hero__ph"><img src="%s%s" alt="%s" width="%d" height="%d" decoding="async"><figcaption><b>%s</b><span>%s</span></figcaption></figure>'
+            % (root, c[0], esc(c[1]), c[4], c[5], esc(c[2]), esc(c[3])))
+
+
 def build(pg, root, content, callout, after, crumbs, groups, by_slug, href, wa, exp):
     group_of = {s: t for t, ss in groups['condition_groups'] for s in ss}
     label, ic = label_for(pg, group_of)
@@ -311,8 +327,8 @@ def build(pg, root, content, callout, after, crumbs, groups, by_slug, href, wa, 
     hero = ('<header class="sp-hero sp-hero--solo"><div class="sp-hero__txt">%s<p class="sp-eyebrow">%s<span>%s</span></p>'
             '<h1>%s</h1>%s<p class="sp-lede">%s</p><ul class="sp-chips">%s</ul>'
             '<p class="sp-hero__act"><a class="btn" href="#book">Ask for a call back</a>'
-            '<a class="btn ghost" href="%s" target="_blank" rel="noopener">WhatsApp</a></p></div></header>'
-            % (crumbs, icon(ic, 'sp-eyebrow__ic'), esc(label), esc(pg['title']), reviewed(pg, root), lede, chips, wa))
+            '<a class="btn ghost" href="%s" target="_blank" rel="noopener">WhatsApp</a></p></div>%s</header>'
+            % (crumbs, icon(ic, 'sp-eyebrow__ic'), esc(label), esc(pg['title']), reviewed(pg, root), lede, chips, wa, city_photo(pg, root)))
     toc_html = ''
     if len(toc) >= 2:
         rows, open_sub = [], False
