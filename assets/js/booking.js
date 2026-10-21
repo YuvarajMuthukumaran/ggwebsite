@@ -93,3 +93,26 @@
     }, { threshold: 0.2 }).observe(form.closest('.bp') || form);
   }
 })();
+
+/* The mobile number field holds digits only and never more than 10. A pasted number with +91, 91 or a leading 0 is trimmed to the 10 digits that matter. */
+(function () {
+  [].forEach.call(document.querySelectorAll('input[name="phone"]'), function (input) {
+    function clean(pasted) {
+      var raw = input.value, d = raw.replace(/\D/g, '');
+      if (/^\s*\+/.test(raw)) {                                                // typed or pasted "+91 ..."
+        if (d.length < 2 && '91'.indexOf(d) === 0) { input.value = '+' + d; return; }   // still typing the +91
+        if (d.indexOf('91') === 0) d = d.slice(2);
+      }
+      else if (pasted && d.length > 10) d = d.replace(/^(91|0)/, '');            // pasted "91..." or "0..."
+      d = d.slice(0, 10);
+      if (d !== raw) input.value = d;
+    }
+    input.addEventListener('input', function (e) { clean(e.inputType === 'insertFromPaste'); });
+    input.addEventListener('keydown', function (e) {
+      if (e.ctrlKey || e.metaKey || e.altKey || e.key.length !== 1) return;
+      if (!/\d/.test(e.key) && e.key !== '+') { e.preventDefault(); return; }
+      if (e.key !== '+' && input.value.replace(/\D/g, '').length >= 10 && input.selectionStart === input.selectionEnd) e.preventDefault();
+    });
+  });
+})();
+

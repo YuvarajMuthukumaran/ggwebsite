@@ -79,7 +79,7 @@ def form(root, page_path):
     # comment for how the two stay in sync (required-ness, server-side errors, the lot).
     steps = [
         ('name', field('name', 'Your name', True, autocomplete='name', maxlength='80')),
-        ('phone', field('phone', 'Mobile number', True, kind='tel', autocomplete='tel',
+        ('phone', field('phone', 'Mobile number', True, kind='tel', autocomplete='tel', inputmode='numeric',
                         hint='A 10-digit Indian mobile, so the team can call you back.')),
         ('who', choice('who', 'Who is the consultation for?', WHO, 'self')),
         ('clinic', choice('clinic', 'Where would you like to be seen?', CLINICS)),

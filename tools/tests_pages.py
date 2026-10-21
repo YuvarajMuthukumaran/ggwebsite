@@ -128,7 +128,8 @@ def index_body(pg, root, ph):
     lede = ('A quick way to check whether what you are experiencing looks like the symptoms of a mental health condition. '
             'Each test is private, takes a few minutes, and is a starting point for a conversation with Dr. Gorav Gupta.')
     head = ph([('Home', root), ('Resources', root + 'resources/'), ('Interactive tests', None)], 'Online Mental Health Assessment Tests', lede, banner=True)
-    return (head + facts
+    head = head.replace('</div></header>', facts + '</div></header>', 1)      # the facts sit inside the banner
+    return (head
             + '<section class="sec tq-idx" aria-label="Tests"><ul class="tq-grid">%s</ul>'
               '<div class="tq-fine tq-fine--h reveal"><p><span class="tq-fine__ic">%s</span><span>%s</span></p>'
               '<p><span class="tq-fine__ic">%s</span><span>%s</span></p></div></section>'

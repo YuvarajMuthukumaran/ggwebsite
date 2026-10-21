@@ -177,8 +177,10 @@ def services_menu(root, groups, by_slug, path):
     tl = ''.join('<a href="%s" target="_blank" rel="noopener">%s<span class="dd__tx"><b>%s</b></span></a>' % (u, icon(i), esc(n)) for n, u, i in TREATMENT_LINKS)
     cols += ('<details class="dd__g" open><summary class="dd__k">%s%s</summary><div class="dd__gl">%s</div></details>'
              % (icon('pulse', 'dd__kic'), 'Treatments', tl))
-    return ('<div class="dd__in dd__in--wide">' + a('services', 'All services', 'Every condition Dr. Gupta treats', 'grid')
-            + '<div class="dd__cols">%s</div></div>' % cols)
+    feat_extra = ('<div class="dd__help"><p>Not sure where to start?</p><a class="dd__book" href="%scontactus/#book">Book a consultation</a>'
+                  '<a class="dd__tel" href="tel:+918800000255">+91 88000 00255</a></div>' % root)
+    return ('<div class="dd__in dd__in--wide"><div class="dd__feat">' + a('services', 'All services', 'Every condition Dr. Gupta treats', 'grid')
+            + feat_extra + '</div><div class="dd__cols">%s</div></div>' % cols)
 
 # Tags that describe the clinic or the search rather than a subject. They stay filterable, but are not offered first.
 GENERIC_TAGS = {'psychiatrist', 'best-psychiatrist-in-delhi', 'top-psychiatrist-in-delhi', 'psychiatrist-in-delhi', 'psychiatrist-in-gurgaon',
