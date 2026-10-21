@@ -154,33 +154,90 @@ TREATMENT_LINKS = [('Deep TMS', 'https://www.tulasihealthcare.com/deep-tms-treat
                    ('Virtual reality therapy', 'https://www.tulasihealthcare.com/virtual-reality-therapy/', 'eye')]
 
 
-def services_menu(root, groups, by_slug, path):
-    def a(href, label, sub='', ic='', cls=''):
-        cur = ' aria-current="page"' if href == path else ''
-        body = '<b>%s</b>%s' % (label, ('<small>%s</small>' % sub) if sub else '')
-        return '<a%s href="%s%s/"%s>%s</a>' % ((' class="%s"' % cls) if cls else '', root, href, cur,
-                                              (icon(ic) + '<span class="dd__tx">%s</span>' % body) if ic else body)
-    # Seventeen links in one menu is a lot to scan. On desktop each group shows its first two
-    # and "All services" carries the rest; on a phone the group is an accordion holding all of
-    # them. Same markup, so there is one menu rather than two.
-    def group_html(title, slugs):
-        links = [x for x in slugs if x in by_slug]
-        out = []
-        for i, x in enumerate(links):
-            label = esc(by_slug[x].get('menu_title') or by_slug[x]['title'])
-            out.append(a(by_slug[x]['path'], label, ic=link_icon(x), cls='dd__x' if i >= 2 else ''))
-        return ('<details class="dd__g" open><summary class="dd__k">%s%s</summary><div class="dd__gl">%s</div></details>'
-                % (icon(group_icon(title), 'dd__kic'), esc(title), ''.join(out)))
+# One line per page on the service group pages (/services/<group>/): what the page covers, in plain words.
+SERVICE_BLURB = {
+    'psychiatrist-de-addiction-treatment-delhi-gurgaon': 'Supervised detox and structured relapse prevention for alcohol and drug dependence.',
+    'dual-diagnosis-treatment-delhi-gurgaon': 'Addiction treated together with the depression, anxiety, bipolar disorder or psychosis alongside it.',
+    'psychiatrist-alcohol-deaddiction-treatment-delhi-gurgaon': 'Safe withdrawal, medication and follow-up for alcohol dependence.',
+    'smoking-cessation': 'Assessment and support to help you stop smoking.',
+    'schizophrenia-psychiatrist-delhi-gurgaon-ncr': 'Medication, family involvement and long-term care for schizophrenia.',
+    'depression-psychiatrist-doctor-in-delhi-gurgaon': 'Assessment and treatment for persistent low mood and depression.',
+    'best-bipolar-disorder-psychiatrist-delhi-gurgaon': 'Care for the highs and lows of bipolar disorder, built around early warning signs.',
+    'best-psychiatrist-anxiety-specialist-delhi-gurgaon': 'The types, symptoms and treatment of anxiety disorders.',
+    'ocd-psychiatrist-in-gurgaon-delhi-ncr': 'Assessment and treatment for obsessive-compulsive disorder.',
+    'stress-management-psychiatrist-delhi-gurgaon': 'Help when stress starts to affect sleep, work or relationships.',
+    'personality-disorder-treatment-delhi-india': 'Assessment and treatment for personality disorders.',
+    'borderline-personality-disorder': 'Common signs, possible causes and treatment of borderline personality disorder.',
+    'narcissistic-personality-disorder': 'Common signs, possible causes and treatment of narcissistic personality disorder.',
+    'schizotypal-personality-disorder': 'Common signs and treatment of schizotypal personality disorder.',
+    'eating-disorder-psychiatrist-delhi-gurgaon': 'Treatment for eating disorders and a troubled relationship with food.',
+}
+TREATMENT_BLURB = {
+    'Deep TMS': 'Non-invasive magnetic stimulation of the brain, offered at Tulasi Healthcare for depression and OCD.',
+    'Modified ECT': 'Electroconvulsive therapy under anaesthesia and close monitoring, a long-recognised option when other treatment has not worked.',
+    'Virtual reality therapy': 'Gradual, guided exposure to difficult situations in a safe virtual setting.',
+}
+TREATMENTS = 'Treatments'
 
-    cols = ''.join(group_html(title, slugs) for title, slugs in groups['condition_groups'])
-    # procedures offered at Tulasi: one group, each link going to the matching page on tulasihealthcare.com
-    tl = ''.join('<a href="%s" target="_blank" rel="noopener">%s<span class="dd__tx"><b>%s</b></span></a>' % (u, icon(i), esc(n)) for n, u, i in TREATMENT_LINKS)
-    cols += ('<details class="dd__g" open><summary class="dd__k">%s%s</summary><div class="dd__gl">%s</div></details>'
-             % (icon('pulse', 'dd__kic'), 'Treatments', tl))
-    feat_extra = ('<div class="dd__help"><p>Not sure where to start?</p><a class="dd__book" href="%scontactus/#book">Book a consultation</a>'
-                  '<a class="dd__tel" href="tel:+918800000255">+91 88000 00255</a></div>' % root)
-    return ('<div class="dd__in dd__in--wide"><div class="dd__feat">' + a('services', 'All services', 'Every condition Dr. Gupta treats', 'grid')
-            + feat_extra + '</div><div class="dd__cols">%s</div></div>' % cols)
+
+def group_slug(title):
+    return re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
+
+
+def group_href(title, slugs, by_slug):
+    """Where a group leads: its own page, or straight to the condition when the group holds only one."""
+    slugs = [x for x in slugs if x in by_slug]
+    return by_slug[slugs[0]]['path'] if len(slugs) == 1 else 'services/' + group_slug(title)
+
+
+def service_group_items(groups, by_slug):
+    """One page per service group at /services/<group>/, listing the pages in it; the treatments are a group of their own.
+    A group of one condition gets no page: the menu links to the condition itself."""
+    out = []
+    for title, slugs in list(groups['condition_groups']) + [(TREATMENTS, [])]:
+        slugs = [x for x in slugs if x in by_slug]
+        if title != TREATMENTS and len(slugs) < 2:
+            continue
+        desc = ('Deep TMS, modified ECT and virtual reality therapy, offered at Tulasi Healthcare.' if title == TREATMENTS else
+                'Dr. Gorav Gupta on %s: each condition, how it is assessed and how it is treated, in Delhi, Gurugram and online.' % title.lower())
+        out.append({'kind': 'svc-group', 'path': 'services/' + group_slug(title), 'nav': 'services', 'crumb': title, 'group_title': title,
+                    'slugs': slugs, 'title': '%s | Dr. Gorav Gupta' % title, 'description': desc})
+    return out
+
+
+def service_group_body(pg, root, by_slug):
+    """The body of /services/<group>/: the page header and one tile per page in the group, as on /resources/."""
+    title = pg['group_title']
+    tile = '<li><a class="hb-x2__c" href="%s"%s>%s<span class="hb-x2__b"><b>%s</b><span>%s</span></span><i aria-hidden="true">%s</i></a></li>'
+    if title == TREATMENTS:
+        tiles = ''.join(tile % (u, ' target="_blank" rel="noopener"', icon(ic, 'hb-x2__ic'), esc(n), TREATMENT_BLURB.get(n, ''), '&#8599;')
+                        for n, u, ic in TREATMENT_LINKS)
+        lede = 'Treatments Dr. Gupta uses alongside medication and therapy. Each opens on the Tulasi Healthcare website.'
+    else:
+        tiles = ''.join(tile % ('%s%s/' % (root, by_slug[x]['path']), '', icon(link_icon(x), 'hb-x2__ic'),
+                                esc(by_slug[x].get('menu_title') or by_slug[x]['title']), SERVICE_BLURB.get(x, ''), '&rarr;')
+                        for x in pg['slugs'])
+        lede = 'Choose a condition to read what it involves and how Dr. Gupta assesses and treats it.'
+    hero = ('<header class="hb2-hero hb2-hero--s"><div class="hb2-hero__in"><nav class="crumb" aria-label="Breadcrumb"><a href="%s">Home</a><span aria-hidden="true">/</span>'
+            '<a href="%sservices/">Services</a><span aria-hidden="true">/</span><span aria-current="page">%s</span></nav><h1>%s</h1><p>%s</p></div></header>'
+            % (root, root, esc(title), esc(title), lede))
+    return hero + '<section class="sec hb-x2" aria-label="%s"><ul class="hb-x2__g">%s</ul></section>' % (esc(title), tiles)
+
+
+def services_menu(root, groups, by_slug, path):
+    """The Services dropdown in the header, laid out like the Resources one: "All services", then one row per group, each opening
+    its own page (or the condition itself, for a group of one)."""
+    def a(href, label, sub, ic):
+        cur = ' aria-current="page"' if href == path else ''
+        return '<a href="%s%s/"%s>%s<span class="dd__tx"><b>%s</b><small>%s</small></span></a>' % (root, href, cur, icon(ic), label, sub)
+    rows = []
+    for t, ss in groups['condition_groups']:
+        ss = [x for x in ss if x in by_slug]
+        if ss:
+            sub = esc(by_slug[ss[0]].get('menu_title') or by_slug[ss[0]]['title']) if len(ss) == 1 else '%d conditions' % len(ss)
+            rows.append(a(group_href(t, ss, by_slug), esc(t), sub, group_icon(t)))
+    rows.append(a('services/' + group_slug(TREATMENTS), TREATMENTS, 'Deep TMS, modified ECT, VR therapy', 'pulse'))
+    return '<div class="dd__in">' + a('services', 'All services', 'Every condition Dr. Gupta treats', 'grid') + ''.join(rows) + '</div>'
 
 # Tags that describe the clinic or the search rather than a subject. They stay filterable, but are not offered first.
 GENERIC_TAGS = {'psychiatrist', 'best-psychiatrist-in-delhi', 'top-psychiatrist-in-delhi', 'psychiatrist-in-delhi', 'psychiatrist-in-gurgaon',
@@ -204,7 +261,6 @@ def resources_landing(root, posts):
         ('video-gallery', 'Video library', 'Short videos and real patient voices, in Hindi and English.', 'play'),
         (FAQ_HUB, 'Frequently asked questions', 'Answers on consulting, treatment, fees and Dr. Gupta.', 'help'),
         ('ask-the-doctor', 'Ask the Doctor', 'Questions patients and families often ask, answered directly.', 'quote'),
-        ('services', 'Conditions we treat', 'A guide to every condition, matched to severity.', 'pulse'),
         ('psychiatrist-in-delhi', 'Psychiatrist in Delhi', 'Credentials, the Tulasi centres, achievements and OPD timings.', 'pin'),
         ('psychiatrist-in-gurgaon', 'Psychiatrist in Gurugram', 'What a psychiatrist does and when to see one, for NCR residents.', 'pin'),
         ('psychiatrist-in-india', 'Psychiatrist in India', 'Why to consult a psychiatrist, with national figures and FAQs.', 'pin'),
@@ -214,10 +270,18 @@ def resources_landing(root, posts):
     explore_html = ''.join(
         '<li><a class="hb-x2__c" href="%s%s/">%s<span class="hb-x2__b"><b>%s</b><span>%s</span></span><i aria-hidden="true">&rarr;</i></a></li>'
         % (root, s, icon(ic, 'hb-x2__ic'), t, d) for s, t, d, ic in explore)
-    hero = ('<header class="hb2-hero hb2-hero--s"><div class="hb2-hero__in"><nav class="crumb" aria-label="Breadcrumb"><a href="%s">Home</a><span aria-hidden="true">/</span>'
+    facts = ('<ul class="tqh__facts" aria-label="About these resources"><li><b>%d</b> articles</li><li>Videos in <b>Hindi</b> and <b>English</b></li>'
+             '<li><b>Free</b> to read</li></ul>' % len(posts))
+    # a small illustration of what is inside, drawn in CSS like the tests banner: the newest article and a video
+    p = posts[0] if posts else {'title': 'Mental health, explained', 'words': 1000}
+    art = ('<div class="rsh__art" aria-hidden="true"><div class="rsh__c rsh__c--a"><span class="rsh__k">Article</span><b class="rsh__t">%s</b>'
+           '<i class="rsh__l"></i><i class="rsh__l rsh__l--s"></i><span class="rsh__m">%d min read</span></div>'
+           '<div class="rsh__c rsh__c--v"><span class="rsh__th"><span class="rsh__pl"></span></span><b class="rsh__t">Hear it from the doctor</b>'
+           '<span class="rsh__m">Video &middot; Hindi and English</span></div></div>' % (esc(p['title']), max(1, round(p.get('words', 0) / 200))))
+    hero = ('<header class="hb2-hero hb2-hero--s hb2-hero--rs"><div class="hb2-hero__in"><nav class="crumb" aria-label="Breadcrumb"><a href="%s">Home</a><span aria-hidden="true">/</span>'
             '<span aria-current="page">Resources</span></nav><h1>Resources</h1>'
-            '<p>Articles, guides, answers and videos from Dr. Gorav Gupta, to help you make sense of mental health and addiction.</p></div></header>'
-            % (root,))
+            '<p>Articles, guides, answers and videos from Dr. Gorav Gupta, to help you make sense of mental health and addiction.</p>%s</div>%s</header>'
+            % (root, facts, art))
     return hero + '<section class="sec hb-x2" aria-label="Explore resources"><ul class="hb-x2__g">%s</ul></section>' % explore_html
 
 

@@ -531,7 +531,7 @@ def main():
     tax = taxonomy_pages.load()  # data/taxonomy.json -> /tag/<slug>/, /category/blog/, /author/<slug>/ (kept from the old WordPress site)
     tag_map = taxonomy_pages.tags_of(tax)
     post_by_slug = {p['slug']: p for p in posts}
-    all_items = designed + content + blog_pages + tests_pages.items(tests) + faq_pages.items(faq) + taxonomy_pages.items(tax)
+    all_items = designed + content + blog_pages + hub_pages.service_group_items(groups, by_slug) + tests_pages.items(tests) + faq_pages.items(faq) + taxonomy_pages.items(tax)
 
     # ---------------------------------------------------------------- render
     sitemap = []
@@ -659,6 +659,8 @@ def main():
             body = faq_pages.index_body(pg, root, ph, wa, EXPERIENCE)
         elif kind == 'faq':
             body = faq_pages.topic_body(pg, root, ph, wa)
+        elif kind == 'svc-group':
+            body = hub_pages.service_group_body(pg, root, by_slug)
         elif kind == 'blog-index':
             body = hub_pages.articles_hub(root, posts, tests, href, pretty_date, tag_map)
         else:
@@ -675,6 +677,8 @@ def main():
             meta_line = ('<time datetime="%s">%s</time>' % (pg['date'], pretty_date(pg['date']))) if kind == 'post' else ''
             lang = ' lang="%s"' % pg['lang'] if pg.get('lang') else ''
             inner = tests_pages.source_callout(root, tests, pg['slug']) + (fix_levels if kind == 'post' else (lambda x: x))(fill(pg['_body'], v, 'content ' + path))
+            if kind == 'page':      # imported lists often start each item with its own "- ", which doubles the bullet
+                inner = re.sub(r'(<li[^>]*>)\s*[-–•]\s+', r'', inner)
             after = (taxonomy_pages.tag_row(root, pg['slug'], tag_map) if kind == 'post' else '') + author_box(root, kind == 'post', bio_short)
             if group in ('services', 'local'):
                 after += tests_pages.page_callout(root, tests, pg['slug']) or ASSESS.format(root=root)
