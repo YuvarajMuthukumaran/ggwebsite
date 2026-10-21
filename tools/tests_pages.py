@@ -25,7 +25,7 @@ PAGE_TEST = {
     'depression-psychiatrist-doctor-in-delhi-gurgaon': 'mental-health-self-assessment',
     'best-psychiatrist-anxiety-specialist-delhi-gurgaon': 'mental-health-self-assessment',
     'ocd-psychiatrist-in-gurgaon-delhi-ncr': 'mental-health-self-assessment',
-    'stress-management-psychologist-counselling-delhi-gurgaon': 'mental-health-self-assessment',
+    'stress-management-psychiatrist-delhi-gurgaon': 'mental-health-self-assessment',
 }
 
 # The hub lives at HUB (see hub_pages). The individual tests keep their own /tests/<slug>/ paths:
@@ -127,8 +127,7 @@ def index_body(pg, root, ph):
              '<li>%s<span>Private, nothing is saved</span></li></ul>' % (n, span, ICON_LOCK))
     lede = ('A quick way to check whether what you are experiencing looks like the symptoms of a mental health condition. '
             'Each test is private, takes a few minutes, and is a starting point for a conversation with Dr. Gorav Gupta.')
-    head = ph([('Home', root), ('Resources', root + 'resources/'), ('Interactive tests', None)], 'Mental Health Assessment Tests: Check Your Well-Being Online', lede)
-    head = head.replace('<header class="ph">', '<header class="ph ph--c ph--tq">', 1)      # centred header
+    head = ph([('Home', root), ('Resources', root + 'resources/'), ('Interactive tests', None)], 'Online Mental Health Assessment Tests', lede, banner=True)
     return (head + facts
             + '<section class="sec tq-idx" aria-label="Tests"><ul class="tq-grid">%s</ul>'
               '<div class="tq-fine tq-fine--h reveal"><p><span class="tq-fine__ic">%s</span><span>%s</span></p>'

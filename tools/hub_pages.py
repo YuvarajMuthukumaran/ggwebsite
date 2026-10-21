@@ -5,7 +5,7 @@ import re
 # at /mental-health-assessment-tests/ (306 clicks a month) and the FAQ at the long URL (284). /tests/
 # and /faq/ 301 to them (see vercel.json). Defined here because every generator imports this module.
 TESTS_HUB = 'mental-health-assessment-tests'
-FAQ_HUB = 'frequently-asked-questions-psychiatrist-near-me-consultation'
+FAQ_HUB = 'psychiatrist-near-me-consultation'
 
 # Small line icons for the nav dropdowns (24px grid, drawn with currentColor)
 ICONS = {
@@ -209,10 +209,10 @@ def resources_landing(root, posts):
     explore_html = ''.join(
         '<li><a class="hb-x2__c" href="%s%s/">%s<span class="hb-x2__b"><b>%s</b><span>%s</span></span><i aria-hidden="true">&rarr;</i></a></li>'
         % (root, s, icon(ic, 'hb-x2__ic'), t, d) for s, t, d, ic in explore)
-    hero = ('<header class="hb2-hero"><div class="hb2-hero__in"><nav class="crumb" aria-label="Breadcrumb"><a href="%s">Home</a><span aria-hidden="true">/</span>'
+    hero = ('<header class="hb2-hero hb2-hero--s"><div class="hb2-hero__in"><nav class="crumb" aria-label="Breadcrumb"><a href="%s">Home</a><span aria-hidden="true">/</span>'
             '<span aria-current="page">Resources</span></nav><h1>Resources</h1>'
-            '<p>Articles, guides, answers and videos from Dr. Gorav Gupta, to help you make sense of mental health and addiction.</p></div>%s</header>'
-            % (root, HERO_ART % root))
+            '<p>Articles, guides, answers and videos from Dr. Gorav Gupta, to help you make sense of mental health and addiction.</p></div></header>'
+            % (root,))
     return hero + '<section class="sec hb-x2" aria-label="Explore resources"><ul class="hb-x2__g">%s</ul></section>' % explore_html
 
 
@@ -273,10 +273,10 @@ def articles_hub(root, posts, tests, href, pretty_date, tag_map=None):
 
     quick = ''.join('<li><a href="%stests/%s/">%s <i aria-hidden="true">&rarr;</i></a></li>' % (root, t['slug'], esc(t['menu_title'])) for t in tests)
 
-    hero = ('<header class="ph"><div class="ph__in"><nav class="crumb" aria-label="Breadcrumb"><a href="%s">Home</a><span aria-hidden="true">/</span>'
-            '<span aria-current="page">Articles &amp; Blogs</span></nav><h1>Mental Health &amp; Wellness Blog by Dr. Gorav Gupta</h1>'
-            '<p class="ph__lede">%d guides on mental health and addiction from Dr. Gorav Gupta, searchable by condition. '
-            'Looking for an overview instead? Visit <a href="%sresources/">Resources</a>.</p></div></header>' % (root, len(posts), root))
+    hero = ('<header class="hb2-hero hb2-hero--s"><div class="hb2-hero__in"><nav class="crumb" aria-label="Breadcrumb"><a href="%s">Home</a><span aria-hidden="true">/</span>'
+            '<a href="%sresources/">Resources</a><span aria-hidden="true">/</span><span aria-current="page">Articles &amp; Blogs</span></nav><h1>Mental Health &amp; Wellness Blog by Dr. Gorav Gupta</h1>'
+            '<p>%d guides on mental health and addiction from Dr. Gorav Gupta, searchable by condition. '
+            'Looking for an overview instead? Visit <a href="%sresources/">Resources</a>.</p></div></header>' % (root, root, len(posts), root))
     side = ('<aside class="hb2-side" id="hb2-side" aria-label="Filter articles">'
             '<div class="hb2-box hb2-search"><label class="hb2-sr" for="hb2-q">Search articles</label><input id="hb2-q" type="search" placeholder="Search articles" autocomplete="off" spellcheck="false">%s</div>'
             '<div class="hb2-box hb2-catbox"><h2 class="hb2-k">Categories</h2><ul class="hb2-cats">%s</ul></div>'

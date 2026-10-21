@@ -216,7 +216,7 @@
 
     screens.result.innerHTML =
       '<div class="tq-res__head" data-level="' + band.level + '">' +
-      '<p class="tq-res__k">Your result</p>' +
+      '<p class="tq-res__k">Your result: ' + esc(T.title) + '</p>' +
       '<h2 class="tq-h" tabindex="-1"><span class="tq-res__band"><i aria-hidden="true"></i>' + esc(band.label) + '</span></h2>' +
       '<p class="tq-res__score">' + scoreLine + '</p>' +
       '<div class="tq-meter" aria-hidden="true"><div class="tq-meter__bar">' + meter + '</div><span class="tq-meter__pin" style="left:' + pos + '%"></span>' +

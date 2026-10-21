@@ -20,6 +20,16 @@
   ],
   "redirects": [
     {
+      "source": "/stress-management-psychologist-counselling-delhi-gurgaon/",
+      "destination": "/stress-management-psychiatrist-delhi-gurgaon/",
+      "statusCode": 301
+    },
+    {
+      "source": "/frequently-asked-questions-psychiatrist-near-me-consultation/",
+      "destination": "/psychiatrist-near-me-consultation/",
+      "statusCode": 301
+    },
+    {
       "source": "/blog/page/(.*)",
       "destination": "/resources/",
       "permanent": true
@@ -52,7 +62,7 @@
     },
     {
       "source": "/faq/",
-      "destination": "/frequently-asked-questions-psychiatrist-near-me-consultation/",
+      "destination": "/psychiatrist-near-me-consultation/",
       "statusCode": 301
     },
     {
@@ -2279,6 +2289,12 @@
       "source": "/wp-content/uploads/2025/07/Does-therapy-actually-work-for-depression.webp",
       "destination": "/assets/img/blog/does-therapy-actually-work-for-depression.webp",
       "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/chat-api/:path*",
+      "destination": "https://chatbot-6lzw.onrender.com/api/:path*"
     }
   ]
 }

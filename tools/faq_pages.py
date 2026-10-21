@@ -16,7 +16,7 @@ SITE = 'https://www.goravgupta.com'
 # The hub is served at the long URL the old site ranked on (284 clicks a month); /faq/ 301s to it
 # (see vercel.json and hub_pages.FAQ_HUB). The topic pages keep their own /faq/<topic>/ paths.
 SOURCE_PATH = FAQ_HUB
-TITLE = 'Psychiatrist near me & Consultation'
+TITLE = 'Psychiatrist near me: your questions answered'
 LEDE = ('Answers to the questions people ask most before they see a psychiatrist: when to seek help, how treatment works, '
         'what a consultation involves and who Dr. Gorav Gupta is.')
 

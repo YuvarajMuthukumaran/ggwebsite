@@ -61,7 +61,7 @@ SUBTITLES = {'psychiatrist-alcohol-deaddiction-treatment-delhi-gurgaon': 'Psychi
 MENTAL_HEALTH = {'mental-health-assessment-tests', 'early-warning-signs-scale-for-bipolar-disorder',
                  'early-relapse-signs-of-schizophrenia', 'substance-use-disorder', 'substance-use-disorder-vs-social-use'}
 LOCAL = {'psychiatrist-in-delhi', 'psychiatrist-in-gurgaon', 'psychiatrist-in-india'}
-STANDALONE = {'frequently-asked-questions-psychiatrist-near-me-consultation', 'ask-the-doctor'}
+STANDALONE = {'psychiatrist-near-me-consultation', 'ask-the-doctor'}
 
 # Condition grouping for the Services hub (title shown, then slugs in display order).
 CONDITION_GROUPS = [
@@ -70,7 +70,7 @@ CONDITION_GROUPS = [
     ('Schizophrenia', ['schizophrenia-psychiatrist-delhi-gurgaon-ncr']),
     ('Mood disorders', ['depression-psychiatrist-doctor-in-delhi-gurgaon', 'best-bipolar-disorder-psychiatrist-delhi-gurgaon']),
     ('Anxiety, OCD and stress', ['best-psychiatrist-anxiety-specialist-delhi-gurgaon', 'anxiety-treatment-delhi',
-                                 'ocd-psychiatrist-in-gurgaon-delhi-ncr', 'stress-management-psychologist-counselling-delhi-gurgaon']),
+                                 'ocd-psychiatrist-in-gurgaon-delhi-ncr', 'stress-management-psychiatrist-delhi-gurgaon']),
     ('Personality disorders', ['personality-disorder-treatment-delhi-india', 'borderline-personality-disorder',
                                'narcissistic-personality-disorder', 'schizotypal-personality-disorder']),
     ('Eating disorders', ['eating-disorder-psychiatrist-delhi-gurgaon']),
@@ -418,7 +418,7 @@ def main():
         title = clean_text(p['title']['rendered'])
         body = imp.body(p['content']['rendered'], title, img_dir)
         yo = p.get('yoast_head_json') or {}
-        if slug == 'frequently-asked-questions-psychiatrist-near-me-consultation':
+        if slug == 'psychiatrist-near-me-consultation':
             body += imp.home_faq_extra(pages_by_slug, body, img_dir)
         meta = {'kind': 'page', 'slug': slug, 'path': slug, 'title': title, 'group': group_of(slug),
                 'seo_title': clean_text(yo.get('title', '')) or title, 'description': clean_text(yo.get('description', '')) or clean_text(re.sub(r'<[^>]+>', ' ', p['excerpt']['rendered']))[:160],

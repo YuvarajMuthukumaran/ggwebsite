@@ -46,14 +46,17 @@
     }
   });
 
-  /* "Play video walkthrough": one shared player, filled in only when a button is pressed, so no video is downloaded until then */
+  /* "Play video walkthrough": one shared player, filled in only when a button is pressed, so no video is downloaded until then.
+     Beside a phone-shaped film it shows which centre this is, with its address, directions and a call button. */
   var dlg = null;
   function player() {
     if (dlg) return dlg;
     dlg = document.createElement('dialog');
     dlg.className = 'vw';
+    dlg.setAttribute('aria-label', 'Video walkthrough');
     dlg.innerHTML = '<div class="vw__box"><button type="button" class="vw__x" aria-label="Close video"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>' +
-      '<video class="vw__v" controls playsinline preload="none"></video><p class="vw__bar"><b></b></p></div>';
+      '<div class="vw__film"><video class="vw__v" controls playsinline preload="none"></video></div>' +
+      '<div class="vw__side"><p class="vw__k">Video walkthrough</p><h3 class="vw__t"></h3><p class="vw__a"></p><div class="vw__act"></div></div></div>';
     document.body.appendChild(dlg);
     var v = dlg.querySelector('video');
     v.addEventListener('loadedmetadata', function () { dlg.classList.toggle('vw--tall', v.videoHeight > v.videoWidth); });   // a phone-shaped film gets a narrow player
@@ -64,16 +67,25 @@
     return dlg;
   }
   [].forEach.call(document.querySelectorAll('[data-vid]'), function (panel) {
-    var btn = panel.querySelector('[data-play]');
-    if (!btn || typeof HTMLDialogElement === 'undefined') { if (btn) btn.hidden = true; return; }
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var d = player(), v = d.querySelector('video');
-      d.querySelector('.vw__bar b').textContent = panel.getAttribute('data-vid-title') || '';
-      v.src = panel.getAttribute('data-vid');
-      document.documentElement.classList.add('vw-lock');
-      d.showModal();
-      var p = v.play(); if (p && p.catch) p.catch(function () {});   // if the browser refuses, the controls are right there
+    var btns = [].slice.call(panel.querySelectorAll('[data-play]'));
+    if (!btns.length || typeof HTMLDialogElement === 'undefined') { btns.forEach(function (b) { b.hidden = true; }); return; }
+    btns.forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var d = player(), v = d.querySelector('video');
+        var title = (panel.getAttribute('data-vid-title') || '').replace(/:\s*walkthrough$/, '');
+        d.querySelector('.vw__t').textContent = title;
+        var addr = panel.querySelector('.cenr__addr span');
+        d.querySelector('.vw__a').textContent = addr ? addr.textContent : '';
+        var act = d.querySelector('.vw__act'); act.innerHTML = '';
+        [].forEach.call(panel.querySelectorAll('.cenr__act a'), function (a, i) {
+          var c = a.cloneNode(true); c.className = i ? 'btn ghost vw__b' : 'btn vw__b'; act.appendChild(c);
+        });
+        v.src = panel.getAttribute('data-vid');
+        document.documentElement.classList.add('vw-lock');
+        d.showModal();
+        var p = v.play(); if (p && p.catch) p.catch(function () {});   // if the browser refuses, the controls are right there
+      });
     });
   });
 })();

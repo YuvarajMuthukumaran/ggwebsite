@@ -311,7 +311,10 @@ def crumb_html(crumbs):
     return '<nav class="crumb" aria-label="Breadcrumb">%s</nav>' % ''.join(out)
 
 
-def ph(crumbs, h1, lede='', meta_line=''):
+def ph(crumbs, h1, lede='', meta_line='', banner=False):
+    if banner:      # the blue banner shared by the Resources pages
+        return ('<header class="hb2-hero hb2-hero--s"><div class="hb2-hero__in">%s<h1>%s</h1>%s</div></header>'
+                % (crumb_html(crumbs), h1, ('<p>%s</p>' % lede) if lede else ''))
     return ('<header class="ph"><div class="ph__in">%s<h1>%s</h1>%s%s</div></header>'
             % (crumb_html(crumbs), h1, ('<p class="ph__meta">%s</p>' % meta_line) if meta_line else '',
                ('<p class="ph__lede">%s</p>' % lede) if lede else ''))
