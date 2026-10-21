@@ -2290,11 +2290,5 @@
       "destination": "/assets/img/blog/does-therapy-actually-work-for-depression.webp",
       "permanent": true
     }
-  ],
-  "rewrites": [
-    {
-      "source": "/chat-api/:path*",
-      "destination": "https://chatbot-6lzw.onrender.com/api/:path*"
-    }
   ]
 }
