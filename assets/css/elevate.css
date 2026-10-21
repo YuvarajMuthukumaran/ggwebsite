@@ -997,11 +997,14 @@ a.tq-card--h:hover .tq-card__go i{ translate:3px 0; }
 .sec:not(#s)>.head::after{ margin-top:.6rem; }
 .bkh:not(#s){ padding-top:clamp(3.2rem,6vw,4.2rem); padding-bottom:clamp(1.6rem,3vw,2.4rem); }
 
-/* Home videos: the heading reads on one line from the left, with its line of text and link continuing to the right */
+/* Home videos: copy and link on the left, heading on the right */
 @media (min-width:821px){
-  #films .vr__head:not(#s){ grid-template-columns:auto minmax(0,1fr); align-items:center; column-gap:clamp(1.5rem,4vw,3.5rem); }
-  #films .vr__head h2:not(#s){ max-width:none; white-space:nowrap; font-size:clamp(1.9rem,3.6vw,2.9rem); }
+  #films .vr__head:not(#s){ grid-template-columns:minmax(0,1fr) auto; align-items:center; column-gap:clamp(1.5rem,4vw,3.5rem); }
+  #films .vr__head h2:not(#s){ max-width:none; white-space:nowrap; font-size:clamp(1.9rem,3.6vw,2.9rem); text-align:right; justify-self:end; }
   #films .vr__side{ padding-bottom:0; }
+}
+@media (max-width:820px){
+  #films .vr__head h2:not(#s){ order:-1; }
 }
 
 /* the two centre cards that have a video show a play chip on the photo itself, so the walkthrough is one tap away without opening the card */
