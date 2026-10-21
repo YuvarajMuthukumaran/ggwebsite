@@ -145,9 +145,9 @@ def index_body(pg, root, ph, wa, exp='40+'):
                ''.join('<button type="button" data-try="%s">%s</button>' % (esc(w), esc(w)) for w in SUGGEST),
                fact('exp', 'Experience', '%s years in psychiatry' % exp), fact('pin', 'Tulasi Healthcare Clinic', 'New Delhi and Gurugram'),
                fact('video', 'Online', 'Consultations available online')))
-    side = ('<aside class="fh__side" aria-label="Topics"><p class="fh__k">Topics</p><ul class="fh-topics">'
+    side = ('<div class="fh__side" role="group" aria-label="Topics"><p class="fh__k">Topics</p><ul class="fh-topics">'
             '<li><a href="%s%s/" class="is-on" data-topic="all" aria-pressed="true">All questions <span>%d</span></a></li>%s</ul>'
-            '<div class="fh__more"><a href="%s%s/">Take a private self-assessment <i>&rarr;</i></a></div></aside>'
+            '<div class="fh__more"><a href="%s%s/">Take a private self-assessment <i>&rarr;</i></a></div></div>'
             % (root, FAQ_HUB, total, ''.join('<li><a href="%sfaq/%s/" data-topic="%s" aria-pressed="false">%s <span>%d</span></a></li>' % (root, t['slug'], t['slug'], esc(t['menu_title']), t['n']) for t in topics),
                root, TESTS_HUB))
     groups = ''

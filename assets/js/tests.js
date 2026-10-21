@@ -111,8 +111,7 @@
     next.disabled = false;
     fill.style.transform = 'scaleX(' + ((at + 1) / N) + ')';
     clearTimeout(advanceT);
-    if (auto && at < N - 1) advanceT = setTimeout(function () { go(1); }, 420);   // a beat to see the choice land
-    if (auto && at === N - 1) next.focus();
+    if (auto) advanceT = setTimeout(function () { go(1); }, 420);   // a beat to see the choice land; after the last question go(1) shows the result
   }
 
   stage.addEventListener('pointerdown', function (e) { pointer = !!e.target.closest('.tq-opt'); });
@@ -228,13 +227,12 @@
       '<div class="tq-res__next" data-level="' + band.level + '"><h3>' + (step ? esc(step.t) : 'What to do next') + '</h3>' +
       (step ? '<p>' + esc(step.p) + '</p>' : '') +
       (T.next_steps ? '<p>' + esc(T.next_steps) + '</p>' : '') + '<p>' + esc(T.note) + '</p>' +
-      (step ? '<div class="tq-res__acts">' + step.a + '</div>' : '') + '</div>' +
+      '<div class="tq-res__acts">' + (step ? step.a : '') + '<a class="btn tq-mail" href="' + mail + '"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Email me my result</a></div>' + '</div>' +
       '<div class="tq-cta"><img class="tq-cta__doc" src="' + app.getAttribute('data-doc') + '" alt="Dr. Gorav Gupta" width="72" height="84" loading="lazy"><div><p class="tq-cta__t">Talk it through with a specialist</p>' +
       '<p>Dr. Gorav Gupta consults in New Delhi, Gurugram and online. Bring this result along; it is a good place to start the conversation.</p></div>' +
       '<div class="tq-cta__a"><a class="btn" href="' + app.getAttribute('data-contact') + '">Book a consultation with Dr. Gorav Gupta</a>' +
       '<a class="btn ghost" href="' + phone + '">Call the clinic</a>' + shareWa + '</div></div>' +
       '<div class="tq-acts"><button type="button" class="tq-act" data-act="retake">Retake the test</button>' +
-      '<a class="tq-act" href="' + mail + '">Email me my result</a>' +
       '<button type="button" class="tq-act" data-act="print">Print</button>' +
       '<button type="button" class="tq-act" data-act="share">Share this test</button>' +
       '<a class="tq-act" href="' + app.getAttribute('data-index') + '">Other tests</a>' +

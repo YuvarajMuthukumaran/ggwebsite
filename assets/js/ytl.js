@@ -7,12 +7,12 @@
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   [].forEach.call(document.querySelectorAll('.sec.yts'), function (sec) {
-    var head = sec.querySelector(':scope > .head');
+    var head = sec.querySelector('.head');
     var wrap = sec.querySelector('.ytl__wrap');
     if (!wrap) return;
     var row = wrap.querySelector('.ytl');
-    var prev = wrap.querySelector('.ytl__nav--prev');
-    var next = wrap.querySelector('.ytl__nav--next');
+    var prev = sec.querySelector('.ytl__nav--prev');
+    var next = sec.querySelector('.ytl__nav--next');
     var bar = sec.querySelector('.ytl__prog-b');
     var items = [].slice.call(row.children);
 

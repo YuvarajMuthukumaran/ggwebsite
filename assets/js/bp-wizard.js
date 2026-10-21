@@ -76,7 +76,7 @@
   function go(i, initial) {
     current = i;
     steps.forEach(function (s, n) { s.classList.toggle('is-active', n === i); });
-    progN.textContent = 'Step ' + (i + 1) + ' of ' + steps.length;
+    progN.textContent = 'Request a callback · Step ' + (i + 1) + ' of ' + steps.length;
     progB.style.width = ((i + 1) / steps.length * 100) + '%';
     var name = steps[i].dataset.step;
     live.textContent = 'Step ' + (i + 1) + ' of ' + steps.length + ': ' + (LABELS[name] || '');

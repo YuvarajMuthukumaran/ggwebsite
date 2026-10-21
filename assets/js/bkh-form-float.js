@@ -1,5 +1,5 @@
 /* Contact page only: floats the booking form card into the hero, top-right, overlapping the
- * scrolling photo strip. Above a width where it can actually sit over the strip without
+ * hero. Above a width where it can actually sit over the strip without
  * crowding it, the rest of the booking section -- the "Ask for a call back" facts card, which
  * just repeats what the floated form already says -- is hidden rather than left behind as an
  * empty, titled gap; any link that points at #book (the hero's own CTA, "Ask for an online
@@ -10,7 +10,7 @@
  */
 (function () {
   var hero = document.querySelector('.bkh');
-  var strip = hero && hero.querySelector('.bkh__strip');
+  var strip = hero && hero.querySelector('.bkh__slot');
   var formCol = document.querySelector('.bp__r');
   var bpIn = document.querySelector('.bp__in');
   var bp = bpIn && bpIn.closest('.bp');
@@ -19,7 +19,7 @@
   var anchor = document.createComment('bkh-form-anchor');
   formCol.parentNode.insertBefore(anchor, formCol);
   var floating = false;
-  var mq = matchMedia('(min-width: 900px)');
+  var mq = matchMedia('(min-width: 0px)');
   var reduceMq = matchMedia('(prefers-reduced-motion: reduce)');
 
   function float() {

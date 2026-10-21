@@ -277,13 +277,13 @@ def articles_hub(root, posts, tests, href, pretty_date, tag_map=None):
             '<a href="%sresources/">Resources</a><span aria-hidden="true">/</span><span aria-current="page">Articles &amp; Blogs</span></nav><h1>Mental Health &amp; Wellness Blog by Dr. Gorav Gupta</h1>'
             '<p>%d guides on mental health and addiction from Dr. Gorav Gupta, searchable by condition. '
             'Looking for an overview instead? Visit <a href="%sresources/">Resources</a>.</p></div></header>' % (root, root, len(posts), root))
-    side = ('<aside class="hb2-side" id="hb2-side" aria-label="Filter articles">'
+    side = ('<div class="hb2-side" id="hb2-side" role="group" aria-label="Filter articles">'
             '<div class="hb2-box hb2-search"><label class="hb2-sr" for="hb2-q">Search articles</label><input id="hb2-q" type="search" placeholder="Search articles" autocomplete="off" spellcheck="false">%s</div>'
             '<div class="hb2-box hb2-catbox"><h2 class="hb2-k">Categories</h2><ul class="hb2-cats">%s</ul></div>'
             '<div class="hb2-box"><h2 class="hb2-k">Tags</h2><ul class="hb2-tags">%s</ul>'
             '<ul class="hb2-tags hb2-tags--more" id="hb2-tags-more" hidden>%s</ul>'
             '<button type="button" class="hb2-link" id="hb2-tagtog" aria-expanded="false" aria-controls="hb2-tags-more">Show all tags (%d)</button></div>'
-            '<div class="hb2-box hb2-quick"><h2 class="hb2-k">Take a quick test</h2><ul>%s</ul><a class="hb2-link" href="%s%s/">All tests &rarr;</a></div></aside>'
+            '<div class="hb2-box hb2-quick"><h2 class="hb2-k">Take a quick test</h2><ul>%s</ul><a class="hb2-link" href="%s%s/">All tests &rarr;</a></div></div>'
             % (SEARCH_ICON, cats, ''.join(tag(s) for s in first), ''.join(tag(s) for s in rest), len(ranked), quick, root, TESTS_HUB))
     bar = ('<div class="hb2-bar"><button type="button" class="hb2-ftog" id="hb2-ftog" aria-expanded="false" aria-controls="hb2-side">%s Filters <b class="hb2-badge" hidden></b></button>'
            '<p class="hb2-count" id="hb2-count" aria-live="polite" tabindex="-1">%d articles</p>'
