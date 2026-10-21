@@ -1337,3 +1337,28 @@ header.bkh.bkh:not(#s).bkh--has-form .bp__r .bp-form::after{ content:"Your detai
 .ard__t{ display:flex; flex-wrap:wrap; gap:.4rem; margin:.9rem 0 0; padding:0; list-style:none; }
 .ard__t li{ margin:0; padding:.22rem .7rem; border-radius:999px; background:var(--tint); color:var(--blue-d); font-size:.8rem; font-weight:500; }
 @media (max-width:760px){ .cn__l,.ard__g{ grid-template-columns:minmax(0,1fr); } .cn__more{ flex-direction:column; align-items:flex-start; } }
+
+/* Home hero follows the window height: on laptops and short windows it ends inside the first screen, so the name, portrait, the Book button and the figures are all visible without scrolling */
+@media (min-width:1000px) and (max-height:900px){
+  .hero__in:not(#s){ min-height:max(470px,calc(100svh - 150px)) !important; height:max(470px,calc(100svh - 150px)) !important; }
+  .hero .hero__l:not(#s){ bottom:1.1rem; }
+  .hero .stats:not(#s){ bottom:1.1rem; }
+}
+@media (min-width:1000px) and (max-height:760px){
+  .hero .hero__l:not(#s){ padding:.8rem 1rem; }
+  .hero .hero__l .hero__who:not(#s){ display:none; }
+  .hero .hero__cta:not(#s){ margin-top:.5rem; }
+}
+@media (min-width:1000px) and (max-height:620px){
+  .hero .hero__l p:not(.hero__who){ display:none; }
+  .hero .qual:not(#s) small{ display:none; }
+}
+@media (min-width:1000px) and (max-height:760px){
+  .hero__in:not(#s){ min-height:max(420px,calc(100svh - 150px)) !important; height:max(420px,calc(100svh - 150px)) !important; }
+  html body .hero .cut:not(#s){ height:74%; }
+}
+@media (min-width:1000px) and (max-width:1500px){
+  .hero .hero__l:not(#s){ left:max(4.6rem,calc(var(--hero-pad,0px) + 4.6rem)); width:min(300px,34vw); max-width:none; }
+  .hero .hero__cta:not(#s){ flex-wrap:nowrap; gap:.5rem; }
+  .hero .hero__cta .btn:not(#s){ white-space:nowrap; padding-inline:1rem; }
+}

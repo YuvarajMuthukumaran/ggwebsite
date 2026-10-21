@@ -26,6 +26,14 @@
       return lines.map(function (l) { return /^\s*[-*•]\s+/.test(l) ? '&bull; ' + l.replace(/^\s*[-*•]\s+/, '') : l; }).join('<br>');
     }).join('</p><p>');
   }
+  /* The assistant sometimes names the booking page as a path ("/contactus/#book"). People should never see a path: it becomes "the button below", and a Request a callback button is added under the reply. */
+  function tidy(t) {
+    var book = false;
+    t = t.replace(/(?:the\s+)?(?:callback\s+)?form\s+(?:at|on|via|here)\s+\/contactus\S*/gi, function () { book = true; return 'the button below'; })
+         .replace(/\/contactus\S*/gi, function () { book = true; return 'the button below'; })
+         .replace(/\/(?:c|co|con|cont|conta|contac|contact|contactu)$/i, '');
+    return { text: t, book: book };
+  }
   function scroll() { log.scrollTop = log.scrollHeight; }
   function bubble(who, html, cls) {
     var row = document.createElement('div');
@@ -94,7 +102,7 @@
     function onText(chunk) {
       text += chunk;
       if (!row) { t.remove(); row = bubble('bot', ''); }
-      row.querySelector('.gc__b').firstChild.innerHTML = md(text);
+      row.querySelector('.gc__b').firstChild.innerHTML = md(tidy(text).text);
       scroll();
     }
     function onEvent(o) { Object.keys(o).forEach(function (k) { if (k !== 'text') events[k] = o[k]; }); }
@@ -109,6 +117,7 @@
             items.push('<a class="btn" href="tel:' + esc(String(l.phone).replace(/[^\d+]/g, '')) + '">Call ' + esc(l.name) + ' ' + esc(l.phone) + '</a>');
           });
         }
+        if (events.action !== 'book' && tidy(text).book) events.action = 'book';
         if (events.action === 'book') items.push('<a class="btn" href="' + esc(root.getAttribute('data-book')) + '">Request a callback</a>');
         if (events.action === 'portal') items.push('<a class="btn" href="' + esc(root.getAttribute('data-phone')) + '">Call ' + esc(root.getAttribute('data-phone-text')) + '</a>');
         if (events.doctors && events.doctors.length) items.push('<a class="btn ghost" href="' + esc(root.getAttribute('data-book')) + '">Book with ' + esc(events.doctors[0].name) + '</a>');
