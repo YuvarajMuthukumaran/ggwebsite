@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 460" fill="none">
+  <defs>
+    <linearGradient id="wall" x1="400" y1="0" x2="400" y2="460" gradientUnits="userSpaceOnUse"><stop stop-color="#F2F7F8"/><stop offset="1" stop-color="#E7EFED"/></linearGradient>
+    <linearGradient id="cover" x1="363" y1="239" x2="580" y2="330" gradientUnits="userSpaceOnUse"><stop stop-color="#DDEAF4"/><stop offset="1" stop-color="#BFD3E2"/></linearGradient>
+    <filter id="shadow" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB" filterUnits="objectBoundingBox"><feGaussianBlur stdDeviation="9"/></filter>
+  </defs>
+  <rect width="800" height="460" rx="24" fill="url(#wall)"/>
+  <circle cx="687" cy="82" r="116" fill="#DCEAE5" opacity=".72"/>
+  <rect x="54" y="49" width="218" height="158" rx="9" fill="#DCEAF0"/>
+  <path d="M163 50v156M55 128h216" stroke="#FBFDFD" stroke-width="9"/>
+  <path d="M48 215h704M48 367h704" stroke="#D1DCD9" stroke-width="2"/>
+  <ellipse cx="433" cy="376" rx="282" ry="25" fill="#879A95" opacity=".17" filter="url(#shadow)"/>
+  <!-- calm private room with a comfortable bed and a clear walking space -->
+  <rect x="299" y="193" width="27" height="156" rx="10" fill="#93A9B8"/>
+  <path d="M320 242h304c15 0 27 12 27 27v49H320z" fill="#FDFEFE" stroke="#A7B7C2" stroke-width="2"/>
+  <path d="M344 253h264v62H344z" fill="url(#cover)"/>
+  <path d="M344 253h92v62h-92z" fill="#F8FBFC"/>
+  <path d="M436 264v40m18-40v40" stroke="#A9C0CE" stroke-width="3" stroke-linecap="round"/>
+  <rect x="320" y="318" width="345" height="17" rx="8" fill="#71889A"/>
+  <path d="M348 335v27m284-27v27m-302 0h321" stroke="#667F8F" stroke-width="8" stroke-linecap="round"/>
+  <rect x="353" y="232" width="79" height="29" rx="14" fill="#FFFFFF" stroke="#CAD7DE" stroke-width="2"/>
+  <path d="M507 253h98v62h-98c-17 0-31-14-31-31s14-31 31-31z" fill="#B6CEDB"/>
+  <path d="M516 268h73" stroke="#E8F1F5" stroke-width="4" stroke-linecap="round"/>
+  <rect x="185" y="294" width="87" height="58" rx="8" fill="#D5E1E0" stroke="#9DB0AD" stroke-width="2"/>
+  <path d="M197 352v17m63-17v17m-75 0h86" stroke="#819893" stroke-width="6" stroke-linecap="round"/>
+  <path d="M226 255v31m-20 0h40l-6-19h-28z" fill="#F2E6CB" stroke="#A9A391" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M215 256c2-13 11-22 20-22s18 9 20 22z" fill="#F8F4E9" stroke="#A9A391" stroke-width="2"/>
+  <path d="M215 286h22" stroke="#8A9C97" stroke-width="4" stroke-linecap="round"/>
+  <path d="M690 282c-2-22 4-42 19-57m-18 45c-17-19-21-35-14-49m13 45c18-9 30-24 33-41" stroke="#78968A" stroke-width="6" stroke-linecap="round"/>
+  <path d="M677 282h54l-7 46h-40z" fill="#B6CBC1"/>
+  <path d="M680 296h48" stroke="#DCE9E3" stroke-width="4"/>
+</svg>
