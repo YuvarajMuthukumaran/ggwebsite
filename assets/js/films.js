@@ -99,7 +99,7 @@
       cards[i].style.opacity = op.toFixed(3);
       /* no blur filter here: it forced a repaint of the playing video on every scrolled frame */
       cards[i].style.setProperty('--shift', clamp(d * -5, -5, 5).toFixed(2) + '%');     // media parallax
-      caps[i].style.opacity = (clamp(1 - a * .85, .12, 1) * e).toFixed(3);
+      caps[i].style.opacity = (clamp(1 - a * .55, .55, 1) * e).toFixed(3);
       caps[i].style.transform = 'translate3d(0,' + ((1 - e) * 24).toFixed(1) + 'px,0)';
     }
 

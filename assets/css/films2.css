@@ -40,6 +40,10 @@
 }
 
 .vr__lede{ margin:0 auto; max-width:62ch; font-size:1.0625rem; line-height:1.7; color:var(--mut); }
+.vr__facts{ display:flex; flex-wrap:wrap; gap:.6rem; margin:0; padding:0; list-style:none; }
+.vr__facts li{ display:flex; align-items:baseline; gap:.5rem; padding:.55rem 1rem; border:1px solid var(--line); border-radius:14px; background:var(--tint); }
+.vr__facts b{ font-size:1.4rem; font-weight:600; color:var(--blue-d); letter-spacing:-.02em; line-height:1; }
+.vr__facts span{ font-size:.85rem; color:var(--mut); }
 .vr__more{ width:min(1132px,calc(100% - 48px)); margin:.5rem auto 0; text-align:center; }
 
 /* soft backdrop taken from the film that is centred */

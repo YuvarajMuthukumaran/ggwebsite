@@ -119,11 +119,17 @@ def prepare(html, pg):
             wide = False
         fig['class'] = fig.get('class', []) + ['sp-fig' if wide else 'sp-fig sp-fig--small']
 
-    # long lists of short items run in two columns
+    # long lists of short items run in two columns; every bulleted list's items reveal in with a light stagger
+    # as the reader scrolls to them, instead of just appearing with the rest of the paragraph
     for ul in r.find_all('ul'):
+        if 'sp-chips' in (ul.get('class') or []):
+            continue
         lis = ul.find_all('li', recursive=False)
         if len(lis) >= 6 and sum(len(text_of(x)) for x in lis) / len(lis) < 60:
             ul['class'] = ul.get('class', []) + ['sp-ul2']
+        for i, li in enumerate(lis):
+            li['class'] = li.get('class', []) + ['reveal']
+            li['style'] = (li.get('style', '') + ';--i:%d' % (i % 8)).lstrip(';')
 
     # headings: ids, the questions heading, and a table of contents of the sections
     toc, used = [], set()

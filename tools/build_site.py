@@ -611,7 +611,9 @@ def main():
                 ld += film_ld
 
         has_panel = path == 'contactus' or (kind == 'page' and pg.get('group') in ('services', 'local'))
-        scripts_list = pg.get('scripts', []) + (['service'] if kind == 'page' else []) + (['booking'] if has_panel and 'booking' not in pg.get('scripts', []) else [])
+        scripts_list = (pg.get('scripts', []) + (['service'] if kind == 'page' else [])
+                         + (['sp-tabs'] if kind == 'page' and pg.get('group') == 'local' else [])
+                         + (['booking'] if has_panel and 'booking' not in pg.get('scripts', []) else []))
         if has_panel and 'bp-wizard' not in scripts_list:
             scripts_list = scripts_list + ['bp-wizard']
         # a preload entry is a path, or {src, srcset, sizes} so the phone preloads the small file
