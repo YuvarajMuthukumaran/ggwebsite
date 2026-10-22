@@ -7,11 +7,10 @@
   var dls = [].slice.call(document.querySelectorAll('.sp-dl'));
   if (!dls.length) return;
 
-  function shortLabel(text) {
-    text = text.replace(/\s+/g, ' ').trim().replace(/[:–—-]\s*$/, '');
-    var words = text.split(' ');
-    if (words.length <= 4) return text;
-    return words.slice(0, 4).join(' ') + '…';
+  // the full heading, just tidied -- CSS truncates it to one line by default and reveals it in full on hover,
+  // so a screen reader (which ignores the visual clipping) always gets the complete label either way
+  function cleanLabel(text) {
+    return text.replace(/\s+/g, ' ').trim().replace(/[:–—-]\s*$/, '');
   }
 
   dls.forEach(function (dl, dlIndex) {
@@ -26,7 +25,7 @@
 
     rows.forEach(function (row, i) {
       var h = row.querySelector('h4');
-      var label = h ? shortLabel(h.textContent) : 'Section ' + (i + 1);
+      var label = h ? cleanLabel(h.textContent) : 'Section ' + (i + 1);
       var tabId = uid + '-tab-' + i;
       var panelId = row.id || (row.id = uid + '-panel-' + i);
 
