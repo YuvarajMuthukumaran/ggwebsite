@@ -604,7 +604,9 @@ body:has(.ab2-ph) #press::before{ content:""; position:absolute; z-index:-1; top
    Calm by design: slow easing, no bounce, no flashing; reduced motion gets fades only.
    ========================================================================== */
 #treatments.tx{ --tx-ease:cubic-bezier(.22,1,.36,1); --tx-navy:#14213d; --tx-blue:#2f6fd0; }
-.tx .tx__scene{ position:relative; perspective:1200px; perspective-origin:50% 30%; padding-bottom:.4rem; }
+/* the hover tilt uses 3D transforms (perspective + preserve-3d); contain them here so a card rotated toward the
+   viewer can never push the page into horizontal scroll */
+.tx .tx__scene{ position:relative; overflow-x:clip; perspective:1200px; perspective-origin:50% 30%; padding-bottom:.4rem; }
 .tx .tx__glow{ position:absolute; inset:-3rem -2rem; z-index:0; pointer-events:none; }
 .tx .tx__glow i{ position:absolute; border-radius:50%; filter:blur(48px); translate:var(--gx,0) var(--gy,0); }
 .tx .tx__glow i:first-child{ left:4%; top:2%; width:42%; height:55%; background:radial-gradient(closest-side,rgba(47,111,208,.22),transparent); }
