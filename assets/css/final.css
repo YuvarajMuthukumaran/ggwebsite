@@ -581,7 +581,7 @@ h1:not(#s),h2:not(#s){ letter-spacing:-.032em; text-wrap:balance; }
 h3:not(#s){ letter-spacing:-.018em; }
 
 /* surfaces: one hairline, one shadow family, one hover lift */
-:is(.card,.sv__c,.trt__c,.adm__c,.team__c,.rvm__c,.cenp,.tmc,.sh__pick,.hcta,.hb2-c,.ct-room,.ab2-ri,.pq__c,.tq-card,.tbl__c,.jchips li:not(.jc-stage),.tfacts a,.rv,.press,.lp-cond):not(#s){
+:is(.card,.sv__c,.trt__c,.adm__c,.team__c,.rvm__c,.cenp,.tmc,.sh__pick,.hcta,.hb2-c,.ct-room,.ab2-ri,.pq__c,.tq-card,.tbl__c,.jchips li:not(.jc-stage),.tfacts a,.rv,.press):not(#s){
   border-color:var(--lux-line);
   box-shadow:var(--lux-sh);
 }

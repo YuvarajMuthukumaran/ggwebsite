@@ -32,6 +32,69 @@ def text_of(tag):
     return re.sub(r'\s+', ' ', tag.get_text(' ')).strip()
 
 
+def arrange_local_content(soup, items):
+    """Give location-page article sections explicit, predictable layouts.
+
+    The imported pages have very different amounts of copy and imagery. Keeping all of that
+    content in one CSS multi-column flow sends headings and figures into unrelated columns.
+    A short editorial section wrapper lets each heading stay beside its own content instead.
+    """
+    sections, title, body = [], None, []
+
+    def flush():
+        nonlocal title, body
+        if title is None:
+            return
+        intro = ('sp-opener' in (title.get('class') or []) or not sections)
+        section = soup.new_tag('section', attrs={'class': 'sp-content-section'})
+        heading = soup.new_tag('div', attrs={'class': 'sp-content-section__head'})
+        copy = soup.new_tag('div', attrs={'class': 'sp-content-section__body'})
+        heading.append(title.extract())
+        section['aria-labelledby'] = heading.find(['h2', 'h3', 'h4']).get('id')
+
+        if intro:
+            section['class'].append('sp-content-section--intro')
+            visual_item = next((node for node in body if node.name in ('figure', 'img')), None)
+            if visual_item is not None:
+                body.remove(visual_item)
+                if visual_item.name == 'img':
+                    visual = soup.new_tag('figure', attrs={'class': 'sp-article-visual'})
+                    visual.append(visual_item.extract())
+                else:
+                    visual = visual_item.extract()
+                    visual['class'] = list(dict.fromkeys(visual.get('class', []) + ['sp-article-visual']))
+                section.append(heading)
+                section.append(visual)
+            else:
+                section.append(heading)
+
+        for node in body:
+            copy.append(node.extract())
+        section.append(copy)
+        if not intro:
+            section.insert(0, heading)
+        sections.append(section)
+        title, body = None, []
+
+    for node in items:
+        classes = node.get('class') or []
+        starts_section = node.name in ('h2', 'h3', 'h4') and 'sp-sub' not in classes
+        if starts_section:
+            flush()
+            title = node
+        elif title is None:
+            # All three location pages start with a heading. Keep this fallback for future
+            # imported page variants instead of silently dropping any leading content.
+            title = soup.new_tag('h3')
+            title['class'] = ['sp-visually-hidden']
+            title['id'] = 'location-page-introduction'
+            body.append(node)
+        else:
+            body.append(node)
+    flush()
+    return sections
+
+
 # ---------------------------------------------------------------------------------------------------- the content
 def prepare(html, pg):
     """-> (content html, table of contents [(id, text)], lede html or '')"""
@@ -60,7 +123,10 @@ def prepare(html, pg):
             while k < len(items) and items[k].name not in ('h2', 'h3', 'h4', 'details'):
                 body.append(items[k]); k += 1
             groups.append((h, body)); j = k
-        if len(groups) >= 3:
+        # On location pages the imported h4s are real subsections, not a uniform list. Putting
+        # them into equal table-like columns leaves empty cells beneath short groups and splits
+        # the long biography from its heading, so keep them for the editorial section layout.
+        if len(groups) >= 3 and pg.get('group') != 'local':
             dl = soup.new_tag('div', attrs={'class': 'sp-dl'})
             hoist = []
             for h, body in groups:
@@ -150,10 +216,11 @@ def prepare(html, pg):
                 toc.append((sid, txt, True))
             prev = t
             continue
-        if t.name in ('h2', 'h3'):
+        if t.name in ('h2', 'h3', 'h4'):
             txt = text_of(t)
-            sub = prev is not None and prev.name in ('h2', 'h3')    # a heading straight after a heading is a label, not a section
-            if sub:
+            label = t.name == 'h3' and prev is not None and prev.name in ('h2', 'h3')
+            nested = t.name == 'h4' or label
+            if label:
                 t['class'] = t.get('class', []) + ['sp-sub']
             elif txt:
                 base = re.sub(r'[^a-z0-9]+', '-', txt.lower()).strip('-')[:40] or 'section'
@@ -162,13 +229,36 @@ def prepare(html, pg):
                     sid = '%s-%d' % (base, n); n += 1
                 used.add(sid)
                 t['id'] = sid
-                toc.append((sid, txt, False))
+                toc.append((sid, txt, nested))
                 if re.search(r'frequently asked', txt, re.I):
                     t['class'] = t.get('class', []) + ['sp-faq-h']
         prev = t
     h2 = next((t for t in items if t.name == 'h2'), None)
     if h2 is not None:
         h2['class'] = h2.get('class', []) + ['sp-opener']
+
+    # Keep the award image beside its caption and description so the low-resolution badge
+    # does not occupy a full line with an empty column beside it.
+    for i, t in enumerate(items):
+        img = t.find('img') if t.name == 'figure' else None
+        next_heading = items[i + 1] if i + 1 < len(items) else None
+        description = items[i + 2] if i + 2 < len(items) else None
+        if (img and next_heading and next_heading.name in ('h2', 'h3')
+                and text_of(next_heading).strip() == 'Psychiatrist of the Year'
+                and description and description.name == 'p'):
+            feature = soup.new_tag('div', attrs={'class': 'sp-award'})
+            copy = soup.new_tag('div', attrs={'class': 'sp-award__copy'})
+            for node in (t, next_heading, description):
+                node.extract()
+            copy.append(next_heading)
+            copy.append(description)
+            feature.append(t)
+            feature.append(copy)
+            items[i:i + 3] = [feature]
+            break
+
+    if pg.get('group') == 'local':
+        items = arrange_local_content(soup, items)
 
     for c in list(r.children):
         c.extract()
@@ -277,12 +367,23 @@ def conditions_here(pg, root, groups, by_slug, href):
     """
     if pg.get('group') != 'local':
         return ''
+    icons = {
+        'De-addiction and substance use': '<path d="M10.6 13.4a4.2 4.2 0 0 0 5.9 0l2.1-2.1a4.2 4.2 0 0 0-5.9-5.9l-1.2 1.2"/><path d="M13.4 10.6a4.2 4.2 0 0 0-5.9 0l-2.1 2.1a4.2 4.2 0 0 0 5.9 5.9l1.2-1.2"/>',
+        'Schizophrenia': '<path d="M12 4.1a3 3 0 0 0-5.8 1.1 3.2 3.2 0 0 0-1.5 5.7 3.2 3.2 0 0 0 2 5.2A3 3 0 0 0 12 18V4.1Z"/><path d="M12 4.1a3 3 0 0 1 5.8 1.1 3.2 3.2 0 0 1 1.5 5.7 3.2 3.2 0 0 1-2 5.2A3 3 0 0 1 12 18"/><path d="M8 8.5c1.2 0 2 .7 2 1.7M7 14c1.5-.2 2.4.4 2.8 1.5m6.2-7c-1.2 0-2 .7-2 1.7m3 3.8c-1.5-.2-2.4.4-2.8 1.5"/>',
+        'Mood disorders': '<path d="M4 14.5c2.1 0 2.1-5 4.2-5s2.1 5 4.2 5 2.1-5 4.2-5S18.7 12 20 12"/><path d="M4 19h16"/>',
+        'Anxiety, OCD and stress': '<path d="M4 8c2.3 0 2.3 8 4.6 8s2.3-8 4.7-8 2.3 8 4.7 8 2.3-8 4.6-8"/>',
+        'Personality disorders': '<circle cx="12" cy="8" r="3.2"/><path d="M5.5 19a6.5 6.5 0 0 1 13 0"/>',
+        'Eating disorders': '<circle cx="12" cy="12" r="7.3"/><path d="M4.8 5.5v5m-1.6-5v3.2a1.6 1.6 0 0 0 3.2 0V5.5M4.8 10v8.5m14.4-13v13m0-13c-1.8 1.4-2.6 3.2-2.6 5.4h2.6"/>'
+    }
     cols = []
     for title, slugs in groups['condition_groups']:
         items = ''.join('<li><a href="%s">%s</a></li>' % (href(by_slug[x], root), esc(by_slug[x].get('menu_title') or by_slug[x]['title']))
                         for x in slugs if x in by_slug)
         if items:
-            cols.append('<div><h3>%s</h3><ul>%s</ul></div>' % (esc(title), items))
+            icon = icons.get(title, '<circle cx="12" cy="12" r="7"/><path d="M12 8v8m-4-4h8"/>')
+            heading = ('<h3><span class="lp-cond__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">%s</svg></span>%s</h3>'
+                       % (icon, esc(title)))
+            cols.append('<div>%s<ul>%s</ul></div>' % (heading, items))
     if not cols:
         return ''
     return ('<section class="lp-cond" aria-labelledby="lp-cond-h"><h2 id="lp-cond-h">What Dr. Gorav Gupta treats here</h2>'
@@ -314,6 +415,24 @@ CITY_PHOTO = {
     'psychiatrist-in-india': ('assets/img/portrait-wide-col.webp', 'Dr. Gorav Gupta, smiling, in his garden', 'Across India', 'In person and online', 1152, 987),
 }
 
+CITY_HERO_COPY = {
+    'psychiatrist-in-delhi': (
+        'Psychiatric care in Delhi',
+        'Visit Dr. Gorav Gupta at his New Delhi clinic or book an online consultation.',
+        'New Delhi clinic',
+    ),
+    'psychiatrist-in-gurgaon': (
+        'Psychiatric care in Gurugram',
+        'Consult Dr. Gorav Gupta at Tulasi Healthcare’s Gurugram clinic or online.',
+        'Gurugram clinic',
+    ),
+    'psychiatrist-in-india': (
+        'Psychiatric care across India',
+        'Online consultations are available across India, with clinic visits in Delhi NCR.',
+        'Delhi NCR clinics',
+    ),
+}
+
 
 def city_photo(pg, root):
     """A framed photograph with a glass caption on the hero of the three city pages."""
@@ -329,12 +448,18 @@ def build(pg, root, content, callout, after, crumbs, groups, by_slug, href, wa, 
     label, ic = label_for(pg, group_of)
     body, toc, lede_html = prepare(content, pg)
     lede = pg.get('subtitle') or lede_html or LEDE.format(exp=exp)
-    chips = ''.join('<li>%s%s</li>' % (CHECK, c) for c in ('%s years of experience' % exp, 'New Delhi and Gurugram', 'Online consultations'))
-    hero = ('<header class="sp-hero sp-hero--solo"><div class="sp-hero__txt">%s<p class="sp-eyebrow">%s<span>%s</span></p>'
+    city_copy = CITY_HERO_COPY.get(pg.get('slug'))
+    chips = ''.join('<li>%s%s</li>' % (CHECK, c) for c in (
+        ('%s years’ experience' % exp, city_copy[2], 'Online consultations') if city_copy else
+        ('%s years of experience' % exp, 'New Delhi and Gurugram', 'Online consultations')
+    ))
+    hero_label = '' if city_copy else '<p class="sp-eyebrow">%s<span>%s</span></p>' % (icon(ic, 'sp-eyebrow__ic'), esc(label))
+    hero = ('<header class="sp-hero sp-hero--solo"><div class="sp-hero__txt">%s%s'
             '<h1>%s</h1>%s<p class="sp-lede">%s</p><ul class="sp-chips">%s</ul>'
             '<p class="sp-hero__act"><a class="btn" href="#book">Ask for a call back</a>'
             '<a class="btn ghost" href="%s" target="_blank" rel="noopener">WhatsApp</a></p></div>%s</header>'
-            % (crumbs, icon(ic, 'sp-eyebrow__ic'), esc(label), esc(pg['title']), reviewed(pg, root), lede, chips, wa, city_photo(pg, root)))
+            % (crumbs, hero_label, esc(city_copy[0] if city_copy else pg['title']), reviewed(pg, root),
+               city_copy[1] if city_copy else lede, chips, wa, city_photo(pg, root)))
     toc_html = ''
     if len(toc) >= 2:
         rows, open_sub = [], False
